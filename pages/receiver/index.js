@@ -8,5 +8,5 @@ Page({
     } catch (error) {
       probe.failed(error);
     }
-  }
+  },
 });

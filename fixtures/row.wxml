@@ -1,0 +1,1 @@
+<template name="tag"><view class="tag" data-value="{{caption}}" /></template>

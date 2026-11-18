@@ -1,1 +1,7 @@
-{ "usingComponents": { "test-probe": "/components/probe/index" } }
+{
+  "usingComponents": {
+    "test-probe": "/components/probe/index",
+    "state-probe": "/components/state/index",
+    "test-panel": "/components/panel/index"
+  }
+}

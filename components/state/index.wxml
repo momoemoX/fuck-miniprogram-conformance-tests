@@ -1,0 +1,1 @@
+<view id="inside" data-flavor="{{flavor}}"><slot/></view>

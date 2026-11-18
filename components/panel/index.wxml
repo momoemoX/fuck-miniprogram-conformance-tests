@@ -1,0 +1,1 @@
+<view class="leading"><slot name="lead"/></view><slot/><view class="trailing"><slot name="tail"/></view>

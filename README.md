@@ -1,30 +1,43 @@
 # Mini Program Base Library Conformance Tests
 
-A public suite for independent Mini Program base library implementations. The test project uses page, component, event, and navigation APIs. Each case compares an observable result with a fixed expectation.
+A black-box test suite for independent implementations of the Mini Program base library. The target is **3.7.0**. A case supplies an input, observes what an application can see, and compares it with a fixed expected value.
 
-## Run the suite
+## Run
 
-1. Open this directory as a Mini Program project in the implementation under test. The entry point is `app.json`. If your tool requires an app identifier, supply a test identifier in its local project settings.
-2. Launch the first page and tap **Run suite**. The channel case opens a second page and returns to the results.
-3. Read the summary and the expected and actual values for each case. A complete passing run shows **4/4 passed**. Start a fresh launch to run again.
+1. Open the repository root as a Mini Program project. Select base library **3.7.0** and launch `pages/suite/index` with a fresh page stack.
+2. Tap **Run suite**. The navigation cases open another page and return automatically.
+3. Read the expected and actual values for each case. **Show JSON report** exposes the case IDs, enabled profiles, reported SDK version and outcomes. Relaunch the project for another run.
 
-For automation, perform the same launch and tap operations with your implementation's driver. Wait for the final summary on the first page. A crash, timeout, or missing summary is an incomplete run.
+The default run contains **155 automatic cases**. With both network fixtures enabled, it contains **169**. The page also reports a score restricted to expectations reproduced in the desktop baseline. Cases pending confirmation remain visible. An interrupted run has no final score.
 
-## Cases
+## Optional network fixtures
 
-| Case | Exercise | Expected observation |
-| --- | --- | --- |
-| `component.instance-data` | Append an entry to a nested array on one of two instances of the same component. Read both arrays. | The first contains `mint`; the second is empty. |
-| `event.bubble` | Emit a bubbling custom event from a component with listeners at the source and two ancestors. | The listeners run in order: source, middle, outer. |
-| `event.catch` | Repeat with a catching listener on the middle ancestor. | The source and middle listeners run, in order. |
-| `channel.queued-order` | Send `oak` and `elm` from the opener before the destination subscribes, then send an end marker after subscription. | The receiver observes both queued entries, in order, before the marker. |
+Run the HTTP fixture with Node.js:
 
-## Reporting and contributing
+```sh
+node tools/http-fixture.mjs
+```
 
-Include the suite commit, implementation version, target base library version, runtime environment, and each case result. A passing run covers the behaviors in the table.
+For the socket echo fixture, run:
 
-For a new case, provide a minimal setup, the operation to perform, and an explicit expected result. Keep implementation-specific launch and automation code outside the test project.
+```sh
+npm ci --prefix tools/socket
+node tools/socket/echo.cjs
+```
 
-## License
+Set `fixtureUrl` and `socketUrl` in `suite-config.js` to addresses reachable from the test runtime. The defaults for a desktop test host are `http://127.0.0.1:8123` and `ws://127.0.0.1:8124`. For a remote test host, configure the fixture bind address with `HOST` and the port with `PORT`, and use an endpoint allowed by the runtime. Empty settings leave those cases out of the run.
 
-[MIT](LICENSE)
+## Other runs
+
+| Entry | What it checks |
+| --- | --- |
+| Run input and gesture cases | Six checks for real text entry, form submission, control values and long press. Follow the instructions on the page. |
+| Physical device cases | Nine checks for location, sensors, wireless adapters, battery and brightness. Use a test device connected to Wi-Fi, with Bluetooth enabled and the applicable permissions granted. |
+| Hosted service cases | Three checks for account identity, login and settings. Configure a test app ID in the project and set the same value in `suite-config.js`. Login codes are discarded locally. |
+| Inspect API availability | Compare public member names and value types with the desktop baseline. Inspect the broader interface catalog and missing names. |
+
+## Coverage and contributions
+
+The [coverage notes](COVERAGE.md) describe the baseline observations, outstanding disagreements and gaps. To add a behavior, write a minimal case with an explicit expected result. Include the suite commit, implementation version, execution environment and enabled profiles when sharing results.
+
+[MIT license](LICENSE)

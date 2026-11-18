@@ -1,0 +1,4 @@
+.swatch { width: 35px; height: 14px; }
+.swatch.wide { width: 49px; }
+
+.wrapper #child-rule { width: 19px; height: 23px; }

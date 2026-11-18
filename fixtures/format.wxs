@@ -1,0 +1,2 @@
+function label(value) { return '[' + value + ']'; }
+module.exports.label = label;

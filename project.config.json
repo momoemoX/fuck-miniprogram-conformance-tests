@@ -1,0 +1,13 @@
+{
+  "compileType": "miniprogram",
+  "libVersion": "3.7.0",
+  "miniprogramRoot": "./",
+  "appid": "touristappid",
+  "packOptions": {
+    "ignore": [
+      {"type":"folder","value":"tools"},
+      {"type":"file","value":"README.md"},
+      {"type":"file","value":"COVERAGE.md"}
+    ]
+  }
+}

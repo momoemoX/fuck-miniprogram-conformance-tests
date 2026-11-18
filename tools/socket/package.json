@@ -1,0 +1,5 @@
+{
+  "name": "conformance-socket-fixture",
+  "private": true,
+  "dependencies": { "ws": "^8.18.3" }
+}

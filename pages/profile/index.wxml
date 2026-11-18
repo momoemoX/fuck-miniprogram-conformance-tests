@@ -1,0 +1,10 @@
+<view>
+  <view>{{profile}}</view>
+  <view>{{instructions}}</view>
+  <button bindtap="run" disabled="{{!available || started}}">Run profile</button>
+  <view id="summary">{{summary}}</view>
+  <view wx:for="{{results}}" wx:key="id">
+    <view>{{item.status}} {{item.id}}</view>
+    <view>Expected: {{item.expected}}</view><view>Actual: {{item.actual}}</view>
+  </view>
+</view>

@@ -1,21 +1,65 @@
+<import src="../../fixtures/row.wxml"/>
+<wxs module="format" src="../../fixtures/format.wxs"/>
 <view>
   <button id="run" bindtap="run" disabled="{{started}}">Run suite</button>
+  <navigator url="/pages/input/index">Run input and gesture cases</navigator>
+  <navigator url="/pages/surface/index">Inspect API availability</navigator>
+  <navigator url="/pages/profile/index?kind=device">Physical device cases</navigator>
+  <navigator url="/pages/profile/index?kind=service">Hosted service cases</navigator>
+  <view>Target base library: 3.7.0</view>
+  <view>Profiles: {{profiles}}</view>
+  <view id="summary">{{summary}}</view>
+  <view>{{baselineScore}}</view>
+  <button wx:if="{{results.length}}" bindtap="showReport">Show JSON report</button>
+  <text wx:if="{{reportText}}" id="report" selectable="{{true}}">{{reportText}}</text>
+  <view wx:for="{{results}}" wx:key="id">
+    <view>{{item.status}} {{item.id}}</view>
+    <view>{{item.evidence}}</view>
+    <view>Expected: {{item.expected}}</view>
+    <view>Actual: {{item.actual}}</view>
+  </view>
+  <view aria-hidden="true" style="position:absolute;left:-200vw;top:0;width:100vw">
+    <include src="../../fixtures/controls.wxml"/>
   <test-probe id="first" />
   <test-probe id="second" />
 
   <view bind:notice="outer">
     <view bind:notice="middle">
-      <test-probe id="bubbling" bind:notice="source" />
+      <test-probe id="bubbling" bind:payload="savePayload" bind:notice="source" />
     </view>
     <view catch:notice="middle">
       <test-probe id="stopped" bind:notice="source" />
     </view>
   </view>
 
-  <view id="summary">{{summary}}</view>
-  <view wx:for="{{results}}" wx:key="id">
-    <view>{{item.status}} {{item.id}}</view>
-    <view>Expected: {{item.expected}}</view>
-    <view>Actual: {{item.actual}}</view>
+  <test-panel><view slot="{{outlet}}" id="projection" style="width:100%;height:1px"/></test-panel>
+  <switch id="active-switch" checked="{{true}}"/>
+  <view id="hideable" hidden="{{invisible}}" style="height:12px"/>
+  <view bind:notice="outer" capture-bind:notice="outerCapture">
+    <view bind:notice="middle" capture-bind:notice="middleCapture">
+      <test-probe id="capture" bind:notice="source"/>
+    </view>
+  </view>
+  <state-probe wx:if="{{mounted}}" id="state" class="state-instance" />
+  <state-probe id="bound" class="state-instance" flavor="{{seasoning}}"><view id="projected" data-value="projected"/></state-probe>
+  <view id="measure" style="width:64px;height:16px" data-amount="{{2}}" data-enabled="{{true}}" data-code="02"/>
+  <view class="fruit" wx:for="{{fruit}}" wx:key="*this" data-value="{{index + ':' + item}}"/>
+  <view wx:if="{{hot}}" id="temperature" data-value="hot"/>
+  <view wx:else id="temperature" data-value="cold"/>
+  <template is="tag" data="{{caption: 'citrus'}}"/>
+  <include src="../../fixtures/stamp.wxml"/>
+  <view id="formatted" data-value="{{format.label('zest')}}"/>
+  <wxs module="utils">module.exports.upper = function(s) { return s.toUpperCase(); }</wxs>
+  <template name="alpha"><view id="dynamic" data-value="first"/></template>
+  <template name="beta"><view id="dynamic" data-value="second"/></template>
+  <template is="{{templateName}}"/>
+  <view wx:for="{{pairs}}" wx:key="*this" class="pair" data-value="{{index + '/' + item}}"/>
+  <block wx:for="{{groups}}" wx:for-item="group" wx:key="label">
+    <view wx:for="{{group.items}}" wx:key="*this" class="cell" data-value="{{group.label + item}}"/>
+  </block>
+  <view id="expression" data-number="{{2 + 2}}" data-test="{{7 > 4}}" data-joined="{{'A' + '/' + 'B'}}"/>
+  <view id="inline" data-value="{{utils.upper('alpha')}}"/>
+  <view id="styled" class="swatch {{wide ? 'wide' : ''}}"/>
+  <canvas canvas-id="swatch" style="width:8px;height:8px"/>
   </view>
 </view>

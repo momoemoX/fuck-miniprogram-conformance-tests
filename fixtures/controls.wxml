@@ -1,0 +1,18 @@
+<view>
+  <button id="native-button" disabled="{{control.button}}">Button fixture</button>
+  <switch id="native-switch" checked="{{control.switch}}"/>
+  <slider id="native-slider" value="{{control.slider}}"/>
+  <progress id="native-progress" percent="{{control.progress}}"/>
+  <checkbox id="native-checkbox" checked="{{control.checkbox}}"/>
+  <radio id="native-radio" checked="{{control.radio}}"/>
+  <input id="native-input" maxlength="{{control.input}}"/>
+  <textarea id="native-textarea" maxlength="{{control.textarea}}"/>
+  <picker id="native-picker" range="{{['one','two']}}" value="{{control.picker}}"><view>Picker fixture</view></picker>
+  <text id="native-text" selectable="{{control.text}}">Sample</text>
+  <image id="native-image" mode="{{control.image}}" style="height:1px;width:1px"/>
+  <swiper id="native-swiper" duration="{{control.swiper}}" style="height:1px"><swiper-item/><swiper-item/></swiper>
+  <view id="rpx-ruler" style="width:375rpx;height:1px"/>
+  <view class="wrapper"><view id="child-rule"/></view>
+  <view id="submitted" data-value="{{submitted.value}}"/>
+  <view wx:if="{{branch}}" id="branch"/>
+</view>

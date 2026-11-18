@@ -1,0 +1,5 @@
+<view>
+  <picker range="{{groups}}" value="{{selected}}" bindchange="choose"><button>Select interface: {{groups[selected]}}</button></picker>
+  <view>{{report}}</view>
+  <view>{{details}}</view>
+</view>

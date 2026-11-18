@@ -1,9 +1,29 @@
 {
   "pages": [
     "pages/suite/index",
-    "pages/receiver/index"
+    "pages/receiver/index",
+    "pages/surface/index",
+    "pages/input/index",
+    "pages/profile/index"
   ],
   "window": {
     "navigationBarTitleText": "Conformance tests"
-  }
+  },
+  "workers": "workers",
+  "subPackages": [
+    {
+      "root": "pack",
+      "pages": [
+        "stop/index"
+      ]
+    }
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "The optional device test checks whether location coordinates are in range."
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ]
 }
