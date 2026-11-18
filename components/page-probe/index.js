@@ -12,5 +12,8 @@ Component({
       const app = getApp();
       if (app && app.pageLifetimeTrace) app.pageLifetimeTrace.push(event);
     },
+    identity() {
+      return { is: this.is, id: this.id, origin: this.dataset.origin };
+    },
   },
 });

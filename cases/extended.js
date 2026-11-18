@@ -1,4 +1,4 @@
-const { call, uniqueKey } = require("./support");
+const { call, uniqueKey, query } = require("./support");
 
 async function extended(page, check) {
   await check("storage.batch-order", ["second", "first", "second"], () => {
@@ -105,6 +105,41 @@ async function extended(page, check) {
     const plan = wx.createAnimation({ duration: 0 });
     plan.rotate(30).step();
     return [plan.export().actions.length, plan.export().actions.length];
+  });
+  await check("animation.applies-computed-style", [true], async () => {
+    const animation = wx.createAnimation({ duration: 100 });
+    animation.translateX(42).step();
+    page.setData({ animData: animation.export() });
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    const node = await query(page, "#animated", { computedStyle: ["transform"] });
+    return [typeof node.transform === "string" && node.transform.indexOf("42") !== -1];
+  });
+  await check("fs.save-remove-cycle", [true, true, true], async () => {
+    const fs = wx.getFileSystemManager();
+    try {
+      const exported = await call(wx, "canvasToTempFilePath", {
+        canvasId: "swatch",
+        fileType: "png",
+      });
+      const saved = await call(fs, "saveFile", { tempFilePath: exported.tempFilePath });
+      const path = saved.savedFilePath || saved.appliedFilePath;
+      const listed = await call(fs, "getSavedFileList");
+      const hasEntry = (listed.fileList || []).some((item) => item.filePath === path);
+      await call(fs, "removeSavedFile", { filePath: path });
+      let readableAfterRemove = true;
+      try {
+        await call(fs, "readFile", { filePath: path, encoding: "ascii" });
+      } catch {
+        readableAfterRemove = false;
+      }
+      return [typeof path === "string" && path.length > 0, hasEntry, !readableAfterRemove];
+    } finally {
+      // Saved files are tracked separately; remove any leftovers from this case.
+      const listed = await call(fs, "getSavedFileList");
+      for (const item of listed.fileList || []) {
+        await call(fs, "removeSavedFile", { filePath: item.filePath }).catch(() => null);
+      }
+    }
   });
   await check("storage.missing-sync", "", () => wx.getStorageSync(uniqueKey()));
   await check("storage.info-sync-shape", [true, true, true], () => {

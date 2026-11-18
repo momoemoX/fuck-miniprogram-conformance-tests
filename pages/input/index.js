@@ -17,6 +17,8 @@ const expected = {
   // handlers (an independent implementation bubbles them; recorded as a difference).
   "input.bubbles-parent": null,
   "form.reset-defaults": { text: "", enabled: false, parts: [], color: "", amount: "" },
+  "ui.modal-confirm": true,
+  "ui.actionsheet-select": 0,
 };
 
 Page({
@@ -93,6 +95,29 @@ Page({
   },
   keepExplicit() {
     this.setData({ keepValue: "explicit" });
+  },
+  showModal() {
+    wx.showModal({
+      title: "Suite",
+      content: "Confirm?",
+      success: (result) => {
+        this.record("ui.modal-confirm", result.confirm === true && result.cancel === false);
+      },
+      fail: (error) => {
+        this.record("ui.modal-confirm", "fail:" + error.errMsg);
+      },
+    });
+  },
+  showSheet() {
+    wx.showActionSheet({
+      itemList: ["Alpha", "Beta"],
+      success: (result) => {
+        this.record("ui.actionsheet-select", result.tapIndex);
+      },
+      fail: (error) => {
+        this.record("ui.actionsheet-select", "fail:" + error.errMsg);
+      },
+    });
   },
   start() {
     this.gestures = ["start"];

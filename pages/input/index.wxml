@@ -11,6 +11,8 @@
   <view>Press and hold the button below until it records a long press, then release.</view>
   <button bindtouchstart="start" bindlongpress="hold" bindtouchend="end">Hold</button>
   <view>Automation-only fields: type, move the caret, press Enter, click reset, then record.</view>
+  <button id="show-modal" bindtap="showModal">Show modal</button>
+  <button id="show-sheet" bindtap="showSheet">Show sheet</button>
   <input id="cursor-input" maxlength="-1" bindinput="cursor"/>
   <input id="transform-input" maxlength="-1" bindinput="transform"/>
   <input id="confirm-input" maxlength="-1" bindconfirm="confirm"/>

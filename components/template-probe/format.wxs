@@ -13,4 +13,7 @@ function normalize(value) {
 function match(value) {
   return getRegExp('^a[0-9]+$').test(value);
 }
-module.exports = {describe:describe, copyProbe:copyProbe, normalize:normalize, match:match};
+function epoch() {
+  return getDate(0).getTime();
+}
+module.exports = {describe:describe, copyProbe:copyProbe, normalize:normalize, match:match, epoch:epoch};

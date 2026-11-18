@@ -29,7 +29,7 @@
     </block>
     <wxs-probe wx:if="{{wxsMounted}}" id="wxs-probe-a" mode="{{wxsProbeMode}}"/>
     <wxs-probe wx:if="{{wxsMounted}}" id="wxs-probe-b" mode="read"/>
-    <page-probe wx:if="{{plpMounted}}" id="page-probe"/>
+    <page-probe wx:if="{{plpMounted}}" id="page-probe" data-origin="page-probe-origin"/>
     <test-panel wx:if="{{multiSlotMounted}}" id="multi-slot">
       <view wx:for="{{multiSlotItems}}" wx:key="*this" slot="lead" class="multi-slot-item" data-value="{{item}}"/>
     </test-panel>
@@ -44,8 +44,8 @@
     </block>
     <template-probe wx:if="{{templateMounted}}" id="template-probe"/>
     <block wx:if="{{boundaryMounted}}">
-      <view id="outer-boundary" bind:probe="boundaryAncestor">
-        <event-boundary id="shell" nested="{{true}}" bind:probe="boundaryHost"/>
+      <view id="outer-boundary" data-kind="outer-kind" bind:probe="boundaryAncestor">
+        <event-boundary id="shell" data-kind="shell-kind" nested="{{true}}" bind:probe="boundaryHost"/>
       </view>
       <pure-probe id="pure"/>
     </block>
@@ -114,4 +114,5 @@
     <view id="scroll-target" style="height:20px"/>
   </scroll-view>
   <view id="watched" style="position:absolute;top:{{watchedTop}};left:0;width:60px;height:20px"/>
+  <view id="animated" animation="{{animData}}" style="width:10px;height:10px"/>
 </view>

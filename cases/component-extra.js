@@ -24,6 +24,21 @@ async function componentExtra(page, check) {
     },
   );
 
+  await check(
+    "component.instance-fields",
+    ["components/page-probe/index", "page-probe", "page-probe-origin"],
+    async () => {
+      try {
+        await update(page, { plpMounted: true });
+        const probe = page.selectComponent("#page-probe");
+        const identity = probe.identity();
+        return [identity.is, identity.id, identity.origin];
+      } finally {
+        await update(page, { plpMounted: false });
+      }
+    },
+  );
+
   await check("slot.multi-instance-order", ["first", "second"], async () => {
     try {
       await update(page, { multiSlotMounted: true, multiSlotItems: ["first", "second"] });

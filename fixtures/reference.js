@@ -1230,5 +1230,23 @@ module.exports = {
   "worker.terminate-stops": [
     true,
     false
+  ],
+  "fs.save-remove-cycle": [
+    true,
+    true,
+    true
+  ],
+  "component.instance-fields": [
+    "components/page-probe/index",
+    "page-probe",
+    "page-probe-origin"
+  ],
+  "event.boundary-dataset": [
+    "shell-kind",
+    "shell-kind"
+  ],
+  "wxs.date-epoch": 0,
+  "animation.applies-computed-style": [
+    true
   ]
 };

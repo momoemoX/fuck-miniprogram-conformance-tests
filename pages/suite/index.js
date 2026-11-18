@@ -45,6 +45,7 @@ Page({
     focusValue: "",
     boundInput: "",
     plpMounted: false,
+    animData: null,
     multiSlotMounted: false,
     multiSlotItems: [],
     scrollTopValue: 0,
@@ -241,6 +242,9 @@ Page({
   boundaryHost(event) {
     getApp().boundaryTrace.push(["host", event.detail.value]);
     if (this.boundaryTargets) this.boundaryTargets.push(event.target.id, event.currentTarget.id);
+    if (this.boundaryDatasets) {
+      this.boundaryDatasets.push(event.target.dataset.kind, event.currentTarget.dataset.kind);
+    }
   },
 
   boundaryAncestor(event) {

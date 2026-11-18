@@ -103,6 +103,7 @@ async function templateContract(page, check) {
     await update(probe, { word: " blue-green " });
     return value("#normalized");
   });
+  await isolated("wxs.date-epoch", 0, (_, __, value) => value("#date-epoch"));
   await isolated("wxs.regexp-match", [false, true, false], async (probe, _, value) => {
     const results = [await value("#regex")];
     await update(probe, { word: "a123" });

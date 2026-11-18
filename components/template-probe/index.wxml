@@ -25,4 +25,5 @@
   <view id="copy" data-value="{{format.copyProbe(copySample)}}"/>
   <view id="normalized" data-value="{{format.normalize(word)}}"/>
   <view id="regex" data-value="{{format.match(word)}}"/>
+  <view id="date-epoch" data-value="{{format.epoch()}}"/>
 </view>

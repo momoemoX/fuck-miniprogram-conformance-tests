@@ -13,6 +13,7 @@ async function eventBoundary(page, check) {
         await update(page, { boundaryMounted: false });
         delete app.boundaryTrace;
         delete page.boundaryTargets;
+        delete page.boundaryDatasets;
       }
     });
   }
@@ -52,6 +53,11 @@ async function eventBoundary(page, check) {
     page.boundaryTargets = [];
     shell.fire({ bubbles: true }, payload);
     return page.boundaryTargets;
+  });
+  await isolated("event.boundary-dataset", ["shell-kind", "shell-kind"], (shell) => {
+    page.boundaryDatasets = [];
+    shell.fire({ bubbles: true }, payload);
+    return page.boundaryDatasets.slice(0, 2);
   });
   await isolated("pure.logic-field-update", 8, async (_, pure) => {
     await update(pure, { _counter: 8 });
