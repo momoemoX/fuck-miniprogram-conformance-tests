@@ -19,6 +19,13 @@
     <view>Actual: {{item.actual}}</view>
   </view>
   <view aria-hidden="true" style="position:absolute;left:-200vw;top:0;width:100vw">
+    <orchard id="family">
+      <fruit-node name="pear"/><fruit-node wx:if="{{appleVisible}}" id="apple" name="apple"/>
+    </orchard>
+    <format-field id="decimal-field" amount="{{amount}}"/>
+    <format-field id="hex-field" amount="{{amount}}" generic:formatter="hex-format"/>
+    <isolated-style id="isolated" external-class="{{extClass}}"/>
+    <sharing-style id="sharing"/>
     <include src="../../fixtures/controls.wxml"/>
   <test-probe id="first" />
   <test-probe id="second" />

@@ -2,6 +2,12 @@
   "usingComponents": {
     "test-probe": "/components/probe/index",
     "state-probe": "/components/state/index",
-    "test-panel": "/components/panel/index"
+    "test-panel": "/components/panel/index",
+    "orchard": "/components/family/parent",
+    "fruit-node": "/components/family/child",
+    "format-field": "/components/formatters/field",
+    "hex-format": "/components/formatters/hex",
+    "isolated-style": "/components/styles/isolated",
+    "sharing-style": "/components/styles/sharing"
   }
 }

@@ -4,16 +4,16 @@
 
 | Group | Cases | Evidence collected |
 | --- | ---: | --- |
-| Core | 155 | App, page and component state, lifetimes, behaviors, observers, event propagation, templates, WXS, slots, styles, built-in control properties, selectors, navigation, subpackages, worker messages, system and UI callbacks, storage, file operations, codecs, archives, canvas and audio context identity. |
+| Core | 170 | App, page and component state, lifetimes, behaviors, component relations, generic substitution, observers, event propagation, templates, WXS, slots, styles, built-in control properties, selectors, navigation, tab caching, redirect replacement, subpackages, worker messages, system and UI callbacks, storage, file operations, codecs, archives, canvas and audio context identity. |
 | HTTP fixture | 12 | Request parameters, JSON and binary bodies, response headers, HTTP errors, cancellation, multipart upload, file download and saved-file lifecycle. |
 | WebSocket fixture | 2 | Text and binary round trips, followed by a normal close. |
 | Interactive input | 6 | Input detail, submitted text, radio, checkbox and switch values, plus long-press ordering. |
 | Physical device | 9 | Location, accelerometer, compass, gyroscope, device motion, battery, brightness, Bluetooth adapter state and Wi-Fi association. |
 | Hosted services | 3 | Test app identity, nonempty login code and authorization settings shape. |
 
-Core, HTTP and WebSocket cases ran on two desktop implementations. In the host configured for SDK 3.7.0, 151 of the 169 expected values were reproduced. The comparison runtime matched 140 of those 151. Both desktop environments passed the six interactive input checks through UI automation. Physical-device and hosted-service checks still require execution in their respective environments.
+Core, HTTP and WebSocket cases ran on two desktop implementations. In the host configured for SDK 3.7.0, 166 of the 184 expected values were reproduced. The comparison runtime matched 155 of those 166. Both desktop environments passed the six interactive input checks through UI automation. Physical-device and hosted-service checks still require execution in their respective environments.
 
-The reference table records the case ID and the expected value from each reproduced case. Changing an expected value removes its reproduced status at run time until it has been checked again. The desktop host supplies native services for files, networking and devices. Host-dependent outcomes require independent confirmation before generalizing them to a physical device.
+The reference table records the case ID and the expected value from each reproduced case. Changing an expected value removes its reproduced status at run time until it has been checked again. The desktop host supplies native services for files, networking and devices. Host-dependent outcomes require independent confirmation before generalizing them to a physical device. The baseline host also logged exceptions during media-query observer cleanup and batch-storage response handling. The scores above cover the asserted observations; they do not certify an error-free host.
 
 ## Expectations awaiting confirmation
 
@@ -38,7 +38,7 @@ Run `node tools/coverage.cjs` for direct source references and the list of basel
 
 | Area | Missing or partial behavior |
 | --- | --- |
-| Framework and rendering | Component relations, generics, advanced style isolation, error recovery, tab navigation, every built-in component and its property, event and accessibility combinations. |
+| Framework and rendering | Advanced relation and generic combinations, error recovery, platform-specific styling, and the remaining built-in components and their property, event and accessibility combinations. |
 | Desktop APIs | Additional success, failure and cancellation paths, task listeners, media playback and decoding, maps, TCP/UDP, native UI and platform-specific branches. |
 | Device integration | Camera and microphone hardware, background operation, BLE data exchange with a peripheral, NFC tags, Wi-Fi changes, device model and permission-denial paths. |
 | Hosted services | Server-side login exchange, session expiry, cloud operations, subscriptions, advertisements and payment sandbox transactions. The login case checks the response shape only. |

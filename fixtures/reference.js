@@ -131,6 +131,41 @@ module.exports = {
     12
   ],
   "observer.media-match": true,
+  "relation.child-membership": [
+    "pear",
+    "apple"
+  ],
+  "relation.parent-identity": true,
+  "relation.linked-callbacks": [
+    "apple",
+    "pear"
+  ],
+  "relation.unlink": [
+    [
+      "pear"
+    ],
+    [
+      "apple"
+    ]
+  ],
+  "relation.reinsert": [
+    "apple",
+    "apple",
+    "pear"
+  ],
+  "generic.default": "base10/31",
+  "generic.override": "base16/1f",
+  "generic.update": [
+    "base10/47",
+    "base16/2f"
+  ],
+  "generic.owner": true,
+  "style.isolated": 22,
+  "style.apply-shared": 37,
+  "style.external-class": [
+    31,
+    43
+  ],
   "native.button-disabled": [
     false,
     true
@@ -244,6 +279,23 @@ module.exports = {
     "unload",
     "pages/suite/index",
     1
+  ],
+  "route.tab-rejects-navigate": [
+    "fail",
+    "complete"
+  ],
+  "route.switch-tab-reuses-page": [
+    1,
+    1,
+    2,
+    1
+  ],
+  "route.redirect-replaces-top": [
+    "arrive:first",
+    "depart:first",
+    "arrive:second",
+    2,
+    "depart:second"
   ],
   "storage.roundtrip-text": "p\u00eache",
   "storage.roundtrip-number": 42,

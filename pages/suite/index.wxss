@@ -2,3 +2,7 @@
 .swatch.wide { width: 49px; }
 
 .wrapper #child-rule { width: 19px; height: 23px; }
+
+.page-sized.page-sized {width:37px;}
+.small-external {width:31px;height:1px;}
+.wide-external {width:43px;height:1px;}

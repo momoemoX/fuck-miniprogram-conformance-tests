@@ -4,7 +4,9 @@
     "pages/receiver/index",
     "pages/surface/index",
     "pages/input/index",
-    "pages/profile/index"
+    "pages/profile/index",
+    "pages/tab/index",
+    "pages/transit/index"
   ],
   "window": {
     "navigationBarTitleText": "Conformance tests"
@@ -25,5 +27,17 @@
   },
   "requiredPrivateInfos": [
     "getLocation"
-  ]
+  ],
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/suite/index",
+        "text": "Suite"
+      },
+      {
+        "pagePath": "pages/tab/index",
+        "text": "Tab fixture"
+      }
+    ]
+  }
 }
