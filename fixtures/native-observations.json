@@ -1,0 +1,117 @@
+{
+  "sdkVersion": "3.7.12",
+  "environment": "devtools",
+  "toolVersion": "2.02.2611062 Nightly",
+  "suiteCommit": "81c4eaff70c3188479fa29903bfa12d0c87997ea",
+  "repeatRuns": 2,
+  "results": [
+    {
+      "id": "channel.off-listener",
+      "status": "FAIL",
+      "expected": "[\"kept\"]",
+      "actual": "[\"removed\",\"kept\"]"
+    },
+    {
+      "id": "fd.read-range",
+      "status": "PASS",
+      "expected": "[2,0,99,100,0]",
+      "actual": "[2,0,99,100,0]"
+    },
+    {
+      "id": "fd.write-position",
+      "status": "PASS",
+      "expected": "\"abXYef\"",
+      "actual": "\"abXYef\""
+    },
+    {
+      "id": "fd.truncate",
+      "status": "PASS",
+      "expected": "[3,\"abc\"]",
+      "actual": "[3,\"abc\"]"
+    },
+    {
+      "id": "fd.closed-read",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "fs.truncate-path",
+      "status": "PASS",
+      "expected": "\"ab\"",
+      "actual": "\"ab\""
+    },
+    {
+      "id": "fs.brotli-sync",
+      "status": "PASS",
+      "expected": "[0,1,2,255]",
+      "actual": "[0,1,2,255]"
+    },
+    {
+      "id": "fs.brotli-async",
+      "status": "PASS",
+      "expected": "[0,1,2,255]",
+      "actual": "[0,1,2,255]"
+    },
+    {
+      "id": "fs.zip-entry",
+      "status": "PASS",
+      "expected": "\"kumquat\"",
+      "actual": "\"kumquat\""
+    },
+    {
+      "id": "fs.unzip-tree",
+      "status": "PASS",
+      "expected": "\"kumquat\"",
+      "actual": "\"kumquat\""
+    },
+    {
+      "id": "fs.digest-md5",
+      "status": "PASS",
+      "expected": "[3,\"900150983cd24fb0d6963f7d28e17f72\"]",
+      "actual": "[3,\"900150983cd24fb0d6963f7d28e17f72\"]"
+    },
+    {
+      "id": "fs.digest-sha1",
+      "status": "PASS",
+      "expected": "[3,\"a9993e364706816aba3e25717850c26c9cd0d89d\"]",
+      "actual": "[3,\"a9993e364706816aba3e25717850c26c9cd0d89d\"]"
+    },
+    {
+      "id": "fs.digest-sha256",
+      "status": "PASS",
+      "expected": "[3,\"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\"]",
+      "actual": "[3,\"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\"]"
+    },
+    {
+      "id": "fs.async-tree",
+      "status": "PASS",
+      "expected": "[\"ab\",true,[]]",
+      "actual": "[\"ab\",true,[]]"
+    },
+    {
+      "id": "fd.async-roundtrip",
+      "status": "PASS",
+      "expected": "[3,2,2,65,66]",
+      "actual": "[3,2,2,65,66]"
+    },
+    {
+      "id": "storage.batch-order",
+      "status": "PASS",
+      "expected": "[\"second\",\"first\",\"second\"]",
+      "actual": "[\"second\",\"first\",\"second\"]"
+    },
+    {
+      "id": "random.requested-lengths",
+      "status": "PASS",
+      "expected": "[2,17]",
+      "actual": "[2,17]"
+    },
+    {
+      "id": "fs.save-download-sync",
+      "status": "PASS",
+      "expected": "[true,[0,255,13],false]",
+      "actual": "[true,[0,255,13],false]"
+    }
+  ]
+}

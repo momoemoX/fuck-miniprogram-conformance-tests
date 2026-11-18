@@ -48,6 +48,18 @@ The desktop baseline produced different results for 18 expected values. Keep the
 | File formats and digests | Brotli, ZIP entry reads and extraction, MD5, SHA-1 and SHA-256 require a host that returns file bytes and digests through the same public APIs. |
 | Other host calls | Batch storage, random-byte generation and synchronously saving a downloaded temporary file returned a different shape or no usable value. |
 
+## Independent simulator cross-check
+
+The 18 pending expectations were exercised directly in the developer-tool simulator with SDK **3.7.12**, using the same case functions and a temporary page method that selects only those case IDs. The simulator supplied file, storage, random-byte and navigation operations. Two fresh runs produced the same results. The committed [observation record](fixtures/native-observations.json) includes every expected and actual value, the tool version and the tested suite commit. It contains the original 18 cases.
+
+Seventeen expectations matched. This includes positional file reads and writes, descriptor and path truncation, closed descriptors, Brotli, ZIP entry reads and extraction, three digests, the asynchronous file-tree and descriptor sequences, batch storage, random-byte lengths, and synchronously saving a downloaded file.
+
+For `channel.off-listener`, the receiver registered two callbacks, removed the first callback by reference, and emitted a message. Both callbacks still ran. The expected `["kept"]` was contradicted by the observed `["removed","kept"]`. This expectation requires further investigation before use as a compatibility requirement.
+
+These observations establish results for **3.7.12**. The current tool's version picker offered 3.7.12, while requesting 3.7.0 in project configuration fell back to 3.18.0. The exact **3.7.0** reference table and score therefore retain their existing confirmation status.
+
+The independent run also exposed missing page JSON files. Empty page configurations have been added for every previously unconfigured declared page so the standard simulator can register them.
+
 ## API inventory
 
 The desktop host reported SDK **3.7.0**. Among the public declaration names checked, its `wx` object exposed **455 members** (451 functions and four objects), and its file-system manager exposed **45 methods**. The availability page checks each of those names and value types. A stub can pass an availability check. Only a behavioral case contributes to a behavioral score.

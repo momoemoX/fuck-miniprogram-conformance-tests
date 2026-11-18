@@ -38,6 +38,6 @@ Set `fixtureUrl` and `socketUrl` in `suite-config.js` to addresses reachable fro
 
 ## Coverage and contributions
 
-The [coverage notes](COVERAGE.md) describe the baseline observations, outstanding disagreements and gaps. To add a behavior, write a minimal case with an explicit expected result. Include the suite commit, implementation version, execution environment and enabled profiles when sharing results.
+The [coverage notes](COVERAGE.md) describe the baseline observations, the independent 3.7.12 simulator cross-check, outstanding disagreements and gaps. To add a behavior, write a minimal case with an explicit expected result. Include the suite commit, implementation version, execution environment and enabled profiles when sharing results.
 
 [MIT license](LICENSE)
