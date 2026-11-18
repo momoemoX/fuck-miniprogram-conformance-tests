@@ -4,14 +4,14 @@
 
 | Group | Cases | Evidence collected |
 | --- | ---: | --- |
-| Core | 284 | App, page and component state, lifetimes, behaviors, component relations, generic substitution, observers, event propagation, templates, WXS, slots, styles, built-in control properties, selectors, navigation, tab caching, redirect replacement, subpackages, worker messages, system and UI callbacks, storage, file operations, codecs, archives, canvas and audio context identity. |
+| Core | 310 | App, page and component state, lifetimes, behaviors, component relations, generic substitution, observers, event propagation, templates, WXS, slots, styles, built-in control properties, selectors, navigation, tab caching, redirect replacement, subpackages, worker messages, system and UI callbacks, storage, file operations, codecs, archives, canvas and audio context identity. |
 | HTTP fixture | 12 | Request parameters, JSON and binary bodies, response headers, HTTP errors, cancellation, multipart upload, file download and saved-file lifecycle. |
 | WebSocket fixture | 2 | Text and binary round trips, followed by a normal close. |
 | Interactive input | 6 | Input detail, submitted text, radio, checkbox and switch values, plus long-press ordering. |
 | Physical device | 9 | Location, accelerometer, compass, gyroscope, device motion, battery, brightness, Bluetooth adapter state and Wi-Fi association. |
 | Hosted services | 3 | Test app identity, nonempty login code and authorization settings shape. |
 
-Core, HTTP and WebSocket cases ran on two desktop implementations. In the host configured for SDK 3.7.0, 279 of the 298 expected values were reproduced. The comparison runtime matched 255 of those 279. Its failures in the new navigation group include route-completion timeouts. Both desktop environments passed the six interactive input checks through UI automation. Physical-device and hosted-service checks still require execution in their respective environments.
+Core, HTTP and WebSocket cases ran on two desktop implementations. In the host configured for SDK 3.7.0, 305 of the 324 expected values were reproduced. The comparison runtime matched 285 of those 305. Its failures in the new navigation group include route-completion timeouts. Both desktop environments passed the six interactive input checks through UI automation. Physical-device and hosted-service checks still require execution in their respective environments.
 
 The reference table records the case ID and the expected value from each reproduced case. Changing an expected value removes its reproduced status at run time until it has been checked again. The desktop host supplies native services for files, networking and devices. Host-dependent outcomes require independent confirmation before generalizing them to a physical device. The baseline host also logged exceptions during media-query observer cleanup and batch-storage response handling. The scores above cover the asserted observations; they do not certify an error-free host.
 
@@ -46,6 +46,16 @@ Navigation checks observe load/show/ready/hide/unload order, hidden-page state, 
 All 26 expected results reproduced in the independent **3.7.12** simulator. The [observation record](fixtures/native-module-lifecycle.json) contains each expected and actual result. Twenty-five also reproduced in the existing 3.7.0 desktop host. The remaining query case expects percent-encoded values as observed in 3.7.12 and stays outside the 3.7.0 reproduced-expectation score.
 
 Temporary mutations of an exported module value and the fixture's hide event caused their corresponding checks to fail.
+
+## Component instance reuse
+
+Twenty-six checks remount a list fixture for each case. They compare component references obtained through `selectComponent` and `selectAllComponents`, component-owned draft values, property updates, event payloads and lifecycle observations.
+
+The keyed-list cases cover reordering, prepend/append, removal, changed keys, replacement objects, path updates, clearing and regrowth, conditional removal, hidden-state preservation, event indices and repeated detachment. Positional-list cases track state by index when items reorder or shift. Separate loops exercise identical keys without sharing component state, including moving an item between loops.
+
+All 26 expected results reproduced in the 3.7.0 desktop host and the independent **3.7.12** simulator. The comparison implementation passed 25. When an existing item changes its key from b to d, all three environments replace the component instance. In the old instance’s detached callback, the desktop baseline and native simulator report b, while the comparison implementation reports d. The [native observation record](fixtures/native-reuse.json) contains the expected and actual values.
+
+A temporary removal of the main list's `wx:key` caused eight checks to fail, including reordering identity, state placement, prepend, deletion and event positions.
 
 ## Expectations awaiting confirmation
 

@@ -19,6 +19,7 @@
     <view>Actual: {{item.actual}}</view>
   </view>
   <view aria-hidden="true" style="position:absolute;left:-200vw;top:0;width:100vw">
+    <reuse-list wx:if="{{reuseMounted}}" id="reuse-list"/>
     <block wx:if="{{definitionMounted}}">
       <definition-probe id="definition"
         quantity="{{definitionInputs.quantity}}" text="{{definitionInputs.text}}" flag="{{definitionInputs.flag}}"

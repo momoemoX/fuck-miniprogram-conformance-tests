@@ -1,0 +1,163 @@
+{
+  "sdkVersion": "3.7.12",
+  "environment": "devtools",
+  "toolVersion": "2.02.2611062 Nightly",
+  "results": [
+    {
+      "id": "reuse.initial-keyed-order",
+      "status": "PASS",
+      "expected": "[\"a\",\"b\",\"c\"]",
+      "actual": "[\"a\",\"b\",\"c\"]"
+    },
+    {
+      "id": "reuse.keyed-reorder-identity",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "reuse.keyed-state-follows-key",
+      "status": "PASS",
+      "expected": "[[\"c\",\"-\"],[\"b\",\"-\"],[\"a\",\"edited-a\"]]",
+      "actual": "[[\"c\",\"-\"],[\"b\",\"-\"],[\"a\",\"edited-a\"]]"
+    },
+    {
+      "id": "reuse.keyed-prepend",
+      "status": "PASS",
+      "expected": "[true,true,true,\"-\"]",
+      "actual": "[true,true,true,\"-\"]"
+    },
+    {
+      "id": "reuse.keyed-delete",
+      "status": "PASS",
+      "expected": "[true,true,[\"b\"]]",
+      "actual": "[true,true,[\"b\"]]"
+    },
+    {
+      "id": "reuse.key-change-replaces-instance",
+      "status": "PASS",
+      "expected": "[true,true,\"-\",[\"b\"]]",
+      "actual": "[true,true,\"-\",[\"b\"]]"
+    },
+    {
+      "id": "reuse.same-key-object-replacement",
+      "status": "PASS",
+      "expected": "[true,\"Changed\",\"edited\"]",
+      "actual": "[true,\"Changed\",\"edited\"]"
+    },
+    {
+      "id": "reuse.keyed-label-path",
+      "status": "PASS",
+      "expected": "[true,\"Updated\",\"edited\"]",
+      "actual": "[true,\"Updated\",\"edited\"]"
+    },
+    {
+      "id": "reuse.keyed-empty",
+      "status": "PASS",
+      "expected": "[0,[\"a\",\"b\",\"c\"]]",
+      "actual": "[0,[\"a\",\"b\",\"c\"]]"
+    },
+    {
+      "id": "reuse.keyed-regrow",
+      "status": "PASS",
+      "expected": "[true,\"-\"]",
+      "actual": "[true,\"-\"]"
+    },
+    {
+      "id": "reuse.unrelated-update",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "reuse.position-reorder-identity",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "reuse.position-state-stays-at-index",
+      "status": "PASS",
+      "expected": "[\"c\",\"a\",\"edited-first\"]",
+      "actual": "[\"c\",\"a\",\"edited-first\"]"
+    },
+    {
+      "id": "reuse.position-prepend",
+      "status": "PASS",
+      "expected": "[true,\"z\",\"a\",\"edited\"]",
+      "actual": "[true,\"z\",\"a\",\"edited\"]"
+    },
+    {
+      "id": "reuse.position-truncate",
+      "status": "PASS",
+      "expected": "[true,true,[\"c\"]]",
+      "actual": "[true,true,[\"c\"]]"
+    },
+    {
+      "id": "reuse.keyed-append",
+      "status": "PASS",
+      "expected": "[true,true,true,\"-\"]",
+      "actual": "[true,true,true,\"-\"]"
+    },
+    {
+      "id": "reuse.condition-recreates-state",
+      "status": "PASS",
+      "expected": "[true,\"-\",[\"a\",\"b\",\"c\"]]",
+      "actual": "[true,\"-\",[\"a\",\"b\",\"c\"]]"
+    },
+    {
+      "id": "reuse.hidden-preserves-state",
+      "status": "PASS",
+      "expected": "[true,\"edited\",[]]",
+      "actual": "[true,\"edited\",[]]"
+    },
+    {
+      "id": "reuse.keyed-event-position",
+      "status": "PASS",
+      "expected": "{\"code\":\"c\",\"draft\":\"edited-c\",\"position\":0}",
+      "actual": "{\"code\":\"c\",\"draft\":\"edited-c\",\"position\":0}"
+    },
+    {
+      "id": "reuse.position-event-payload",
+      "status": "PASS",
+      "expected": "{\"code\":\"c\",\"draft\":\"edited-first\",\"position\":0}",
+      "actual": "{\"code\":\"c\",\"draft\":\"edited-first\",\"position\":0}"
+    },
+    {
+      "id": "reuse.owner-after-reorder",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "reuse.removed-selector",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "reuse.detach-once",
+      "status": "PASS",
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "id": "reuse.reinsert-key-is-fresh",
+      "status": "PASS",
+      "expected": "[true,\"-\",true]",
+      "actual": "[true,\"-\",true]"
+    },
+    {
+      "id": "reuse.keys-scoped-to-loop",
+      "status": "PASS",
+      "expected": "[true,\"other-edit\",\"-\"]",
+      "actual": "[true,\"other-edit\",\"-\"]"
+    },
+    {
+      "id": "reuse.move-between-loops",
+      "status": "PASS",
+      "expected": "[true,\"-\",true]",
+      "actual": "[true,\"-\",true]"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+<view>
+  <block wx:if="{{visible}}">
+    <reuse-item wx:for="{{rows}}" wx:key="code" class="keyed"
+      id="keyed-{{item.code}}" kind="keyed" code="{{item.code}}" label="{{item.label}}"
+      data-position="{{index}}" bind:row="receive"/>
+  </block>
+  <reuse-item wx:for="{{positions}}" class="position"
+    id="position-{{index}}" kind="position" code="{{item.code}}" label="{{item.label}}"
+    data-position="{{index}}" bind:row="receive"/>
+  <reuse-item wx:for="{{others}}" wx:key="code" class="other"
+    id="other-{{item.code}}" kind="other" code="{{item.code}}" label="{{item.label}}"/>
+  <reuse-item id="persistent" kind="persistent" code="persistent" hidden="{{hidden}}"/>
+</view>

@@ -14,6 +14,7 @@
     "pure-probe": "/components/pure-state/index",
     "template-probe": "/components/template-probe/index",
     "definition-probe": "/components/definition-probe/index",
-    "export-probe": "/components/export-probe/index"
+    "export-probe": "/components/export-probe/index",
+    "reuse-list": "/components/reuse-list/index"
   }
 }

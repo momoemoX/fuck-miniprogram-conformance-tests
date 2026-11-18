@@ -23,10 +23,12 @@ const { templateContract } = require("../../cases/template-contract");
 const { definitionContract } = require("../../cases/definition-contract");
 const { moduleContract } = require("../../cases/module-contract");
 const { lifecycleContract } = require("../../cases/lifecycle-contract");
+const { reuseContract } = require("../../cases/reuse-contract");
 const config = require("../../suite-config");
 
 Page({
   data: {
+    reuseMounted: false,
     definitionMounted: false,
     definitionInputs: {},
     templateMounted: false,
@@ -105,6 +107,7 @@ Page({
     await eventBoundary(this, check);
     await templateContract(this, check);
     await definitionContract(this, check);
+    await reuseContract(this, check);
     await controls(this, check);
     await rendering(this, check);
     await routes(check);

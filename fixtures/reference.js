@@ -917,5 +917,152 @@ module.exports = {
   "lifecycle.reopen-creates-fresh-page": [
     true,
     0
+  ],
+  "reuse.initial-keyed-order": [
+    "a",
+    "b",
+    "c"
+  ],
+  "reuse.keyed-reorder-identity": [
+    true,
+    true,
+    true
+  ],
+  "reuse.keyed-state-follows-key": [
+    [
+      "c",
+      "-"
+    ],
+    [
+      "b",
+      "-"
+    ],
+    [
+      "a",
+      "edited-a"
+    ]
+  ],
+  "reuse.keyed-prepend": [
+    true,
+    true,
+    true,
+    "-"
+  ],
+  "reuse.keyed-delete": [
+    true,
+    true,
+    [
+      "b"
+    ]
+  ],
+  "reuse.key-change-replaces-instance": [
+    true,
+    true,
+    "-",
+    [
+      "b"
+    ]
+  ],
+  "reuse.same-key-object-replacement": [
+    true,
+    "Changed",
+    "edited"
+  ],
+  "reuse.keyed-label-path": [
+    true,
+    "Updated",
+    "edited"
+  ],
+  "reuse.keyed-empty": [
+    0,
+    [
+      "a",
+      "b",
+      "c"
+    ]
+  ],
+  "reuse.keyed-regrow": [
+    true,
+    "-"
+  ],
+  "reuse.unrelated-update": [
+    true,
+    true,
+    true
+  ],
+  "reuse.position-reorder-identity": [
+    true,
+    true,
+    true
+  ],
+  "reuse.position-state-stays-at-index": [
+    "c",
+    "a",
+    "edited-first"
+  ],
+  "reuse.position-prepend": [
+    true,
+    "z",
+    "a",
+    "edited"
+  ],
+  "reuse.position-truncate": [
+    true,
+    true,
+    [
+      "c"
+    ]
+  ],
+  "reuse.keyed-append": [
+    true,
+    true,
+    true,
+    "-"
+  ],
+  "reuse.condition-recreates-state": [
+    true,
+    "-",
+    [
+      "a",
+      "b",
+      "c"
+    ]
+  ],
+  "reuse.hidden-preserves-state": [
+    true,
+    "edited",
+    []
+  ],
+  "reuse.keyed-event-position": {
+    "code": "c",
+    "draft": "edited-c",
+    "position": 0
+  },
+  "reuse.position-event-payload": {
+    "code": "c",
+    "draft": "edited-first",
+    "position": 0
+  },
+  "reuse.owner-after-reorder": [
+    true,
+    true,
+    true
+  ],
+  "reuse.removed-selector": true,
+  "reuse.detach-once": 1,
+  "reuse.reinsert-key-is-fresh": [
+    true,
+    "-",
+    true
+  ],
+  "reuse.keys-scoped-to-loop": [
+    true,
+    "other-edit",
+    "-"
+  ],
+  "reuse.move-between-loops": [
+    true,
+    "-",
+    true
   ]
 };
