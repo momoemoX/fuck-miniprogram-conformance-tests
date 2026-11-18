@@ -537,5 +537,156 @@ module.exports = {
     0,
     255,
     13
+  ],
+  "contract.property-defaults": [
+    0,
+    "",
+    false
+  ],
+  "contract.array-default-isolation": [
+    [
+      4,
+      9
+    ],
+    [
+      4
+    ]
+  ],
+  "contract.object-default-isolation": [
+    "changed",
+    "seed"
+  ],
+  "contract.property-data-view": [
+    7,
+    7
+  ],
+  "contract.parent-bound-property": 23,
+  "contract.property-observer-values": [
+    [
+      6,
+      0
+    ],
+    [
+      8,
+      6
+    ]
+  ],
+  "contract.observer-batch": [
+    [
+      5,
+      9
+    ]
+  ],
+  "contract.observer-same-value": [
+    [
+      1,
+      2
+    ]
+  ],
+  "contract.observer-unrelated": [],
+  "contract.observer-nested-update": [
+    {
+      "x": 8,
+      "y": 2
+    }
+  ],
+  "contract.observer-parent-replacement": [
+    {
+      "x": 3,
+      "y": 4
+    }
+  ],
+  "contract.observer-array-index": [
+    6
+  ],
+  "contract.observer-array-replacement": [
+    9
+  ],
+  "contract.setdata-before-return": [
+    12,
+    2
+  ],
+  "contract.setdata-render-callback": [
+    4,
+    7
+  ],
+  "contract.setdata-empty-callback": 1,
+  "contract.path-preserves-siblings": {
+    "x": 10,
+    "y": 2
+  },
+  "contract.array-preserves-other-index": [
+    1,
+    11
+  ],
+  "contract.behavior-data-merge": {
+    "base": true,
+    "nested": true,
+    "own": true,
+    "priority": "own"
+  },
+  "contract.behavior-method-priority": "own",
+  "contract.behavior-inherited-method": "available",
+  "contract.behavior-transitive-membership": true,
+  "contract.behavior-lifetime-order": [
+    "base-attached",
+    "nested-attached",
+    "own-attached"
+  ],
+  "contract.behavior-data-isolation": [
+    "changed",
+    "own"
+  ],
+  "event.boundary-default": [],
+  "event.boundary-bubbles": [
+    [
+      "inside",
+      "leaf"
+    ]
+  ],
+  "event.boundary-composed-only": [],
+  "event.boundary-crossing": [
+    [
+      "inside",
+      "leaf"
+    ],
+    [
+      "host",
+      "leaf"
+    ],
+    [
+      "ancestor",
+      "leaf"
+    ]
+  ],
+  "event.boundary-direct-host": [
+    [
+      "host",
+      "leaf"
+    ]
+  ],
+  "event.boundary-direct-bubble": [
+    [
+      "host",
+      "leaf"
+    ],
+    [
+      "ancestor",
+      "leaf"
+    ]
+  ],
+  "event.current-target": [
+    "shell",
+    "shell",
+    "outer-boundary"
+  ],
+  "pure.logic-field-update": 8,
+  "pure.observer-fires": [
+    8
+  ],
+  "pure.render-field-excluded": true,
+  "pure.mixed-update": [
+    9,
+    12
   ]
 };

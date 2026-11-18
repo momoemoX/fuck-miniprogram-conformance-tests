@@ -8,6 +8,9 @@
     "format-field": "/components/formatters/field",
     "hex-format": "/components/formatters/hex",
     "isolated-style": "/components/styles/isolated",
-    "sharing-style": "/components/styles/sharing"
+    "sharing-style": "/components/styles/sharing",
+    "contract-probe": "/components/contract/index",
+    "event-boundary": "/components/event-boundary/index",
+    "pure-probe": "/components/pure-state/index"
   }
 }

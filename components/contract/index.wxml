@@ -1,0 +1,1 @@
+<view id="state" data-a="{{a}}" data-b="{{b}}" data-count="{{count}}" data-caption="{{caption}}"/>

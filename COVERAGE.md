@@ -4,16 +4,24 @@
 
 | Group | Cases | Evidence collected |
 | --- | ---: | --- |
-| Core | 170 | App, page and component state, lifetimes, behaviors, component relations, generic substitution, observers, event propagation, templates, WXS, slots, styles, built-in control properties, selectors, navigation, tab caching, redirect replacement, subpackages, worker messages, system and UI callbacks, storage, file operations, codecs, archives, canvas and audio context identity. |
+| Core | 205 | App, page and component state, lifetimes, behaviors, component relations, generic substitution, observers, event propagation, templates, WXS, slots, styles, built-in control properties, selectors, navigation, tab caching, redirect replacement, subpackages, worker messages, system and UI callbacks, storage, file operations, codecs, archives, canvas and audio context identity. |
 | HTTP fixture | 12 | Request parameters, JSON and binary bodies, response headers, HTTP errors, cancellation, multipart upload, file download and saved-file lifecycle. |
 | WebSocket fixture | 2 | Text and binary round trips, followed by a normal close. |
 | Interactive input | 6 | Input detail, submitted text, radio, checkbox and switch values, plus long-press ordering. |
 | Physical device | 9 | Location, accelerometer, compass, gyroscope, device motion, battery, brightness, Bluetooth adapter state and Wi-Fi association. |
 | Hosted services | 3 | Test app identity, nonempty login code and authorization settings shape. |
 
-Core, HTTP and WebSocket cases ran on two desktop implementations. In the host configured for SDK 3.7.0, 166 of the 184 expected values were reproduced. The comparison runtime matched 155 of those 166. Both desktop environments passed the six interactive input checks through UI automation. Physical-device and hosted-service checks still require execution in their respective environments.
+Core, HTTP and WebSocket cases ran on two desktop implementations. In the host configured for SDK 3.7.0, 201 of the 219 expected values were reproduced. The comparison runtime matched 190 of those 201. Both desktop environments passed the six interactive input checks through UI automation. Physical-device and hosted-service checks still require execution in their respective environments.
 
 The reference table records the case ID and the expected value from each reproduced case. Changing an expected value removes its reproduced status at run time until it has been checked again. The desktop host supplies native services for files, networking and devices. Host-dependent outcomes require independent confirmation before generalizing them to a physical device. The baseline host also logged exceptions during media-query observer cleanup and batch-storage response handling. The scores above cover the asserted observations; they do not certify an error-free host.
+
+## Component and event cases
+
+The `contract.*` and `pure.*` cases recreate their component fixtures for each check and dispose of them afterward. They cover array and object property defaults, instance isolation, synchronous data updates, render callbacks, nested paths, observer matching and batching, behavior inheritance and lifetime order, and pure-data fields.
+
+The `event.boundary-*` cases emit a custom event inside a component, vary `bubbles` and `composed`, and record listeners reached inside the component, on its host, and on its page ancestor. `event.current-target` checks target and current-target IDs at two listeners. These cases also remount their fixtures independently.
+
+All 35 cases in this addition reproduced their expected values in both desktop environments. A temporary mutation of the component’s own method return value caused `contract.behavior-method-priority` to fail.
 
 ## Expectations awaiting confirmation
 

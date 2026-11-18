@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "inner-boundary": "./leaf"
+  }
+}

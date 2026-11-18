@@ -1,0 +1,1 @@
+<view bind:probe="inside"><inner-boundary wx:if="{{nested}}" id="inner"/><slot/></view>

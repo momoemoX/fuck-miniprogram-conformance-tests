@@ -19,6 +19,17 @@
     <view>Actual: {{item.actual}}</view>
   </view>
   <view aria-hidden="true" style="position:absolute;left:-200vw;top:0;width:100vw">
+    <block wx:if="{{boundaryMounted}}">
+      <view id="outer-boundary" bind:probe="boundaryAncestor">
+        <event-boundary id="shell" nested="{{true}}" bind:probe="boundaryHost"/>
+      </view>
+      <pure-probe id="pure"/>
+    </block>
+    <block wx:if="{{contractMounted}}">
+      <contract-probe id="contract-a"/>
+      <contract-probe id="contract-b"/>
+      <contract-probe id="contract-bound" count="{{contractCount}}"/>
+    </block>
     <orchard id="family">
       <fruit-node name="pear"/><fruit-node wx:if="{{appleVisible}}" id="apple" name="apple"/>
     </orchard>
