@@ -1,0 +1,9 @@
+{
+  "pages": [
+    "pages/suite/index",
+    "pages/receiver/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "Conformance tests"
+  }
+}

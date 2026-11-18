@@ -1,18 +1,29 @@
 # Mini Program Base Library Conformance Tests
 
-A shared test suite for independent implementations of the Mini Program base library. Each case describes an observable behavior so that anyone building a runtime can check it against the same expectations.
+A public suite for independent Mini Program base library implementations. The test project uses page, component, event, and navigation APIs. Each case compares an observable result with a fixed expectation.
 
-## Project status
+## Run the suite
 
-Executable test cases and a runner are planned. The suite does not yet produce conformance results.
+1. Open this directory as a Mini Program project in the implementation under test. The entry point is `app.json`. If your tool requires an app identifier, supply a test identifier in its local project settings.
+2. Launch the first page and tap **Run suite**. The channel case opens a second page and returns to the results.
+3. Read the summary and the expected and actual values for each case. A complete passing run shows **4/4 passed**. Start a fresh launch to run again.
 
-## Contributing a test case
+For automation, perform the same launch and tap operations with your implementation's driver. Wait for the final summary on the first page. A crash, timeout, or missing summary is an incomplete run.
 
-Choose one behavior and describe the setup, the action to perform, and the expected result. For example, a callback-order test can record each callback as it runs and assert the exact sequence. Include the applicable base library versions and any environment requirements so others can reproduce the case.
+## Cases
 
-## Reporting results
+| Case | Exercise | Expected observation |
+| --- | --- | --- |
+| `component.instance-data` | Append an entry to a nested array on one of two instances of the same component. Read both arrays. | The first contains `mint`; the second is empty. |
+| `event.bubble` | Emit a bubbling custom event from a component with listeners at the source and two ancestors. | The listeners run in order: source, middle, outer. |
+| `event.catch` | Repeat with a catching listener on the middle ancestor. | The source and middle listeners run, in order. |
+| `channel.queued-order` | Send `oak` and `elm` from the opener before the destination subscribes, then send an end marker after subscription. | The receiver observes both queued entries, in order, before the marker. |
 
-Record the implementation version, target base library version, test suite commit, and runtime environment. Report passed, failed, and skipped cases separately. A passing run demonstrates compatibility with the behaviors exercised by those cases in that environment.
+## Reporting and contributing
+
+Include the suite commit, implementation version, target base library version, runtime environment, and each case result. A passing run covers the behaviors in the table.
+
+For a new case, provide a minimal setup, the operation to perform, and an explicit expected result. Keep implementation-specific launch and automation code outside the test project.
 
 ## License
 

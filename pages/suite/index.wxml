@@ -1,0 +1,21 @@
+<view>
+  <button id="run" bindtap="run" disabled="{{started}}">Run suite</button>
+  <test-probe id="first" />
+  <test-probe id="second" />
+
+  <view bind:notice="outer">
+    <view bind:notice="middle">
+      <test-probe id="bubbling" bind:notice="source" />
+    </view>
+    <view catch:notice="middle">
+      <test-probe id="stopped" bind:notice="source" />
+    </view>
+  </view>
+
+  <view id="summary">{{summary}}</view>
+  <view wx:for="{{results}}" wx:key="id">
+    <view>{{item.status}} {{item.id}}</view>
+    <view>Expected: {{item.expected}}</view>
+    <view>Actual: {{item.actual}}</view>
+  </view>
+</view>
