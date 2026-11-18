@@ -839,5 +839,83 @@ module.exports = {
   "export.select-all": [
     true,
     3
+  ],
+  "module.cache-identity": true,
+  "module.explicit-extension": true,
+  "module.relative-parent": true,
+  "module.shared-mutation": 37,
+  "module.reverse-shared-mutation": 19,
+  "module.replaced-exports": {
+    "value": "replacement"
+  },
+  "module.function-export": "peel/seed",
+  "module.function-property": "callable",
+  "module.constructor-identity": true,
+  "module.constructor-instance-state": [
+    1,
+    2,
+    1
+  ],
+  "module.explicit-directory-index": "directory-index",
+  "module.directory-shorthand-rejected": true,
+  "module.cycle-partial-exports": [
+    "right",
+    "undefined"
+  ],
+  "module.cycle-reference": false,
+  "module.failure-first": "suite-module-failure",
+  "module.failure-repeat": [
+    "suite-module-failure",
+    "suite-module-failure"
+  ],
+  "lifecycle.initial-order": [
+    "alpha.load",
+    "alpha.show",
+    "alpha.ready"
+  ],
+  "lifecycle.push-order": [
+    "alpha.hide",
+    "beta.load",
+    "beta.show",
+    "beta.ready"
+  ],
+  "lifecycle.back-order": [
+    "beta.unload",
+    "alpha.show"
+  ],
+  "lifecycle.hidden-page-retained": [
+    true,
+    7
+  ],
+  "lifecycle.multi-back": [
+    [
+      "beta.unload",
+      "gamma.unload"
+    ],
+    "alpha",
+    1
+  ],
+  "lifecycle.redirect-replacement": [
+    1,
+    1,
+    1,
+    true
+  ],
+  "lifecycle.same-route-new-instance": [
+    true,
+    0,
+    2
+  ],
+  "lifecycle.failed-navigation-preserves-page": [
+    [
+      "fail",
+      "complete"
+    ],
+    true,
+    []
+  ],
+  "lifecycle.reopen-creates-fresh-page": [
+    true,
+    0
   ]
 };

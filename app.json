@@ -6,7 +6,8 @@
     "pages/input/index",
     "pages/profile/index",
     "pages/tab/index",
-    "pages/transit/index"
+    "pages/transit/index",
+    "pages/lifecycle/index"
   ],
   "window": {
     "navigationBarTitleText": "Conformance tests"

@@ -1,0 +1,163 @@
+{
+  "sdkVersion": "3.7.12",
+  "environment": "devtools",
+  "toolVersion": "2.02.2611062 Nightly",
+  "results": [
+    {
+      "id": "module.cache-identity",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "module.explicit-extension",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "module.relative-parent",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "module.shared-mutation",
+      "status": "PASS",
+      "expected": "37",
+      "actual": "37"
+    },
+    {
+      "id": "module.reverse-shared-mutation",
+      "status": "PASS",
+      "expected": "19",
+      "actual": "19"
+    },
+    {
+      "id": "module.replaced-exports",
+      "status": "PASS",
+      "expected": "{\"value\":\"replacement\"}",
+      "actual": "{\"value\":\"replacement\"}"
+    },
+    {
+      "id": "module.function-export",
+      "status": "PASS",
+      "expected": "\"peel/seed\"",
+      "actual": "\"peel/seed\""
+    },
+    {
+      "id": "module.function-property",
+      "status": "PASS",
+      "expected": "\"callable\"",
+      "actual": "\"callable\""
+    },
+    {
+      "id": "module.constructor-identity",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "module.constructor-instance-state",
+      "status": "PASS",
+      "expected": "[1,2,1]",
+      "actual": "[1,2,1]"
+    },
+    {
+      "id": "module.explicit-directory-index",
+      "status": "PASS",
+      "expected": "\"directory-index\"",
+      "actual": "\"directory-index\""
+    },
+    {
+      "id": "module.directory-shorthand-rejected",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "module.cycle-partial-exports",
+      "status": "PASS",
+      "expected": "[\"right\",\"undefined\"]",
+      "actual": "[\"right\",\"undefined\"]"
+    },
+    {
+      "id": "module.cycle-reference",
+      "status": "PASS",
+      "expected": "false",
+      "actual": "false"
+    },
+    {
+      "id": "module.failure-first",
+      "status": "PASS",
+      "expected": "\"suite-module-failure\"",
+      "actual": "\"suite-module-failure\""
+    },
+    {
+      "id": "module.failure-repeat",
+      "status": "PASS",
+      "expected": "[\"suite-module-failure\",\"suite-module-failure\"]",
+      "actual": "[\"suite-module-failure\",\"suite-module-failure\"]"
+    },
+    {
+      "id": "lifecycle.initial-order",
+      "status": "PASS",
+      "expected": "[\"alpha.load\",\"alpha.show\",\"alpha.ready\"]",
+      "actual": "[\"alpha.load\",\"alpha.show\",\"alpha.ready\"]"
+    },
+    {
+      "id": "lifecycle.push-order",
+      "status": "PASS",
+      "expected": "[\"alpha.hide\",\"beta.load\",\"beta.show\",\"beta.ready\"]",
+      "actual": "[\"alpha.hide\",\"beta.load\",\"beta.show\",\"beta.ready\"]"
+    },
+    {
+      "id": "lifecycle.back-order",
+      "status": "PASS",
+      "expected": "[\"beta.unload\",\"alpha.show\"]",
+      "actual": "[\"beta.unload\",\"alpha.show\"]"
+    },
+    {
+      "id": "lifecycle.hidden-page-retained",
+      "status": "PASS",
+      "expected": "[true,7]",
+      "actual": "[true,7]"
+    },
+    {
+      "id": "lifecycle.multi-back",
+      "status": "PASS",
+      "expected": "[[\"beta.unload\",\"gamma.unload\"],\"alpha\",1]",
+      "actual": "[[\"beta.unload\",\"gamma.unload\"],\"alpha\",1]"
+    },
+    {
+      "id": "lifecycle.redirect-replacement",
+      "status": "PASS",
+      "expected": "[1,1,1,true]",
+      "actual": "[1,1,1,true]"
+    },
+    {
+      "id": "lifecycle.query-encoded-values",
+      "status": "PASS",
+      "expected": "[\"citrus%20peel\",\"%2B\",\"%252F\"]",
+      "actual": "[\"citrus%20peel\",\"%2B\",\"%252F\"]"
+    },
+    {
+      "id": "lifecycle.same-route-new-instance",
+      "status": "PASS",
+      "expected": "[true,0,2]",
+      "actual": "[true,0,2]"
+    },
+    {
+      "id": "lifecycle.failed-navigation-preserves-page",
+      "status": "PASS",
+      "expected": "[[\"fail\",\"complete\"],true,[]]",
+      "actual": "[[\"fail\",\"complete\"],true,[]]"
+    },
+    {
+      "id": "lifecycle.reopen-creates-fresh-page",
+      "status": "PASS",
+      "expected": "[true,0]",
+      "actual": "[true,0]"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+<view>Lifecycle fixture</view>
+<view>{{counter}}</view>

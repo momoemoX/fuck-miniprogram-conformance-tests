@@ -21,6 +21,8 @@ const { componentContract } = require("../../cases/component-contract");
 const { eventBoundary } = require("../../cases/event-boundary");
 const { templateContract } = require("../../cases/template-contract");
 const { definitionContract } = require("../../cases/definition-contract");
+const { moduleContract } = require("../../cases/module-contract");
+const { lifecycleContract } = require("../../cases/lifecycle-contract");
 const config = require("../../suite-config");
 
 Page({
@@ -94,6 +96,8 @@ Page({
     await check("channel.queued-order", ["oak", "elm"], channelOrder);
 
     await subscriptions(check);
+    await moduleContract(check);
+    await lifecycleContract(check);
     await framework(this, check);
     await composition(this, check);
     await structure(this, check);

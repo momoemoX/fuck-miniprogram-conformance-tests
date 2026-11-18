@@ -4,14 +4,14 @@
 
 | Group | Cases | Evidence collected |
 | --- | ---: | --- |
-| Core | 258 | App, page and component state, lifetimes, behaviors, component relations, generic substitution, observers, event propagation, templates, WXS, slots, styles, built-in control properties, selectors, navigation, tab caching, redirect replacement, subpackages, worker messages, system and UI callbacks, storage, file operations, codecs, archives, canvas and audio context identity. |
+| Core | 284 | App, page and component state, lifetimes, behaviors, component relations, generic substitution, observers, event propagation, templates, WXS, slots, styles, built-in control properties, selectors, navigation, tab caching, redirect replacement, subpackages, worker messages, system and UI callbacks, storage, file operations, codecs, archives, canvas and audio context identity. |
 | HTTP fixture | 12 | Request parameters, JSON and binary bodies, response headers, HTTP errors, cancellation, multipart upload, file download and saved-file lifecycle. |
 | WebSocket fixture | 2 | Text and binary round trips, followed by a normal close. |
 | Interactive input | 6 | Input detail, submitted text, radio, checkbox and switch values, plus long-press ordering. |
 | Physical device | 9 | Location, accelerometer, compass, gyroscope, device motion, battery, brightness, Bluetooth adapter state and Wi-Fi association. |
 | Hosted services | 3 | Test app identity, nonempty login code and authorization settings shape. |
 
-Core, HTTP and WebSocket cases ran on two desktop implementations. In the host configured for SDK 3.7.0, 254 of the 272 expected values were reproduced. The comparison runtime matched 242 of those 254. Both desktop environments passed the six interactive input checks through UI automation. Physical-device and hosted-service checks still require execution in their respective environments.
+Core, HTTP and WebSocket cases ran on two desktop implementations. In the host configured for SDK 3.7.0, 279 of the 298 expected values were reproduced. The comparison runtime matched 255 of those 279. Its failures in the new navigation group include route-completion timeouts. Both desktop environments passed the six interactive input checks through UI automation. Physical-device and hosted-service checks still require execution in their respective environments.
 
 The reference table records the case ID and the expected value from each reproduced case. Changing an expected value removes its reproduced status at run time until it has been checked again. The desktop host supplies native services for files, networking and devices. Host-dependent outcomes require independent confirmation before generalizing them to a physical device. The baseline host also logged exceptions during media-query observer cleanup and batch-storage response handling. The scores above cover the asserted observations; they do not certify an error-free host.
 
@@ -37,9 +37,19 @@ The 24 definition, property and component-export checks remount their fixtures f
 
 Component-export checks read a public object, update its instance through an exported method, check that private data is absent from that object, and exercise null and undefined export results with both component selectors. All 24 expectations reproduced in both desktop environments. A temporary mutation of the filter-inserted value caused the filter data and method checks to fail.
 
+## Module and lifecycle cases
+
+The 26 module and lifecycle checks cover module identity and shared state, explicit file extensions, relative parent paths, replaced exports, callable and constructor exports, directory references, circular dependencies and repeated module failures. In both the 3.7.0 desktop baseline and the independent 3.7.12 simulator, a directory shorthand without an index filename is rejected. In a cycle, a peer can retain the initial exports object after the other module replaces `module.exports`.
+
+Navigation checks observe load/show/ready/hide/unload order, hidden-page state, multi-page return, redirect replacement, repeated route instances, failed navigation, query values and page recreation. Every case restores the starting page stack. The driver waits for the public `wx.onAppRouteDone` event (available since 3.5.5), so implementations running this group need route-completion event support. A successful navigation callback or onShow alone can precede the end of a native transition.
+
+All 26 expected results reproduced in the independent **3.7.12** simulator. The [observation record](fixtures/native-module-lifecycle.json) contains each expected and actual result. Twenty-five also reproduced in the existing 3.7.0 desktop host. The remaining query case expects percent-encoded values as observed in 3.7.12 and stays outside the 3.7.0 reproduced-expectation score.
+
+Temporary mutations of an exported module value and the fixture's hide event caused their corresponding checks to fail.
+
 ## Expectations awaiting confirmation
 
-The desktop baseline produced different results for 18 expected values. Keep the original expected and actual results when reporting these cases. They are excluded from the reproduced-expectation score.
+The desktop baseline produced different results for 19 expected values. Keep the original expected and actual results when reporting these cases. They are excluded from the reproduced-expectation score.
 
 | Area | Open observations |
 | --- | --- |
@@ -47,6 +57,7 @@ The desktop baseline produced different results for 18 expected values. Keep the
 | File descriptors and paths | Open, positional reads and writes, closed descriptors, truncate by descriptor or path, and the asynchronous file-tree sequence need an independent host check. |
 | File formats and digests | Brotli, ZIP entry reads and extraction, MD5, SHA-1 and SHA-256 require a host that returns file bytes and digests through the same public APIs. |
 | Other host calls | Batch storage, random-byte generation and synchronously saving a downloaded temporary file returned a different shape or no usable value. |
+| Navigation query | The 3.7.0 desktop host decodes URL query values before onLoad. The independent 3.7.12 simulator preserves their percent encoding. |
 
 ## Independent simulator cross-check
 
