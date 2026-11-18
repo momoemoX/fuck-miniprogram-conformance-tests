@@ -1,0 +1,16 @@
+var math = require('./arithmetic.wxs');
+function describe(value) {
+  return value.name + '/' + math.sum(value.items);
+}
+function copyProbe(value) {
+  value.items.push(7);
+  value.name = 'local';
+  return describe(value);
+}
+function normalize(value) {
+  return value.trim().toUpperCase().split('-').join('/');
+}
+function match(value) {
+  return getRegExp('^a[0-9]+$').test(value);
+}
+module.exports = {describe:describe, copyProbe:copyProbe, normalize:normalize, match:match};

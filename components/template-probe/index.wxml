@@ -1,0 +1,28 @@
+<import src="./templates.wxml"/>
+<wxs module="format" src="./format.wxs"/>
+<view>
+  <view wx:if="{{phase === 0}}" class="branch" data-value="zero"/>
+  <view wx:elif="{{phase === 1}}" class="branch" data-value="one"/>
+  <view wx:else class="branch" data-value="other"/>
+  <block wx:for="{{entries}}" wx:for-item="entry" wx:for-index="position" wx:key="code">
+    <view class="entry" data-value="{{position + ':' + entry.code + ':' + entry.label}}"/>
+  </block>
+  <block wx:for="{{groups}}" wx:for-item="group" wx:key="name">
+    <view wx:for="{{group.items}}" wx:for-index="offset" wx:key="*this" class="nested" data-value="{{group.name + ':' + offset + ':' + item}}"/>
+  </block>
+  <view wx:for="{{dictionary}}" class="dictionary" data-value="{{index + ':' + item}}"/>
+  <template is="{{templateName}}" data="{{...payload}}"/>
+  <include src="./included.wxml"/>
+  <view id="arithmetic" data-value="{{number * 3 + 2}}"/>
+  <view id="ternary" data-value="{{flag ? 'yes' : 'no'}}"/>
+  <view id="logical" data-value="{{empty || word}}"/>
+  <view id="not" data-value="{{!flag}}"/>
+  <view id="comparison" data-value="{{number > 3 && number < 9}}"/>
+  <view id="literal" data-value="{{'left}}right'}}"/>
+  <view id="missing" data-value="{{optional.missing.deep || 'fallback'}}"/>
+  <view id="direct-item" data-value="{{sample.items[1]}}"/>
+  <view id="description" data-value="{{format.describe(sample)}}"/>
+  <view id="copy" data-value="{{format.copyProbe(copySample)}}"/>
+  <view id="normalized" data-value="{{format.normalize(word)}}"/>
+  <view id="regex" data-value="{{format.match(word)}}"/>
+</view>

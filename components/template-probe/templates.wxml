@@ -1,0 +1,2 @@
+<template name="badge"><view class="badge" data-value="{{title + '/' + count}}"/></template>
+<template name="alternate"><view class="badge" data-value="{{count + ':' + title}}"/></template>

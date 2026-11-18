@@ -19,10 +19,12 @@ const { structure } = require("../../cases/structure");
 const { navigation } = require("../../cases/navigation");
 const { componentContract } = require("../../cases/component-contract");
 const { eventBoundary } = require("../../cases/event-boundary");
+const { templateContract } = require("../../cases/template-contract");
 const config = require("../../suite-config");
 
 Page({
   data: {
+    templateMounted: false,
     boundaryMounted: false,
     contractMounted: false,
     contractCount: 0,
@@ -94,6 +96,7 @@ Page({
     await structure(this, check);
     await componentContract(this, check);
     await eventBoundary(this, check);
+    await templateContract(this, check);
     await controls(this, check);
     await rendering(this, check);
     await routes(check);

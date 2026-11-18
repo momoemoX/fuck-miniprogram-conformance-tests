@@ -11,6 +11,7 @@
     "sharing-style": "/components/styles/sharing",
     "contract-probe": "/components/contract/index",
     "event-boundary": "/components/event-boundary/index",
-    "pure-probe": "/components/pure-state/index"
+    "pure-probe": "/components/pure-state/index",
+    "template-probe": "/components/template-probe/index"
   }
 }

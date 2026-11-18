@@ -19,6 +19,7 @@
     <view>Actual: {{item.actual}}</view>
   </view>
   <view aria-hidden="true" style="position:absolute;left:-200vw;top:0;width:100vw">
+    <template-probe wx:if="{{templateMounted}}" id="template-probe"/>
     <block wx:if="{{boundaryMounted}}">
       <view id="outer-boundary" bind:probe="boundaryAncestor">
         <event-boundary id="shell" nested="{{true}}" bind:probe="boundaryHost"/>

@@ -688,5 +688,94 @@ module.exports = {
   "pure.mixed-update": [
     9,
     12
+  ],
+  "template.branch-initial": [
+    "zero"
+  ],
+  "template.branch-elif": [
+    "one"
+  ],
+  "template.branch-else": [
+    "other"
+  ],
+  "template.branch-reentry": [
+    [
+      "one"
+    ],
+    [
+      "zero"
+    ]
+  ],
+  "template.loop-custom-names": [
+    "0:a:pear",
+    "1:b:plum"
+  ],
+  "template.loop-item-path": [
+    "0:a:lime",
+    "1:b:plum"
+  ],
+  "template.loop-keyed-reorder": [
+    "0:b:plum",
+    "1:a:pear"
+  ],
+  "template.loop-empty": [],
+  "template.loop-regrow": [
+    "0:c:fig"
+  ],
+  "template.loop-nested-scope": [
+    "north:0:2",
+    "north:1:3",
+    "south:0:5"
+  ],
+  "template.loop-nested-path": [
+    "north:0:2",
+    "north:1:8",
+    "south:0:5"
+  ],
+  "template.loop-object-keys": [
+    "left:4",
+    "right:9"
+  ],
+  "template.argument-scope": [
+    "inner/2"
+  ],
+  "template.argument-update": [
+    "renamed/2"
+  ],
+  "template.dynamic-selection": [
+    "2:inner"
+  ],
+  "template.include-data": "revised",
+  "expression.arithmetic": 14,
+  "expression.ternary": [
+    "no",
+    "yes"
+  ],
+  "expression.logical-fallback": "alpha",
+  "expression.boolean-negation": true,
+  "expression.comparisons": true,
+  "expression.braces-in-string": "left}}right",
+  "expression.absent-deep-path": "fallback",
+  "wxs.required-module": "seed/3",
+  "wxs.input-copy": [
+    "local/10",
+    {
+      "items": [
+        1,
+        2
+      ],
+      "name": "seed"
+    }
+  ],
+  "wxs.string-methods": "BLUE/GREEN",
+  "wxs.regexp-match": [
+    false,
+    true,
+    false
+  ],
+  "wxs.object-replacement": "seed/6",
+  "wxs.object-argument-path-update": [
+    5,
+    "seed/3"
   ]
 };
