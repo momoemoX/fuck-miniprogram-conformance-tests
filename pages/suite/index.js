@@ -20,10 +20,13 @@ const { navigation } = require("../../cases/navigation");
 const { componentContract } = require("../../cases/component-contract");
 const { eventBoundary } = require("../../cases/event-boundary");
 const { templateContract } = require("../../cases/template-contract");
+const { definitionContract } = require("../../cases/definition-contract");
 const config = require("../../suite-config");
 
 Page({
   data: {
+    definitionMounted: false,
+    definitionInputs: {},
     templateMounted: false,
     boundaryMounted: false,
     contractMounted: false,
@@ -97,6 +100,7 @@ Page({
     await componentContract(this, check);
     await eventBoundary(this, check);
     await templateContract(this, check);
+    await definitionContract(this, check);
     await controls(this, check);
     await rendering(this, check);
     await routes(check);

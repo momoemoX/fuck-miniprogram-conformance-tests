@@ -777,5 +777,67 @@ module.exports = {
   "wxs.object-argument-path-update": [
     5,
     "seed/3"
+  ],
+  "definition.behavior-diamond-order": [
+    "ancestry",
+    "left",
+    "right",
+    "component"
+  ],
+  "definition.behavior-diamond-merge": {
+    "ancestry": 1,
+    "left": 2,
+    "right": 3,
+    "own": 4
+  },
+  "definition.behavior-array-override": [
+    "own"
+  ],
+  "definition.filter-data": "inserted",
+  "definition.filter-method": "inserted",
+  "property.number-from-string": [
+    12,
+    "number"
+  ],
+  "property.string-from-number": [
+    "91",
+    "string"
+  ],
+  "property.boolean-from-string": [
+    true,
+    "boolean"
+  ],
+  "property.boolean-from-zero": false,
+  "property.optional-string": "flexible",
+  "property.optional-number": 17,
+  "property.any-object": {
+    "enabled": true
+  },
+  "property.any-false": false,
+  "property.any-array": [
+    3,
+    "x"
+  ],
+  "property.object-null": null,
+  "property.array-replacement": [
+    9
+  ],
+  "property.observer-derived": 14,
+  "property.rendered-coercion": [
+    12,
+    "91",
+    true
+  ],
+  "export.public-object": [
+    true,
+    3
+  ],
+  "export.hidden-instance-data": false,
+  "export.null-value": null,
+  "export.undefined-falls-back": 3,
+  "export.live-instance-state": 11,
+  "export.select-all": [
+    true,
+    3
   ]
 };

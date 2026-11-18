@@ -1,0 +1,1 @@
+<view id="typed" data-number="{{quantity}}" data-text="{{text}}" data-flag="{{flag}}"/>

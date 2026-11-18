@@ -19,6 +19,14 @@
     <view>Actual: {{item.actual}}</view>
   </view>
   <view aria-hidden="true" style="position:absolute;left:-200vw;top:0;width:100vw">
+    <block wx:if="{{definitionMounted}}">
+      <definition-probe id="definition"
+        quantity="{{definitionInputs.quantity}}" text="{{definitionInputs.text}}" flag="{{definitionInputs.flag}}"
+        object="{{definitionInputs.object}}" array="{{definitionInputs.array}}" flexible="{{definitionInputs.flexible}}" free="{{definitionInputs.free}}"/>
+      <export-probe id="export-object" class="public-export" kind="object"/>
+      <export-probe id="export-null" class="public-export" kind="null"/>
+      <export-probe id="export-undefined" kind="undefined"/>
+    </block>
     <template-probe wx:if="{{templateMounted}}" id="template-probe"/>
     <block wx:if="{{boundaryMounted}}">
       <view id="outer-boundary" bind:probe="boundaryAncestor">

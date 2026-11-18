@@ -4,14 +4,14 @@
 
 | Group | Cases | Evidence collected |
 | --- | ---: | --- |
-| Core | 234 | App, page and component state, lifetimes, behaviors, component relations, generic substitution, observers, event propagation, templates, WXS, slots, styles, built-in control properties, selectors, navigation, tab caching, redirect replacement, subpackages, worker messages, system and UI callbacks, storage, file operations, codecs, archives, canvas and audio context identity. |
+| Core | 258 | App, page and component state, lifetimes, behaviors, component relations, generic substitution, observers, event propagation, templates, WXS, slots, styles, built-in control properties, selectors, navigation, tab caching, redirect replacement, subpackages, worker messages, system and UI callbacks, storage, file operations, codecs, archives, canvas and audio context identity. |
 | HTTP fixture | 12 | Request parameters, JSON and binary bodies, response headers, HTTP errors, cancellation, multipart upload, file download and saved-file lifecycle. |
 | WebSocket fixture | 2 | Text and binary round trips, followed by a normal close. |
 | Interactive input | 6 | Input detail, submitted text, radio, checkbox and switch values, plus long-press ordering. |
 | Physical device | 9 | Location, accelerometer, compass, gyroscope, device motion, battery, brightness, Bluetooth adapter state and Wi-Fi association. |
 | Hosted services | 3 | Test app identity, nonempty login code and authorization settings shape. |
 
-Core, HTTP and WebSocket cases ran on two desktop implementations. In the host configured for SDK 3.7.0, 230 of the 248 expected values were reproduced. The comparison runtime matched 218 of those 230. Both desktop environments passed the six interactive input checks through UI automation. Physical-device and hosted-service checks still require execution in their respective environments.
+Core, HTTP and WebSocket cases ran on two desktop implementations. In the host configured for SDK 3.7.0, 254 of the 272 expected values were reproduced. The comparison runtime matched 242 of those 254. Both desktop environments passed the six interactive input checks through UI automation. Physical-device and hosted-service checks still require execution in their respective environments.
 
 The reference table records the case ID and the expected value from each reproduced case. Changing an expected value removes its reproduced status at run time until it has been checked again. The desktop host supplies native services for files, networking and devices. Host-dependent outcomes require independent confirmation before generalizing them to a physical device. The baseline host also logged exceptions during media-query observer cleanup and batch-storage response handling. The scores above cover the asserted observations; they do not certify an error-free host.
 
@@ -30,6 +30,12 @@ The template fixture is recreated for each of 29 checks. The cases cover if/elif
 In the 3.7.0 desktop baseline, setting `sample.items[1]` from 2 to 5 updates a direct field binding to 5, while the WXS call receiving the whole `sample` object retains its earlier `seed/3` output. Replacing the whole object produces `seed/6`. Both observations are asserted separately. The comparison implementation recalculates the WXS call for the path update, which is reported as a compatibility difference.
 
 All 29 new expected results were reproduced in the baseline. The comparison implementation matched 28. A temporary change to WXS uppercase normalization was also checked against the string-method case.
+
+## Definition and property cases
+
+The 24 definition, property and component-export checks remount their fixtures for each operation. They cover diamond-shaped behavior inheritance, lifecycle order, object data merging and array replacement, and definition filters that extend component data and methods. Property checks exercise parent-to-child number, string and boolean conversion, optional types, unrestricted values, null objects, replacement arrays, derived observer data and rendered property values.
+
+Component-export checks read a public object, update its instance through an exported method, check that private data is absent from that object, and exercise null and undefined export results with both component selectors. All 24 expectations reproduced in both desktop environments. A temporary mutation of the filter-inserted value caused the filter data and method checks to fail.
 
 ## Expectations awaiting confirmation
 

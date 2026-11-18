@@ -12,6 +12,8 @@
     "contract-probe": "/components/contract/index",
     "event-boundary": "/components/event-boundary/index",
     "pure-probe": "/components/pure-state/index",
-    "template-probe": "/components/template-probe/index"
+    "template-probe": "/components/template-probe/index",
+    "definition-probe": "/components/definition-probe/index",
+    "export-probe": "/components/export-probe/index"
   }
 }
