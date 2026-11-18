@@ -8,7 +8,7 @@ A black-box test suite for independent implementations of the Mini Program base 
 2. Tap **Run suite**. The navigation cases open another page and return automatically.
 3. Read the expected and actual values for each case. **Show JSON report** exposes the case IDs, enabled profiles, reported SDK version and outcomes. Relaunch the project for another run.
 
-The default run contains **358 automatic cases**. With both network fixtures enabled, it contains **372**. The page also reports a score restricted to expectations reproduced in the desktop baseline. Cases pending confirmation remain visible. An interrupted run has no final score.
+The default run contains **363 automatic cases**. With both network fixtures enabled, it contains **377**. The page also reports a score restricted to expectations reproduced in the desktop baseline. Cases pending confirmation remain visible. An interrupted run has no final score.
 
 ## Optional network fixtures
 
@@ -31,7 +31,7 @@ Set `fixtureUrl` and `socketUrl` in `suite-config.js` to addresses reachable fro
 
 | Entry | What it checks |
 | --- | --- |
-| Run input and gesture cases | Sixteen checks for real text entry, caret movement, confirm key, form submission including a custom form-field component, form reset, native dialog and action sheet, control values, event delivery between controls and views, and long press. Follow the instructions on the page. |
+| Run input and gesture cases | Seventeen checks for real text entry, caret movement, selected text range, confirm key, form submission including a custom form-field component, form reset, native dialog and action sheet, control values, event delivery between controls and views, and long press. Follow the instructions on the page. |
 | Physical device cases | Nine checks for location, sensors, wireless adapters, battery and brightness. Use a test device connected to Wi-Fi, with Bluetooth enabled and the applicable permissions granted. |
 | Hosted service cases | Three checks for account identity, login and settings. Configure a test app ID in the project and set the same value in `suite-config.js`. Login codes are discarded locally. |
 | Inspect API availability | Compare public member names and value types with the desktop baseline. Inspect the broader interface catalog and missing names. |

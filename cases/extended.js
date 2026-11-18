@@ -158,6 +158,26 @@ async function extended(page, check) {
       await new Promise((resolve) => setTimeout(resolve, 300));
     }
   });
+  await check("image.info-from-canvas", [true, true], async () => {
+    const exported = await call(wx, "canvasToTempFilePath", { canvasId: "swatch", fileType: "png" });
+    const info = await call(wx, "getImageInfo", { src: exported.tempFilePath });
+    return [
+      typeof info.width === "number" && info.width > 0,
+      typeof info.height === "number" && info.height > 0,
+    ];
+  });
+  await check("canvas.offscreen-pixels", [255, 0, 0, 255], async () => {
+    const canvas = wx.createOffscreenCanvas({ type: "2d", width: 2, height: 2 });
+    const context = canvas.getContext("2d");
+    context.fillStyle = "rgb(255, 0, 0)";
+    context.fillRect(0, 0, 2, 2);
+    const data = context.getImageData(0, 0, 1, 1).data;
+    return [data[0], data[1], data[2], data[3]];
+  });
+  await check("system.api-category", [true], () => {
+    const category = wx.getApiCategory();
+    return [typeof category === "string" && category.length > 0];
+  });
   await check("storage.missing-sync", "", () => wx.getStorageSync(uniqueKey()));
   await check("storage.info-sync-shape", [true, true, true], () => {
     const key = uniqueKey();

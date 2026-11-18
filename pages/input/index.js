@@ -19,6 +19,7 @@ const expected = {
   "form.reset-defaults": { text: "", enabled: false, parts: [], color: "", amount: "" },
   "ui.modal-confirm": true,
   "ui.actionsheet-select": 0,
+  "input.selected-range": { start: 2, end: 2 },
 };
 
 Page({
@@ -46,6 +47,11 @@ Page({
   },
   cursor(event) {
     this.lastCursorDetail = { value: event.detail.value, cursor: event.detail.cursor };
+    wx.getSelectedTextRange({
+      success: (result) => {
+        this.lastRange = { start: result.start, end: result.end };
+      },
+    });
   },
   transform(event) {
     this.lastTransformDetail = event.detail.value;
@@ -95,6 +101,9 @@ Page({
   },
   keepExplicit() {
     this.setData({ keepValue: "explicit" });
+  },
+  recordCursorRange() {
+    this.record("input.selected-range", this.lastRange);
   },
   showModal() {
     wx.showModal({

@@ -118,6 +118,19 @@ async function system(check) {
     const hide = await call(wx, "hideToast");
     return [show.errMsg, hide.errMsg];
   });
+  await check("ui.tabbar-callbacks", ["ok", "ok"], async () => {
+    const badge = await call(wx, "setTabBarBadge", { index: 0, text: "1" });
+    const remove = await call(wx, "removeTabBarBadge", { index: 0 });
+    return [badge.errMsg.split(":")[1], remove.errMsg.split(":")[1]];
+  });
+  await check("ui.background-style", ["ok", "ok"], async () => {
+    const color = await call(wx, "setBackgroundColor", {
+      backgroundColorTop: "#ffffff",
+      backgroundColorBottom: "#ffffff",
+    });
+    const style = await call(wx, "setBackgroundTextStyle", { textStyle: "light" });
+    return [color.errMsg.split(":")[1], style.errMsg.split(":")[1]];
+  });
   await check("ui.scroll-top", true, async () => {
     await call(wx, "pageScrollTo", { scrollTop: 0, duration: 0 });
     const position = await new Promise((resolve) =>

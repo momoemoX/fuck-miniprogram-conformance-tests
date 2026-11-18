@@ -1290,5 +1290,26 @@ module.exports = {
   ],
   "contract.behavior-property-observer": [
     "behavior-prop"
+  ],
+  "image.info-from-canvas": [
+    true,
+    true
+  ],
+  "canvas.offscreen-pixels": [
+    255,
+    0,
+    0,
+    255
+  ],
+  "system.api-category": [
+    true
+  ],
+  "ui.tabbar-callbacks": [
+    "ok",
+    "ok"
+  ],
+  "ui.background-style": [
+    "ok",
+    "ok"
   ]
 };
