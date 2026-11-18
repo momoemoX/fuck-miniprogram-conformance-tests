@@ -1172,5 +1172,63 @@ module.exports = {
   "input.value-binding-sync": [
     "fresh",
     "fresh"
+  ],
+  "error.component-error-lifetime": [
+    true,
+    true
+  ],
+  "error.app-onerror-hook": [
+    true
+  ],
+  "error.app-unhandledrejection-hook": [
+    true
+  ],
+  "component.page-lifetimes": [
+    "hide",
+    "show"
+  ],
+  "slot.multi-instance-order": [
+    "first",
+    "second"
+  ],
+  "scroll.bindscroll-detail": [
+    30,
+    220
+  ],
+  "scroll.into-view-target": [
+    170
+  ],
+  "observer.intersection-toggle": [
+    1,
+    0,
+    0
+  ],
+  "storage.info-sync-shape": [
+    true,
+    true,
+    true
+  ],
+  "worker.message-shapes": [
+    {
+      "object": {
+        "a": 1,
+        "nested": [
+          2,
+          {
+            "b": "x"
+          }
+        ]
+      },
+      "list": [
+        3,
+        "y",
+        true,
+        null
+      ]
+    }
+  ],
+  "worker.terminate-stops": [
+    true,
+    false
   ]
 };

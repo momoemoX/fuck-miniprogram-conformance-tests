@@ -17,6 +17,7 @@
     "export-probe": "/components/export-probe/index",
     "reuse-list": "/components/reuse-list/index",
     "error-probe": "/components/error-probe/index",
-    "wxs-probe": "/components/wxs-probe/index"
+    "wxs-probe": "/components/wxs-probe/index",
+    "page-probe": "/components/page-probe/index"
   }
 }

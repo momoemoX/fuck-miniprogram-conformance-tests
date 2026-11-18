@@ -1,1 +1,5 @@
-{}
+{
+  "usingComponents": {
+    "form-field-probe": "/components/form-field-probe/index"
+  }
+}

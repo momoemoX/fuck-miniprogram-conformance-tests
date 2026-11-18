@@ -4,6 +4,7 @@ const expected = {
   "form.radio": "red",
   "form.checkbox": ["peel"],
   "form.switch": true,
+  "form.custom-field": "custom-value",
   "touch.longpress": ["start", "hold", "end"],
   "input.cursor-insert": { value: "lXime", cursor: 2 },
   // Observed on the 3.7.0 browser host: a bindinput return value does not alter the
@@ -58,11 +59,13 @@ Page({
   },
   submit(event) {
     const values = event.detail.value;
+
     this.record("input.detail", this.lastInputDetail);
     this.record("form.text", values.fruit);
     this.record("form.radio", values.color);
     this.record("form.checkbox", values.parts);
     this.record("form.switch", values.enabled);
+    this.record("form.custom-field", values.customField);
   },
   submitReset(event) {
     this.record("form.reset-defaults", event.detail.value);

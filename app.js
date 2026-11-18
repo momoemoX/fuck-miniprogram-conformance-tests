@@ -25,4 +25,12 @@ App({
   onPageNotFound() {
     this.pageNotFoundEvents.push("not-found");
   },
+  onError(event) {
+    (this.appErrors = this.appErrors || []).push(
+      event && typeof event === "object" ? String(event.message || event) : String(event),
+    );
+  },
+  onUnhandledRejection(event) {
+    (this.appRejections = this.appRejections || []).push(String(event && event.reason));
+  },
 });

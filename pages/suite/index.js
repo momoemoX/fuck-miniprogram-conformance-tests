@@ -28,6 +28,9 @@ const { errorContract } = require("../../cases/error-contract");
 const { appContract } = require("../../cases/app-contract");
 const { wxsState } = require("../../cases/wxs-state");
 const { inputContract } = require("../../cases/input-contract");
+const { componentExtra } = require("../../cases/component-extra");
+const { scrollContract } = require("../../cases/scroll-contract");
+const { observerContract } = require("../../cases/observer-contract");
 const config = require("../../suite-config");
 
 Page({
@@ -41,6 +44,12 @@ Page({
     focusB: false,
     focusValue: "",
     boundInput: "",
+    plpMounted: false,
+    multiSlotMounted: false,
+    multiSlotItems: [],
+    scrollTopValue: 0,
+    scrollIntoTarget: "",
+    watchedTop: "1500px",
     definitionMounted: false,
     definitionInputs: {},
     templateMounted: false,
@@ -116,6 +125,9 @@ Page({
     await lifecycleContract(check);
     await wxsState(this, check);
     await inputContract(this, check);
+    await componentExtra(this, check);
+    await scrollContract(this, check);
+    await observerContract(this, check);
     await framework(this, check);
     await composition(this, check);
     await structure(this, check);
@@ -212,6 +224,18 @@ Page({
     if (this.inputTrace.length >= length) return Promise.resolve();
     if (!this.inputWaiters) this.inputWaiters = [];
     return new Promise((resolve) => this.inputWaiters.push({ length, resolve }));
+  },
+
+  getScrollEvents() {
+    return this.scrollEvents || [];
+  },
+
+  onScrollFixture(event) {
+    if (!this.scrollEvents) this.scrollEvents = [];
+    this.scrollEvents.push({
+      top: Math.round(event.detail.scrollTop),
+      height: Math.round(event.detail.scrollHeight),
+    });
   },
 
   boundaryHost(event) {

@@ -5,6 +5,7 @@
     <radio-group name="color"><label><radio value="red"/>Red</label></radio-group>
     <checkbox-group name="parts"><label><checkbox value="peel"/>Peel</label></checkbox-group>
     <switch name="enabled"/>
+    <form-field-probe/>
     <button form-type="submit">Check form</button>
   </form>
   <view>Press and hold the button below until it records a long press, then release.</view>

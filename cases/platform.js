@@ -69,5 +69,48 @@ async function platform(check) {
         worker.postMessage({ numbers: [1, 2, 3], label: "seed" });
       }),
   );
+  await check(
+    "worker.message-shapes",
+    [{ object: { a: 1, nested: [2, { b: "x" }] }, list: [3, "y", true, null] }],
+    () =>
+      new Promise((resolve, reject) => {
+        const worker = wx.createWorker("workers/calculator.js");
+        const timeout = setTimeout(() => {
+          worker.terminate();
+          reject(new Error("Worker response timed out"));
+        }, 4000);
+        worker.onMessage((message) => {
+          clearTimeout(timeout);
+          worker.terminate();
+          resolve([message.shapes]);
+        });
+        worker.postMessage({
+          shapes: { object: { a: 1, nested: [2, { b: "x" }] }, list: [3, "y", true, null] },
+        });
+      }),
+  );
+  await check("worker.terminate-stops", [true, false], async () => {
+    const worker = wx.createWorker("workers/calculator.js");
+    try {
+      const first = await new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => reject(new Error("Worker response timed out")), 4000);
+        worker.onMessage((message) => {
+          clearTimeout(timeout);
+          resolve(message);
+        });
+        worker.postMessage({ numbers: [1], label: "first" });
+      });
+      worker.terminate();
+      let after = false;
+      worker.onMessage(() => {
+        after = true;
+      });
+      worker.postMessage({ numbers: [2], label: "second" });
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      return [first[1] === "first", after];
+    } finally {
+      worker.terminate();
+    }
+  });
 }
 module.exports = { platform };

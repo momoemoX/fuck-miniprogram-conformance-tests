@@ -138,6 +138,52 @@ async function errorContract(page, check) {
     }
   });
 
+  await isolated("error.component-error-lifetime", [true, true], async (probe) => {
+    probe.errorCapture = [];
+    const watch = watchError("suite-observer-marker");
+    try {
+      await update(probe, { wired: "throw-observer" });
+      const message = await watch.seen();
+      const captured = probe.errorCapture.some(
+        (text) => text.indexOf("suite-observer-marker") !== -1,
+      );
+      return [captured, message.indexOf("suite-observer-marker") !== -1];
+    } finally {
+      watch.stop();
+    }
+  });
+
+  await isolated("error.app-onerror-hook", [true], async (probe) => {
+    const app = getApp();
+    app.appErrors = [];
+    const watch = watchError("suite-observer-marker");
+    try {
+      await update(probe, { wired: "throw-observer" });
+      await watch.seen();
+      return [app.appErrors.some((text) => text.indexOf("suite-observer-marker") !== -1)];
+    } finally {
+      watch.stop();
+    }
+  });
+
+  await check("error.app-unhandledrejection-hook", [true], async () => {
+    const app = getApp();
+    app.appRejections = [];
+    const delivered = new Promise((resolve) => {
+      const listener = (event) => {
+        if (String(event.reason).indexOf("suite-app-reject-marker") !== -1) resolve();
+      };
+      wx.onUnhandledRejection(listener);
+      Promise.reject("suite-app-reject-marker");
+      setTimeout(() => resolve(), 3000);
+      setTimeout(() => wx.offUnhandledRejection(listener), 3200);
+    });
+    await delivered;
+    return [
+      app.appRejections.some((reason) => reason.indexOf("suite-app-reject-marker") !== -1),
+    ];
+  });
+
   await check("error.console-not-onerror", [], async () => {
     const watch = watchError("suite-console-marker");
     try {

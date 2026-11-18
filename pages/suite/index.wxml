@@ -29,6 +29,11 @@
     </block>
     <wxs-probe wx:if="{{wxsMounted}}" id="wxs-probe-a" mode="{{wxsProbeMode}}"/>
     <wxs-probe wx:if="{{wxsMounted}}" id="wxs-probe-b" mode="read"/>
+    <page-probe wx:if="{{plpMounted}}" id="page-probe"/>
+    <test-panel wx:if="{{multiSlotMounted}}" id="multi-slot">
+      <view wx:for="{{multiSlotItems}}" wx:key="*this" slot="lead" class="multi-slot-item" data-value="{{item}}"/>
+    </test-panel>
+
     <block wx:if="{{definitionMounted}}">
       <definition-probe id="definition"
         quantity="{{definitionInputs.quantity}}" text="{{definitionInputs.text}}" flag="{{definitionInputs.flag}}"
@@ -104,4 +109,9 @@
   <input id="focus-input-b" focus="{{focusB}}" bindfocus="onFocusB" bindblur="onBlurB"/>
   <input id="bound-input" value="{{boundInput}}"/>
   </view>
+  <scroll-view id="scroll-fixture" scroll-y scroll-top="{{scrollTopValue}}" scroll-into-view="{{scrollIntoTarget}}" bindscroll="onScrollFixture" style="height:50px;width:120px">
+    <view style="height:200px;width:60px" id="scroll-inner"/>
+    <view id="scroll-target" style="height:20px"/>
+  </scroll-view>
+  <view id="watched" style="position:absolute;top:{{watchedTop}};left:0;width:60px;height:20px"/>
 </view>

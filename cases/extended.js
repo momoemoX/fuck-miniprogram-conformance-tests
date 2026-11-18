@@ -107,5 +107,19 @@ async function extended(page, check) {
     return [plan.export().actions.length, plan.export().actions.length];
   });
   await check("storage.missing-sync", "", () => wx.getStorageSync(uniqueKey()));
+  await check("storage.info-sync-shape", [true, true, true], () => {
+    const key = uniqueKey();
+    try {
+      wx.setStorageSync(key, "info-marker");
+      const info = wx.getStorageInfoSync();
+      return [
+        Array.isArray(info.keys) && info.keys.indexOf(key) !== -1,
+        typeof info.currentSize === "number" && info.currentSize >= 0,
+        info.limitSize === undefined || info.limitSize >= info.currentSize,
+      ];
+    } finally {
+      wx.removeStorageSync(key);
+    }
+  });
 }
 module.exports = { extended };
