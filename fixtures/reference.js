@@ -1064,5 +1064,113 @@ module.exports = {
     true,
     "-",
     true
+  ],
+  "error.observer-recovers": [
+    "throw-observer",
+    true,
+    true
+  ],
+  "error.event-handler-continues": [
+    [
+      "leaf",
+      "inner",
+      "outer"
+    ],
+    [
+      "leaf",
+      "inner",
+      "outer"
+    ],
+    true
+  ],
+  "error.detached-recovers": [
+    true,
+    true
+  ],
+  "error.api-callback-complete": [
+    [
+      "success",
+      "complete"
+    ],
+    true
+  ],
+  "error.console-not-onerror": [],
+  "error.unhandled-rejection": [
+    "suite-reject-marker",
+    true
+  ],
+  "app.launch-order": [
+    "launch",
+    "show",
+    "page.load"
+  ],
+  "app.launch-pages-empty": 0,
+  "app.launch-options-shape": {
+    "path": "string",
+    "query": "object",
+    "scene": "number",
+    "referrerInfo": "object"
+  },
+  "app.enter-options-path": [
+    "pages/suite/index",
+    "pages/suite/index"
+  ],
+  "app.foreground-stable-during-navigation": [
+    [],
+    [],
+    0,
+    0
+  ],
+  "app.page-not-found-not-fired": [],
+  "app.identity-across-pages": [
+    true,
+    41
+  ],
+  "wxs.state.same-template-shared": [
+    4,
+    4
+  ],
+  "wxs.state.instance-isolated": [
+    4,
+    0
+  ],
+  "wxs.state.persist-across-renders": [
+    3,
+    3,
+    3
+  ],
+  "wxs.state.remount-fresh": [
+    9,
+    0
+  ],
+  "wxs.state.page-component-isolated": [
+    6,
+    0
+  ],
+  "wxs.state.page-fresh-and-retained": [
+    0,
+    7,
+    7
+  ],
+  "input.focus-and-blur-events": [
+    [
+      "focus",
+      true,
+      true
+    ],
+    [
+      "focus",
+      true,
+      true
+    ],
+    [
+      "blur",
+      false,
+      true
+    ]
+  ],
+  "input.value-binding-sync": [
+    "fresh",
+    "fresh"
   ]
 };

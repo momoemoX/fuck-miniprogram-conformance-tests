@@ -1,2 +1,4 @@
 <view>Lifecycle fixture</view>
 <view>{{counter}}</view>
+<wxs module="nextCounter" src="../../fixtures/counter.wxs"/>
+<view id="next-counter" data-value="{{nextCounter.value(0)}}"/>

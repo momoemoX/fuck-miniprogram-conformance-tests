@@ -24,11 +24,23 @@ const { definitionContract } = require("../../cases/definition-contract");
 const { moduleContract } = require("../../cases/module-contract");
 const { lifecycleContract } = require("../../cases/lifecycle-contract");
 const { reuseContract } = require("../../cases/reuse-contract");
+const { errorContract } = require("../../cases/error-contract");
+const { appContract } = require("../../cases/app-contract");
+const { wxsState } = require("../../cases/wxs-state");
+const { inputContract } = require("../../cases/input-contract");
 const config = require("../../suite-config");
 
 Page({
   data: {
     reuseMounted: false,
+    errorMounted: false,
+    wxsMounted: false,
+    wxsProbeMode: "write",
+    wxsPageStep: 0,
+    focusA: false,
+    focusB: false,
+    focusValue: "",
+    boundInput: "",
     definitionMounted: false,
     definitionInputs: {},
     templateMounted: false,
@@ -83,7 +95,7 @@ Page({
   async run() {
     if (this.data.started) return;
     this.setData({ started: true, summary: "Running" });
-    const report = makeReport();
+    const report = makeReport(this.selectedIds);
     const { check } = report;
 
     await check("component.instance-data", [["mint"], []], () => {
@@ -98,8 +110,12 @@ Page({
     await check("channel.queued-order", ["oak", "elm"], channelOrder);
 
     await subscriptions(check);
+    await errorContract(this, check);
+    await appContract(check);
     await moduleContract(check);
     await lifecycleContract(check);
+    await wxsState(this, check);
+    await inputContract(this, check);
     await framework(this, check);
     await composition(this, check);
     await structure(this, check);
@@ -140,6 +156,62 @@ Page({
       summary: report.summary(),
       baselineScore: report.baselineScore(),
     });
+  },
+
+  onLoad() {
+    const app = getApp();
+    if (app && app.bootTrace) app.bootTrace.push("page.load");
+  },
+
+  // Diagnostic hook: runs only the listed case IDs. Used to re-check pending
+  // expectations in a specific implementation without a full run.
+  async runSelected(ids) {
+    this.selectedIds = ids;
+    await this.run();
+  },
+
+  boomLeaf() {
+    if (this.errorTrace) this.errorTrace.push("leaf");
+  },
+  boomInner() {
+    if (this.errorTrace) this.errorTrace.push("inner");
+    if (this.throwInnerBoom) throw new Error("suite-boom-marker");
+  },
+  boomOuter() {
+    if (this.errorTrace) this.errorTrace.push("outer");
+  },
+
+  onFocusA(event) {
+    this.pushInputTrace(["focus", typeof event.detail.height === "number", typeof event.detail.value === "string"]);
+  },
+  onBlurA(event) {
+    this.pushInputTrace(["blur", typeof event.detail.height === "number", typeof event.detail.value === "string"]);
+  },
+  onFocusB(event) {
+    this.pushInputTrace(["focus", typeof event.detail.height === "number", typeof event.detail.value === "string"]);
+  },
+  onBlurB(event) {
+    this.pushInputTrace(["blur", typeof event.detail.height === "number", typeof event.detail.value === "string"]);
+  },
+  pushInputTrace(entry) {
+    if (!this.inputTrace) this.inputTrace = [];
+    this.inputTrace.push(entry);
+    if (this.inputWaiters) {
+      const length = this.inputTrace.length;
+      this.inputWaiters = this.inputWaiters.filter((waiter) => {
+        if (length >= waiter.length) {
+          waiter.resolve();
+          return false;
+        }
+        return true;
+      });
+    }
+  },
+  waitForInputTrace(length) {
+    if (!this.inputTrace) this.inputTrace = [];
+    if (this.inputTrace.length >= length) return Promise.resolve();
+    if (!this.inputWaiters) this.inputWaiters = [];
+    return new Promise((resolve) => this.inputWaiters.push({ length, resolve }));
   },
 
   boundaryHost(event) {

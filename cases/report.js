@@ -22,9 +22,10 @@ function matches(actual, expected) {
   );
 }
 
-function makeReport() {
+function makeReport(filter) {
   const results = [];
   async function check(id, expected, exercise) {
+    if (filter && filter.indexOf(id) === -1) return;
     let actual,
       passed = false,
       timer;

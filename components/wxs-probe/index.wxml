@@ -1,0 +1,4 @@
+<wxs module="shared" src="../../fixtures/counter.wxs"/>
+<wxs module="mirror" src="../../fixtures/counter.wxs"/>
+<view wx:if="{{mode === 'write'}}" id="probe-write" data-value="{{shared.setValue(step)}}"/>
+<view id="probe-read" data-value="{{mirror.value(refresh)}}"/>

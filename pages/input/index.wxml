@@ -1,7 +1,7 @@
 <view>
   <view>Enter lime, select Red, check Peel, turn the switch on, then submit.</view>
   <form bindsubmit="submit">
-    <input name="fruit" placeholder="Fruit" bindinput="input"/>
+    <input id="typed-input" name="fruit" placeholder="Fruit" bindinput="input"/>
     <radio-group name="color"><label><radio value="red"/>Red</label></radio-group>
     <checkbox-group name="parts"><label><checkbox value="peel"/>Peel</label></checkbox-group>
     <switch name="enabled"/>
@@ -9,6 +9,28 @@
   </form>
   <view>Press and hold the button below until it records a long press, then release.</view>
   <button bindtouchstart="start" bindlongpress="hold" bindtouchend="end">Hold</button>
+  <view>Automation-only fields: type, move the caret, press Enter, click reset, then record.</view>
+  <input id="cursor-input" maxlength="-1" bindinput="cursor"/>
+  <input id="transform-input" maxlength="-1" bindinput="transform"/>
+  <input id="confirm-input" maxlength="-1" bindconfirm="confirm"/>
+  <input id="zero-input" maxlength="0" bindinput="zero"/>
+  <input id="keep-input" value="{{keepValue}}" maxlength="-1"/>
+  <view bindinput="bubbleParent"><input id="bubble-input" maxlength="-1"/></view>
+  <form bindsubmit="submitReset">
+    <input name="text" value="seed"/>
+    <switch name="enabled" checked="{{true}}"/>
+    <checkbox-group name="parts">
+      <label><checkbox value="a" checked="{{true}}"/></label>
+      <label><checkbox value="b"/></label>
+    </checkbox-group>
+    <radio-group name="color">
+      <label><radio value="r1" checked="{{true}}"/></label>
+      <label><radio value="r2"/></label>
+    </radio-group>
+    <slider name="amount" value="25" min="0" max="100"/>
+    <button form-type="reset">Reset defaults</button>
+    <button form-type="submit">Submit reset form</button>
+  </form>
   <view wx:for="{{rows}}" wx:key="id">
     <view>{{item.id}}: {{item.status}}</view><view>{{item.detail}}</view>
   </view>

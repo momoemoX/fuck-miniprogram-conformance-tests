@@ -15,6 +15,8 @@
     "template-probe": "/components/template-probe/index",
     "definition-probe": "/components/definition-probe/index",
     "export-probe": "/components/export-probe/index",
-    "reuse-list": "/components/reuse-list/index"
+    "reuse-list": "/components/reuse-list/index",
+    "error-probe": "/components/error-probe/index",
+    "wxs-probe": "/components/wxs-probe/index"
   }
 }

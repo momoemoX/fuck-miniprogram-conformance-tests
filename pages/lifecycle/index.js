@@ -3,6 +3,8 @@ Page({
   onLoad(options) {
     this.suiteName = options.name;
     this.suiteOptions = options;
+    const app = getApp();
+    this.appToken = app ? app.crossToken : null;
     this.record("load");
   },
   onShow() {

@@ -20,6 +20,15 @@
   </view>
   <view aria-hidden="true" style="position:absolute;left:-200vw;top:0;width:100vw">
     <reuse-list wx:if="{{reuseMounted}}" id="reuse-list"/>
+    <block wx:if="{{errorMounted}}">
+      <view id="error-bubble-outer" bind:boom="boomOuter">
+        <view id="error-bubble-inner" bind:boom="boomInner">
+          <error-probe id="error-probe" bind:boom="boomLeaf"/>
+        </view>
+      </view>
+    </block>
+    <wxs-probe wx:if="{{wxsMounted}}" id="wxs-probe-a" mode="{{wxsProbeMode}}"/>
+    <wxs-probe wx:if="{{wxsMounted}}" id="wxs-probe-b" mode="read"/>
     <block wx:if="{{definitionMounted}}">
       <definition-probe id="definition"
         quantity="{{definitionInputs.quantity}}" text="{{definitionInputs.text}}" flag="{{definitionInputs.flag}}"
@@ -89,5 +98,10 @@
   <view id="inline" data-value="{{utils.upper('alpha')}}"/>
   <view id="styled" class="swatch {{wide ? 'wide' : ''}}"/>
   <canvas canvas-id="swatch" style="width:8px;height:8px"/>
+  <wxs module="pageCounter" src="../../fixtures/counter.wxs"/>
+  <view id="page-counter" data-value="{{pageCounter.setValue(wxsPageStep)}}"/>
+  <input id="focus-input-a" focus="{{focusA}}" value="{{focusValue}}" bindfocus="onFocusA" bindblur="onBlurA"/>
+  <input id="focus-input-b" focus="{{focusB}}" bindfocus="onFocusB" bindblur="onBlurB"/>
+  <input id="bound-input" value="{{boundInput}}"/>
   </view>
 </view>

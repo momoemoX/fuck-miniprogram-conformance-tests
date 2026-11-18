@@ -1,0 +1,12 @@
+var counter = 0;
+
+function setValue(next) {
+  counter = next;
+  return counter;
+}
+
+function value(tag) {
+  return counter;
+}
+
+module.exports = { setValue: setValue, value: value };
