@@ -30,7 +30,7 @@ The desktop baseline produced different results for 18 expected values. Keep the
 
 The desktop host reported SDK **3.7.0**. Among the public declaration names checked, its `wx` object exposed **455 members** (451 functions and four objects), and its file-system manager exposed **45 methods**. The availability page checks each of those names and value types. A stub can pass an availability check. Only a behavioral case contributes to a behavioral score.
 
-The broader source catalog contains 1,261 member names across 74 interfaces with declared methods. It includes names outside the observed desktop surface. Nested interfaces that require hardware, a user gesture or a service session are listed without constructing them for inventory. The names were extracted from this [pinned public declaration file](https://github.com/wechat-miniprogram/api-typings/blob/e5dc50ccea71e7999a8aa8a942a6f68045e141ca/types/wx/lib.wx.api.d.ts).
+The [broader source catalog](https://github.com/wechat-miniprogram/api-typings/blob/e5dc50ccea71e7999a8aa8a942a6f68045e141ca/types/wx/lib.wx.api.d.ts) contains 1,261 member names across 74 interfaces with declared methods. It includes names outside the observed desktop surface. Nested interfaces that require hardware, a user gesture or a service session are listed without constructing them for inventory.
 
 Run `node tools/coverage.cjs` for direct source references and the list of baseline names without one. Add `--json` for the per-member file map. This is a lexical inventory. A method can be referenced only during setup, accessed dynamically, or reached only after an earlier operation succeeds. Use runtime case reports for behavioral evidence.
 
