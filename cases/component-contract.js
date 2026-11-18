@@ -124,6 +124,11 @@ async function componentContract(page, check) {
     ["base-attached", "nested-attached", "own-attached"],
     (first) => first.sequence.slice(),
   );
+  await isolated("contract.behavior-property-observer", ["behavior-prop"], async (first) => {
+    first.blendPropTrace = [];
+    await update(first, { blendProp: 9 });
+    return first.blendPropTrace.slice();
+  });
   await isolated("contract.behavior-observer-merge", ["base", "own"], async (first) => {
     first.blendTrace = [];
     await update(first, { blend: 5 });

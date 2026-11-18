@@ -15,6 +15,21 @@ async function system(check) {
     const result = await call(wx, "getSystemInfoAsync");
     return result.windowWidth === wx.getWindowInfo().windowWidth;
   });
+  await check("system.device-info-shape", [true, true, true, true], () => {
+    const info = wx.getDeviceInfo();
+    return [
+      typeof info.brand === "string" && info.brand.length > 0,
+      typeof info.model === "string" && info.model.length > 0,
+      typeof info.system === "string" && info.system.length > 0,
+      info.platform === "devtools" || info.platform === "ios" || info.platform === "android",
+    ];
+  });
+  await check("system.account-info-shape", [true], () => {
+    const account = wx.getAccountInfoSync();
+    return [
+      typeof account.miniProgram.appId === "string" && account.miniProgram.appId.length > 0,
+    ];
+  });
   await check("system.enter-path", "pages/suite/index", () => wx.getEnterOptionsSync().path);
   await check("system.app-language", true, () => {
     const info = wx.getAppBaseInfo();

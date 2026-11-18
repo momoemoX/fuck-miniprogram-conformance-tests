@@ -141,6 +141,23 @@ async function extended(page, check) {
       }
     }
   });
+  await check("clipboard.roundtrip", "suite-clip", async () => {
+    await call(wx, "setClipboardData", { data: "suite-clip" });
+    const result = await call(wx, "getClipboardData");
+    return result.data;
+  });
+  await check("page.scroll-to-selector", [true, true], async () => {
+    try {
+      page.pageScrollTrace = [];
+      await call(wx, "pageScrollTo", { selector: "#scroll-fixture", duration: 0 });
+      await new Promise((resolve) => setTimeout(resolve, 700));
+      const trace = page.pageScrollTrace || [];
+      return [trace.length > 0, trace.some((value) => typeof value === "number" && value >= 500)];
+    } finally {
+      await call(wx, "pageScrollTo", { scrollTop: 0, duration: 0 }).catch(() => null);
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    }
+  });
   await check("storage.missing-sync", "", () => wx.getStorageSync(uniqueKey()));
   await check("storage.info-sync-shape", [true, true, true], () => {
     const key = uniqueKey();

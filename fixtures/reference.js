@@ -1273,5 +1273,22 @@ module.exports = {
   "contract.behavior-observer-merge": [
     "base",
     "own"
+  ],
+  "clipboard.roundtrip": "suite-clip",
+  "page.scroll-to-selector": [
+    true,
+    true
+  ],
+  "system.device-info-shape": [
+    true,
+    true,
+    true,
+    true
+  ],
+  "system.account-info-shape": [
+    true
+  ],
+  "contract.behavior-property-observer": [
+    "behavior-prop"
   ]
 };
