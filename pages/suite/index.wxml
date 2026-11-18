@@ -1,6 +1,7 @@
 <import src="../../fixtures/row.wxml"/>
 <wxs module="format" src="../../fixtures/format.wxs"/>
 <view>
+  <view id="scroll-spacer" style="height:2000px" aria-hidden="true"/>
   <button id="run" bindtap="run" disabled="{{started}}">Run suite</button>
   <navigator url="/pages/input/index">Run input and gesture cases</navigator>
   <navigator url="/pages/surface/index">Inspect API availability</navigator>

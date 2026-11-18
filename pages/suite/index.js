@@ -31,6 +31,7 @@ const { inputContract } = require("../../cases/input-contract");
 const { componentExtra } = require("../../cases/component-extra");
 const { scrollContract } = require("../../cases/scroll-contract");
 const { observerContract } = require("../../cases/observer-contract");
+const { pageScrollContract } = require("../../cases/page-scroll");
 const config = require("../../suite-config");
 
 Page({
@@ -129,6 +130,7 @@ Page({
     await componentExtra(this, check);
     await scrollContract(this, check);
     await observerContract(this, check);
+    await pageScrollContract(this, check);
     await framework(this, check);
     await composition(this, check);
     await structure(this, check);
@@ -229,6 +231,17 @@ Page({
 
   getScrollEvents() {
     return this.scrollEvents || [];
+  },
+
+  onPageScroll(event) {
+    if (!this.pageScrollTrace) this.pageScrollTrace = [];
+    this.pageScrollTrace.push(Math.round(event.scrollTop));
+  },
+  onReachBottom() {
+    if (this.pageScrollTrace) this.pageScrollTrace.push("bottom");
+  },
+  onPullDownRefresh() {
+    if (this.pullDownTrace) this.pullDownTrace.push("refresh");
   },
 
   onScrollFixture(event) {

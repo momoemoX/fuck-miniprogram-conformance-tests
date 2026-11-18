@@ -1248,5 +1248,30 @@ module.exports = {
   "wxs.date-epoch": 0,
   "animation.applies-computed-style": [
     true
+  ],
+  "page.scroll-events": [
+    true,
+    true
+  ],
+  "page.reach-bottom": [
+    true
+  ],
+  "ui.pull-down-refresh": [
+    [],
+    "success"
+  ],
+  "ui.navigation-bar-color": [
+    "success",
+    "complete"
+  ],
+  "system.setting-shape": [
+    true,
+    true,
+    true,
+    true
+  ],
+  "contract.behavior-observer-merge": [
+    "base",
+    "own"
   ]
 };

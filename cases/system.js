@@ -66,6 +66,33 @@ async function system(check) {
       return [show.errMsg, hide.errMsg];
     },
   );
+  await check("ui.navigation-bar-color", ["success", "complete"], () => {
+    const seen = [];
+    wx.setNavigationBarColor({
+      frontColor: "#ffffff",
+      backgroundColor: "#1f2d3d",
+      success() {
+        seen.push("success");
+      },
+      fail() {
+        seen.push("fail");
+      },
+      complete() {
+        seen.push("complete");
+      },
+    });
+    return seen;
+  });
+  await check("system.setting-shape", [true, true, true, true], () => {
+    const setting = wx.getSystemSetting();
+    const authorize = wx.getAppAuthorizeSetting();
+    return [
+      setting.deviceOrientation === "portrait" || setting.deviceOrientation === "landscape",
+      setting.bluetoothEnabled === undefined || typeof setting.bluetoothEnabled === "boolean",
+      authorize.cameraAuthorized !== undefined,
+      authorize.locationAuthorized !== undefined,
+    ];
+  });
   await check("ui.loading-roundtrip", ["showLoading:ok", "hideLoading:ok"], async () => {
     const show = await call(wx, "showLoading", { title: "Checking" });
     const hide = await call(wx, "hideLoading");

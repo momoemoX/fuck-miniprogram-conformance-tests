@@ -31,6 +31,7 @@ Component({
     },
   },
   data: {
+    blend: 0,
     a: 1,
     b: 2,
     object: { x: 1, y: 2 },
@@ -46,6 +47,9 @@ Component({
     },
   },
   observers: {
+    blend() {
+      if (this.blendTrace) this.blendTrace.push("own");
+    },
     "a, b": function (a, b) {
       if (this.pairs) this.pairs.push([a, b]);
     },
