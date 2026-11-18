@@ -105,6 +105,14 @@ These observations establish results for **3.7.12**. The current tool's version 
 
 The independent run also exposed missing page JSON files. Empty page configurations have been added for every previously unconfigured declared page so the standard simulator can register them.
 
+## Independent web-runtime cross-check
+
+The suite was built for the experimental `@weapp-vite/web` H5 runtime (`weapp-vite` 7.6.0, self-described POC) and driven headlessly. The committed suite is unchanged; one build blocker was worked around in a throwaway copy: their wxs resolver cannot resolve wxs-to-wxs `require`, so `format.wxs`'s dependency on `arithmetic.wxs` had to be inlined for the build to succeed. Because the runtime never renders page data into the DOM, results were collected through the page instance instead of the rendered summary.
+
+The full default run completed **177/363**. The [observation record](fixtures/weapp-vite-web-observations.json) holds every expected and actual value. Strong groups include component reuse (24/26), page lifecycles (8/10), storage (13/15), module loading (13/17) and system info (13/17). Zero-scored groups trace to a small set of gaps: `wx.onError`/`wx.onUnhandledRejection`/`wx.getPerformance`/`wx.arrayBufferToBase64`/`wx.canvasGetImageData`/`wx.createWorker`/`wx.createMediaQueryObserver` and the file-system manager are absent (error, base64, canvas, worker, clock, file groups); page `getOpenerEventChannel` is missing (channel 0/4); `hasBehavior` and `getRelationNodes` are missing and generic components do not expose their methods; template data spread `{{...payload}}` cannot be parsed, which prevents the template probe from mounting and zeroes the template, expression and wxs-template cases; dataset and WXS-rendered values arrive as strings; and module loading diverges (directory shorthand accepted, failed modules cached as successes).
+
+This run also drove a suite-side portability fix: the navigation harness no longer requires the official `wx.onAppRouteDone` extension and falls back to polling `getCurrentPages()` when it is absent. The official-host regression after the fix is unchanged (345/363, 345/345 reproduced).
+
 ## API inventory
 
 The desktop host reported SDK **3.7.0**. Among the public declaration names checked, its `wx` object exposed **455 members** (451 functions and four objects), and its file-system manager exposed **45 methods**. The availability page checks each of those names and value types. A stub can pass an availability check. Only a behavioral case contributes to a behavioral score.

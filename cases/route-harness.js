@@ -22,19 +22,41 @@ function createRouteHarness() {
     });
   }
   async function navigate(method, options, path) {
-    let timer, listener;
+    let timer;
+    let listener;
+    let poll;
+    const target = path.replace(/^\//, "");
+    // Official base libraries deliver a route-completion event; runtimes without it
+    // fall back to polling the public page stack so navigation cases stay portable.
+    if (typeof wx.onAppRouteDone === "function") {
+      const completed = new Promise((resolve, reject) => {
+        timer = setTimeout(() => reject(new Error("Route animation did not complete")), 5000);
+        listener = (event) => {
+          if (event.path.replace(/^\//, "") === path) resolve();
+        };
+        wx.onAppRouteDone(listener);
+      });
+      try {
+        await Promise.all([completed, call(wx, method, options)]);
+      } finally {
+        clearTimeout(timer);
+        if (listener) wx.offAppRouteDone(listener);
+      }
+      return;
+    }
     const completed = new Promise((resolve, reject) => {
       timer = setTimeout(() => reject(new Error("Route animation did not complete")), 5000);
-      listener = (event) => {
-        if (event.path.replace(/^\//, "") === path) resolve();
-      };
-      wx.onAppRouteDone(listener);
+      poll = setInterval(() => {
+        const stack = getCurrentPages();
+        const top = stack[stack.length - 1];
+        if (top && top.route && top.route.replace(/^\//, "") === target) resolve();
+      }, 80);
     });
     try {
       await Promise.all([completed, call(wx, method, options)]);
     } finally {
       clearTimeout(timer);
-      if (listener) wx.offAppRouteDone(listener);
+      clearInterval(poll);
     }
   }
   async function open(name, method = "navigateTo", suffix = "") {

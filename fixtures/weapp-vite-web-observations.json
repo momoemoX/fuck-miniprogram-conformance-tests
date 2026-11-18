@@ -1,0 +1,2756 @@
+{
+  "runtime": "weapp-vite web runtime (@weapp-vite/web) via weapp-vite 7.6.0",
+  "runtimeStage": "Self-described POC in its README",
+  "suiteCommitAtRun": "b79b8e6 (route-harness polling fallback applied on top)",
+  "buildNote": "weapp-vite build -p web failed on the committed fixtures because the web runtime cannot resolve wxs-to-wxs require (format.wxs -> arithmetic.wxs). For this measurement the dependency was inlined in a build copy; the committed suite is unchanged.",
+  "driverNote": "Results were collected through the page instance (window probes) because the runtime never renders page data into the DOM, so DOM-based completion detection stalls.",
+  "summary": {
+    "passed": 177,
+    "total": 363
+  },
+  "groups": {
+    "component": {
+      "passed": 7,
+      "total": 10
+    },
+    "event": {
+      "passed": 11,
+      "total": 13
+    },
+    "channel": {
+      "passed": 0,
+      "total": 4
+    },
+    "error": {
+      "passed": 0,
+      "total": 9
+    },
+    "app": {
+      "passed": 8,
+      "total": 8
+    },
+    "module": {
+      "passed": 13,
+      "total": 17
+    },
+    "lifecycle": {
+      "passed": 8,
+      "total": 10
+    },
+    "wxs": {
+      "passed": 2,
+      "total": 15
+    },
+    "input": {
+      "passed": 1,
+      "total": 2
+    },
+    "slot": {
+      "passed": 4,
+      "total": 4
+    },
+    "scroll": {
+      "passed": 1,
+      "total": 2
+    },
+    "observer": {
+      "passed": 2,
+      "total": 4
+    },
+    "page": {
+      "passed": 4,
+      "total": 6
+    },
+    "ui": {
+      "passed": 5,
+      "total": 9
+    },
+    "behavior": {
+      "passed": 1,
+      "total": 2
+    },
+    "query": {
+      "passed": 7,
+      "total": 8
+    },
+    "wxml": {
+      "passed": 5,
+      "total": 5
+    },
+    "render": {
+      "passed": 4,
+      "total": 7
+    },
+    "relation": {
+      "passed": 0,
+      "total": 5
+    },
+    "generic": {
+      "passed": 0,
+      "total": 4
+    },
+    "style": {
+      "passed": 1,
+      "total": 3
+    },
+    "contract": {
+      "passed": 14,
+      "total": 26
+    },
+    "pure": {
+      "passed": 2,
+      "total": 4
+    },
+    "template": {
+      "passed": 0,
+      "total": 16
+    },
+    "expression": {
+      "passed": 0,
+      "total": 7
+    },
+    "definition": {
+      "passed": 1,
+      "total": 5
+    },
+    "property": {
+      "passed": 10,
+      "total": 13
+    },
+    "export": {
+      "passed": 1,
+      "total": 6
+    },
+    "reuse": {
+      "passed": 24,
+      "total": 26
+    },
+    "native": {
+      "passed": 5,
+      "total": 12
+    },
+    "css": {
+      "passed": 3,
+      "total": 4
+    },
+    "setdata": {
+      "passed": 2,
+      "total": 3
+    },
+    "canvas": {
+      "passed": 0,
+      "total": 3
+    },
+    "route": {
+      "passed": 2,
+      "total": 4
+    },
+    "storage": {
+      "passed": 13,
+      "total": 15
+    },
+    "base64": {
+      "passed": 0,
+      "total": 8
+    },
+    "fs": {
+      "passed": 0,
+      "total": 28
+    },
+    "fd": {
+      "passed": 0,
+      "total": 5
+    },
+    "system": {
+      "passed": 13,
+      "total": 17
+    },
+    "network": {
+      "passed": 1,
+      "total": 1
+    },
+    "audio": {
+      "passed": 0,
+      "total": 3
+    },
+    "animation": {
+      "passed": 2,
+      "total": 3
+    },
+    "worker": {
+      "passed": 0,
+      "total": 3
+    },
+    "clock": {
+      "passed": 0,
+      "total": 1
+    },
+    "random": {
+      "passed": 0,
+      "total": 1
+    },
+    "clipboard": {
+      "passed": 0,
+      "total": 1
+    },
+    "image": {
+      "passed": 0,
+      "total": 1
+    }
+  },
+  "keyFindings": [
+    "Build: wxs-to-wxs require is unsupported and fails the build (inlined for this run).",
+    "Template data spread {{...payload}} cannot be parsed; template-probe never mounts, timing out all 16 template, 7 expression and 3 wxs template cases.",
+    "wx.onError, wx.onUnhandledRejection, wx.getPerformance, wx.arrayBufferToBase64, wx.canvasGetImageData, wx.createWorker, wx.createMediaQueryObserver and getFileSystemManager are absent, zeroing the error, base64, canvas, worker, clock and file-system groups.",
+    "Page getOpenerEventChannel is missing (channel group 0/4).",
+    "Component hasBehavior and getRelationNodes are missing (behavior/relation groups fail); generic components do not expose their methods.",
+    "Dataset and WXS-rendered values arrive as strings, breaking typed expectations (query.typed-dataset, wxs.state group).",
+    "selectComponent wrappers do not retain instance method state (component.instance-data snapshots stay empty).",
+    "Module loading diverges: directory shorthand is accepted, cycle partial exports leak a string, and a failing module is cached as if it succeeded.",
+    "Lifecycle order adds beta.hide before beta.unload on back-navigation; focus/blur details carry no numeric height and extra events; form reset reports an empty slider string (already recorded for the browser host).",
+    "getSavedFileList and onReachBottom behavior matched the official-host notes; navigation cases pass with the suite's getCurrentPages polling fallback now that wx.onAppRouteDone is optional."
+  ],
+  "results": [
+    {
+      "id": "component.instance-data",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[[\"mint\"],[]]",
+      "actual": "[[],[]]"
+    },
+    {
+      "id": "event.bubble",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"source\",\"middle\",\"outer\"]",
+      "actual": "[\"source\",\"middle\",\"outer\"]"
+    },
+    {
+      "id": "event.catch",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"source\",\"middle\"]",
+      "actual": "[\"source\",\"middle\"]"
+    },
+    {
+      "id": "channel.queued-order",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"oak\",\"elm\"]",
+      "actual": "TypeError: this.getOpenerEventChannel is not a function"
+    },
+    {
+      "id": "channel.once",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"one\"]",
+      "actual": "TypeError: this.getOpenerEventChannel is not a function"
+    },
+    {
+      "id": "channel.off-listener",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "[\"kept\"]",
+      "actual": "TypeError: this.getOpenerEventChannel is not a function"
+    },
+    {
+      "id": "channel.reverse-direction",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"reply\",3]",
+      "actual": "TypeError: this.getOpenerEventChannel is not a function"
+    },
+    {
+      "id": "error.observer-recovers",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"throw-observer\",true,true]",
+      "actual": "TypeError: wx.onError is not a function"
+    },
+    {
+      "id": "error.event-handler-continues",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[[\"leaf\",\"inner\",\"outer\"],[\"leaf\",\"inner\",\"outer\"],true]",
+      "actual": "TypeError: wx.onError is not a function"
+    },
+    {
+      "id": "error.detached-recovers",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true,true]",
+      "actual": "TypeError: wx.onError is not a function"
+    },
+    {
+      "id": "error.api-callback-complete",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[[\"success\",\"complete\"],true]",
+      "actual": "TypeError: wx.onError is not a function"
+    },
+    {
+      "id": "error.component-error-lifetime",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true,true]",
+      "actual": "TypeError: wx.onError is not a function"
+    },
+    {
+      "id": "error.app-onerror-hook",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true]",
+      "actual": "TypeError: wx.onError is not a function"
+    },
+    {
+      "id": "error.app-unhandledrejection-hook",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true]",
+      "actual": "TypeError: wx.onUnhandledRejection is not a function"
+    },
+    {
+      "id": "error.console-not-onerror",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[]",
+      "actual": "TypeError: wx.onError is not a function"
+    },
+    {
+      "id": "error.unhandled-rejection",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"suite-reject-marker\",true]",
+      "actual": "TypeError: wx.onUnhandledRejection is not a function"
+    },
+    {
+      "id": "app.launch-order",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"launch\",\"show\",\"page.load\"]",
+      "actual": "[\"launch\",\"show\",\"page.load\"]"
+    },
+    {
+      "id": "app.launch-pages-empty",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "0",
+      "actual": "0"
+    },
+    {
+      "id": "app.launch-options-shape",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "{\"path\":\"string\",\"query\":\"object\",\"scene\":\"number\",\"referrerInfo\":\"object\"}",
+      "actual": "{\"path\":\"string\",\"query\":\"object\",\"scene\":\"number\",\"referrerInfo\":\"object\"}"
+    },
+    {
+      "id": "app.enter-options-path",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"pages/suite/index\",\"pages/suite/index\"]",
+      "actual": "[\"pages/suite/index\",\"pages/suite/index\"]"
+    },
+    {
+      "id": "app.foreground-stable-during-navigation",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[[],[],0,0]",
+      "actual": "[[],[],0,0]"
+    },
+    {
+      "id": "app.page-not-found-not-fired",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[]",
+      "actual": "[]"
+    },
+    {
+      "id": "app.identity-across-pages",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,41]",
+      "actual": "[true,41]"
+    },
+    {
+      "id": "module.cache-identity",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "module.explicit-extension",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "module.relative-parent",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "module.shared-mutation",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "37",
+      "actual": "37"
+    },
+    {
+      "id": "module.reverse-shared-mutation",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "19",
+      "actual": "19"
+    },
+    {
+      "id": "module.replaced-exports",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "{\"value\":\"replacement\"}",
+      "actual": "{\"value\":\"replacement\"}"
+    },
+    {
+      "id": "module.function-export",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"peel/seed\"",
+      "actual": "\"peel/seed\""
+    },
+    {
+      "id": "module.function-property",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"callable\"",
+      "actual": "\"callable\""
+    },
+    {
+      "id": "module.constructor-identity",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "module.constructor-instance-state",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[1,2,1]",
+      "actual": "[1,2,1]"
+    },
+    {
+      "id": "module.explicit-directory-index",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"directory-index\"",
+      "actual": "\"directory-index\""
+    },
+    {
+      "id": "module.directory-shorthand-rejected",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "false"
+    },
+    {
+      "id": "module.cycle-partial-exports",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"right\",\"undefined\"]",
+      "actual": "[\"right\",\"string\"]"
+    },
+    {
+      "id": "module.cycle-reference",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "false",
+      "actual": "true"
+    },
+    {
+      "id": "module.failure-first",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"suite-module-failure\"",
+      "actual": "\"suite-module-failure\""
+    },
+    {
+      "id": "module.failure-repeat",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"suite-module-failure\",\"suite-module-failure\"]",
+      "actual": "[\"no-error\",\"no-error\"]"
+    },
+    {
+      "id": "lifecycle.initial-order",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"alpha.load\",\"alpha.show\",\"alpha.ready\"]",
+      "actual": "[\"alpha.load\",\"alpha.show\",\"alpha.ready\"]"
+    },
+    {
+      "id": "lifecycle.push-order",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"alpha.hide\",\"beta.load\",\"beta.show\",\"beta.ready\"]",
+      "actual": "[\"alpha.hide\",\"beta.load\",\"beta.show\",\"beta.ready\"]"
+    },
+    {
+      "id": "lifecycle.back-order",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"beta.unload\",\"alpha.show\"]",
+      "actual": "[\"beta.hide\",\"beta.unload\",\"alpha.show\"]"
+    },
+    {
+      "id": "lifecycle.hidden-page-retained",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,7]",
+      "actual": "[true,7]"
+    },
+    {
+      "id": "lifecycle.multi-back",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[[\"beta.unload\",\"gamma.unload\"],\"alpha\",1]",
+      "actual": "[[\"beta.unload\",\"gamma.unload\"],\"alpha\",1]"
+    },
+    {
+      "id": "lifecycle.redirect-replacement",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[1,1,1,true]",
+      "actual": "[1,1,1,true]"
+    },
+    {
+      "id": "lifecycle.query-encoded-values",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "[\"citrus%20peel\",\"%2B\",\"%252F\"]",
+      "actual": "[\"citrus peel\",\"+\",\"%2F\"]"
+    },
+    {
+      "id": "lifecycle.same-route-new-instance",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,0,2]",
+      "actual": "[true,0,2]"
+    },
+    {
+      "id": "lifecycle.failed-navigation-preserves-page",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[[\"fail\",\"complete\"],true,[]]",
+      "actual": "[[\"fail\",\"complete\"],true,[]]"
+    },
+    {
+      "id": "lifecycle.reopen-creates-fresh-page",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,0]",
+      "actual": "[true,0]"
+    },
+    {
+      "id": "wxs.state.same-template-shared",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[4,4]",
+      "actual": "[\"4\",\"4\"]"
+    },
+    {
+      "id": "wxs.state.instance-isolated",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[4,0]",
+      "actual": "[\"4\",\"0\"]"
+    },
+    {
+      "id": "wxs.state.persist-across-renders",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[3,3,3]",
+      "actual": "[\"3\",\"3\",\"3\"]"
+    },
+    {
+      "id": "wxs.state.remount-fresh",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[9,0]",
+      "actual": "[\"9\",\"0\"]"
+    },
+    {
+      "id": "wxs.state.page-component-isolated",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[6,0]",
+      "actual": "[\"6\",\"0\"]"
+    },
+    {
+      "id": "wxs.state.page-fresh-and-retained",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[0,7,7]",
+      "actual": "[\"7\",\"7\",\"7\"]"
+    },
+    {
+      "id": "input.focus-and-blur-events",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[[\"focus\",true,true],[\"focus\",true,true],[\"blur\",false,true]]",
+      "actual": "[[\"focus\",true,true],[\"focus\",false,false],[\"blur\",false,true],[\"blur\",false,false],[\"focus\",true,true],[\"focus\",false,false]]"
+    },
+    {
+      "id": "input.value-binding-sync",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"fresh\",\"fresh\"]",
+      "actual": "[\"fresh\",\"fresh\"]"
+    },
+    {
+      "id": "component.page-lifetimes",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"hide\",\"show\"]",
+      "actual": "[\"hide\",\"show\"]"
+    },
+    {
+      "id": "component.instance-fields",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"components/page-probe/index\",\"page-probe\",\"page-probe-origin\"]",
+      "actual": "TypeError: Cannot read properties of undefined (reading 'origin')"
+    },
+    {
+      "id": "slot.multi-instance-order",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"first\",\"second\"]",
+      "actual": "[\"first\",\"second\"]"
+    },
+    {
+      "id": "scroll.bindscroll-detail",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[30,220]",
+      "actual": "[30,220]"
+    },
+    {
+      "id": "scroll.into-view-target",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[170]",
+      "actual": "[0]"
+    },
+    {
+      "id": "observer.intersection-toggle",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[1,0,0]",
+      "actual": "[1,0,0]"
+    },
+    {
+      "id": "page.scroll-events",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,true]",
+      "actual": "[true,true]"
+    },
+    {
+      "id": "page.reach-bottom",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true]",
+      "actual": "[false]"
+    },
+    {
+      "id": "ui.pull-down-refresh",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[[],\"success\"]",
+      "actual": "[[],\"success\"]"
+    },
+    {
+      "id": "app.instance",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "page.initial-route",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"pages/suite/index\"]",
+      "actual": "[\"pages/suite/index\"]"
+    },
+    {
+      "id": "page.data-path-update",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"fresh\",2]",
+      "actual": "[\"fresh\",2]"
+    },
+    {
+      "id": "page.callback-after-render",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"baked\"",
+      "actual": "\"baked\""
+    },
+    {
+      "id": "component.defaults",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"plain\",0,false]",
+      "actual": "[\"plain\",null,null]"
+    },
+    {
+      "id": "component.lifetime-order",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"created\",\"attached\",\"ready\"]",
+      "actual": "[\"created\",\"attached\",\"ready\"]"
+    },
+    {
+      "id": "behavior.inherited-method",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"rye/plain\"",
+      "actual": "\"rye/plain\""
+    },
+    {
+      "id": "behavior.membership",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "TypeError: this.hasBehavior is not a function"
+    },
+    {
+      "id": "observer.multi-field",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[[3,7]]",
+      "actual": "[[3,7]]"
+    },
+    {
+      "id": "observer.deep-path",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[[1,9]]",
+      "actual": "[]"
+    },
+    {
+      "id": "component.select-all",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "2",
+      "actual": "2"
+    },
+    {
+      "id": "component.scope-boundary",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "null",
+      "actual": "null"
+    },
+    {
+      "id": "component.scoped-query",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"plain\"",
+      "actual": "\"plain\""
+    },
+    {
+      "id": "component.parent-property",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"rye/salty\"",
+      "actual": "\"rye/salty\""
+    },
+    {
+      "id": "query.no-match",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[]",
+      "actual": "[]"
+    },
+    {
+      "id": "query.rect",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[64,16]",
+      "actual": "[64,16]"
+    },
+    {
+      "id": "query.typed-dataset",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[2,true,\"02\"]",
+      "actual": "[\"2\",\"true\",\"02\"]"
+    },
+    {
+      "id": "query.batch-order",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"measure\",null,\"stamp\"]",
+      "actual": "[\"measure\",null,\"stamp\"]"
+    },
+    {
+      "id": "wxml.list-index",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"0:pear\",\"1:plum\"]",
+      "actual": "[\"0:pear\",\"1:plum\"]"
+    },
+    {
+      "id": "wxml.list-reorder",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"0:plum\",\"1:pear\",\"2:lime\"]",
+      "actual": "[\"0:plum\",\"1:pear\",\"2:lime\"]"
+    },
+    {
+      "id": "wxml.conditional",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"cold\",\"hot\"]",
+      "actual": "[\"cold\",\"hot\"]"
+    },
+    {
+      "id": "wxml.template-import",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"citrus\"]",
+      "actual": "[\"citrus\"]"
+    },
+    {
+      "id": "wxml.include-scope",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"peel\"",
+      "actual": "\"peel\""
+    },
+    {
+      "id": "wxs.module-call",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"[zest]\"",
+      "actual": "\"[zest]\""
+    },
+    {
+      "id": "component.detach",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"detached\"",
+      "actual": "\"detached\""
+    },
+    {
+      "id": "slot.named-projection",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "60",
+      "actual": "60"
+    },
+    {
+      "id": "slot.dynamic-name",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "90",
+      "actual": "90"
+    },
+    {
+      "id": "module.shared-exports",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[1,2]",
+      "actual": "[1,2]"
+    },
+    {
+      "id": "event.default-local",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"source\"]",
+      "actual": "[\"source\"]"
+    },
+    {
+      "id": "event.detail-payload",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"citrus\",2]",
+      "actual": "[\"citrus\",2]"
+    },
+    {
+      "id": "event.capture-order",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"outer-capture\",\"middle-capture\",\"source\",\"middle\",\"outer\"]",
+      "actual": "[\"outer-capture\",\"middle-capture\",\"source\",\"middle\",\"outer\"]"
+    },
+    {
+      "id": "query.native-properties",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"active-switch\",true]",
+      "actual": "[\"active-switch\",true]"
+    },
+    {
+      "id": "query.field-selection",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,false]",
+      "actual": "[true,false]"
+    },
+    {
+      "id": "query.missing-component",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "render.hidden-toggle",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[0,12]",
+      "actual": "[12,12]"
+    },
+    {
+      "id": "observer.media-match",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "TypeError: e.createMediaQueryObserver is not a function"
+    },
+    {
+      "id": "relation.child-membership",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"pear\",\"apple\"]",
+      "actual": "[]"
+    },
+    {
+      "id": "relation.parent-identity",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "false"
+    },
+    {
+      "id": "relation.linked-callbacks",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"apple\",\"pear\"]",
+      "actual": "[]"
+    },
+    {
+      "id": "relation.unlink",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[[\"pear\"],[\"apple\"]]",
+      "actual": "[[],[]]"
+    },
+    {
+      "id": "relation.reinsert",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"apple\",\"apple\",\"pear\"]",
+      "actual": "[]"
+    },
+    {
+      "id": "generic.default",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"base10/31\"",
+      "actual": "TypeError: this.selectComponent(...).display is not a function"
+    },
+    {
+      "id": "generic.override",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"base16/1f\"",
+      "actual": "TypeError: this.selectComponent(...).display is not a function"
+    },
+    {
+      "id": "generic.update",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"base10/47\",\"base16/2f\"]",
+      "actual": "TypeError: this.selectComponent(...).display is not a function"
+    },
+    {
+      "id": "generic.owner",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "TypeError: this.selectComponent(...).selectOwnerComponent is not a function"
+    },
+    {
+      "id": "style.isolated",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "22",
+      "actual": "22"
+    },
+    {
+      "id": "style.apply-shared",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "37",
+      "actual": "22"
+    },
+    {
+      "id": "style.external-class",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[31,43]",
+      "actual": "[1280,1280]"
+    },
+    {
+      "id": "contract.property-defaults",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[0,\"\",false]",
+      "actual": "[null,null,null]"
+    },
+    {
+      "id": "contract.array-default-isolation",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[[4,9],[4]]",
+      "actual": "[[4,9],[4,9]]"
+    },
+    {
+      "id": "contract.object-default-isolation",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"changed\",\"seed\"]",
+      "actual": "[\"changed\",\"changed\"]"
+    },
+    {
+      "id": "contract.property-data-view",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[7,7]",
+      "actual": "[7,7]"
+    },
+    {
+      "id": "contract.parent-bound-property",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "23",
+      "actual": "23"
+    },
+    {
+      "id": "contract.property-observer-values",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[[6,0],[8,6]]",
+      "actual": "[[6,0],[8,6]]"
+    },
+    {
+      "id": "contract.observer-batch",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[[5,9]]",
+      "actual": "[[5,9]]"
+    },
+    {
+      "id": "contract.observer-same-value",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[[1,2]]",
+      "actual": "[]"
+    },
+    {
+      "id": "contract.observer-unrelated",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[]",
+      "actual": "[]"
+    },
+    {
+      "id": "contract.observer-nested-update",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[{\"x\":8,\"y\":2}]",
+      "actual": "[]"
+    },
+    {
+      "id": "contract.observer-parent-replacement",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[{\"x\":3,\"y\":4}]",
+      "actual": "[]"
+    },
+    {
+      "id": "contract.observer-array-index",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[6]",
+      "actual": "[6]"
+    },
+    {
+      "id": "contract.observer-array-replacement",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[9]",
+      "actual": "[]"
+    },
+    {
+      "id": "contract.setdata-before-return",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[12,2]",
+      "actual": "[12,2]"
+    },
+    {
+      "id": "contract.setdata-render-callback",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[4,7]",
+      "actual": "[\"4\",\"7\"]"
+    },
+    {
+      "id": "contract.setdata-empty-callback",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "id": "contract.path-preserves-siblings",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "{\"x\":10,\"y\":2}",
+      "actual": "{\"x\":10,\"y\":2}"
+    },
+    {
+      "id": "contract.array-preserves-other-index",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[1,11]",
+      "actual": "[1,11]"
+    },
+    {
+      "id": "contract.behavior-data-merge",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "{\"base\":true,\"nested\":true,\"own\":true,\"priority\":\"own\"}",
+      "actual": "{\"own\":true,\"priority\":\"own\"}"
+    },
+    {
+      "id": "contract.behavior-method-priority",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"own\"",
+      "actual": "\"own\""
+    },
+    {
+      "id": "contract.behavior-inherited-method",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"available\"",
+      "actual": "\"available\""
+    },
+    {
+      "id": "contract.behavior-transitive-membership",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "TypeError: this.hasBehavior is not a function"
+    },
+    {
+      "id": "contract.behavior-lifetime-order",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"base-attached\",\"nested-attached\",\"own-attached\"]",
+      "actual": "[\"base-attached\",\"nested-attached\",\"own-attached\"]"
+    },
+    {
+      "id": "contract.behavior-property-observer",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"behavior-prop\"]",
+      "actual": "[\"behavior-prop\"]"
+    },
+    {
+      "id": "contract.behavior-observer-merge",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"base\",\"own\"]",
+      "actual": "[\"own\"]"
+    },
+    {
+      "id": "contract.behavior-data-isolation",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"changed\",\"own\"]",
+      "actual": "[\"changed\",\"changed\"]"
+    },
+    {
+      "id": "event.boundary-default",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[]",
+      "actual": "[]"
+    },
+    {
+      "id": "event.boundary-bubbles",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[[\"inside\",\"leaf\"]]",
+      "actual": "[[\"inside\",\"leaf\"]]"
+    },
+    {
+      "id": "event.boundary-composed-only",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[]",
+      "actual": "[[\"host\",\"leaf\"]]"
+    },
+    {
+      "id": "event.boundary-crossing",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[[\"inside\",\"leaf\"],[\"host\",\"leaf\"],[\"ancestor\",\"leaf\"]]",
+      "actual": "[[\"inside\",\"leaf\"],[\"host\",\"leaf\"],[\"ancestor\",\"leaf\"]]"
+    },
+    {
+      "id": "event.boundary-direct-host",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[[\"host\",\"leaf\"]]",
+      "actual": "[[\"host\",\"leaf\"]]"
+    },
+    {
+      "id": "event.boundary-direct-bubble",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[[\"host\",\"leaf\"],[\"ancestor\",\"leaf\"]]",
+      "actual": "[[\"host\",\"leaf\"],[\"ancestor\",\"leaf\"]]"
+    },
+    {
+      "id": "event.current-target",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"shell\",\"shell\",\"outer-boundary\"]",
+      "actual": "[null,null,null]"
+    },
+    {
+      "id": "event.boundary-dataset",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"shell-kind\",\"shell-kind\"]",
+      "actual": "[\"shell-kind\",\"shell-kind\"]"
+    },
+    {
+      "id": "pure.logic-field-update",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "8",
+      "actual": "8"
+    },
+    {
+      "id": "pure.observer-fires",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[8]",
+      "actual": "[8]"
+    },
+    {
+      "id": "pure.render-field-excluded",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "false"
+    },
+    {
+      "id": "pure.mixed-update",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[9,12]",
+      "actual": "[9,\"12\"]"
+    },
+    {
+      "id": "template.branch-initial",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"zero\"]",
+      "actual": "Error: Case timed out: template.branch-initial"
+    },
+    {
+      "id": "template.branch-elif",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"one\"]",
+      "actual": "Error: Case timed out: template.branch-elif"
+    },
+    {
+      "id": "template.branch-else",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"other\"]",
+      "actual": "Error: Case timed out: template.branch-else"
+    },
+    {
+      "id": "template.branch-reentry",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[[\"one\"],[\"zero\"]]",
+      "actual": "Error: Case timed out: template.branch-reentry"
+    },
+    {
+      "id": "template.loop-custom-names",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"0:a:pear\",\"1:b:plum\"]",
+      "actual": "Error: Case timed out: template.loop-custom-names"
+    },
+    {
+      "id": "template.loop-item-path",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"0:a:lime\",\"1:b:plum\"]",
+      "actual": "Error: Case timed out: template.loop-item-path"
+    },
+    {
+      "id": "template.loop-keyed-reorder",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"0:b:plum\",\"1:a:pear\"]",
+      "actual": "Error: Case timed out: template.loop-keyed-reorder"
+    },
+    {
+      "id": "template.loop-empty",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[]",
+      "actual": "Error: Case timed out: template.loop-empty"
+    },
+    {
+      "id": "template.loop-regrow",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"0:c:fig\"]",
+      "actual": "Error: Case timed out: template.loop-regrow"
+    },
+    {
+      "id": "template.loop-nested-scope",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"north:0:2\",\"north:1:3\",\"south:0:5\"]",
+      "actual": "Error: Case timed out: template.loop-nested-scope"
+    },
+    {
+      "id": "template.loop-nested-path",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"north:0:2\",\"north:1:8\",\"south:0:5\"]",
+      "actual": "Error: Case timed out: template.loop-nested-path"
+    },
+    {
+      "id": "template.loop-object-keys",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"left:4\",\"right:9\"]",
+      "actual": "Error: Case timed out: template.loop-object-keys"
+    },
+    {
+      "id": "template.argument-scope",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"inner/2\"]",
+      "actual": "Error: Case timed out: template.argument-scope"
+    },
+    {
+      "id": "template.argument-update",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"renamed/2\"]",
+      "actual": "Error: Case timed out: template.argument-update"
+    },
+    {
+      "id": "template.dynamic-selection",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"2:inner\"]",
+      "actual": "Error: Case timed out: template.dynamic-selection"
+    },
+    {
+      "id": "template.include-data",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"revised\"",
+      "actual": "Error: Case timed out: template.include-data"
+    },
+    {
+      "id": "expression.arithmetic",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "14",
+      "actual": "Error: Case timed out: expression.arithmetic"
+    },
+    {
+      "id": "expression.ternary",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"no\",\"yes\"]",
+      "actual": "Error: Case timed out: expression.ternary"
+    },
+    {
+      "id": "expression.logical-fallback",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"alpha\"",
+      "actual": "Error: Case timed out: expression.logical-fallback"
+    },
+    {
+      "id": "expression.boolean-negation",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "Error: Case timed out: expression.boolean-negation"
+    },
+    {
+      "id": "expression.comparisons",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "Error: Case timed out: expression.comparisons"
+    },
+    {
+      "id": "expression.braces-in-string",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"left}}right\"",
+      "actual": "Error: Case timed out: expression.braces-in-string"
+    },
+    {
+      "id": "expression.absent-deep-path",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"fallback\"",
+      "actual": "Error: Case timed out: expression.absent-deep-path"
+    },
+    {
+      "id": "wxs.required-module",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"seed/3\"",
+      "actual": "Error: Case timed out: wxs.required-module"
+    },
+    {
+      "id": "wxs.input-copy",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"local/10\",{\"items\":[1,2],\"name\":\"seed\"}]",
+      "actual": "Error: Case timed out: wxs.input-copy"
+    },
+    {
+      "id": "wxs.string-methods",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"BLUE/GREEN\"",
+      "actual": "Error: Case timed out: wxs.string-methods"
+    },
+    {
+      "id": "wxs.date-epoch",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "0",
+      "actual": "Error: Case timed out: wxs.date-epoch"
+    },
+    {
+      "id": "wxs.regexp-match",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[false,true,false]",
+      "actual": "Error: Case timed out: wxs.regexp-match"
+    },
+    {
+      "id": "wxs.object-replacement",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"seed/6\"",
+      "actual": "Error: Case timed out: wxs.object-replacement"
+    },
+    {
+      "id": "wxs.object-argument-path-update",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[5,\"seed/3\"]",
+      "actual": "Error: Case timed out: wxs.object-argument-path-update"
+    },
+    {
+      "id": "definition.behavior-diamond-order",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"ancestry\",\"left\",\"right\",\"component\"]",
+      "actual": "[\"legacy\"]"
+    },
+    {
+      "id": "definition.behavior-diamond-merge",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "{\"ancestry\":1,\"left\":2,\"right\":3,\"own\":4}",
+      "actual": "{\"own\":4}"
+    },
+    {
+      "id": "definition.behavior-array-override",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"own\"]",
+      "actual": "[\"own\"]"
+    },
+    {
+      "id": "definition.filter-data",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"inserted\"",
+      "actual": "undefined"
+    },
+    {
+      "id": "definition.filter-method",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"inserted\"",
+      "actual": "TypeError: e.filteredMethod is not a function"
+    },
+    {
+      "id": "property.number-from-string",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[12,\"number\"]",
+      "actual": "[12,\"number\"]"
+    },
+    {
+      "id": "property.string-from-number",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"91\",\"string\"]",
+      "actual": "[91,\"number\"]"
+    },
+    {
+      "id": "property.boolean-from-string",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true,\"boolean\"]",
+      "actual": "[false,\"boolean\"]"
+    },
+    {
+      "id": "property.boolean-from-zero",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "false",
+      "actual": "false"
+    },
+    {
+      "id": "property.optional-string",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"flexible\"",
+      "actual": "\"flexible\""
+    },
+    {
+      "id": "property.optional-number",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "17",
+      "actual": "17"
+    },
+    {
+      "id": "property.any-object",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "{\"enabled\":true}",
+      "actual": "{\"enabled\":true}"
+    },
+    {
+      "id": "property.any-false",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "false",
+      "actual": "false"
+    },
+    {
+      "id": "property.any-array",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[3,\"x\"]",
+      "actual": "[3,\"x\"]"
+    },
+    {
+      "id": "property.object-null",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "null",
+      "actual": "null"
+    },
+    {
+      "id": "property.array-replacement",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[9]",
+      "actual": "[9]"
+    },
+    {
+      "id": "property.observer-derived",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "14",
+      "actual": "14"
+    },
+    {
+      "id": "property.rendered-coercion",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[12,\"91\",true]",
+      "actual": "[\"12\",\"91\",\"false\"]"
+    },
+    {
+      "id": "export.public-object",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true,3]",
+      "actual": "TypeError: t.read is not a function"
+    },
+    {
+      "id": "export.hidden-instance-data",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "false",
+      "actual": "true"
+    },
+    {
+      "id": "export.null-value",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "null",
+      "actual": "TypeError: Converting circular structure to JSON\n    --> starting at object with constructor 'i'\n    |     property 'renderOptions' -> object with constructor 'Object'\n    --- property 'host' closes the circle"
+    },
+    {
+      "id": "export.undefined-falls-back",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "3",
+      "actual": "3"
+    },
+    {
+      "id": "export.live-instance-state",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "11",
+      "actual": "TypeError: t.write is not a function"
+    },
+    {
+      "id": "export.select-all",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true,3]",
+      "actual": "TypeError: Cannot read properties of undefined (reading 'read')"
+    },
+    {
+      "id": "reuse.initial-keyed-order",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"a\",\"b\",\"c\"]",
+      "actual": "[\"a\",\"b\",\"c\"]"
+    },
+    {
+      "id": "reuse.keyed-reorder-identity",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "reuse.keyed-state-follows-key",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[[\"c\",\"-\"],[\"b\",\"-\"],[\"a\",\"edited-a\"]]",
+      "actual": "[[\"c\",\"-\"],[\"b\",\"-\"],[\"a\",\"edited-a\"]]"
+    },
+    {
+      "id": "reuse.keyed-prepend",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,true,true,\"-\"]",
+      "actual": "[true,true,true,\"-\"]"
+    },
+    {
+      "id": "reuse.keyed-delete",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,true,[\"b\"]]",
+      "actual": "[true,true,[\"b\"]]"
+    },
+    {
+      "id": "reuse.key-change-replaces-instance",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,true,\"-\",[\"b\"]]",
+      "actual": "[true,true,\"-\",[\"b\"]]"
+    },
+    {
+      "id": "reuse.same-key-object-replacement",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,\"Changed\",\"edited\"]",
+      "actual": "[true,\"Changed\",\"edited\"]"
+    },
+    {
+      "id": "reuse.keyed-label-path",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,\"Updated\",\"edited\"]",
+      "actual": "[true,\"Updated\",\"edited\"]"
+    },
+    {
+      "id": "reuse.keyed-empty",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[0,[\"a\",\"b\",\"c\"]]",
+      "actual": "[0,[\"a\",\"b\",\"c\"]]"
+    },
+    {
+      "id": "reuse.keyed-regrow",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,\"-\"]",
+      "actual": "[true,\"-\"]"
+    },
+    {
+      "id": "reuse.unrelated-update",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "reuse.position-reorder-identity",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "reuse.position-state-stays-at-index",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"c\",\"a\",\"edited-first\"]",
+      "actual": "[\"c\",\"a\",\"edited-first\"]"
+    },
+    {
+      "id": "reuse.position-prepend",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,\"z\",\"a\",\"edited\"]",
+      "actual": "[true,\"z\",\"a\",\"edited\"]"
+    },
+    {
+      "id": "reuse.position-truncate",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,true,[\"c\"]]",
+      "actual": "[true,true,[\"c\"]]"
+    },
+    {
+      "id": "reuse.keyed-append",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,true,true,\"-\"]",
+      "actual": "[true,true,true,\"-\"]"
+    },
+    {
+      "id": "reuse.condition-recreates-state",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,\"-\",[\"a\",\"b\",\"c\"]]",
+      "actual": "[true,\"-\",[\"a\",\"b\",\"c\"]]"
+    },
+    {
+      "id": "reuse.hidden-preserves-state",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,\"edited\",[]]",
+      "actual": "[true,\"edited\",[]]"
+    },
+    {
+      "id": "reuse.keyed-event-position",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "{\"code\":\"c\",\"draft\":\"edited-c\",\"position\":0}",
+      "actual": "{\"code\":\"c\",\"draft\":\"edited-c\",\"position\":\"0\"}"
+    },
+    {
+      "id": "reuse.position-event-payload",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "{\"code\":\"c\",\"draft\":\"edited-first\",\"position\":0}",
+      "actual": "{\"code\":\"c\",\"draft\":\"edited-first\",\"position\":\"0\"}"
+    },
+    {
+      "id": "reuse.owner-after-reorder",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "reuse.removed-selector",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "reuse.detach-once",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "id": "reuse.reinsert-key-is-fresh",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,\"-\",true]",
+      "actual": "[true,\"-\",true]"
+    },
+    {
+      "id": "reuse.keys-scoped-to-loop",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,\"other-edit\",\"-\"]",
+      "actual": "[true,\"other-edit\",\"-\"]"
+    },
+    {
+      "id": "reuse.move-between-loops",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,\"-\",true]",
+      "actual": "[true,\"-\",true]"
+    },
+    {
+      "id": "native.button-disabled",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[false,true]",
+      "actual": "[null,null]"
+    },
+    {
+      "id": "native.switch-checked",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[false,true]",
+      "actual": "[false,true]"
+    },
+    {
+      "id": "native.slider-value",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[21,64]",
+      "actual": "[21,64]"
+    },
+    {
+      "id": "native.progress-percent",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[16,72]",
+      "actual": "[null,null]"
+    },
+    {
+      "id": "native.checkbox-checked",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,false]",
+      "actual": "[true,false]"
+    },
+    {
+      "id": "native.radio-checked",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[false,true]",
+      "actual": "[false,true]"
+    },
+    {
+      "id": "native.input-maxlength",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[7,14]",
+      "actual": "[null,null]"
+    },
+    {
+      "id": "native.textarea-maxlength",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[11,18]",
+      "actual": "[null,null]"
+    },
+    {
+      "id": "native.picker-value",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[0,1]",
+      "actual": "[0,1]"
+    },
+    {
+      "id": "native.text-selectable",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[false,true]",
+      "actual": "[null,null]"
+    },
+    {
+      "id": "native.image-mode",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"aspectFit\",\"center\"]",
+      "actual": "[null,null]"
+    },
+    {
+      "id": "native.swiper-duration",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[180,400]",
+      "actual": "[null,null]"
+    },
+    {
+      "id": "css.rpx-viewport",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "false"
+    },
+    {
+      "id": "css.descendant-rule",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[19,23]",
+      "actual": "[19,23]"
+    },
+    {
+      "id": "setdata.render-snapshot",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[8,3]",
+      "actual": "[3,\"3\"]"
+    },
+    {
+      "id": "render.conditional-remount",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,null,true]",
+      "actual": "[true,null,true]"
+    },
+    {
+      "id": "render.object-iteration",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"a/2\",\"b/5\"]",
+      "actual": "[\"0/2\",\"1/5\"]"
+    },
+    {
+      "id": "render.nested-scopes",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"a1\",\"a2\",\"b3\"]",
+      "actual": "[\"a1\",\"a2\",\"b3\"]"
+    },
+    {
+      "id": "render.list-remove",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"b4\"]",
+      "actual": "[\"b4\"]"
+    },
+    {
+      "id": "render.interpolation-types",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[4,true,\"A/B\"]",
+      "actual": "[\"4\",\"true\",\"A/B\"]"
+    },
+    {
+      "id": "render.dynamic-template",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"first\",\"second\"]",
+      "actual": "[\"first\",\"second\"]"
+    },
+    {
+      "id": "setdata.sibling-paths",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[7,8,\"x\"]",
+      "actual": "[7,8,\"x\"]"
+    },
+    {
+      "id": "setdata.empty-array",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[]",
+      "actual": "[]"
+    },
+    {
+      "id": "wxs.inline-module",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"ALPHA\"",
+      "actual": "\"ALPHA\""
+    },
+    {
+      "id": "slot.default-content",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"projected\"",
+      "actual": "\"projected\""
+    },
+    {
+      "id": "css.class-rule",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[35,14]",
+      "actual": "[35,14]"
+    },
+    {
+      "id": "css.dynamic-class",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[49,14]",
+      "actual": "[49,14]"
+    },
+    {
+      "id": "canvas.pixel-roundtrip",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[255,0,0,255]",
+      "actual": "TypeError: wx.canvasGetImageData is not a function"
+    },
+    {
+      "id": "route.subpackage-stack-and-lifetimes",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"load:blue\",\"ready\",\"pack/stop/index\",2,\"unload\",\"pages/suite/index\",1]",
+      "actual": "[\"load:blue\",\"ready\",\"pack/stop/index\",2,\"unload\",\"pages/suite/index\",1]"
+    },
+    {
+      "id": "route.tab-rejects-navigate",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"fail\",\"complete\"]",
+      "actual": "[\"success\",\"complete\"]"
+    },
+    {
+      "id": "route.switch-tab-reuses-page",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[1,1,2,1]",
+      "actual": "Error: Navigation did not complete"
+    },
+    {
+      "id": "route.redirect-replaces-top",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"arrive:first\",\"depart:first\",\"arrive:second\",2,\"depart:second\"]",
+      "actual": "[\"arrive:first\",\"depart:first\",\"arrive:second\",2,\"depart:second\"]"
+    },
+    {
+      "id": "storage.roundtrip-text",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"pêche\"",
+      "actual": "\"pêche\""
+    },
+    {
+      "id": "storage.roundtrip-number",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "42",
+      "actual": "42"
+    },
+    {
+      "id": "storage.roundtrip-false",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "false",
+      "actual": "false"
+    },
+    {
+      "id": "storage.roundtrip-zero",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "0",
+      "actual": "0"
+    },
+    {
+      "id": "storage.roundtrip-array",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[2,\"b\"]",
+      "actual": "[2,\"b\"]"
+    },
+    {
+      "id": "storage.roundtrip-nested",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "{\"items\":[1,{\"x\":true}]}",
+      "actual": "{\"items\":[1,{\"x\":true}]}"
+    },
+    {
+      "id": "storage.overwrite-remove",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[2,true,false]",
+      "actual": "[2,true,false]"
+    },
+    {
+      "id": "storage.async-roundtrip",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"x\",\"y\"]",
+      "actual": "[\"x\",\"y\"]"
+    },
+    {
+      "id": "storage.missing-callback-order",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"fail\",\"complete\"]",
+      "actual": "[\"fail\",\"complete\"]"
+    },
+    {
+      "id": "base64.encode-single",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"AA==\"",
+      "actual": "TypeError: wx.arrayBufferToBase64 is not a function"
+    },
+    {
+      "id": "base64.decode-single",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[0]",
+      "actual": "TypeError: wx.base64ToArrayBuffer is not a function"
+    },
+    {
+      "id": "base64.encode-double",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"//8=\"",
+      "actual": "TypeError: wx.arrayBufferToBase64 is not a function"
+    },
+    {
+      "id": "base64.decode-double",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[255,255]",
+      "actual": "TypeError: wx.base64ToArrayBuffer is not a function"
+    },
+    {
+      "id": "base64.encode-triple",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"AH//\"",
+      "actual": "TypeError: wx.arrayBufferToBase64 is not a function"
+    },
+    {
+      "id": "base64.decode-triple",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[0,127,255]",
+      "actual": "TypeError: wx.base64ToArrayBuffer is not a function"
+    },
+    {
+      "id": "base64.encode-padding",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"AQIDBA==\"",
+      "actual": "TypeError: wx.arrayBufferToBase64 is not a function"
+    },
+    {
+      "id": "base64.decode-padding",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[1,2,3,4]",
+      "actual": "TypeError: wx.base64ToArrayBuffer is not a function"
+    },
+    {
+      "id": "fs.write-utf8",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[207,128]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.read-utf8",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"π\"",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.write-hex",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[0,254]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.read-hex",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"00fe\"",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.write-base64",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[16,32]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.read-base64",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"ECA=\"",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.write-ascii",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[65,122]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.read-ascii",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"Az\"",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.write-utf16le",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[169,3]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.read-utf16le",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"Ω\"",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.append",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"abc\"",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.copy-overwrite",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"new\",\"new\"]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.rename-tree",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[[\"new\"],\"leaf\"]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.stat-types",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true,false,false,true,3]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.unlink",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.missing-read",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.async-operations",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"ab\",[]]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.async-missing",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"fail\",\"complete\"]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fd.read-range",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "[2,0,99,100,0]",
+      "actual": "TypeError: t.unlinkSync is not a function"
+    },
+    {
+      "id": "fd.write-position",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "\"abXYef\"",
+      "actual": "TypeError: t.unlinkSync is not a function"
+    },
+    {
+      "id": "fd.truncate",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "[3,\"abc\"]",
+      "actual": "TypeError: t.unlinkSync is not a function"
+    },
+    {
+      "id": "fd.closed-read",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "TypeError: t.unlinkSync is not a function"
+    },
+    {
+      "id": "fs.truncate-path",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "\"ab\"",
+      "actual": "TypeError: t.unlinkSync is not a function"
+    },
+    {
+      "id": "fs.brotli-sync",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "[0,1,2,255]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.brotli-async",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "[0,1,2,255]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.zip-entry",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "\"kumquat\"",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.unzip-tree",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "\"kumquat\"",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.digest-md5",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "[3,\"900150983cd24fb0d6963f7d28e17f72\"]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.digest-sha1",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "[3,\"a9993e364706816aba3e25717850c26c9cd0d89d\"]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.digest-sha256",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "[3,\"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\"]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fs.async-tree",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "[\"ab\",true,[]]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "fd.async-roundtrip",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "[3,2,2,65,66]",
+      "actual": "TypeError: t.mkdirSync is not a function"
+    },
+    {
+      "id": "system.window-dimensions",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "system.device-platform",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "system.api-capability",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,false]",
+      "actual": "[true,false]"
+    },
+    {
+      "id": "system.async-window",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "network.type-result",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "audio.recorder-singleton",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "TypeError: wx.getRecorderManager is not a function"
+    },
+    {
+      "id": "audio.background-singleton",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "TypeError: wx.getBackgroundAudioManager is not a function"
+    },
+    {
+      "id": "audio.independent-contexts",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true,0.25,0.75]",
+      "actual": "TypeError: wx.createInnerAudioContext is not a function"
+    },
+    {
+      "id": "animation.step-snapshot",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "2",
+      "actual": "2"
+    },
+    {
+      "id": "worker.message-roundtrip",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[6,\"seed\"]",
+      "actual": "Error: Worker response timed out"
+    },
+    {
+      "id": "worker.message-shapes",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[{\"object\":{\"a\":1,\"nested\":[2,{\"b\":\"x\"}]},\"list\":[3,\"y\",true,null]}]",
+      "actual": "Error: Worker response timed out"
+    },
+    {
+      "id": "worker.terminate-stops",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true,false]",
+      "actual": "Error: Worker response timed out"
+    },
+    {
+      "id": "storage.batch-order",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "[\"second\",\"first\",\"second\"]",
+      "actual": "TypeError: wx.batchSetStorageSync is not a function"
+    },
+    {
+      "id": "storage.detached-copy",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[1]",
+      "actual": "[1,2,3]"
+    },
+    {
+      "id": "storage.promise-form",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"promise-value\"",
+      "actual": "\"promise-value\""
+    },
+    {
+      "id": "system.launch-path",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"pages/suite/index\"",
+      "actual": "\"pages/suite/index\""
+    },
+    {
+      "id": "system.menu-geometry",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "system.base-version",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "false"
+    },
+    {
+      "id": "clock.monotonic",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "TypeError: wx.getPerformance is not a function"
+    },
+    {
+      "id": "random.requested-lengths",
+      "evidence": "Pending baseline confirmation",
+      "status": "FAIL",
+      "expected": "[2,17]",
+      "actual": "TypeError: e[t] is not a function"
+    },
+    {
+      "id": "query.viewport-offset",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "canvas.png-export",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[137,80,78,71,13,10,26,10]",
+      "actual": "TypeError: wx.canvasToTempFilePath is not a function"
+    },
+    {
+      "id": "animation.export-clears-queue",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[1,0]",
+      "actual": "[1,0]"
+    },
+    {
+      "id": "animation.applies-computed-style",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true]",
+      "actual": "[false]"
+    },
+    {
+      "id": "fs.save-remove-cycle",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true,true,true]",
+      "actual": "TypeError: e[t] is not a function"
+    },
+    {
+      "id": "clipboard.roundtrip",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "\"suite-clip\"",
+      "actual": "Error: getClipboardData:fail Failed to execute 'readText' on 'Clipboard': Read permission denied."
+    },
+    {
+      "id": "page.scroll-to-selector",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true,true]",
+      "actual": "[true,false]"
+    },
+    {
+      "id": "image.info-from-canvas",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true,true]",
+      "actual": "TypeError: e[t] is not a function"
+    },
+    {
+      "id": "canvas.offscreen-pixels",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[255,0,0,255]",
+      "actual": "TypeError: wx.createOffscreenCanvas is not a function"
+    },
+    {
+      "id": "system.api-category",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true]",
+      "actual": "TypeError: wx.getApiCategory is not a function"
+    },
+    {
+      "id": "storage.missing-sync",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"\"",
+      "actual": "\"\""
+    },
+    {
+      "id": "storage.info-sync-shape",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "system.sync-and-split",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "system.async-callback",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "true",
+      "actual": "TypeError: e[t] is not a function"
+    },
+    {
+      "id": "system.device-info-shape",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[true,true,true,true]",
+      "actual": "[true,true,true,false]"
+    },
+    {
+      "id": "system.account-info-shape",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true]",
+      "actual": "[true]"
+    },
+    {
+      "id": "system.enter-path",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "\"pages/suite/index\"",
+      "actual": "\"pages/suite/index\""
+    },
+    {
+      "id": "system.app-language",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "system.safe-area",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "storage.async-info",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "ui.navigation-title",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"success\",\"complete\"]",
+      "actual": "Error: Case timed out: ui.navigation-title"
+    },
+    {
+      "id": "ui.navigation-loading",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"showNavigationBarLoading:ok\",\"hideNavigationBarLoading:ok\"]",
+      "actual": "Error: Case timed out: ui.navigation-loading"
+    },
+    {
+      "id": "ui.navigation-bar-color",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"success\",\"complete\"]",
+      "actual": "[]"
+    },
+    {
+      "id": "system.setting-shape",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[true,true,true,true]",
+      "actual": "[true,true,true,true]"
+    },
+    {
+      "id": "ui.loading-roundtrip",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"showLoading:ok\",\"hideLoading:ok\"]",
+      "actual": "[\"showLoading:ok\",\"hideLoading:ok\"]"
+    },
+    {
+      "id": "ui.toast-roundtrip",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "FAIL",
+      "expected": "[\"showToast:ok\",\"hideToast:ok\"]",
+      "actual": "TypeError: e[t] is not a function"
+    },
+    {
+      "id": "ui.tabbar-callbacks",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"ok\",\"ok\"]",
+      "actual": "[\"ok\",\"ok\"]"
+    },
+    {
+      "id": "ui.background-style",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"ok\",\"ok\"]",
+      "actual": "[\"ok\",\"ok\"]"
+    },
+    {
+      "id": "ui.scroll-top",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "system.next-tick",
+      "evidence": "Reproduced on 3.7.0",
+      "status": "PASS",
+      "expected": "[\"sync\",\"tick\"]",
+      "actual": "[\"sync\",\"tick\"]"
+    }
+  ]
+}
