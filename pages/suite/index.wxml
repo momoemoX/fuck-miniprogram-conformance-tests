@@ -20,6 +20,7 @@
     <view>Actual: {{item.actual}}</view>
   </view>
   <view aria-hidden="true" style="position:absolute;left:-200vw;top:0;width:100vw">
+    <component-gallery wx:if="{{galleryMounted}}" id="gallery" font="{{galleryFont}}"/>
     <reuse-list wx:if="{{reuseMounted}}" id="reuse-list"/>
     <block wx:if="{{errorMounted}}">
       <view id="error-bubble-outer" bind:boom="boomOuter">

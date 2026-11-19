@@ -25,8 +25,8 @@ function matches(actual, expected) {
 
 const TARGET = "3.7.12";
 const REPRODUCED = "Reproduced on " + TARGET;
-// One case may chain several navigations, each bounded by its own 5s wait.
-const CASE_TIMEOUT = 30000;
+// One case may chain several navigations, each bounded by its own 10s wait.
+const CASE_TIMEOUT = 60000;
 // After a timeout the exercise keeps running; its cleanup gets this long to restore
 // the shared page state before the run stops instead of contaminating later cases.
 const CLEANUP_GRACE = 15000;

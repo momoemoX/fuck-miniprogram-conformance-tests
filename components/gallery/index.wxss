@@ -1,0 +1,10 @@
+/* A fixed width keeps block components' boxes independent of the host screen width. */
+.gallery {
+  display: block;
+  width: 375px;
+}
+
+/* Each component sits in its own block so its size does not depend on its neighbours. */
+.cell {
+  display: block;
+}

@@ -2,15 +2,15 @@
   "sdkVersion": "3.7.12",
   "environment": "devtools simulator",
   "toolVersion": "2.02.2611062 Nightly",
-  "baseCommit": "01a0e78",
+  "appStyle": "v2",
   "runs": [
     {
       "profiles": "core",
-      "summary": "365/365 passed"
+      "summary": "468/468 passed"
     },
     {
       "profiles": "core+http+socket",
-      "summary": "379/379 passed"
+      "summary": "482/482 passed"
     }
   ],
   "results": [
@@ -2203,6 +2203,624 @@
       "status": "PASS",
       "expected": "[\"sync\",\"tick\"]",
       "actual": "[\"sync\",\"tick\"]"
+    },
+    {
+      "id": "component.defaults.audio",
+      "status": "PASS",
+      "expected": "{\"src\":\"\",\"loop\":false,\"controls\":false,\"poster\":\"\",\"name\":\"未知歌曲\",\"author\":\"未知作者\"}",
+      "actual": "{\"src\":\"\",\"loop\":false,\"controls\":false,\"poster\":\"\",\"name\":\"未知歌曲\",\"author\":\"未知作者\"}"
+    },
+    {
+      "id": "component.bound.audio",
+      "status": "PASS",
+      "expected": "{\"src\":\"suite\",\"loop\":true,\"controls\":true,\"poster\":\"suite\",\"name\":\"suite\",\"author\":\"suite\"}",
+      "actual": "{\"src\":\"suite\",\"loop\":true,\"controls\":true,\"poster\":\"suite\",\"name\":\"suite\",\"author\":\"suite\"}"
+    },
+    {
+      "id": "render.audio",
+      "status": "PASS",
+      "expected": "{\"width\":0,\"height\":0,\"display\":\"inline-block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"0px\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":0,\"height\":0,\"display\":\"inline-block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"0px\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.button",
+      "status": "PASS",
+      "expected": "{\"size\":\"default\",\"type\":\"default\",\"plain\":false,\"disabled\":false,\"loading\":false,\"formType\":\"\",\"openType\":\"\",\"hoverClass\":\"\",\"hoverStopPropagation\":false,\"hoverStartTime\":20,\"hoverStayTime\":70,\"lang\":\"en\",\"sessionFrom\":\"wxapp\",\"sendMessageTitle\":\"\",\"sendMessagePath\":\"\",\"sendMessageImg\":\"\",\"appParameter\":\"\",\"showMessageCard\":false,\"phoneNumberNoQuotaToast\":true,\"needShowEntrance\":true,\"entrancePath\":\"\"}",
+      "actual": "{\"size\":\"default\",\"type\":\"default\",\"plain\":false,\"disabled\":false,\"loading\":false,\"formType\":\"\",\"openType\":\"\",\"hoverClass\":\"\",\"hoverStopPropagation\":false,\"hoverStartTime\":20,\"hoverStayTime\":70,\"lang\":\"en\",\"sessionFrom\":\"wxapp\",\"sendMessageTitle\":\"\",\"sendMessagePath\":\"\",\"sendMessageImg\":\"\",\"appParameter\":\"\",\"showMessageCard\":false,\"phoneNumberNoQuotaToast\":true,\"needShowEntrance\":true,\"entrancePath\":\"\"}"
+    },
+    {
+      "id": "component.bound.button",
+      "status": "PASS",
+      "expected": "{\"size\":\"mini\",\"type\":\"default\",\"plain\":true,\"disabled\":true,\"loading\":true,\"formType\":\"reset\",\"openType\":\"liveActivity\",\"hoverClass\":\"suite\",\"hoverStopPropagation\":true,\"hoverStartTime\":7,\"hoverStayTime\":7,\"lang\":\"zh_CN\",\"sessionFrom\":\"suite\",\"sendMessageTitle\":\"suite\",\"sendMessagePath\":\"suite\",\"sendMessageImg\":\"suite\",\"appParameter\":\"suite\",\"showMessageCard\":true,\"phoneNumberNoQuotaToast\":true,\"needShowEntrance\":true,\"entrancePath\":\"suite\"}",
+      "actual": "{\"size\":\"mini\",\"type\":\"default\",\"plain\":true,\"disabled\":true,\"loading\":true,\"formType\":\"reset\",\"openType\":\"liveActivity\",\"hoverClass\":\"suite\",\"hoverStopPropagation\":true,\"hoverStartTime\":7,\"hoverStayTime\":7,\"lang\":\"zh_CN\",\"sessionFrom\":\"suite\",\"sendMessageTitle\":\"suite\",\"sendMessagePath\":\"suite\",\"sendMessageImg\":\"suite\",\"appParameter\":\"suite\",\"showMessageCard\":true,\"phoneNumberNoQuotaToast\":true,\"needShowEntrance\":true,\"entrancePath\":\"suite\"}"
+    },
+    {
+      "id": "render.button",
+      "status": "PASS",
+      "expected": "{\"width\":184,\"height\":40,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"95.5px\",\"margin-bottom\":\"0px\",\"margin-left\":\"95.5px\",\"padding-top\":\"8px\",\"padding-right\":\"24px\",\"padding-bottom\":\"8px\",\"padding-left\":\"24px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgb(248, 248, 248)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"17px\",\"font-weight\":\"700\",\"line-height\":\"24px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":184,\"height\":40,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"95.5px\",\"margin-bottom\":\"0px\",\"margin-left\":\"95.5px\",\"padding-top\":\"8px\",\"padding-right\":\"24px\",\"padding-bottom\":\"8px\",\"padding-left\":\"24px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgb(248, 248, 248)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"17px\",\"font-weight\":\"700\",\"line-height\":\"24px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.canvas",
+      "status": "PASS",
+      "expected": "{\"type\":\"\",\"canvasId\":\"\",\"disableScroll\":false}",
+      "actual": "{\"type\":\"\",\"canvasId\":\"\",\"disableScroll\":false}"
+    },
+    {
+      "id": "component.bound.canvas",
+      "status": "PASS",
+      "expected": "{\"type\":\"suite\",\"canvasId\":\"suite\",\"disableScroll\":true}",
+      "actual": "{\"type\":\"suite\",\"canvasId\":\"suite\",\"disableScroll\":true}"
+    },
+    {
+      "id": "render.canvas",
+      "status": "PASS",
+      "expected": "{\"width\":0,\"height\":0,\"display\":\"none\",\"position\":\"relative\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":0,\"height\":0,\"display\":\"none\",\"position\":\"relative\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "render.checkbox-group",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.checkbox",
+      "status": "PASS",
+      "expected": "{\"value\":\"\",\"disabled\":false,\"checked\":false,\"color\":\"\"}",
+      "actual": "{\"value\":\"\",\"disabled\":false,\"checked\":false,\"color\":\"\"}"
+    },
+    {
+      "id": "component.bound.checkbox",
+      "status": "PASS",
+      "expected": "{\"value\":\"suite\",\"disabled\":true,\"checked\":true,\"color\":\"suite\"}",
+      "actual": "{\"value\":\"suite\",\"disabled\":true,\"checked\":true,\"color\":\"suite\"}"
+    },
+    {
+      "id": "render.checkbox",
+      "status": "PASS",
+      "expected": "{\"width\":29,\"display\":\"inline-block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":29,\"display\":\"inline-block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.cover-image",
+      "status": "PASS",
+      "expected": "{\"src\":\"\",\"referrerPolicy\":\"no-referrer\"}",
+      "actual": "{\"src\":\"\",\"referrerPolicy\":\"no-referrer\"}"
+    },
+    {
+      "id": "component.bound.cover-image",
+      "status": "PASS",
+      "expected": "{\"src\":\"suite\",\"referrerPolicy\":\"no-referrer\"}",
+      "actual": "{\"src\":\"suite\",\"referrerPolicy\":\"no-referrer\"}"
+    },
+    {
+      "id": "render.cover-image",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"19.2px\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"19.2px\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.cover-view",
+      "status": "PASS",
+      "expected": "{\"scrollTop\":-1}",
+      "actual": "{\"scrollTop\":-1}"
+    },
+    {
+      "id": "component.bound.cover-view",
+      "status": "PASS",
+      "expected": "{\"scrollTop\":\"7\"}",
+      "actual": "{\"scrollTop\":\"7\"}"
+    },
+    {
+      "id": "render.cover-view",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"height\":19.2,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"19.2px\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"nowrap\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"height\":19.2,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"19.2px\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"nowrap\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.editor",
+      "status": "PASS",
+      "expected": "{\"readOnly\":false,\"placeholder\":\"\",\"showImgSize\":false,\"showImgToolbar\":false,\"showImgResize\":false,\"enableFormats\":[\"bold\",\"italic\",\"underline\"],\"enterkeyhint\":\"enter\",\"confirmHold\":true}",
+      "actual": "{\"readOnly\":false,\"placeholder\":\"\",\"showImgSize\":false,\"showImgToolbar\":false,\"showImgResize\":false,\"enableFormats\":[\"bold\",\"italic\",\"underline\"],\"enterkeyhint\":\"enter\",\"confirmHold\":true}"
+    },
+    {
+      "id": "component.bound.editor",
+      "status": "PASS",
+      "expected": "{\"readOnly\":true,\"placeholder\":\"suite\",\"showImgSize\":true,\"showImgToolbar\":true,\"showImgResize\":true,\"enterkeyhint\":\"suite\",\"confirmHold\":true}",
+      "actual": "{\"readOnly\":true,\"placeholder\":\"suite\",\"showImgSize\":true,\"showImgToolbar\":true,\"showImgResize\":true,\"enterkeyhint\":\"suite\",\"confirmHold\":true}"
+    },
+    {
+      "id": "render.editor",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"height\":200,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"height\":200,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.form",
+      "status": "PASS",
+      "expected": "{\"reportSubmit\":false,\"reportSubmitTimeout\":0}",
+      "actual": "{\"reportSubmit\":false,\"reportSubmitTimeout\":0}"
+    },
+    {
+      "id": "component.bound.form",
+      "status": "PASS",
+      "expected": "{\"reportSubmit\":true,\"reportSubmitTimeout\":7}",
+      "actual": "{\"reportSubmit\":true,\"reportSubmitTimeout\":7}"
+    },
+    {
+      "id": "render.form",
+      "status": "PASS",
+      "expected": "{\"width\":0,\"height\":0,\"display\":\"inline\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":0,\"height\":0,\"display\":\"inline\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.icon",
+      "status": "PASS",
+      "expected": "{\"type\":\"\",\"size\":\"23px\",\"color\":\"\"}",
+      "actual": "{\"type\":\"\",\"size\":\"23px\",\"color\":\"\"}"
+    },
+    {
+      "id": "component.bound.icon",
+      "status": "PASS",
+      "expected": "{\"type\":\"suite\",\"size\":\"7\",\"color\":\"suite\"}",
+      "actual": "{\"type\":\"suite\",\"size\":\"7\",\"color\":\"suite\"}"
+    },
+    {
+      "id": "render.icon",
+      "status": "PASS",
+      "expected": "{\"width\":0,\"height\":0,\"display\":\"inline-block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"0px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":0,\"height\":0,\"display\":\"inline-block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"0px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.image",
+      "status": "PASS",
+      "expected": "{\"src\":\"\",\"mode\":\"\",\"showMenuByLongpress\":false}",
+      "actual": "{\"src\":\"\",\"mode\":\"\",\"showMenuByLongpress\":false}"
+    },
+    {
+      "id": "component.bound.image",
+      "status": "PASS",
+      "expected": "{\"src\":\"suite\",\"mode\":\"aspectFit\",\"showMenuByLongpress\":true}",
+      "actual": "{\"src\":\"suite\",\"mode\":\"aspectFit\",\"showMenuByLongpress\":true}"
+    },
+    {
+      "id": "render.image",
+      "status": "PASS",
+      "expected": "{\"width\":320,\"height\":240,\"display\":\"inline-block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":320,\"height\":240,\"display\":\"inline-block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.input",
+      "status": "PASS",
+      "expected": "{\"value\":\"\",\"type\":\"text\",\"password\":false,\"placeholder\":\"\",\"placeholderStyle\":\"\",\"disabled\":false,\"maxlength\":140,\"cursorSpacing\":null,\"autoFocus\":false,\"focus\":0,\"confirmType\":null,\"alwaysEmbed\":null,\"confirmHold\":false,\"cursor\":-1,\"cursorColor\":null,\"selectionStart\":-1,\"selectionEnd\":-1,\"adjustPosition\":null,\"holdKeyboard\":null,\"safePasswordCertPath\":null,\"safePasswordLength\":null,\"safePasswordTimeStamp\":null,\"safePasswordNonce\":null,\"safePasswordSalt\":null,\"safePasswordCustomHash\":\"\"}",
+      "actual": "{\"value\":\"\",\"type\":\"text\",\"password\":false,\"placeholder\":\"\",\"placeholderStyle\":\"\",\"disabled\":false,\"maxlength\":140,\"cursorSpacing\":null,\"autoFocus\":false,\"focus\":0,\"confirmType\":null,\"alwaysEmbed\":null,\"confirmHold\":false,\"cursor\":-1,\"cursorColor\":null,\"selectionStart\":-1,\"selectionEnd\":-1,\"adjustPosition\":null,\"holdKeyboard\":null,\"safePasswordCertPath\":null,\"safePasswordLength\":null,\"safePasswordTimeStamp\":null,\"safePasswordNonce\":null,\"safePasswordSalt\":null,\"safePasswordCustomHash\":\"\"}"
+    },
+    {
+      "id": "component.bound.input",
+      "status": "PASS",
+      "expected": "{\"value\":\"suite\",\"type\":\"number\",\"password\":true,\"placeholder\":\"suite\",\"placeholderStyle\":\"suite\",\"disabled\":true,\"maxlength\":7,\"cursorSpacing\":null,\"confirmType\":null,\"confirmHold\":true,\"cursor\":7,\"cursorColor\":null,\"selectionStart\":7,\"selectionEnd\":7,\"adjustPosition\":null,\"holdKeyboard\":null,\"safePasswordCertPath\":null,\"safePasswordLength\":null,\"safePasswordTimeStamp\":null,\"safePasswordNonce\":null,\"safePasswordSalt\":null,\"safePasswordCustomHash\":\"suite\"}",
+      "actual": "{\"value\":\"suite\",\"type\":\"number\",\"password\":true,\"placeholder\":\"suite\",\"placeholderStyle\":\"suite\",\"disabled\":true,\"maxlength\":7,\"cursorSpacing\":null,\"confirmType\":null,\"confirmHold\":true,\"cursor\":7,\"cursorColor\":null,\"selectionStart\":7,\"selectionEnd\":7,\"adjustPosition\":null,\"holdKeyboard\":null,\"safePasswordCertPath\":null,\"safePasswordLength\":null,\"safePasswordTimeStamp\":null,\"safePasswordNonce\":null,\"safePasswordSalt\":null,\"safePasswordCustomHash\":\"suite\"}"
+    },
+    {
+      "id": "render.input",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"height\":22.4,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"nowrap\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"height\":22.4,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"nowrap\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.label",
+      "status": "PASS",
+      "expected": "{\"for\":\"\"}",
+      "actual": "{\"for\":\"\"}"
+    },
+    {
+      "id": "component.bound.label",
+      "status": "PASS",
+      "expected": "{\"for\":\"suite\"}",
+      "actual": "{\"for\":\"suite\"}"
+    },
+    {
+      "id": "render.label",
+      "status": "PASS",
+      "expected": "{\"display\":\"inline\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"display\":\"inline\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.map",
+      "status": "PASS",
+      "expected": "{\"longitude\":116.46,\"latitude\":39.92,\"scale\":16,\"minScale\":3,\"maxScale\":20,\"markers\":[],\"covers\":[],\"polyline\":[],\"circles\":[],\"controls\":[],\"includePoints\":[],\"showLocation\":false,\"polygons\":[],\"subkey\":\"\",\"layerStyle\":1,\"rotate\":0,\"skew\":0,\"enable3D\":false,\"showCompass\":false,\"showScale\":false,\"enableOverlooking\":false,\"enableAutoMaxOverlooking\":null,\"enableZoom\":true,\"enableScroll\":true,\"enableRotate\":false,\"enableSatellite\":false,\"enableTraffic\":false,\"enablePoi\":true,\"enableBuilding\":true,\"setting\":{}}",
+      "actual": "{\"longitude\":116.46,\"latitude\":39.92,\"scale\":16,\"minScale\":3,\"maxScale\":20,\"markers\":[],\"covers\":[],\"polyline\":[],\"circles\":[],\"controls\":[],\"includePoints\":[],\"showLocation\":false,\"polygons\":[],\"subkey\":\"\",\"layerStyle\":1,\"rotate\":0,\"skew\":0,\"enable3D\":false,\"showCompass\":false,\"showScale\":false,\"enableOverlooking\":false,\"enableAutoMaxOverlooking\":null,\"enableZoom\":true,\"enableScroll\":true,\"enableRotate\":false,\"enableSatellite\":false,\"enableTraffic\":false,\"enablePoi\":true,\"enableBuilding\":true,\"setting\":{}}"
+    },
+    {
+      "id": "component.bound.map",
+      "status": "PASS",
+      "expected": "{\"longitude\":7,\"latitude\":7,\"scale\":7,\"minScale\":7,\"maxScale\":7,\"showLocation\":true,\"subkey\":\"suite\",\"layerStyle\":7,\"rotate\":7,\"skew\":7,\"enable3D\":true,\"showCompass\":true,\"showScale\":true,\"enableOverlooking\":true,\"enableAutoMaxOverlooking\":null,\"enableZoom\":true,\"enableScroll\":true,\"enableRotate\":true,\"enableSatellite\":true,\"enableTraffic\":true,\"enablePoi\":true,\"enableBuilding\":true}",
+      "actual": "{\"longitude\":7,\"latitude\":7,\"scale\":7,\"minScale\":7,\"maxScale\":7,\"showLocation\":true,\"subkey\":\"suite\",\"layerStyle\":7,\"rotate\":7,\"skew\":7,\"enable3D\":true,\"showCompass\":true,\"showScale\":true,\"enableOverlooking\":true,\"enableAutoMaxOverlooking\":null,\"enableZoom\":true,\"enableScroll\":true,\"enableRotate\":true,\"enableSatellite\":true,\"enableTraffic\":true,\"enablePoi\":true,\"enableBuilding\":true}"
+    },
+    {
+      "id": "render.map",
+      "status": "PASS",
+      "expected": "{\"width\":300,\"height\":150,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":300,\"height\":150,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.match-media",
+      "status": "PASS",
+      "expected": "{\"minWidth\":0,\"maxWidth\":0,\"width\":0,\"minHeight\":0,\"maxHeight\":0,\"height\":0,\"orientation\":\"\"}",
+      "actual": "{\"minWidth\":0,\"maxWidth\":0,\"width\":0,\"minHeight\":0,\"maxHeight\":0,\"height\":0,\"orientation\":\"\"}"
+    },
+    {
+      "id": "component.bound.match-media",
+      "status": "PASS",
+      "expected": "{\"minWidth\":7,\"maxWidth\":7,\"width\":7,\"minHeight\":7,\"maxHeight\":7,\"height\":7,\"orientation\":\"suite\"}",
+      "actual": "{\"minWidth\":7,\"maxWidth\":7,\"width\":7,\"minHeight\":7,\"maxHeight\":7,\"height\":7,\"orientation\":\"suite\"}"
+    },
+    {
+      "id": "render.match-media",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.movable-area",
+      "status": "PASS",
+      "expected": "{\"scaleArea\":false}",
+      "actual": "{\"scaleArea\":false}"
+    },
+    {
+      "id": "component.bound.movable-area",
+      "status": "PASS",
+      "expected": "{\"scaleArea\":true}",
+      "actual": "{\"scaleArea\":true}"
+    },
+    {
+      "id": "render.movable-area",
+      "status": "PASS",
+      "expected": "{\"width\":10,\"height\":10,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":10,\"height\":10,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.movable-view",
+      "status": "PASS",
+      "expected": "{\"direction\":\"none\",\"inertia\":false,\"outOfBounds\":false,\"x\":0,\"y\":0,\"damping\":20,\"friction\":2,\"disabled\":false,\"scale\":false,\"scaleMin\":0.1,\"scaleMax\":10,\"scaleValue\":1,\"animation\":true}",
+      "actual": "{\"direction\":\"none\",\"inertia\":false,\"outOfBounds\":false,\"x\":0,\"y\":0,\"damping\":20,\"friction\":2,\"disabled\":false,\"scale\":false,\"scaleMin\":0.1,\"scaleMax\":10,\"scaleValue\":1,\"animation\":true}"
+    },
+    {
+      "id": "component.bound.movable-view",
+      "status": "PASS",
+      "expected": "{\"direction\":\"suite\",\"inertia\":true,\"outOfBounds\":true,\"x\":7,\"y\":7,\"damping\":7,\"friction\":7,\"disabled\":true,\"scale\":true,\"scaleMin\":7,\"scaleMax\":7,\"scaleValue\":7,\"animation\":true}",
+      "actual": "{\"direction\":\"suite\",\"inertia\":true,\"outOfBounds\":true,\"x\":7,\"y\":7,\"damping\":7,\"friction\":7,\"disabled\":true,\"scale\":true,\"scaleMin\":7,\"scaleMax\":7,\"scaleValue\":7,\"animation\":true}"
+    },
+    {
+      "id": "render.movable-view",
+      "status": "PASS",
+      "expected": "{\"width\":10,\"height\":10,\"display\":\"block\",\"position\":\"absolute\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":10,\"height\":10,\"display\":\"block\",\"position\":\"absolute\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.navigator",
+      "status": "PASS",
+      "expected": "{\"target\":\"self\",\"url\":\"\",\"openType\":\"navigate\",\"delta\":1,\"appId\":\"\",\"path\":\"\",\"extraData\":\"\",\"version\":\"release\",\"shortLink\":\"\",\"hoverClass\":\"\",\"hoverStopPropagation\":false,\"hoverStartTime\":50,\"hoverStayTime\":600}",
+      "actual": "{\"target\":\"self\",\"url\":\"\",\"openType\":\"navigate\",\"delta\":1,\"appId\":\"\",\"path\":\"\",\"extraData\":\"\",\"version\":\"release\",\"shortLink\":\"\",\"hoverClass\":\"\",\"hoverStopPropagation\":false,\"hoverStartTime\":50,\"hoverStayTime\":600}"
+    },
+    {
+      "id": "component.bound.navigator",
+      "status": "PASS",
+      "expected": "{\"target\":\"miniProgram\",\"url\":\"suite\",\"openType\":\"redirect\",\"delta\":7,\"appId\":\"suite\",\"path\":\"suite\",\"version\":\"trial\",\"shortLink\":\"suite\",\"hoverClass\":\"suite\",\"hoverStopPropagation\":true,\"hoverStartTime\":7,\"hoverStayTime\":7}",
+      "actual": "{\"target\":\"miniProgram\",\"url\":\"suite\",\"openType\":\"redirect\",\"delta\":7,\"appId\":\"suite\",\"path\":\"suite\",\"version\":\"trial\",\"shortLink\":\"suite\",\"hoverClass\":\"suite\",\"hoverStopPropagation\":true,\"hoverStartTime\":7,\"hoverStayTime\":7}"
+    },
+    {
+      "id": "render.navigator",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "render.picker-view-column",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.picker-view",
+      "status": "PASS",
+      "expected": "{\"value\":[],\"maskClass\":\"\",\"indicatorStyle\":\"\"}",
+      "actual": "{\"value\":[],\"maskClass\":\"\",\"indicatorStyle\":\"\"}"
+    },
+    {
+      "id": "component.bound.picker-view",
+      "status": "PASS",
+      "expected": "{\"maskClass\":\"suite\",\"indicatorStyle\":\"suite\"}",
+      "actual": "{\"maskClass\":\"suite\",\"indicatorStyle\":\"suite\"}"
+    },
+    {
+      "id": "render.picker-view",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.picker",
+      "status": "PASS",
+      "expected": "{\"headerText\":\"\",\"mode\":\"selector\",\"disabled\":false,\"range\":[],\"rangeKey\":\"\",\"value\":\"\",\"start\":\"\",\"end\":\"\",\"fields\":\"day\",\"customItem\":\"\",\"level\":\"\"}",
+      "actual": "{\"headerText\":\"\",\"mode\":\"selector\",\"disabled\":false,\"range\":[],\"rangeKey\":\"\",\"value\":\"\",\"start\":\"\",\"end\":\"\",\"fields\":\"day\",\"customItem\":\"\",\"level\":\"\"}"
+    },
+    {
+      "id": "component.bound.picker",
+      "status": "PASS",
+      "expected": "{\"headerText\":\"suite\",\"mode\":\"multiSelector\",\"disabled\":true,\"rangeKey\":\"suite\",\"start\":\"suite\",\"end\":\"suite\",\"fields\":\"month\",\"customItem\":\"suite\",\"level\":\"city\"}",
+      "actual": "{\"headerText\":\"suite\",\"mode\":\"multiSelector\",\"disabled\":true,\"rangeKey\":\"suite\",\"start\":\"suite\",\"end\":\"suite\",\"fields\":\"month\",\"customItem\":\"suite\",\"level\":\"city\"}"
+    },
+    {
+      "id": "render.picker",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.progress",
+      "status": "PASS",
+      "expected": "{\"percent\":0,\"showInfo\":false,\"borderRadius\":0,\"fontSize\":16,\"strokeWidth\":6,\"color\":\"#09BB07\",\"activeColor\":\"#09BB07\",\"backgroundColor\":\"#EBEBEB\",\"active\":false,\"activeMode\":\"backwards\",\"duration\":30}",
+      "actual": "{\"percent\":0,\"showInfo\":false,\"borderRadius\":0,\"fontSize\":16,\"strokeWidth\":6,\"color\":\"#09BB07\",\"activeColor\":\"#09BB07\",\"backgroundColor\":\"#EBEBEB\",\"active\":false,\"activeMode\":\"backwards\",\"duration\":30}"
+    },
+    {
+      "id": "component.bound.progress",
+      "status": "PASS",
+      "expected": "{\"percent\":7,\"showInfo\":true,\"borderRadius\":\"7\",\"fontSize\":\"7\",\"strokeWidth\":\"7\",\"color\":\"suite\",\"activeColor\":\"suite\",\"backgroundColor\":\"suite\",\"active\":true,\"activeMode\":\"suite\",\"duration\":7}",
+      "actual": "{\"percent\":7,\"showInfo\":true,\"borderRadius\":\"7\",\"fontSize\":\"7\",\"strokeWidth\":\"7\",\"color\":\"suite\",\"activeColor\":\"suite\",\"backgroundColor\":\"suite\",\"active\":true,\"activeMode\":\"suite\",\"duration\":7}"
+    },
+    {
+      "id": "render.progress",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"height\":6,\"display\":\"flex\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"height\":6,\"display\":\"flex\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "render.radio-group",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.radio",
+      "status": "PASS",
+      "expected": "{\"value\":\"\",\"checked\":false,\"disabled\":false,\"color\":\"\"}",
+      "actual": "{\"value\":\"\",\"checked\":false,\"disabled\":false,\"color\":\"\"}"
+    },
+    {
+      "id": "component.bound.radio",
+      "status": "PASS",
+      "expected": "{\"value\":\"suite\",\"checked\":true,\"disabled\":true,\"color\":\"suite\"}",
+      "actual": "{\"value\":\"suite\",\"checked\":true,\"disabled\":true,\"color\":\"suite\"}"
+    },
+    {
+      "id": "render.radio",
+      "status": "PASS",
+      "expected": "{\"width\":29,\"display\":\"inline-block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":29,\"display\":\"inline-block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.rich-text",
+      "status": "PASS",
+      "expected": "{\"nodes\":null,\"space\":\"\",\"userSelect\":false}",
+      "actual": "{\"nodes\":null,\"space\":\"\",\"userSelect\":false}"
+    },
+    {
+      "id": "component.bound.rich-text",
+      "status": "PASS",
+      "expected": "{\"space\":\"emsp\",\"userSelect\":true}",
+      "actual": "{\"space\":\"emsp\",\"userSelect\":true}"
+    },
+    {
+      "id": "render.rich-text",
+      "status": "PASS",
+      "expected": "{\"width\":0,\"height\":0,\"display\":\"inline\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":0,\"height\":0,\"display\":\"inline\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.scroll-view",
+      "status": "PASS",
+      "expected": "{\"scrollX\":false,\"scrollY\":false,\"upperThreshold\":50,\"lowerThreshold\":50,\"scrollTop\":\"\",\"scrollLeft\":\"\",\"scrollIntoView\":\"\",\"scrollIntoViewOffset\":0,\"scrollWithAnimation\":false,\"enableBackToTop\":false,\"enablePassive\":false,\"refresherEnabled\":false,\"refresherThreshold\":45,\"refresherDefaultStyle\":\"black\",\"refresherBackground\":\"\",\"refresherTriggered\":false,\"bounces\":true,\"showScrollbar\":true,\"fastDeceleration\":false,\"scrollAnchoring\":false}",
+      "actual": "{\"scrollX\":false,\"scrollY\":false,\"upperThreshold\":50,\"lowerThreshold\":50,\"scrollTop\":\"\",\"scrollLeft\":\"\",\"scrollIntoView\":\"\",\"scrollIntoViewOffset\":0,\"scrollWithAnimation\":false,\"enableBackToTop\":false,\"enablePassive\":false,\"refresherEnabled\":false,\"refresherThreshold\":45,\"refresherDefaultStyle\":\"black\",\"refresherBackground\":\"\",\"refresherTriggered\":false,\"bounces\":true,\"showScrollbar\":true,\"fastDeceleration\":false,\"scrollAnchoring\":false}"
+    },
+    {
+      "id": "component.bound.scroll-view",
+      "status": "PASS",
+      "expected": "{\"scrollX\":true,\"scrollY\":true,\"upperThreshold\":\"7\",\"lowerThreshold\":\"7\",\"scrollTop\":\"7\",\"scrollLeft\":\"7\",\"scrollIntoView\":\"suite\",\"scrollIntoViewOffset\":7,\"scrollWithAnimation\":true,\"enableBackToTop\":true,\"enablePassive\":true,\"refresherEnabled\":true,\"refresherThreshold\":7,\"refresherDefaultStyle\":\"suite\",\"refresherBackground\":\"suite\",\"refresherTriggered\":true,\"bounces\":true,\"showScrollbar\":true,\"fastDeceleration\":true,\"scrollAnchoring\":true}",
+      "actual": "{\"scrollX\":true,\"scrollY\":true,\"upperThreshold\":\"7\",\"lowerThreshold\":\"7\",\"scrollTop\":\"7\",\"scrollLeft\":\"7\",\"scrollIntoView\":\"suite\",\"scrollIntoViewOffset\":7,\"scrollWithAnimation\":true,\"enableBackToTop\":true,\"enablePassive\":true,\"refresherEnabled\":true,\"refresherThreshold\":7,\"refresherDefaultStyle\":\"suite\",\"refresherBackground\":\"suite\",\"refresherTriggered\":true,\"bounces\":true,\"showScrollbar\":true,\"fastDeceleration\":true,\"scrollAnchoring\":true}"
+    },
+    {
+      "id": "render.scroll-view",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.slider",
+      "status": "PASS",
+      "expected": "{\"min\":0,\"max\":100,\"step\":1,\"disabled\":false,\"value\":0,\"color\":\"\",\"selectedColor\":\"#1AAD19\",\"activeColor\":\"#1AAD19\",\"backgroundColor\":\"#E9E9E9\",\"blockSize\":28,\"blockColor\":\"#FFFFFF\",\"showValue\":false}",
+      "actual": "{\"min\":0,\"max\":100,\"step\":1,\"disabled\":false,\"value\":0,\"color\":\"\",\"selectedColor\":\"#1AAD19\",\"activeColor\":\"#1AAD19\",\"backgroundColor\":\"#E9E9E9\",\"blockSize\":28,\"blockColor\":\"#FFFFFF\",\"showValue\":false}"
+    },
+    {
+      "id": "component.bound.slider",
+      "status": "PASS",
+      "expected": "{\"min\":7,\"max\":7,\"step\":7,\"disabled\":true,\"value\":7,\"color\":\"#123456\",\"selectedColor\":\"#123456\",\"activeColor\":\"#123456\",\"backgroundColor\":\"#123456\",\"blockSize\":7,\"blockColor\":\"#123456\",\"showValue\":true}",
+      "actual": "{\"min\":7,\"max\":7,\"step\":7,\"disabled\":true,\"value\":7,\"color\":\"#123456\",\"selectedColor\":\"#123456\",\"activeColor\":\"#123456\",\"backgroundColor\":\"#123456\",\"blockSize\":7,\"blockColor\":\"#123456\",\"showValue\":true}"
+    },
+    {
+      "id": "render.slider",
+      "status": "PASS",
+      "expected": "{\"width\":339,\"height\":18,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"10px\",\"margin-right\":\"18px\",\"margin-bottom\":\"10px\",\"margin-left\":\"18px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":339,\"height\":18,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"10px\",\"margin-right\":\"18px\",\"margin-bottom\":\"10px\",\"margin-left\":\"18px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.swiper-item",
+      "status": "PASS",
+      "expected": "{\"itemId\":\"\",\"skipHiddenItemLayout\":null}",
+      "actual": "{\"itemId\":\"\",\"skipHiddenItemLayout\":null}"
+    },
+    {
+      "id": "component.bound.swiper-item",
+      "status": "PASS",
+      "expected": "{\"itemId\":\"suite\",\"skipHiddenItemLayout\":null}",
+      "actual": "{\"itemId\":\"suite\",\"skipHiddenItemLayout\":null}"
+    },
+    {
+      "id": "render.swiper-item",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"height\":150,\"display\":\"block\",\"position\":\"absolute\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"height\":150,\"display\":\"block\",\"position\":\"absolute\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.swiper",
+      "status": "PASS",
+      "expected": "{\"indicatorDots\":false,\"indicatorColor\":\"\",\"indicatorActiveColor\":\"\",\"autoplay\":false,\"current\":0,\"interval\":5000,\"duration\":500,\"circular\":false,\"vertical\":false,\"displayMultipleItems\":1,\"previousMargin\":\"\",\"nextMargin\":\"\",\"easingFunction\":\"default\",\"direction\":null}",
+      "actual": "{\"indicatorDots\":false,\"indicatorColor\":\"\",\"indicatorActiveColor\":\"\",\"autoplay\":false,\"current\":0,\"interval\":5000,\"duration\":500,\"circular\":false,\"vertical\":false,\"displayMultipleItems\":1,\"previousMargin\":\"\",\"nextMargin\":\"\",\"easingFunction\":\"default\",\"direction\":null}"
+    },
+    {
+      "id": "component.bound.swiper",
+      "status": "PASS",
+      "expected": "{\"indicatorDots\":true,\"indicatorColor\":\"#123456\",\"indicatorActiveColor\":\"#123456\",\"current\":7,\"interval\":7,\"duration\":7,\"circular\":true,\"vertical\":true,\"displayMultipleItems\":7,\"previousMargin\":\"suite\",\"nextMargin\":\"suite\",\"easingFunction\":\"linear\",\"direction\":null}",
+      "actual": "{\"indicatorDots\":true,\"indicatorColor\":\"#123456\",\"indicatorActiveColor\":\"#123456\",\"current\":7,\"interval\":7,\"duration\":7,\"circular\":true,\"vertical\":true,\"displayMultipleItems\":7,\"previousMargin\":\"suite\",\"nextMargin\":\"suite\",\"easingFunction\":\"linear\",\"direction\":null}"
+    },
+    {
+      "id": "render.swiper",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"height\":150,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"height\":150,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.switch",
+      "status": "PASS",
+      "expected": "{\"checked\":false,\"disabled\":false,\"type\":\"switch\",\"color\":\"\"}",
+      "actual": "{\"checked\":false,\"disabled\":false,\"type\":\"switch\",\"color\":\"\"}"
+    },
+    {
+      "id": "component.bound.switch",
+      "status": "PASS",
+      "expected": "{\"checked\":true,\"disabled\":true,\"type\":\"suite\",\"color\":\"suite\"}",
+      "actual": "{\"checked\":true,\"disabled\":true,\"type\":\"suite\",\"color\":\"suite\"}"
+    },
+    {
+      "id": "render.switch",
+      "status": "PASS",
+      "expected": "{\"width\":57,\"height\":32,\"display\":\"inline-block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":57,\"height\":32,\"display\":\"inline-block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.text",
+      "status": "PASS",
+      "expected": "{\"selectable\":false,\"userSelect\":false}",
+      "actual": "{\"selectable\":false,\"userSelect\":false}"
+    },
+    {
+      "id": "component.bound.text",
+      "status": "PASS",
+      "expected": "{\"selectable\":true,\"userSelect\":true}",
+      "actual": "{\"selectable\":true,\"userSelect\":true}"
+    },
+    {
+      "id": "render.text",
+      "status": "PASS",
+      "expected": "{\"display\":\"inline\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"display\":\"inline\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.textarea",
+      "status": "PASS",
+      "expected": "{\"value\":\"\",\"placeholder\":\"\",\"placeholderStyle\":\"\",\"disabled\":false,\"maxlength\":140,\"autoFocus\":false,\"focus\":0,\"autoHeight\":false,\"cursorSpacing\":null,\"cursor\":-1,\"selectionStart\":-1,\"selectionEnd\":-1,\"adjustPosition\":null,\"holdKeyboard\":null,\"disableDefaultPadding\":null,\"confirmType\":\"return\",\"confirmHold\":false,\"adjustKeyboardTo\":\"cursor\"}",
+      "actual": "{\"value\":\"\",\"placeholder\":\"\",\"placeholderStyle\":\"\",\"disabled\":false,\"maxlength\":140,\"autoFocus\":false,\"focus\":0,\"autoHeight\":false,\"cursorSpacing\":null,\"cursor\":-1,\"selectionStart\":-1,\"selectionEnd\":-1,\"adjustPosition\":null,\"holdKeyboard\":null,\"disableDefaultPadding\":null,\"confirmType\":\"return\",\"confirmHold\":false,\"adjustKeyboardTo\":\"cursor\"}"
+    },
+    {
+      "id": "component.bound.textarea",
+      "status": "PASS",
+      "expected": "{\"value\":\"suite\",\"placeholder\":\"suite\",\"placeholderStyle\":\"suite\",\"disabled\":true,\"maxlength\":7,\"autoHeight\":true,\"cursorSpacing\":null,\"cursor\":7,\"selectionStart\":7,\"selectionEnd\":7,\"adjustPosition\":null,\"holdKeyboard\":null,\"disableDefaultPadding\":null,\"confirmType\":\"search\",\"confirmHold\":true,\"adjustKeyboardTo\":\"true\"}",
+      "actual": "{\"value\":\"suite\",\"placeholder\":\"suite\",\"placeholderStyle\":\"suite\",\"disabled\":true,\"maxlength\":7,\"autoHeight\":true,\"cursorSpacing\":null,\"cursor\":7,\"selectionStart\":7,\"selectionEnd\":7,\"adjustPosition\":null,\"holdKeyboard\":null,\"disableDefaultPadding\":null,\"confirmType\":\"search\",\"confirmHold\":true,\"adjustKeyboardTo\":\"true\"}"
+    },
+    {
+      "id": "render.textarea",
+      "status": "PASS",
+      "expected": "{\"width\":300,\"height\":150,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":300,\"height\":150,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.video",
+      "status": "PASS",
+      "expected": "{\"src\":\"\",\"duration\":0,\"controls\":true,\"danmuList\":[],\"danmuBtn\":false,\"enableDanmu\":false,\"autoplay\":false,\"loop\":false,\"muted\":false,\"initialTime\":0,\"pageGesture\":false,\"direction\":-1,\"showProgress\":true,\"showFullscreenBtn\":true,\"showPlayBtn\":true,\"showCenterPlayBtn\":true,\"enableProgressGesture\":true,\"objectFit\":\"contain\",\"poster\":\"\",\"showMuteBtn\":false,\"title\":\"\",\"playBtnPosition\":\"bottom\",\"enablePlayGesture\":false,\"autoPauseIfNavigate\":true,\"autoPauseIfOpenNative\":true,\"vslideGesture\":false,\"vslideGestureInFullscreen\":true,\"showBottomProgress\":true,\"adUnitId\":\"\",\"posterForCrawler\":\"\",\"showCastingButton\":false,\"pictureInPictureMode\":\"\",\"pictureInPictureShowProgress\":false,\"pictureInPictureInitPosition\":\"\",\"enableAutoRotation\":false,\"showScreenLockButton\":false,\"showSnapshotButton\":false,\"showBackgroundPlaybackButton\":true,\"backgroundPoster\":\"\",\"referrerPolicy\":\"no-referrer\",\"isDrm\":false,\"isLive\":false,\"provisionUrl\":\"\",\"certificateUrl\":\"\",\"licenseUrl\":\"\",\"preferredPeakBitRate\":-1}",
+      "actual": "{\"src\":\"\",\"duration\":0,\"controls\":true,\"danmuList\":[],\"danmuBtn\":false,\"enableDanmu\":false,\"autoplay\":false,\"loop\":false,\"muted\":false,\"initialTime\":0,\"pageGesture\":false,\"direction\":-1,\"showProgress\":true,\"showFullscreenBtn\":true,\"showPlayBtn\":true,\"showCenterPlayBtn\":true,\"enableProgressGesture\":true,\"objectFit\":\"contain\",\"poster\":\"\",\"showMuteBtn\":false,\"title\":\"\",\"playBtnPosition\":\"bottom\",\"enablePlayGesture\":false,\"autoPauseIfNavigate\":true,\"autoPauseIfOpenNative\":true,\"vslideGesture\":false,\"vslideGestureInFullscreen\":true,\"showBottomProgress\":true,\"adUnitId\":\"\",\"posterForCrawler\":\"\",\"showCastingButton\":false,\"pictureInPictureMode\":\"\",\"pictureInPictureShowProgress\":false,\"pictureInPictureInitPosition\":\"\",\"enableAutoRotation\":false,\"showScreenLockButton\":false,\"showSnapshotButton\":false,\"showBackgroundPlaybackButton\":true,\"backgroundPoster\":\"\",\"referrerPolicy\":\"no-referrer\",\"isDrm\":false,\"isLive\":false,\"provisionUrl\":\"\",\"certificateUrl\":\"\",\"licenseUrl\":\"\",\"preferredPeakBitRate\":-1}"
+    },
+    {
+      "id": "component.bound.video",
+      "status": "PASS",
+      "expected": "{\"src\":\"suite\",\"duration\":7,\"controls\":true,\"danmuBtn\":true,\"enableDanmu\":true,\"loop\":true,\"muted\":true,\"initialTime\":7,\"pageGesture\":true,\"direction\":90,\"showProgress\":true,\"showFullscreenBtn\":true,\"showPlayBtn\":true,\"showCenterPlayBtn\":true,\"enableProgressGesture\":true,\"objectFit\":\"fill\",\"poster\":\"suite\",\"showMuteBtn\":true,\"title\":\"suite\",\"playBtnPosition\":\"center\",\"enablePlayGesture\":true,\"autoPauseIfNavigate\":true,\"autoPauseIfOpenNative\":true,\"vslideGesture\":true,\"vslideGestureInFullscreen\":true,\"showBottomProgress\":true,\"adUnitId\":\"suite\",\"posterForCrawler\":\"suite\",\"showCastingButton\":true,\"pictureInPictureShowProgress\":true,\"pictureInPictureInitPosition\":\"suite\",\"enableAutoRotation\":true,\"showScreenLockButton\":true,\"showSnapshotButton\":true,\"showBackgroundPlaybackButton\":true,\"backgroundPoster\":\"suite\",\"referrerPolicy\":\"no-referrer\",\"isDrm\":true,\"isLive\":true,\"provisionUrl\":\"suite\",\"certificateUrl\":\"suite\",\"licenseUrl\":\"suite\",\"preferredPeakBitRate\":7}",
+      "actual": "{\"src\":\"suite\",\"duration\":7,\"controls\":true,\"danmuBtn\":true,\"enableDanmu\":true,\"loop\":true,\"muted\":true,\"initialTime\":7,\"pageGesture\":true,\"direction\":90,\"showProgress\":true,\"showFullscreenBtn\":true,\"showPlayBtn\":true,\"showCenterPlayBtn\":true,\"enableProgressGesture\":true,\"objectFit\":\"fill\",\"poster\":\"suite\",\"showMuteBtn\":true,\"title\":\"suite\",\"playBtnPosition\":\"center\",\"enablePlayGesture\":true,\"autoPauseIfNavigate\":true,\"autoPauseIfOpenNative\":true,\"vslideGesture\":true,\"vslideGestureInFullscreen\":true,\"showBottomProgress\":true,\"adUnitId\":\"suite\",\"posterForCrawler\":\"suite\",\"showCastingButton\":true,\"pictureInPictureShowProgress\":true,\"pictureInPictureInitPosition\":\"suite\",\"enableAutoRotation\":true,\"showScreenLockButton\":true,\"showSnapshotButton\":true,\"showBackgroundPlaybackButton\":true,\"backgroundPoster\":\"suite\",\"referrerPolicy\":\"no-referrer\",\"isDrm\":true,\"isLive\":true,\"provisionUrl\":\"suite\",\"certificateUrl\":\"suite\",\"licenseUrl\":\"suite\",\"preferredPeakBitRate\":7}"
+    },
+    {
+      "id": "render.video",
+      "status": "PASS",
+      "expected": "{\"width\":300,\"height\":225,\"display\":\"inline-block\",\"position\":\"relative\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"0px\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":300,\"height\":225,\"display\":\"inline-block\",\"position\":\"relative\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"0px\",\"text-align\":\"start\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "component.defaults.view",
+      "status": "PASS",
+      "expected": "{\"hoverClass\":\"\",\"hoverStopPropagation\":false,\"hoverStartTime\":50,\"hoverStayTime\":400}",
+      "actual": "{\"hoverClass\":\"\",\"hoverStopPropagation\":false,\"hoverStartTime\":50,\"hoverStayTime\":400}"
+    },
+    {
+      "id": "component.bound.view",
+      "status": "PASS",
+      "expected": "{\"hoverClass\":\"suite\",\"hoverStopPropagation\":true,\"hoverStartTime\":7,\"hoverStayTime\":7}",
+      "actual": "{\"hoverClass\":\"suite\",\"hoverStopPropagation\":true,\"hoverStartTime\":7,\"hoverStayTime\":7}"
+    },
+    {
+      "id": "render.view",
+      "status": "PASS",
+      "expected": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":375,\"height\":0,\"display\":\"block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"normal\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "render.state.audio.controls=true",
+      "status": "PASS",
+      "expected": "{\"width\":304,\"height\":67,\"display\":\"inline-block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"0px\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":304,\"height\":67,\"display\":\"inline-block\",\"position\":\"static\",\"box-sizing\":\"content-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"0px\",\"padding-bottom\":\"0px\",\"padding-left\":\"0px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"0px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"400\",\"line-height\":\"0px\",\"text-align\":\"start\",\"overflow-x\":\"visible\",\"overflow-y\":\"visible\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "render.state.button.size=mini",
+      "status": "PASS",
+      "expected": "{\"height\":32,\"display\":\"inline-block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"12px\",\"padding-bottom\":\"0px\",\"padding-left\":\"12px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgb(248, 248, 248)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"700\",\"line-height\":\"32px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"height\":32,\"display\":\"inline-block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"0px\",\"margin-bottom\":\"0px\",\"margin-left\":\"0px\",\"padding-top\":\"0px\",\"padding-right\":\"12px\",\"padding-bottom\":\"0px\",\"padding-left\":\"12px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(0, 0, 0)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgb(248, 248, 248)\",\"color\":\"rgb(0, 0, 0)\",\"font-size\":\"16px\",\"font-weight\":\"700\",\"line-height\":\"32px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "render.state.button.type=primary",
+      "status": "PASS",
+      "expected": "{\"width\":184,\"height\":40,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"95.5px\",\"margin-bottom\":\"0px\",\"margin-left\":\"95.5px\",\"padding-top\":\"8px\",\"padding-right\":\"24px\",\"padding-bottom\":\"8px\",\"padding-left\":\"24px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(255, 255, 255)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgb(7, 193, 96)\",\"color\":\"rgb(255, 255, 255)\",\"font-size\":\"17px\",\"font-weight\":\"700\",\"line-height\":\"24px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":184,\"height\":40,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"95.5px\",\"margin-bottom\":\"0px\",\"margin-left\":\"95.5px\",\"padding-top\":\"8px\",\"padding-right\":\"24px\",\"padding-bottom\":\"8px\",\"padding-left\":\"24px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(255, 255, 255)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgb(7, 193, 96)\",\"color\":\"rgb(255, 255, 255)\",\"font-size\":\"17px\",\"font-weight\":\"700\",\"line-height\":\"24px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "render.state.button.type=default",
+      "status": "PASS",
+      "expected": "{\"width\":184,\"height\":40,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"95.5px\",\"margin-bottom\":\"0px\",\"margin-left\":\"95.5px\",\"padding-top\":\"8px\",\"padding-right\":\"24px\",\"padding-bottom\":\"8px\",\"padding-left\":\"24px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(6, 174, 86)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgb(242, 242, 242)\",\"color\":\"rgb(6, 174, 86)\",\"font-size\":\"17px\",\"font-weight\":\"700\",\"line-height\":\"24px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":184,\"height\":40,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"95.5px\",\"margin-bottom\":\"0px\",\"margin-left\":\"95.5px\",\"padding-top\":\"8px\",\"padding-right\":\"24px\",\"padding-bottom\":\"8px\",\"padding-left\":\"24px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(6, 174, 86)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgb(242, 242, 242)\",\"color\":\"rgb(6, 174, 86)\",\"font-size\":\"17px\",\"font-weight\":\"700\",\"line-height\":\"24px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "render.state.button.type=warn",
+      "status": "PASS",
+      "expected": "{\"width\":184,\"height\":40,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"95.5px\",\"margin-bottom\":\"0px\",\"margin-left\":\"95.5px\",\"padding-top\":\"8px\",\"padding-right\":\"24px\",\"padding-bottom\":\"8px\",\"padding-left\":\"24px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(250, 81, 81)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgb(242, 242, 242)\",\"color\":\"rgb(250, 81, 81)\",\"font-size\":\"17px\",\"font-weight\":\"700\",\"line-height\":\"24px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":184,\"height\":40,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"95.5px\",\"margin-bottom\":\"0px\",\"margin-left\":\"95.5px\",\"padding-top\":\"8px\",\"padding-right\":\"24px\",\"padding-bottom\":\"8px\",\"padding-left\":\"24px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgb(250, 81, 81)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgb(242, 242, 242)\",\"color\":\"rgb(250, 81, 81)\",\"font-size\":\"17px\",\"font-weight\":\"700\",\"line-height\":\"24px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "render.state.button.plain=true",
+      "status": "PASS",
+      "expected": "{\"width\":184,\"height\":42,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"95.5px\",\"margin-bottom\":\"0px\",\"margin-left\":\"95.5px\",\"padding-top\":\"8px\",\"padding-right\":\"24px\",\"padding-bottom\":\"8px\",\"padding-left\":\"24px\",\"border-top-width\":\"1px\",\"border-right-width\":\"1px\",\"border-bottom-width\":\"1px\",\"border-left-width\":\"1px\",\"border-top-style\":\"solid\",\"border-top-color\":\"rgb(53, 53, 53)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(53, 53, 53)\",\"font-size\":\"17px\",\"font-weight\":\"700\",\"line-height\":\"24px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":184,\"height\":42,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"95.5px\",\"margin-bottom\":\"0px\",\"margin-left\":\"95.5px\",\"padding-top\":\"8px\",\"padding-right\":\"24px\",\"padding-bottom\":\"8px\",\"padding-left\":\"24px\",\"border-top-width\":\"1px\",\"border-right-width\":\"1px\",\"border-bottom-width\":\"1px\",\"border-left-width\":\"1px\",\"border-top-style\":\"solid\",\"border-top-color\":\"rgb(53, 53, 53)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgba(0, 0, 0, 0)\",\"color\":\"rgb(53, 53, 53)\",\"font-size\":\"17px\",\"font-weight\":\"700\",\"line-height\":\"24px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "render.state.button.disabled=true",
+      "status": "PASS",
+      "expected": "{\"width\":184,\"height\":40,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"95.5px\",\"margin-bottom\":\"0px\",\"margin-left\":\"95.5px\",\"padding-top\":\"8px\",\"padding-right\":\"24px\",\"padding-bottom\":\"8px\",\"padding-left\":\"24px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgba(0, 0, 0, 0.18)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgb(250, 250, 250)\",\"color\":\"rgba(0, 0, 0, 0.18)\",\"font-size\":\"17px\",\"font-weight\":\"700\",\"line-height\":\"24px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
+      "actual": "{\"width\":184,\"height\":40,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"95.5px\",\"margin-bottom\":\"0px\",\"margin-left\":\"95.5px\",\"padding-top\":\"8px\",\"padding-right\":\"24px\",\"padding-bottom\":\"8px\",\"padding-left\":\"24px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgba(0, 0, 0, 0.18)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgb(250, 250, 250)\",\"color\":\"rgba(0, 0, 0, 0.18)\",\"font-size\":\"17px\",\"font-weight\":\"700\",\"line-height\":\"24px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
     },
     {
       "id": "socket.text-echo",

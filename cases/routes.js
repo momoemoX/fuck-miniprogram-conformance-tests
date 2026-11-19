@@ -9,7 +9,7 @@ async function routes(check) {
       const events = [];
       let timer;
       const ready = new Promise((resolve, reject) => {
-        timer = setTimeout(() => reject(new Error("Destination did not become ready")), 5000);
+        timer = setTimeout(() => reject(new Error("Destination did not become ready")), 10000);
         app.routeProbe = { events, ready: resolve };
       });
       try {

@@ -8,9 +8,9 @@ A black-box test suite for independent implementations of the Mini Program base 
 2. Tap **Run suite**. The navigation cases open another page and return automatically.
 3. Read the expected and actual values for each case. **Show JSON report** exposes the case IDs, enabled profiles, reported SDK version and outcomes. Relaunch the project for another run.
 
-The default run contains **365 automatic cases**. With both network fixtures enabled, it contains **379**. All of them reproduced in the 3.7.12 simulator baseline. The page also reports a score restricted to expectations reproduced in that baseline, so an edited expected value is set apart until it is checked again. An interrupted run has no final score.
+The default run contains **468 automatic cases**, including 103 generated from the official component catalog. With both network fixtures enabled, it contains **482**. The suite app enables `"style": "v2"`, the component style most mini programs use. All of them reproduced in the 3.7.12 simulator baseline. The page also reports a score restricted to expectations reproduced in that baseline, so an edited expected value is set apart until it is checked again. An interrupted run has no final score.
 
-Each case has 30 seconds. A case that overruns is recorded as a failure and gets 15 more seconds to finish its cleanup. Every case must return the page stack it started with; otherwise the run stops as interrupted, because later cases would observe a different page.
+Each case has 60 seconds, and each route transition inside it 10 seconds. A case that overruns is recorded as a failure and gets 15 more seconds to finish its cleanup. Every case must return the page stack it started with; otherwise the run stops as interrupted, because later cases would observe a different page.
 
 ## Reproduce the baseline
 
@@ -22,6 +22,8 @@ node tools/devtools/run.cjs --appid <your AppID> --out report.json
 ```
 
 The script runs a temporary copy of the repository, prints the simulator's SDK version and every failing case, and writes the JSON report. Add `--fixtures` after starting both network fixtures, `--ids a,b` for selected cases, and `--lib` for another base library. Current tool versions no longer load 3.7.0; requesting it falls back to a newer library, which is why the target is 3.7.12.
+
+The component cases are generated from the attribute catalog that the developer tool ships for WXML completion; `COVERAGE.md` describes how to regenerate and re-record them with `tools/components/`.
 
 ## Optional network fixtures
 

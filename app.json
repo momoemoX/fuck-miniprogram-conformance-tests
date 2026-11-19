@@ -12,6 +12,7 @@
   "window": {
     "navigationBarTitleText": "Conformance tests"
   },
+  "style": "v2",
   "workers": "workers",
   "subPackages": [
     {

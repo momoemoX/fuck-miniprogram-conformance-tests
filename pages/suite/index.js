@@ -33,6 +33,7 @@ const { componentExtra } = require("../../cases/component-extra");
 const { scrollContract } = require("../../cases/scroll-contract");
 const { observerContract } = require("../../cases/observer-contract");
 const { pageScrollContract } = require("../../cases/page-scroll");
+const { componentCatalog } = require("../../cases/component-catalog");
 const config = require("../../suite-config");
 
 // Fails fast when the primitives every case depends on are unavailable.
@@ -52,6 +53,8 @@ async function preflight(page) {
 Page({
   data: {
     preflight: false,
+    galleryMounted: false,
+    galleryFont: "",
     target: TARGET,
     reuseMounted: false,
     errorMounted: false,
@@ -172,6 +175,7 @@ Page({
       await platform(check);
       await extended(this, check);
       await system(check);
+      await componentCatalog(this, check);
       if (config.socketUrl) await sockets(config.socketUrl, check);
       if (config.fixtureUrl) await http(config.fixtureUrl, check);
     } catch (error) {

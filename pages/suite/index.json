@@ -19,6 +19,7 @@
     "reuse-list": "/components/reuse-list/index",
     "error-probe": "/components/error-probe/index",
     "wxs-probe": "/components/wxs-probe/index",
-    "page-probe": "/components/page-probe/index"
+    "page-probe": "/components/page-probe/index",
+    "component-gallery": "/components/gallery/index"
   }
 }

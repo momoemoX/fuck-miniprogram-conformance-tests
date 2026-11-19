@@ -4,7 +4,7 @@
 
 | Group | Cases | Evidence collected |
 | --- | ---: | --- |
-| Core | 365 | App, page and component state, lifetimes, app-level launch and error hooks, error propagation and recovery, behaviors, component relations, generic substitution, observers, event and intersection observation, page scroll events, event propagation, templates, WXS modules and their module state, slots, styles, built-in control properties, selectors, scroll views, navigation, tab caching, redirect replacement, subpackages, worker messages and termination, pull-down refresh callbacks, system, device and account info shapes, API category, tab bar and background style callbacks, image metadata and offscreen canvas pixels, system and UI callbacks including system settings and authorization shapes, clipboard round trip, storage and storage info, file operations including the saved-file lifecycle, codecs, archives, canvas and audio context identity, real input bindings and focus events. |
+| Core | 468 | App, page and component state, lifetimes, app-level launch and error hooks, error propagation and recovery, behaviors, component relations, generic substitution, observers, event and intersection observation, page scroll events, event propagation, templates, WXS modules and their module state, slots, styles, built-in control properties, selectors, scroll views, navigation, tab caching, redirect replacement, subpackages, worker messages and termination, pull-down refresh callbacks, system, device and account info shapes, API category, tab bar and background style callbacks, image metadata and offscreen canvas pixels, system and UI callbacks including system settings and authorization shapes, clipboard round trip, storage and storage info, file operations including the saved-file lifecycle, codecs, archives, canvas and audio context identity, real input bindings and focus events. |
 | HTTP fixture | 12 | Request parameters, JSON and binary bodies, response headers, HTTP errors, cancellation, multipart upload, file download and saved-file lifecycle. |
 | WebSocket fixture | 2 | Text and binary round trips, followed by a normal close. |
 | Interactive input | 17 | Input detail with caret, submitted text, radio, checkbox and switch values, custom form-field component submission, selected text range while typing, native dialog confirmation, action sheet selection, long-press ordering, caret insertion, confirm key, maxlength 0, typed text retention, bindinput return handling, event delivery to an ancestor view and form reset defaults. |
@@ -13,7 +13,7 @@
 
 ## Baseline
 
-Every expected value in the reference table was reproduced in the official WeChat developer tool (2.02.2611062 Nightly) with base library **3.7.12**, driven by `tools/devtools/run.cjs`. The core profile passed 365 of 365 cases, and a second run with both network fixtures passed 379 of 379. The [observation record](fixtures/devtools-3.7.12-observations.json) contains every expected and actual value. The simulator supplies emulated native services for files, networking and devices, so host-dependent outcomes still need a device run before they generalize. The scores cover the asserted observations; they do not certify an error-free host.
+Every expected value in the reference table was reproduced in the official WeChat developer tool (2.02.2611062 Nightly) with base library **3.7.12**, driven by `tools/devtools/run.cjs`. The core profile passed 468 of 468 cases, and a second run with both network fixtures passed 482 of 482. The app enables `"style": "v2"`, so built-in components use the style that most mini programs ship with. The component cases were also recorded under three font families, as described below. The [observation record](fixtures/devtools-3.7.12-observations.json) contains every expected and actual value. The simulator supplies emulated native services for files, networking and devices, so host-dependent outcomes still need a device run before they generalize. The scores cover the asserted observations; they do not certify an error-free host.
 
 The target used to be 3.7.0, observed in a desktop host whose origin and tool version were not recorded. Current developer-tool versions no longer list 3.7.0, and requesting it loads 3.18.0, so that baseline could not be reproduced. The sections below keep the history of each group; observations attributed to the 3.7.0 host are historical unless the 3.7.12 run confirms them.
 
@@ -38,6 +38,32 @@ The target used to be 3.7.0, observed in a desktop host whose origin and tool ve
 | `lifecycle.query-encoded-values` and the 17 file, digest, storage and random-byte cases | pending | reproduced | They already expected the 3.7.12 behavior. |
 
 The harness also changed. A case that times out keeps its cleanup running for up to 15 seconds before the next case starts, and the run stops as interrupted when a case leaves the page stack changed. The route driver's fallback waits for the stack to change instead of matching the route name alone, which used to match at once when a lifecycle page opened another lifecycle page. Positive checks wait for their observation instead of a fixed delay; the remaining fixed windows are negative checks, marked in the source. The run starts with a preflight of timers and `setData` callbacks. A mutation that left a page open interrupted the run, and a case that never settled was recorded as a timeout while the remaining cases continued.
+
+## Built-in component contract
+
+The component layer checks 34 built-in components against the public attribute list that the official developer tool ships for WXML completion (data version 1.1). `fixtures/component-catalog.js` keeps each documented attribute's name, type and enum values, without the documentation prose. The other 55 tags in that data are listed in the catalog with the reason they stay out: advertising, live streaming, camera, VoIP, store and Channels services, Skyline-only components, page-level elements such as `page-meta`, `web-view` and `page-container`, and WXML language constructs.
+
+`components/gallery` renders every component twice, once with no attributes and once with each scalar attribute bound to a sample value, plus one instance per documented enum value and per boolean attribute. Four case families read them through the component's selector scope:
+
+| Family | Cases | What is asserted |
+| --- | ---: | --- |
+| `component.defaults.<tag>` | 31 | Every documented attribute's default, read as a property |
+| `component.bound.<tag>` | 31 | The value each attribute reports after binding a sample value |
+| `render.<tag>` | 34 | The host box: size and 29 computed style fields |
+| `render.state.<tag>.<attr>=<value>` | 7 | Enum or boolean states that change the host box, such as `button type="primary"`, `type="default"`, `size="mini"`, `plain` and `disabled`, and `audio controls` |
+
+All expected values were recorded in the 3.7.12 simulator with `"style": "v2"`; under the legacy style a default button is a full-width 46px block instead of a centered 184×40 box. The gallery was recorded three times with the default, serif and monospace font families; fields that changed between those runs depend on font metrics, which differ across operating systems, and are not asserted. Eight fields were dropped that way: the width and height of inline text-bearing components (`text`, `label`) and the height of `checkbox`, `radio`, `navigator` and `picker`. A render state becomes a case only when a stable field differs from the default box.
+
+The layer asserts the host box, not the component's inner rendering. Of 149 generated states, 142 leave the host box unchanged and change only inner elements, such as a checked `switch` or `checkbox`, or progress `show-info`. The inner structure is implementation-specific, so those states need a screenshot comparison rather than an in-app assertion; they are listed under remaining coverage. Map, video, editor and canvas states are not generated, because they change only the inner surface.
+
+Regenerate the layer after a catalog or tool update:
+
+```sh
+node tools/components/extract-catalog.cjs <unpacked wx-page-types>/datas/datas.js
+node tools/components/generate.cjs
+# record with empty fixtures/component-expectations.js, once per gallery font
+node tools/components/record-expectations.cjs default.json serif.json monospace.json
+```
 
 ## Component and event cases
 
@@ -142,6 +168,7 @@ Run `node tools/coverage.cjs` for direct source references and the list of basel
 | Area | Missing or partial behavior |
 | --- | --- |
 | Framework and rendering | Blur delivery when focus moves between inputs (absent in the 3.7.12 simulator; needs a device run), advanced relation and generic combinations, theme change delivery, window resize events, and the remaining built-in components and their property, event and accessibility combinations. |
+| Component rendering | Inner rendering of component states (checked switches and checkboxes, progress labels, slider values and similar) is not asserted; it needs reference screenshots of the gallery states. |
 | Interactive input | The 17 interactive checks were recorded on the earlier 3.7.0 host and have not been re-run on 3.7.12. They need real keystrokes, native dialogs and gestures that the automation driver does not reproduce faithfully. |
 | Desktop APIs | Additional success, failure and cancellation paths, task listeners, media playback and decoding, maps, TCP/UDP, native UI and platform-specific branches. |
 | Device integration | Camera and microphone hardware, background operation, BLE data exchange with a peripheral, NFC tags, Wi-Fi changes, device model and permission-denial paths. |

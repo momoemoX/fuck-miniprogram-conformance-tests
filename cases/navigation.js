@@ -3,7 +3,7 @@ const { call } = require('./support');
 function waitFor(setup) {
   let timer;
   return new Promise((resolve, reject) => {
-    timer = setTimeout(() => reject(new Error('Navigation did not complete')), 5000);
+    timer = setTimeout(() => reject(new Error('Navigation did not complete')), 10000);
     setup(resolve, reject);
   }).finally(() => clearTimeout(timer));
 }

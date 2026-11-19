@@ -1,5 +1,9 @@
 const { call } = require("./support");
 
+// Bounds each route transition and lifecycle event. A cold first page load in a
+// simulator can take several seconds; slowness alone is not a conformance failure.
+const ROUTE_WAIT = 10000;
+
 // Route driver for cases that open pages/lifecycle/index and observe its lifecycle events.
 // The caller attaches a probe to the app instance so the page reports its phases:
 //   app.lifecycleProbe = { record: harness.record };
@@ -17,7 +21,7 @@ function createRouteHarness() {
     return new Promise((resolve, reject) => {
       waiter.resolve = resolve;
       waiters.push(waiter);
-      timer = setTimeout(() => reject(new Error("Missing lifecycle event " + event)), 5000);
+      timer = setTimeout(() => reject(new Error("Missing lifecycle event " + event)), ROUTE_WAIT);
     }).finally(() => {
       clearTimeout(timer);
       waiters.splice(waiters.indexOf(waiter), 1);
@@ -32,7 +36,7 @@ function createRouteHarness() {
     // fall back to polling the public page stack so navigation cases stay portable.
     if (typeof wx.onAppRouteDone === "function") {
       const completed = new Promise((resolve, reject) => {
-        timer = setTimeout(() => reject(new Error("Route animation did not complete")), 5000);
+        timer = setTimeout(() => reject(new Error("Route animation did not complete")), ROUTE_WAIT);
         listener = (event) => {
           if (String(event.path).replace(/^\//, "") === target) resolve();
         };
@@ -53,7 +57,7 @@ function createRouteHarness() {
     const beforeDepth = before.length;
     const beforeTop = before[beforeDepth - 1];
     const completed = new Promise((resolve, reject) => {
-      timer = setTimeout(() => reject(new Error("Route animation did not complete")), 5000);
+      timer = setTimeout(() => reject(new Error("Route animation did not complete")), ROUTE_WAIT);
       poll = setInterval(() => {
         const stack = getCurrentPages();
         const top = stack[stack.length - 1];
