@@ -1,3 +1,6 @@
+// These expectations come from the earlier 3.7.0 browser host and have not yet been
+// re-run on the 3.7.12 simulator baseline; they need real keystrokes, native dialogs
+// and gestures that the automation driver does not reproduce faithfully.
 const expected = {
   "input.detail": { value: "lime", cursor: 4 },
   "form.text": "lime",
@@ -7,13 +10,13 @@ const expected = {
   "form.custom-field": "custom-value",
   "touch.longpress": ["start", "hold", "end"],
   "input.cursor-insert": { value: "lXime", cursor: 2 },
-  // Observed on the 3.7.0 browser host: a bindinput return value does not alter the
+  // Observed on that host: a bindinput return value does not alter the
   // displayed text or the event detail.
   "input.return-ignored": { display: "abc", detail: "abc" },
   "input.confirm": { value: "go" },
   "input.maxlength-zero": "",
   "input.keeps-typed-value": { afterUnrelated: "seed", afterBound: "explicit" },
-  // Observed on the 3.7.0 browser host: input events do not reach ancestor view
+  // Observed on that host: input events do not reach ancestor view
   // handlers (an independent implementation bubbles them; recorded as a difference).
   "input.bubbles-parent": null,
   "form.reset-defaults": { text: "", enabled: false, parts: [], color: "", amount: "" },

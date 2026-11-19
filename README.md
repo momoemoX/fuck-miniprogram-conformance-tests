@@ -1,14 +1,27 @@
 # Mini Program Base Library Conformance Tests
 
-A black-box test suite for independent implementations of the Mini Program base library. The target is **3.7.0**. A case supplies an input, observes what an application can see, and compares it with a fixed expected value.
+A black-box test suite for independent implementations of the Mini Program base library. The target is base library **3.7.12**, as run by the official WeChat developer-tool simulator. A case supplies an input, observes what an application can see, and compares it with a fixed expected value.
 
 ## Run
 
-1. Open the repository root as a Mini Program project. Select base library **3.7.0** and launch `pages/suite/index` with a fresh page stack.
+1. Open the repository root as a Mini Program project. Select base library **3.7.12** and launch `pages/suite/index` with a fresh page stack.
 2. Tap **Run suite**. The navigation cases open another page and return automatically.
 3. Read the expected and actual values for each case. **Show JSON report** exposes the case IDs, enabled profiles, reported SDK version and outcomes. Relaunch the project for another run.
 
-The default run contains **363 automatic cases**. With both network fixtures enabled, it contains **377**. The page also reports a score restricted to expectations reproduced in the desktop baseline. Cases pending confirmation remain visible. An interrupted run has no final score.
+The default run contains **365 automatic cases**. With both network fixtures enabled, it contains **379**. All of them reproduced in the 3.7.12 simulator baseline. The page also reports a score restricted to expectations reproduced in that baseline, so an edited expected value is set apart until it is checked again. An interrupted run has no final score.
+
+Each case has 30 seconds. A case that overruns is recorded as a failure and gets 15 more seconds to finish its cleanup. Every case must return the page stack it started with; otherwise the run stops as interrupted, because later cases would observe a different page.
+
+## Reproduce the baseline
+
+The baseline comes from the official developer tool driven by `miniprogram-automator`. Log in to the tool and enable its service port (Settings → Security). Automation rejects the tourist AppID, so use an AppID that the logged-in account can open:
+
+```sh
+npm ci --prefix tools/devtools
+node tools/devtools/run.cjs --appid <your AppID> --out report.json
+```
+
+The script runs a temporary copy of the repository, prints the simulator's SDK version and every failing case, and writes the JSON report. Add `--fixtures` after starting both network fixtures, `--ids a,b` for selected cases, and `--lib` for another base library. Current tool versions no longer load 3.7.0; requesting it falls back to a newer library, which is why the target is 3.7.12.
 
 ## Optional network fixtures
 
@@ -31,13 +44,13 @@ Set `fixtureUrl` and `socketUrl` in `suite-config.js` to addresses reachable fro
 
 | Entry | What it checks |
 | --- | --- |
-| Run input and gesture cases | Seventeen checks for real text entry, caret movement, selected text range, confirm key, form submission including a custom form-field component, form reset, native dialog and action sheet, control values, event delivery between controls and views, and long press. Follow the instructions on the page. |
+| Run input and gesture cases | Seventeen checks (expectations recorded on an earlier 3.7.0 host, not yet re-run on 3.7.12) for real text entry, caret movement, selected text range, confirm key, form submission including a custom form-field component, form reset, native dialog and action sheet, control values, event delivery between controls and views, and long press. Follow the instructions on the page. |
 | Physical device cases | Nine checks for location, sensors, wireless adapters, battery and brightness. Use a test device connected to Wi-Fi, with Bluetooth enabled and the applicable permissions granted. |
 | Hosted service cases | Three checks for account identity, login and settings. Configure a test app ID in the project and set the same value in `suite-config.js`. Login codes are discarded locally. |
-| Inspect API availability | Compare public member names and value types with the desktop baseline. Inspect the broader interface catalog and missing names. |
+| Inspect API availability | Compare public member names and value types with the 3.7.12 simulator baseline. Inspect the broader interface catalog and missing names. |
 
 ## Coverage and contributions
 
-The [coverage notes](COVERAGE.md) describe the baseline observations, the independent 3.7.12 simulator cross-check, outstanding disagreements and gaps. To add a behavior, write a minimal case with an explicit expected result. Include the suite commit, implementation version, execution environment and enabled profiles when sharing results.
+The [coverage notes](COVERAGE.md) describe the baseline, the expectations that changed when the target moved to 3.7.12, earlier cross-checks and gaps. To add a behavior, write a minimal case with an explicit expected result. Include the suite commit, implementation version, execution environment and enabled profiles when sharing results.
 
 [MIT license](LICENSE)

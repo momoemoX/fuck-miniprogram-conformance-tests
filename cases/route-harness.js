@@ -5,20 +5,22 @@ const { call } = require("./support");
 //   app.lifecycleProbe = { record: harness.record };
 function createRouteHarness() {
   const events = [];
-  const waiters = new Map();
+  const waiters = [];
   function record(event) {
     events.push(event);
-    const notify = waiters.get(event);
-    if (notify) notify();
+    for (const waiter of waiters.slice()) if (waiter.event === event) waiter.resolve();
   }
+  // Waits for the next occurrence of event; call it before starting the route.
   function waitFor(event) {
     let timer;
+    const waiter = { event };
     return new Promise((resolve, reject) => {
-      waiters.set(event, resolve);
+      waiter.resolve = resolve;
+      waiters.push(waiter);
       timer = setTimeout(() => reject(new Error("Missing lifecycle event " + event)), 5000);
     }).finally(() => {
       clearTimeout(timer);
-      waiters.delete(event);
+      waiters.splice(waiters.indexOf(waiter), 1);
     });
   }
   async function navigate(method, options, path) {
@@ -32,7 +34,7 @@ function createRouteHarness() {
       const completed = new Promise((resolve, reject) => {
         timer = setTimeout(() => reject(new Error("Route animation did not complete")), 5000);
         listener = (event) => {
-          if (event.path.replace(/^\//, "") === path) resolve();
+          if (String(event.path).replace(/^\//, "") === target) resolve();
         };
         wx.onAppRouteDone(listener);
       });
@@ -44,13 +46,20 @@ function createRouteHarness() {
       }
       return;
     }
+    // The route is complete once the top of the stack changed and shows the target.
+    // Comparing the route alone would match immediately when a page opens another
+    // instance of itself.
+    const before = getCurrentPages();
+    const beforeDepth = before.length;
+    const beforeTop = before[beforeDepth - 1];
     const completed = new Promise((resolve, reject) => {
       timer = setTimeout(() => reject(new Error("Route animation did not complete")), 5000);
       poll = setInterval(() => {
         const stack = getCurrentPages();
         const top = stack[stack.length - 1];
-        if (top && top.route && top.route.replace(/^\//, "") === target) resolve();
-      }, 80);
+        const changed = stack.length !== beforeDepth || top !== beforeTop;
+        if (changed && top && top.route && top.route.replace(/^\//, "") === target) resolve();
+      }, 40);
     });
     try {
       await Promise.all([completed, call(wx, method, options)]);

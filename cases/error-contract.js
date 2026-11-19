@@ -1,4 +1,4 @@
-const { update } = require("./support");
+const { update, waitUntil } = require("./support");
 
 // Registers a wx.onError listener that collects normalized messages for one marker.
 // Error arguments arrive as Error objects or plain strings depending on the host.
@@ -19,7 +19,10 @@ function watchError(marker) {
   return {
     messages,
     // Resolves with the first matching message, or rejects after the timeout.
+    // onError may already have fired: 3.7.12 delivers it on a zero-delay timer,
+    // ahead of the setData callback that cases usually await first.
     seen(timeout = 5000) {
+      if (messages.length) return Promise.resolve(messages[0]);
       let timer;
       return new Promise((resolve, reject) => {
         notify = resolve;
@@ -169,25 +172,20 @@ async function errorContract(page, check) {
   await check("error.app-unhandledrejection-hook", [true], async () => {
     const app = getApp();
     app.appRejections = [];
-    const delivered = new Promise((resolve) => {
-      const listener = (event) => {
-        if (String(event.reason).indexOf("suite-app-reject-marker") !== -1) resolve();
-      };
-      wx.onUnhandledRejection(listener);
-      Promise.reject("suite-app-reject-marker");
-      setTimeout(() => resolve(), 3000);
-      setTimeout(() => wx.offUnhandledRejection(listener), 3200);
-    });
-    await delivered;
-    return [
-      app.appRejections.some((reason) => reason.indexOf("suite-app-reject-marker") !== -1),
-    ];
+    Promise.reject("suite-app-reject-marker");
+    const recorded = await waitUntil(
+      () => app.appRejections.some((reason) => reason.indexOf("suite-app-reject-marker") !== -1),
+      { timeout: 3000 },
+    );
+    return [recorded];
   });
 
   await check("error.console-not-onerror", [], async () => {
     const watch = watchError("suite-console-marker");
     try {
       console.error("suite-console-marker");
+      // Negative check: onError is dispatched on a zero-delay timer, so a 300ms
+      // window covers its delivery.
       await new Promise((resolve) => setTimeout(resolve, 300));
       return watch.messages.slice();
     } finally {

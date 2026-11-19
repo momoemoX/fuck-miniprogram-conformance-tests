@@ -1,4 +1,5 @@
 {
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "test-probe": "/components/probe/index",
     "state-probe": "/components/state/index",

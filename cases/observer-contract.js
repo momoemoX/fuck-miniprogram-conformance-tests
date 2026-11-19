@@ -34,6 +34,7 @@ async function observerContract(page, check) {
       observer.disconnect();
       const before = events.length;
       await update(page, { watchedTop: "10px" });
+      // Negative window: a disconnected observer must stay silent.
       await new Promise((resolve) => setTimeout(resolve, 500));
       return [Math.round(visible), Math.round(hidden), events.length - before];
     } finally {

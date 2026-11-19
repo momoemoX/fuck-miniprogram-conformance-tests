@@ -7,7 +7,7 @@
   <navigator url="/pages/surface/index">Inspect API availability</navigator>
   <navigator url="/pages/profile/index?kind=device">Physical device cases</navigator>
   <navigator url="/pages/profile/index?kind=service">Hosted service cases</navigator>
-  <view>Target base library: 3.7.0</view>
+  <view>Target base library: {{target}}</view>
   <view>Profiles: {{profiles}}</view>
   <view id="summary">{{summary}}</view>
   <view>{{baselineScore}}</view>

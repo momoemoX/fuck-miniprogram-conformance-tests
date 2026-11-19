@@ -7,7 +7,7 @@ async function platform(check) {
   });
   await check("system.device-platform", true, () => {
     const info = wx.getDeviceInfo();
-    return typeof info.platform === "string" && info.platform.length > 0;
+    return ["ios", "android", "ohos", "windows", "mac", "devtools"].indexOf(info.platform) !== -1;
   });
   await check("system.api-capability", [true, false], () => [
     wx.canIUse("getStorageSync"),
@@ -20,7 +20,7 @@ async function platform(check) {
   });
   await check("network.type-result", true, async () => {
     const response = await call(wx, "getNetworkType");
-    return typeof response.networkType === "string" && response.networkType.length > 0;
+    return ["wifi", "2g", "3g", "4g", "5g", "unknown", "none"].indexOf(response.networkType) !== -1;
   });
   await check("audio.recorder-singleton", true, () => {
     const manager = wx.getRecorderManager();
@@ -106,6 +106,7 @@ async function platform(check) {
         after = true;
       });
       worker.postMessage({ numbers: [2], label: "second" });
+      // Negative window: a terminated worker must not answer.
       await new Promise((resolve) => setTimeout(resolve, 500));
       return [first[1] === "first", after];
     } finally {

@@ -1,19 +1,43 @@
-# Coverage for base library 3.7.0
+# Coverage for base library 3.7.12
 
 ## Executable suite
 
 | Group | Cases | Evidence collected |
 | --- | ---: | --- |
-| Core | 363 | App, page and component state, lifetimes, app-level launch and error hooks, error propagation and recovery, behaviors, component relations, generic substitution, observers, event and intersection observation, page scroll events, event propagation, templates, WXS modules and their module state, slots, styles, built-in control properties, selectors, scroll views, navigation, tab caching, redirect replacement, subpackages, worker messages and termination, pull-down refresh callbacks, system, device and account info shapes, API category, tab bar and background style callbacks, image metadata and offscreen canvas pixels, system and UI callbacks including system settings and authorization shapes, clipboard round trip, storage and storage info, file operations including the saved-file lifecycle, codecs, archives, canvas and audio context identity, real input bindings and focus events. |
+| Core | 365 | App, page and component state, lifetimes, app-level launch and error hooks, error propagation and recovery, behaviors, component relations, generic substitution, observers, event and intersection observation, page scroll events, event propagation, templates, WXS modules and their module state, slots, styles, built-in control properties, selectors, scroll views, navigation, tab caching, redirect replacement, subpackages, worker messages and termination, pull-down refresh callbacks, system, device and account info shapes, API category, tab bar and background style callbacks, image metadata and offscreen canvas pixels, system and UI callbacks including system settings and authorization shapes, clipboard round trip, storage and storage info, file operations including the saved-file lifecycle, codecs, archives, canvas and audio context identity, real input bindings and focus events. |
 | HTTP fixture | 12 | Request parameters, JSON and binary bodies, response headers, HTTP errors, cancellation, multipart upload, file download and saved-file lifecycle. |
 | WebSocket fixture | 2 | Text and binary round trips, followed by a normal close. |
 | Interactive input | 17 | Input detail with caret, submitted text, radio, checkbox and switch values, custom form-field component submission, selected text range while typing, native dialog confirmation, action sheet selection, long-press ordering, caret insertion, confirm key, maxlength 0, typed text retention, bindinput return handling, event delivery to an ancestor view and form reset defaults. |
 | Physical device | 9 | Location, accelerometer, compass, gyroscope, device motion, battery, brightness, Bluetooth adapter state and Wi-Fi association. |
 | Hosted services | 3 | Test app identity, nonempty login code and authorization settings shape. |
 
-Core, HTTP and WebSocket cases ran on two desktop implementations. In the host configured for SDK 3.7.0, 358 of the 377 expected values were reproduced. The comparison runtime matched 285 of the 305 expectations recorded before the error, app, WXS-state and input additions. Both desktop environments passed the six interactive input checks that existed before this addition; the seven new interactive checks have so far run only in the 3.7.0 browser host through UI automation. Physical-device and hosted-service checks still require execution in their respective environments.
+## Baseline
 
-The reference table records the case ID and the expected value from each reproduced case. Changing an expected value removes its reproduced status at run time until it has been checked again. The desktop host supplies native services for files, networking and devices. Host-dependent outcomes require independent confirmation before generalizing them to a physical device. The baseline host also logged exceptions during media-query observer cleanup and batch-storage response handling. The scores above cover the asserted observations; they do not certify an error-free host.
+Every expected value in the reference table was reproduced in the official WeChat developer tool (2.02.2611062 Nightly) with base library **3.7.12**, driven by `tools/devtools/run.cjs`. The core profile passed 365 of 365 cases, and a second run with both network fixtures passed 379 of 379. The [observation record](fixtures/devtools-3.7.12-observations.json) contains every expected and actual value. The simulator supplies emulated native services for files, networking and devices, so host-dependent outcomes still need a device run before they generalize. The scores cover the asserted observations; they do not certify an error-free host.
+
+The target used to be 3.7.0, observed in a desktop host whose origin and tool version were not recorded. Current developer-tool versions no longer list 3.7.0, and requesting it loads 3.18.0, so that baseline could not be reproduced. The sections below keep the history of each group; observations attributed to the 3.7.0 host are historical unless the 3.7.12 run confirms them.
+
+## Changes when the target moved to 3.7.12
+
+| Case | Before | Now | Reason |
+| --- | --- | --- | --- |
+| `channel.off-listener` | `["kept"]` | `["removed","kept"]` | 3.7.12 stores each listener wrapped in a try/catch shim, and `off(name, fn)` compares `fn.toString()` with the shim's source. Removing by reference matches nothing, so both callbacks run. Both the 3.7.0 host and the 3.7.12 simulator observed this. |
+| `channel.off-all-listeners` | — | `[[],["other"]]` | New. `off(name)` without a callback drops every listener for that event and leaves other events alone. |
+| `ui.pull-down-refresh` | `[[],"success"]` | `[["refresh"],"success"]` | The suite page did not enable pull-down refresh, so the old case observed its configuration rather than the API. With `enablePullDownRefresh`, `wx.startPullDownRefresh` runs `onPullDownRefresh`. Removing the setting makes the case fail with the old value. |
+| `ui.navigation-bar-color` | same | same | The case read the callback order synchronously and passed only because the 3.7.0 host ran callbacks synchronously. It now waits for `complete`. |
+| `error.*` onError cases | same | same | 3.7.12 delivers `wx.onError` on a zero-delay timer, ahead of the `setData` callback the cases awaited. The listener now returns a message that already arrived. |
+| `input.focus-and-blur-events` | focus, focus, blur | renamed `input.focus-events`: focus, focus | The 3.7.12 simulator reports no blur when the `focus` attribute moves to another input or is cleared. Blur delivery is listed under remaining coverage. |
+| `page.reach-bottom` | `[true]` | `[false,true]` | Strengthened: no report while the page rests at the top, a report at the end. |
+| `system.setting-shape`, `system.authorize-setting-values` | presence checks | value checks | Switches are booleans when present. Authorization fields are the documented strings `authorized`, `denied` or `not determined`; the 3.7.0 host returned booleans. |
+| `system.api-category` | non-empty string | `"default"` | A normal launch reports the documented `default` category. |
+| `system.device-info-shape` | `ios`, `android` or `devtools` | documented platform list | `ohos`, `windows` and `mac` are valid platforms; the old list failed desktop and HarmonyOS clients. |
+| `system.device-platform` | non-empty string | documented platform list | Same list as above. |
+| `system.account-info-shape` | app ID only | app ID and `envVersion` | `envVersion` is one of `develop`, `trial` or `release`. |
+| `network.type-result` | non-empty string | documented network types | |
+| `image.info-from-canvas` | positive sizes | positive square size, `png` type | The exported size scales with pixel density, so only the shape and format are fixed. |
+| `lifecycle.query-encoded-values` and the 17 file, digest, storage and random-byte cases | pending | reproduced | They already expected the 3.7.12 behavior. |
+
+The harness also changed. A case that times out keeps its cleanup running for up to 15 seconds before the next case starts, and the run stops as interrupted when a case leaves the page stack changed. The route driver's fallback waits for the stack to change instead of matching the route name alone, which used to match at once when a lifecycle page opened another lifecycle page. Positive checks wait for their observation instead of a fixed delay; the remaining fixed windows are negative checks, marked in the source. The run starts with a preflight of timers and `setData` callbacks. A mutation that left a page open interrupted the run, and a case that never settled was recorded as a timeout while the remaining cases continued.
 
 ## Component and event cases
 
@@ -41,7 +65,7 @@ Component-export checks read a public object, update its instance through an exp
 
 The 26 module and lifecycle checks cover module identity and shared state, explicit file extensions, relative parent paths, replaced exports, callable and constructor exports, directory references, circular dependencies and repeated module failures. In both the 3.7.0 desktop baseline and the independent 3.7.12 simulator, a directory shorthand without an index filename is rejected. In a cycle, a peer can retain the initial exports object after the other module replaces `module.exports`.
 
-Navigation checks observe load/show/ready/hide/unload order, hidden-page state, multi-page return, redirect replacement, repeated route instances, failed navigation, query values and page recreation. Every case restores the starting page stack. The driver waits for the public `wx.onAppRouteDone` event (available since 3.5.5), so implementations running this group need route-completion event support. A successful navigation callback or onShow alone can precede the end of a native transition.
+Navigation checks observe load/show/ready/hide/unload order, hidden-page state, multi-page return, redirect replacement, repeated route instances, failed navigation, query values and page recreation. Every case restores the starting page stack. The driver waits for `wx.onAppRouteDone` when the runtime provides it, because a successful navigation callback or onShow alone can precede the end of a native transition. Without it, the driver polls `getCurrentPages()` until the top of the stack has changed to the target page.
 
 All 26 expected results reproduced in the independent **3.7.12** simulator. The [observation record](fixtures/native-module-lifecycle.json) contains each expected and actual result. Twenty-five also reproduced in the existing 3.7.0 desktop host. The remaining query case expects percent-encoded values as observed in 3.7.12 and stays outside the 3.7.0 reproduced-expectation score.
 
@@ -67,13 +91,13 @@ The app cases read what the public `App` hooks recorded at launch: the order lau
 
 The WXS state cases load one counter module through two tags. Two tags with the same source in one template share a module instance, two probe instances stay isolated, the module variable persists across render passes, an explicit remount starts fresh, page-level and component-level modules are separate, and a pushed page gets a fresh module while the hidden suite page retains its value. Because the 3.7.0 host re-runs WXS calls on every render pass, the fixtures write through an idempotent `setValue(next)` call so repeated renders cannot drift the observed value.
 
-The input cases drive the `focus` attribute of two rendered inputs. Focus events carry `{value, height}`; moving focus to a second input delivers the new input's focus before the old input's blur, and the blur detail carries no height; a bound value update reaches the rendered input node.
+The input cases drive the `focus` attribute of two rendered inputs. Focus events carry `{value, height}`; moving focus to a second input delivers a second focus event (the 3.7.0 host also delivered the old input's blur after it, without a height; the 3.7.12 simulator delivers no blur); a bound value update reaches the rendered input node.
 
 Eleven further checks extend the same group: the component `error` lifetime receives the thrown error while `wx.onError` still fires, the `App.onError` and `App.onUnhandledRejection` hooks record the same faults their `wx.on*` counterparts deliver, `pageLifetimes` reports hide and show around a page switch, a `multipleSlots` panel projects two same-named slots in document order, a bound `scroll-top` and `scroll-into-view` move a rendered `scroll-view` and fire `bindscroll` with the final position, an `IntersectionObserver` reports the ratio toggling between 1 and 0 and `disconnect` stops delivery, `getStorageInfoSync` lists written keys with numeric sizes, and a worker echoes nested object shapes and stops answering after `terminate`.
 
 Five further checks complete the group: an exported animation reaches the rendered node's computed transform, `getDate(0)` inside WXS evaluates to epoch 0, event handlers on two nesting levels read the source node's dataset, a component reports its `is`, `id` and host dataset, and a canvas-exported temporary file survives `saveFile`, appears in `getSavedFileList` and disappears after `removeSavedFile`.
 
-Six more cover page-level scrolling and system surfaces: a bound page scrolls through `wx.pageScrollTo` and records `onPageScroll`, scrolling to the end fires `onReachBottom`, `wx.setNavigationBarColor` runs its success and complete callbacks, `wx.getSystemSetting` reports device orientation and boolean switches, `wx.getAppAuthorizeSetting` exposes every authorization field, and an observer from a base behavior runs before the component's own observer for the same field. On this host `wx.startPullDownRefresh` completes without delivering the page's `onPullDownRefresh` hook, and authorization fields carry booleans instead of the documented strings; both observations stay recorded pending a simulator run. The reach-bottom check is weak here: the host fires the hook even when the page cannot scroll, so shrinking the fixture spacer did not break the case.
+Six more cover page-level scrolling and system surfaces: a bound page scrolls through `wx.pageScrollTo` and records `onPageScroll`, scrolling to the end fires `onReachBottom`, `wx.setNavigationBarColor` runs its success and complete callbacks, `wx.getSystemSetting` reports device orientation and boolean switches, `wx.getAppAuthorizeSetting` exposes every authorization field, and an observer from a base behavior runs before the component's own observer for the same field. On the 3.7.0 host `wx.startPullDownRefresh` did not deliver `onPullDownRefresh` because the suite page had not enabled pull-down refresh, and authorization fields carried booleans; the 3.7.12 baseline resolves both, as listed under the target change. The reach-bottom check was weak on that host, which fired the hook even when the page could not scroll; the case now also asserts that no report arrives while the page rests at the top.
 
 Five final checks round out the portable surface: the clipboard round-trips a fixed string, `wx.pageScrollTo` accepts a selector and scrolls the bound page, `wx.getDeviceInfo` exposes brand, model, system and platform strings, `wx.getAccountInfoSync` exposes the configured app ID, and a property defined by a behavior carries its own observer. Five more close the canvas and UI surface: a canvas export feeds `wx.getImageInfo` with real dimensions, an offscreen 2D canvas fills and reads pixels, `wx.getApiCategory` returns a string, and the tab bar badge and background style callbacks report `:ok`.
 
@@ -83,17 +107,9 @@ The interactive input page grew from six to sixteen checks, driven by real typin
 
 ## Expectations awaiting confirmation
 
-The desktop baseline produced different results for 19 expected values. Keep the original expected and actual results when reporting these cases. They are excluded from the reproduced-expectation score.
+None in the automatic profiles: every expected value reproduced in the 3.7.12 baseline. The 3.7.0 host had disagreed with 19 of them; the table above records how each was resolved.
 
-| Area | Open observations |
-| --- | --- |
-| EventChannel | Removing one of two listeners by reference left both callbacks active in the baseline host. |
-| File descriptors and paths | Open, positional reads and writes, closed descriptors, truncate by descriptor or path, and the asynchronous file-tree sequence need an independent host check. |
-| File formats and digests | Brotli, ZIP entry reads and extraction, MD5, SHA-1 and SHA-256 require a host that returns file bytes and digests through the same public APIs. |
-| Other host calls | Batch storage, random-byte generation and synchronously saving a downloaded temporary file returned a different shape or no usable value. |
-| Navigation query | The 3.7.0 desktop host decodes URL query values before onLoad. The independent 3.7.12 simulator preserves their percent encoding. |
-
-## Independent simulator cross-check
+## Earlier simulator cross-check
 
 The 18 pending expectations were exercised directly in the developer-tool simulator with SDK **3.7.12**, using the same case functions and the page's `runSelected` method, which runs only the listed case IDs. The simulator supplied file, storage, random-byte and navigation operations. Two fresh runs produced the same results. The committed [observation record](fixtures/native-observations.json) includes every expected and actual value, the tool version and the tested suite commit. It contains the original 18 cases.
 
@@ -101,7 +117,7 @@ Seventeen expectations matched. This includes positional file reads and writes, 
 
 For `channel.off-listener`, the receiver registered two callbacks, removed the first callback by reference, and emitted a message. Both callbacks still ran. The expected `["kept"]` was contradicted by the observed `["removed","kept"]`. This expectation requires further investigation before use as a compatibility requirement.
 
-These observations establish results for **3.7.12**. The current tool's version picker offered 3.7.12, while requesting 3.7.0 in project configuration fell back to 3.18.0. The exact **3.7.0** reference table and score therefore retain their existing confirmation status.
+These observations were the first results for **3.7.12**; the current baseline supersedes them, including `channel.off-listener`, whose expected value now matches the observed one.
 
 The independent run also exposed missing page JSON files. Empty page configurations have been added for every previously unconfigured declared page so the standard simulator can register them.
 
@@ -115,7 +131,7 @@ This run also drove a suite-side portability fix: the navigation harness no long
 
 ## API inventory
 
-The desktop host reported SDK **3.7.0**. Among the public declaration names checked, its `wx` object exposed **455 members** (451 functions and four objects), and its file-system manager exposed **45 methods**. The availability page checks each of those names and value types. A stub can pass an availability check. Only a behavioral case contributes to a behavioral score.
+The 3.7.12 simulator's `wx` object exposes **464** of the public declaration names checked (460 functions and four objects), and its file-system manager exposes **45 methods**. Compared with the earlier 3.7.0 host, nine names were added and none removed: `cancelIdleCallback`, `createGlobalPayment`, `getShowSplashAdStatus`, `loadBuiltInFontFace`, `offUserTriggerTranslation`, `onUserTriggerTranslation`, `openStoreOrderDetail`, `postMessageToReferrerPage` and `requestIdleCallback`. The availability page checks each name and value type. A stub can pass an availability check. Only a behavioral case contributes to a behavioral score.
 
 The [broader source catalog](https://github.com/wechat-miniprogram/api-typings/blob/e5dc50ccea71e7999a8aa8a942a6f68045e141ca/types/wx/lib.wx.api.d.ts) contains 1,261 member names across 74 interfaces with declared methods. It includes names outside the observed desktop surface. Nested interfaces that require hardware, a user gesture or a service session are listed without constructing them for inventory.
 
@@ -125,7 +141,8 @@ Run `node tools/coverage.cjs` for direct source references and the list of basel
 
 | Area | Missing or partial behavior |
 | --- | --- |
-| Framework and rendering | Advanced relation and generic combinations, theme change delivery, window resize events, and the remaining built-in components and their property, event and accessibility combinations. |
+| Framework and rendering | Blur delivery when focus moves between inputs (absent in the 3.7.12 simulator; needs a device run), advanced relation and generic combinations, theme change delivery, window resize events, and the remaining built-in components and their property, event and accessibility combinations. |
+| Interactive input | The 17 interactive checks were recorded on the earlier 3.7.0 host and have not been re-run on 3.7.12. They need real keystrokes, native dialogs and gestures that the automation driver does not reproduce faithfully. |
 | Desktop APIs | Additional success, failure and cancellation paths, task listeners, media playback and decoding, maps, TCP/UDP, native UI and platform-specific branches. |
 | Device integration | Camera and microphone hardware, background operation, BLE data exchange with a peripheral, NFC tags, Wi-Fi changes, device model and permission-denial paths. |
 | Hosted services | Server-side login exchange, session expiry, cloud operations, subscriptions, advertisements and payment sandbox transactions. The login case checks the response shape only. |

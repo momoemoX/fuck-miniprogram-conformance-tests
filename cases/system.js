@@ -1,5 +1,8 @@
 const { call } = require("./support");
 
+// Documented values of DeviceInfo.platform.
+const PLATFORMS = ["ios", "android", "ohos", "windows", "mac", "devtools"];
+
 async function system(check) {
   await check("system.sync-and-split", [true, true, true], () => {
     const all = wx.getSystemInfoSync(),
@@ -21,13 +24,14 @@ async function system(check) {
       typeof info.brand === "string" && info.brand.length > 0,
       typeof info.model === "string" && info.model.length > 0,
       typeof info.system === "string" && info.system.length > 0,
-      info.platform === "devtools" || info.platform === "ios" || info.platform === "android",
+      PLATFORMS.indexOf(info.platform) !== -1,
     ];
   });
-  await check("system.account-info-shape", [true], () => {
-    const account = wx.getAccountInfoSync();
+  await check("system.account-info-shape", [true, true], () => {
+    const { miniProgram } = wx.getAccountInfoSync();
     return [
-      typeof account.miniProgram.appId === "string" && account.miniProgram.appId.length > 0,
+      typeof miniProgram.appId === "string" && miniProgram.appId.length > 0,
+      ["develop", "trial", "release"].indexOf(miniProgram.envVersion) !== -1,
     ];
   });
   await check("system.enter-path", "pages/suite/index", () => wx.getEnterOptionsSync().path);
@@ -81,31 +85,46 @@ async function system(check) {
       return [show.errMsg, hide.errMsg];
     },
   );
-  await check("ui.navigation-bar-color", ["success", "complete"], () => {
-    const seen = [];
-    wx.setNavigationBarColor({
-      frontColor: "#ffffff",
-      backgroundColor: "#1f2d3d",
-      success() {
-        seen.push("success");
-      },
-      fail() {
-        seen.push("fail");
-      },
-      complete() {
-        seen.push("complete");
-      },
-    });
-    return seen;
-  });
-  await check("system.setting-shape", [true, true, true, true], () => {
+  // API callbacks run asynchronously, so the order is read once complete has run.
+  await check(
+    "ui.navigation-bar-color",
+    ["success", "complete"],
+    () =>
+      new Promise((resolve) => {
+        const seen = [];
+        wx.setNavigationBarColor({
+          frontColor: "#ffffff",
+          backgroundColor: "#1f2d3d",
+          success() {
+            seen.push("success");
+          },
+          fail() {
+            seen.push("fail");
+          },
+          complete() {
+            seen.push("complete");
+            resolve(seen);
+          },
+        });
+      }),
+  );
+  await check("system.setting-shape", [true, true], () => {
     const setting = wx.getSystemSetting();
-    const authorize = wx.getAppAuthorizeSetting();
     return [
       setting.deviceOrientation === "portrait" || setting.deviceOrientation === "landscape",
-      setting.bluetoothEnabled === undefined || typeof setting.bluetoothEnabled === "boolean",
-      authorize.cameraAuthorized !== undefined,
-      authorize.locationAuthorized !== undefined,
+      ["bluetoothEnabled", "locationEnabled", "wifiEnabled"].every(
+        (name) => setting[name] === undefined || typeof setting[name] === "boolean",
+      ),
+    ];
+  });
+  // Authorization fields are documented strings, not booleans.
+  await check("system.authorize-setting-values", [true, true], () => {
+    const authorize = wx.getAppAuthorizeSetting();
+    const states = ["authorized", "denied", "not determined"];
+    const fields = ["albumAuthorized", "bluetoothAuthorized", "cameraAuthorized", "locationAuthorized", "microphoneAuthorized", "notificationAuthorized", "phoneCalendarAuthorized"];
+    return [
+      fields.every((name) => authorize[name] === undefined || states.indexOf(authorize[name]) !== -1),
+      states.indexOf(authorize.locationAuthorized) !== -1 && states.indexOf(authorize.cameraAuthorized) !== -1,
     ];
   });
   await check("ui.loading-roundtrip", ["showLoading:ok", "hideLoading:ok"], async () => {

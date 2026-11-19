@@ -1,4 +1,4 @@
-// Expected values reproduced in the 3.7.0 desktop baseline run.
+// Expected values reproduced in the official developer-tool simulator with base library 3.7.12.
 module.exports = {
   "component.instance-data": [
     [
@@ -22,9 +22,254 @@ module.exports = {
   "channel.once": [
     "one"
   ],
+  "channel.off-listener": [
+    "removed",
+    "kept"
+  ],
+  "channel.off-all-listeners": [
+    [],
+    [
+      "other"
+    ]
+  ],
   "channel.reverse-direction": [
     "reply",
     3
+  ],
+  "error.observer-recovers": [
+    "throw-observer",
+    true,
+    true
+  ],
+  "error.event-handler-continues": [
+    [
+      "leaf",
+      "inner",
+      "outer"
+    ],
+    [
+      "leaf",
+      "inner",
+      "outer"
+    ],
+    true
+  ],
+  "error.detached-recovers": [
+    true,
+    true
+  ],
+  "error.api-callback-complete": [
+    [
+      "success",
+      "complete"
+    ],
+    true
+  ],
+  "error.component-error-lifetime": [
+    true,
+    true
+  ],
+  "error.app-onerror-hook": [
+    true
+  ],
+  "error.app-unhandledrejection-hook": [
+    true
+  ],
+  "error.console-not-onerror": [],
+  "error.unhandled-rejection": [
+    "suite-reject-marker",
+    true
+  ],
+  "app.launch-order": [
+    "launch",
+    "show",
+    "page.load"
+  ],
+  "app.launch-pages-empty": 0,
+  "app.launch-options-shape": {
+    "path": "string",
+    "query": "object",
+    "scene": "number",
+    "referrerInfo": "object"
+  },
+  "app.enter-options-path": [
+    "pages/suite/index",
+    "pages/suite/index"
+  ],
+  "app.foreground-stable-during-navigation": [
+    [],
+    [],
+    0,
+    0
+  ],
+  "app.page-not-found-not-fired": [],
+  "app.identity-across-pages": [
+    true,
+    41
+  ],
+  "module.cache-identity": true,
+  "module.explicit-extension": true,
+  "module.relative-parent": true,
+  "module.shared-mutation": 37,
+  "module.reverse-shared-mutation": 19,
+  "module.replaced-exports": {
+    "value": "replacement"
+  },
+  "module.function-export": "peel/seed",
+  "module.function-property": "callable",
+  "module.constructor-identity": true,
+  "module.constructor-instance-state": [
+    1,
+    2,
+    1
+  ],
+  "module.explicit-directory-index": "directory-index",
+  "module.directory-shorthand-rejected": true,
+  "module.cycle-partial-exports": [
+    "right",
+    "undefined"
+  ],
+  "module.cycle-reference": false,
+  "module.failure-first": "suite-module-failure",
+  "module.failure-repeat": [
+    "suite-module-failure",
+    "suite-module-failure"
+  ],
+  "lifecycle.initial-order": [
+    "alpha.load",
+    "alpha.show",
+    "alpha.ready"
+  ],
+  "lifecycle.push-order": [
+    "alpha.hide",
+    "beta.load",
+    "beta.show",
+    "beta.ready"
+  ],
+  "lifecycle.back-order": [
+    "beta.unload",
+    "alpha.show"
+  ],
+  "lifecycle.hidden-page-retained": [
+    true,
+    7
+  ],
+  "lifecycle.multi-back": [
+    [
+      "beta.unload",
+      "gamma.unload"
+    ],
+    "alpha",
+    1
+  ],
+  "lifecycle.redirect-replacement": [
+    1,
+    1,
+    1,
+    true
+  ],
+  "lifecycle.query-encoded-values": [
+    "citrus%20peel",
+    "%2B",
+    "%252F"
+  ],
+  "lifecycle.same-route-new-instance": [
+    true,
+    0,
+    2
+  ],
+  "lifecycle.failed-navigation-preserves-page": [
+    [
+      "fail",
+      "complete"
+    ],
+    true,
+    []
+  ],
+  "lifecycle.reopen-creates-fresh-page": [
+    true,
+    0
+  ],
+  "wxs.state.same-template-shared": [
+    4,
+    4
+  ],
+  "wxs.state.instance-isolated": [
+    4,
+    0
+  ],
+  "wxs.state.persist-across-renders": [
+    3,
+    3,
+    3
+  ],
+  "wxs.state.remount-fresh": [
+    9,
+    0
+  ],
+  "wxs.state.page-component-isolated": [
+    6,
+    0
+  ],
+  "wxs.state.page-fresh-and-retained": [
+    0,
+    7,
+    7
+  ],
+  "input.focus-events": [
+    [
+      "focus",
+      true,
+      true
+    ],
+    [
+      "focus",
+      true,
+      true
+    ]
+  ],
+  "input.value-binding-sync": [
+    "fresh",
+    "fresh"
+  ],
+  "component.page-lifetimes": [
+    "hide",
+    "show"
+  ],
+  "component.instance-fields": [
+    "components/page-probe/index",
+    "page-probe",
+    "page-probe-origin"
+  ],
+  "slot.multi-instance-order": [
+    "first",
+    "second"
+  ],
+  "scroll.bindscroll-detail": [
+    30,
+    220
+  ],
+  "scroll.into-view-target": [
+    170
+  ],
+  "observer.intersection-toggle": [
+    1,
+    0,
+    0
+  ],
+  "page.scroll-events": [
+    true,
+    true
+  ],
+  "page.reach-bottom": [
+    false,
+    true
+  ],
+  "ui.pull-down-refresh": [
+    [
+      "refresh"
+    ],
+    "success"
   ],
   "app.instance": true,
   "page.initial-route": [
@@ -166,378 +411,6 @@ module.exports = {
     31,
     43
   ],
-  "native.button-disabled": [
-    false,
-    true
-  ],
-  "native.switch-checked": [
-    false,
-    true
-  ],
-  "native.slider-value": [
-    21,
-    64
-  ],
-  "native.progress-percent": [
-    16,
-    72
-  ],
-  "native.checkbox-checked": [
-    true,
-    false
-  ],
-  "native.radio-checked": [
-    false,
-    true
-  ],
-  "native.input-maxlength": [
-    7,
-    14
-  ],
-  "native.textarea-maxlength": [
-    11,
-    18
-  ],
-  "native.picker-value": [
-    0,
-    1
-  ],
-  "native.text-selectable": [
-    false,
-    true
-  ],
-  "native.image-mode": [
-    "aspectFit",
-    "center"
-  ],
-  "native.swiper-duration": [
-    180,
-    400
-  ],
-  "css.rpx-viewport": true,
-  "css.descendant-rule": [
-    19,
-    23
-  ],
-  "setdata.render-snapshot": [
-    8,
-    3
-  ],
-  "render.conditional-remount": [
-    true,
-    null,
-    true
-  ],
-  "render.object-iteration": [
-    "a/2",
-    "b/5"
-  ],
-  "render.nested-scopes": [
-    "a1",
-    "a2",
-    "b3"
-  ],
-  "render.list-remove": [
-    "b4"
-  ],
-  "render.interpolation-types": [
-    4,
-    true,
-    "A/B"
-  ],
-  "render.dynamic-template": [
-    "first",
-    "second"
-  ],
-  "setdata.sibling-paths": [
-    7,
-    8,
-    "x"
-  ],
-  "setdata.empty-array": [],
-  "wxs.inline-module": "ALPHA",
-  "slot.default-content": "projected",
-  "css.class-rule": [
-    35,
-    14
-  ],
-  "css.dynamic-class": [
-    49,
-    14
-  ],
-  "canvas.pixel-roundtrip": [
-    255,
-    0,
-    0,
-    255
-  ],
-  "route.subpackage-stack-and-lifetimes": [
-    "load:blue",
-    "ready",
-    "pack/stop/index",
-    2,
-    "unload",
-    "pages/suite/index",
-    1
-  ],
-  "route.tab-rejects-navigate": [
-    "fail",
-    "complete"
-  ],
-  "route.switch-tab-reuses-page": [
-    1,
-    1,
-    2,
-    1
-  ],
-  "route.redirect-replaces-top": [
-    "arrive:first",
-    "depart:first",
-    "arrive:second",
-    2,
-    "depart:second"
-  ],
-  "storage.roundtrip-text": "p\u00eache",
-  "storage.roundtrip-number": 42,
-  "storage.roundtrip-false": false,
-  "storage.roundtrip-zero": 0,
-  "storage.roundtrip-array": [
-    2,
-    "b"
-  ],
-  "storage.roundtrip-nested": {
-    "items": [
-      1,
-      {
-        "x": true
-      }
-    ]
-  },
-  "storage.overwrite-remove": [
-    2,
-    true,
-    false
-  ],
-  "storage.async-roundtrip": [
-    "x",
-    "y"
-  ],
-  "storage.missing-callback-order": [
-    "fail",
-    "complete"
-  ],
-  "base64.encode-single": "AA==",
-  "base64.decode-single": [
-    0
-  ],
-  "base64.encode-double": "//8=",
-  "base64.decode-double": [
-    255,
-    255
-  ],
-  "base64.encode-triple": "AH//",
-  "base64.decode-triple": [
-    0,
-    127,
-    255
-  ],
-  "base64.encode-padding": "AQIDBA==",
-  "base64.decode-padding": [
-    1,
-    2,
-    3,
-    4
-  ],
-  "fs.write-utf8": [
-    207,
-    128
-  ],
-  "fs.read-utf8": "\u03c0",
-  "fs.write-hex": [
-    0,
-    254
-  ],
-  "fs.read-hex": "00fe",
-  "fs.write-base64": [
-    16,
-    32
-  ],
-  "fs.read-base64": "ECA=",
-  "fs.write-ascii": [
-    65,
-    122
-  ],
-  "fs.read-ascii": "Az",
-  "fs.write-utf16le": [
-    169,
-    3
-  ],
-  "fs.read-utf16le": "\u03a9",
-  "fs.append": "abc",
-  "fs.copy-overwrite": [
-    "new",
-    "new"
-  ],
-  "fs.rename-tree": [
-    [
-      "new"
-    ],
-    "leaf"
-  ],
-  "fs.stat-types": [
-    true,
-    false,
-    false,
-    true,
-    3
-  ],
-  "fs.unlink": [],
-  "fs.missing-read": true,
-  "fs.async-operations": [
-    "ab",
-    []
-  ],
-  "fs.async-missing": [
-    "fail",
-    "complete"
-  ],
-  "system.window-dimensions": [
-    true,
-    true,
-    true
-  ],
-  "system.device-platform": true,
-  "system.api-capability": [
-    true,
-    false
-  ],
-  "system.async-window": true,
-  "network.type-result": true,
-  "audio.recorder-singleton": true,
-  "audio.background-singleton": true,
-  "audio.independent-contexts": [
-    true,
-    0.25,
-    0.75
-  ],
-  "animation.step-snapshot": 2,
-  "worker.message-roundtrip": [
-    6,
-    "seed"
-  ],
-  "storage.detached-copy": [
-    1
-  ],
-  "storage.promise-form": "promise-value",
-  "system.launch-path": "pages/suite/index",
-  "system.menu-geometry": true,
-  "system.base-version": true,
-  "clock.monotonic": true,
-  "query.viewport-offset": true,
-  "canvas.png-export": [
-    137,
-    80,
-    78,
-    71,
-    13,
-    10,
-    26,
-    10
-  ],
-  "animation.export-clears-queue": [
-    1,
-    0
-  ],
-  "storage.missing-sync": "",
-  "system.sync-and-split": [
-    true,
-    true,
-    true
-  ],
-  "system.async-callback": true,
-  "system.enter-path": "pages/suite/index",
-  "system.app-language": true,
-  "system.safe-area": true,
-  "storage.async-info": true,
-  "ui.navigation-title": [
-    "success",
-    "complete"
-  ],
-  "ui.navigation-loading": [
-    "showNavigationBarLoading:ok",
-    "hideNavigationBarLoading:ok"
-  ],
-  "ui.loading-roundtrip": [
-    "showLoading:ok",
-    "hideLoading:ok"
-  ],
-  "ui.toast-roundtrip": [
-    "showToast:ok",
-    "hideToast:ok"
-  ],
-  "ui.scroll-top": true,
-  "system.next-tick": [
-    "sync",
-    "tick"
-  ],
-  "socket.text-echo": [
-    "open",
-    "socket-echo",
-    1000
-  ],
-  "socket.binary-echo": [
-    "open",
-    [
-      0,
-      125,
-      255
-    ],
-    1000
-  ],
-  "http.query": [
-    "GET",
-    "a b"
-  ],
-  "http.post-json": {
-    "color": "gold"
-  },
-  "http.status": 404,
-  "http.arraybuffer": [
-    0,
-    255,
-    13
-  ],
-  "http.header-case": "violet",
-  "http.text-mode": "raw text",
-  "http.binary-post": [
-    0,
-    255,
-    32
-  ],
-  "http.upload-form": [
-    200,
-    true,
-    true
-  ],
-  "http.abort": [
-    "fail",
-    "complete"
-  ],
-  "fs.save-download-async": [
-    true,
-    [
-      0,
-      255,
-      13
-    ],
-    false
-  ],
-  "http.download": [
-    200,
-    0,
-    255,
-    13
-  ],
   "contract.property-defaults": [
     0,
     "",
@@ -633,6 +506,13 @@ module.exports = {
     "nested-attached",
     "own-attached"
   ],
+  "contract.behavior-property-observer": [
+    "behavior-prop"
+  ],
+  "contract.behavior-observer-merge": [
+    "base",
+    "own"
+  ],
   "contract.behavior-data-isolation": [
     "changed",
     "own"
@@ -679,6 +559,10 @@ module.exports = {
     "shell",
     "shell",
     "outer-boundary"
+  ],
+  "event.boundary-dataset": [
+    "shell-kind",
+    "shell-kind"
   ],
   "pure.logic-field-update": 8,
   "pure.observer-fires": [
@@ -768,6 +652,7 @@ module.exports = {
     }
   ],
   "wxs.string-methods": "BLUE/GREEN",
+  "wxs.date-epoch": 0,
   "wxs.regexp-match": [
     false,
     true,
@@ -839,84 +724,6 @@ module.exports = {
   "export.select-all": [
     true,
     3
-  ],
-  "module.cache-identity": true,
-  "module.explicit-extension": true,
-  "module.relative-parent": true,
-  "module.shared-mutation": 37,
-  "module.reverse-shared-mutation": 19,
-  "module.replaced-exports": {
-    "value": "replacement"
-  },
-  "module.function-export": "peel/seed",
-  "module.function-property": "callable",
-  "module.constructor-identity": true,
-  "module.constructor-instance-state": [
-    1,
-    2,
-    1
-  ],
-  "module.explicit-directory-index": "directory-index",
-  "module.directory-shorthand-rejected": true,
-  "module.cycle-partial-exports": [
-    "right",
-    "undefined"
-  ],
-  "module.cycle-reference": false,
-  "module.failure-first": "suite-module-failure",
-  "module.failure-repeat": [
-    "suite-module-failure",
-    "suite-module-failure"
-  ],
-  "lifecycle.initial-order": [
-    "alpha.load",
-    "alpha.show",
-    "alpha.ready"
-  ],
-  "lifecycle.push-order": [
-    "alpha.hide",
-    "beta.load",
-    "beta.show",
-    "beta.ready"
-  ],
-  "lifecycle.back-order": [
-    "beta.unload",
-    "alpha.show"
-  ],
-  "lifecycle.hidden-page-retained": [
-    true,
-    7
-  ],
-  "lifecycle.multi-back": [
-    [
-      "beta.unload",
-      "gamma.unload"
-    ],
-    "alpha",
-    1
-  ],
-  "lifecycle.redirect-replacement": [
-    1,
-    1,
-    1,
-    true
-  ],
-  "lifecycle.same-route-new-instance": [
-    true,
-    0,
-    2
-  ],
-  "lifecycle.failed-navigation-preserves-page": [
-    [
-      "fail",
-      "complete"
-    ],
-    true,
-    []
-  ],
-  "lifecycle.reopen-creates-fresh-page": [
-    true,
-    0
   ],
   "reuse.initial-keyed-order": [
     "a",
@@ -1065,148 +872,316 @@ module.exports = {
     "-",
     true
   ],
-  "error.observer-recovers": [
-    "throw-observer",
+  "native.button-disabled": [
+    false,
+    true
+  ],
+  "native.switch-checked": [
+    false,
+    true
+  ],
+  "native.slider-value": [
+    21,
+    64
+  ],
+  "native.progress-percent": [
+    16,
+    72
+  ],
+  "native.checkbox-checked": [
     true,
+    false
+  ],
+  "native.radio-checked": [
+    false,
     true
   ],
-  "error.event-handler-continues": [
-    [
-      "leaf",
-      "inner",
-      "outer"
-    ],
-    [
-      "leaf",
-      "inner",
-      "outer"
-    ],
-    true
+  "native.input-maxlength": [
+    7,
+    14
   ],
-  "error.detached-recovers": [
-    true,
-    true
+  "native.textarea-maxlength": [
+    11,
+    18
   ],
-  "error.api-callback-complete": [
-    [
-      "success",
-      "complete"
-    ],
-    true
-  ],
-  "error.console-not-onerror": [],
-  "error.unhandled-rejection": [
-    "suite-reject-marker",
-    true
-  ],
-  "app.launch-order": [
-    "launch",
-    "show",
-    "page.load"
-  ],
-  "app.launch-pages-empty": 0,
-  "app.launch-options-shape": {
-    "path": "string",
-    "query": "object",
-    "scene": "number",
-    "referrerInfo": "object"
-  },
-  "app.enter-options-path": [
-    "pages/suite/index",
-    "pages/suite/index"
-  ],
-  "app.foreground-stable-during-navigation": [
-    [],
-    [],
+  "native.picker-value": [
     0,
-    0
+    1
   ],
-  "app.page-not-found-not-fired": [],
-  "app.identity-across-pages": [
-    true,
-    41
+  "native.text-selectable": [
+    false,
+    true
   ],
-  "wxs.state.same-template-shared": [
-    4,
-    4
+  "native.image-mode": [
+    "aspectFit",
+    "center"
   ],
-  "wxs.state.instance-isolated": [
-    4,
-    0
+  "native.swiper-duration": [
+    180,
+    400
   ],
-  "wxs.state.persist-across-renders": [
-    3,
-    3,
+  "css.rpx-viewport": true,
+  "css.descendant-rule": [
+    19,
+    23
+  ],
+  "setdata.render-snapshot": [
+    8,
     3
   ],
-  "wxs.state.remount-fresh": [
-    9,
-    0
-  ],
-  "wxs.state.page-component-isolated": [
-    6,
-    0
-  ],
-  "wxs.state.page-fresh-and-retained": [
-    0,
-    7,
-    7
-  ],
-  "input.focus-and-blur-events": [
-    [
-      "focus",
-      true,
-      true
-    ],
-    [
-      "focus",
-      true,
-      true
-    ],
-    [
-      "blur",
-      false,
-      true
-    ]
-  ],
-  "input.value-binding-sync": [
-    "fresh",
-    "fresh"
-  ],
-  "error.component-error-lifetime": [
+  "render.conditional-remount": [
     true,
+    null,
     true
   ],
-  "error.app-onerror-hook": [
-    true
+  "render.object-iteration": [
+    "a/2",
+    "b/5"
   ],
-  "error.app-unhandledrejection-hook": [
-    true
+  "render.nested-scopes": [
+    "a1",
+    "a2",
+    "b3"
   ],
-  "component.page-lifetimes": [
-    "hide",
-    "show"
+  "render.list-remove": [
+    "b4"
   ],
-  "slot.multi-instance-order": [
+  "render.interpolation-types": [
+    4,
+    true,
+    "A/B"
+  ],
+  "render.dynamic-template": [
     "first",
     "second"
   ],
-  "scroll.bindscroll-detail": [
-    30,
-    220
+  "setdata.sibling-paths": [
+    7,
+    8,
+    "x"
   ],
-  "scroll.into-view-target": [
-    170
+  "setdata.empty-array": [],
+  "wxs.inline-module": "ALPHA",
+  "slot.default-content": "projected",
+  "css.class-rule": [
+    35,
+    14
   ],
-  "observer.intersection-toggle": [
-    1,
+  "css.dynamic-class": [
+    49,
+    14
+  ],
+  "canvas.pixel-roundtrip": [
+    255,
     0,
+    0,
+    255
+  ],
+  "route.subpackage-stack-and-lifetimes": [
+    "load:blue",
+    "ready",
+    "pack/stop/index",
+    2,
+    "unload",
+    "pages/suite/index",
+    1
+  ],
+  "route.tab-rejects-navigate": [
+    "fail",
+    "complete"
+  ],
+  "route.switch-tab-reuses-page": [
+    1,
+    1,
+    2,
+    1
+  ],
+  "route.redirect-replaces-top": [
+    "arrive:first",
+    "depart:first",
+    "arrive:second",
+    2,
+    "depart:second"
+  ],
+  "storage.roundtrip-text": "pêche",
+  "storage.roundtrip-number": 42,
+  "storage.roundtrip-false": false,
+  "storage.roundtrip-zero": 0,
+  "storage.roundtrip-array": [
+    2,
+    "b"
+  ],
+  "storage.roundtrip-nested": {
+    "items": [
+      1,
+      {
+        "x": true
+      }
+    ]
+  },
+  "storage.overwrite-remove": [
+    2,
+    true,
+    false
+  ],
+  "storage.async-roundtrip": [
+    "x",
+    "y"
+  ],
+  "storage.missing-callback-order": [
+    "fail",
+    "complete"
+  ],
+  "base64.encode-single": "AA==",
+  "base64.decode-single": [
     0
   ],
-  "storage.info-sync-shape": [
+  "base64.encode-double": "//8=",
+  "base64.decode-double": [
+    255,
+    255
+  ],
+  "base64.encode-triple": "AH//",
+  "base64.decode-triple": [
+    0,
+    127,
+    255
+  ],
+  "base64.encode-padding": "AQIDBA==",
+  "base64.decode-padding": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "fs.write-utf8": [
+    207,
+    128
+  ],
+  "fs.read-utf8": "π",
+  "fs.write-hex": [
+    0,
+    254
+  ],
+  "fs.read-hex": "00fe",
+  "fs.write-base64": [
+    16,
+    32
+  ],
+  "fs.read-base64": "ECA=",
+  "fs.write-ascii": [
+    65,
+    122
+  ],
+  "fs.read-ascii": "Az",
+  "fs.write-utf16le": [
+    169,
+    3
+  ],
+  "fs.read-utf16le": "Ω",
+  "fs.append": "abc",
+  "fs.copy-overwrite": [
+    "new",
+    "new"
+  ],
+  "fs.rename-tree": [
+    [
+      "new"
+    ],
+    "leaf"
+  ],
+  "fs.stat-types": [
+    true,
+    false,
+    false,
+    true,
+    3
+  ],
+  "fs.unlink": [],
+  "fs.missing-read": true,
+  "fs.async-operations": [
+    "ab",
+    []
+  ],
+  "fs.async-missing": [
+    "fail",
+    "complete"
+  ],
+  "fd.read-range": [
+    2,
+    0,
+    99,
+    100,
+    0
+  ],
+  "fd.write-position": "abXYef",
+  "fd.truncate": [
+    3,
+    "abc"
+  ],
+  "fd.closed-read": true,
+  "fs.truncate-path": "ab",
+  "fs.brotli-sync": [
+    0,
+    1,
+    2,
+    255
+  ],
+  "fs.brotli-async": [
+    0,
+    1,
+    2,
+    255
+  ],
+  "fs.zip-entry": "kumquat",
+  "fs.unzip-tree": "kumquat",
+  "fs.digest-md5": [
+    3,
+    "900150983cd24fb0d6963f7d28e17f72"
+  ],
+  "fs.digest-sha1": [
+    3,
+    "a9993e364706816aba3e25717850c26c9cd0d89d"
+  ],
+  "fs.digest-sha256": [
+    3,
+    "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+  ],
+  "fs.async-tree": [
+    "ab",
+    true,
+    []
+  ],
+  "fd.async-roundtrip": [
+    3,
+    2,
+    2,
+    65,
+    66
+  ],
+  "system.window-dimensions": [
     true,
     true,
     true
+  ],
+  "system.device-platform": true,
+  "system.api-capability": [
+    true,
+    false
+  ],
+  "system.async-window": true,
+  "network.type-result": true,
+  "audio.recorder-singleton": true,
+  "audio.background-singleton": true,
+  "audio.independent-contexts": [
+    true,
+    0.25,
+    0.75
+  ],
+  "animation.step-snapshot": 2,
+  "worker.message-roundtrip": [
+    6,
+    "seed"
   ],
   "worker.message-shapes": [
     {
@@ -1231,69 +1206,55 @@ module.exports = {
     true,
     false
   ],
+  "storage.batch-order": [
+    "second",
+    "first",
+    "second"
+  ],
+  "storage.detached-copy": [
+    1
+  ],
+  "storage.promise-form": "promise-value",
+  "system.launch-path": "pages/suite/index",
+  "system.menu-geometry": true,
+  "system.base-version": true,
+  "clock.monotonic": true,
+  "random.requested-lengths": [
+    2,
+    17
+  ],
+  "query.viewport-offset": true,
+  "canvas.png-export": [
+    137,
+    80,
+    78,
+    71,
+    13,
+    10,
+    26,
+    10
+  ],
+  "animation.export-clears-queue": [
+    1,
+    0
+  ],
+  "animation.applies-computed-style": [
+    true
+  ],
   "fs.save-remove-cycle": [
     true,
     true,
     true
-  ],
-  "component.instance-fields": [
-    "components/page-probe/index",
-    "page-probe",
-    "page-probe-origin"
-  ],
-  "event.boundary-dataset": [
-    "shell-kind",
-    "shell-kind"
-  ],
-  "wxs.date-epoch": 0,
-  "animation.applies-computed-style": [
-    true
-  ],
-  "page.scroll-events": [
-    true,
-    true
-  ],
-  "page.reach-bottom": [
-    true
-  ],
-  "ui.pull-down-refresh": [
-    [],
-    "success"
-  ],
-  "ui.navigation-bar-color": [
-    "success",
-    "complete"
-  ],
-  "system.setting-shape": [
-    true,
-    true,
-    true,
-    true
-  ],
-  "contract.behavior-observer-merge": [
-    "base",
-    "own"
   ],
   "clipboard.roundtrip": "suite-clip",
   "page.scroll-to-selector": [
     true,
     true
   ],
-  "system.device-info-shape": [
-    true,
-    true,
-    true,
-    true
-  ],
-  "system.account-info-shape": [
-    true
-  ],
-  "contract.behavior-property-observer": [
-    "behavior-prop"
-  ],
   "image.info-from-canvas": [
     true,
-    true
+    true,
+    "png"
   ],
   "canvas.offscreen-pixels": [
     255,
@@ -1301,8 +1262,60 @@ module.exports = {
     0,
     255
   ],
-  "system.api-category": [
+  "system.api-category": "default",
+  "storage.missing-sync": "",
+  "storage.info-sync-shape": [
+    true,
+    true,
     true
+  ],
+  "system.sync-and-split": [
+    true,
+    true,
+    true
+  ],
+  "system.async-callback": true,
+  "system.device-info-shape": [
+    true,
+    true,
+    true,
+    true
+  ],
+  "system.account-info-shape": [
+    true,
+    true
+  ],
+  "system.enter-path": "pages/suite/index",
+  "system.app-language": true,
+  "system.safe-area": true,
+  "storage.async-info": true,
+  "ui.navigation-title": [
+    "success",
+    "complete"
+  ],
+  "ui.navigation-loading": [
+    "showNavigationBarLoading:ok",
+    "hideNavigationBarLoading:ok"
+  ],
+  "ui.navigation-bar-color": [
+    "success",
+    "complete"
+  ],
+  "system.setting-shape": [
+    true,
+    true
+  ],
+  "system.authorize-setting-values": [
+    true,
+    true
+  ],
+  "ui.loading-roundtrip": [
+    "showLoading:ok",
+    "hideLoading:ok"
+  ],
+  "ui.toast-roundtrip": [
+    "showToast:ok",
+    "hideToast:ok"
   ],
   "ui.tabbar-callbacks": [
     "ok",
@@ -1311,5 +1324,77 @@ module.exports = {
   "ui.background-style": [
     "ok",
     "ok"
+  ],
+  "ui.scroll-top": true,
+  "system.next-tick": [
+    "sync",
+    "tick"
+  ],
+  "socket.text-echo": [
+    "open",
+    "socket-echo",
+    1000
+  ],
+  "socket.binary-echo": [
+    "open",
+    [
+      0,
+      125,
+      255
+    ],
+    1000
+  ],
+  "http.query": [
+    "GET",
+    "a b"
+  ],
+  "http.post-json": {
+    "color": "gold"
+  },
+  "http.status": 404,
+  "http.arraybuffer": [
+    0,
+    255,
+    13
+  ],
+  "http.header-case": "violet",
+  "http.text-mode": "raw text",
+  "http.binary-post": [
+    0,
+    255,
+    32
+  ],
+  "http.upload-form": [
+    200,
+    true,
+    true
+  ],
+  "http.abort": [
+    "fail",
+    "complete"
+  ],
+  "fs.save-download-async": [
+    true,
+    [
+      0,
+      255,
+      13
+    ],
+    false
+  ],
+  "fs.save-download-sync": [
+    true,
+    [
+      0,
+      255,
+      13
+    ],
+    false
+  ],
+  "http.download": [
+    200,
+    0,
+    255,
+    13
   ]
 };

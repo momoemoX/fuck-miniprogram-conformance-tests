@@ -69,7 +69,10 @@ async function subscriptions(check) {
       return seen;
     }),
   );
-  await check("channel.off-listener", ["kept"], () =>
+  // 3.7.12 stores each listener wrapped in a try/catch shim and off(name, fn)
+  // compares fn.toString() with the shim's source, so removing by reference
+  // matches nothing and both callbacks still run.
+  await check("channel.off-listener", ["removed", "kept"], () =>
     exchange((sender, receiver) => {
       const seen = [];
       const removed = () => seen.push("removed");
@@ -78,6 +81,20 @@ async function subscriptions(check) {
       receiver.off("signal", removed);
       sender.emit("signal");
       return seen;
+    }),
+  );
+  // off(name) without a callback drops every listener for that event.
+  await check("channel.off-all-listeners", [[], ["other"]], () =>
+    exchange((sender, receiver) => {
+      const seen = [];
+      receiver.on("signal", () => seen.push("first"));
+      receiver.on("signal", () => seen.push("second"));
+      receiver.on("other", () => seen.push("other"));
+      receiver.off("signal");
+      sender.emit("signal");
+      const afterSignal = seen.slice();
+      sender.emit("other");
+      return [afterSignal, seen.slice(afterSignal.length)];
     }),
   );
   await check("channel.reverse-direction", ["reply", 3], () =>

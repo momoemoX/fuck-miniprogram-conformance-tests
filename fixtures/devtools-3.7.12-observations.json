@@ -1,0 +1,2292 @@
+{
+  "sdkVersion": "3.7.12",
+  "environment": "devtools simulator",
+  "toolVersion": "2.02.2611062 Nightly",
+  "baseCommit": "01a0e78",
+  "runs": [
+    {
+      "profiles": "core",
+      "summary": "365/365 passed"
+    },
+    {
+      "profiles": "core+http+socket",
+      "summary": "379/379 passed"
+    }
+  ],
+  "results": [
+    {
+      "id": "component.instance-data",
+      "status": "PASS",
+      "expected": "[[\"mint\"],[]]",
+      "actual": "[[\"mint\"],[]]"
+    },
+    {
+      "id": "event.bubble",
+      "status": "PASS",
+      "expected": "[\"source\",\"middle\",\"outer\"]",
+      "actual": "[\"source\",\"middle\",\"outer\"]"
+    },
+    {
+      "id": "event.catch",
+      "status": "PASS",
+      "expected": "[\"source\",\"middle\"]",
+      "actual": "[\"source\",\"middle\"]"
+    },
+    {
+      "id": "channel.queued-order",
+      "status": "PASS",
+      "expected": "[\"oak\",\"elm\"]",
+      "actual": "[\"oak\",\"elm\"]"
+    },
+    {
+      "id": "channel.once",
+      "status": "PASS",
+      "expected": "[\"one\"]",
+      "actual": "[\"one\"]"
+    },
+    {
+      "id": "channel.off-listener",
+      "status": "PASS",
+      "expected": "[\"removed\",\"kept\"]",
+      "actual": "[\"removed\",\"kept\"]"
+    },
+    {
+      "id": "channel.off-all-listeners",
+      "status": "PASS",
+      "expected": "[[],[\"other\"]]",
+      "actual": "[[],[\"other\"]]"
+    },
+    {
+      "id": "channel.reverse-direction",
+      "status": "PASS",
+      "expected": "[\"reply\",3]",
+      "actual": "[\"reply\",3]"
+    },
+    {
+      "id": "error.observer-recovers",
+      "status": "PASS",
+      "expected": "[\"throw-observer\",true,true]",
+      "actual": "[\"throw-observer\",true,true]"
+    },
+    {
+      "id": "error.event-handler-continues",
+      "status": "PASS",
+      "expected": "[[\"leaf\",\"inner\",\"outer\"],[\"leaf\",\"inner\",\"outer\"],true]",
+      "actual": "[[\"leaf\",\"inner\",\"outer\"],[\"leaf\",\"inner\",\"outer\"],true]"
+    },
+    {
+      "id": "error.detached-recovers",
+      "status": "PASS",
+      "expected": "[true,true]",
+      "actual": "[true,true]"
+    },
+    {
+      "id": "error.api-callback-complete",
+      "status": "PASS",
+      "expected": "[[\"success\",\"complete\"],true]",
+      "actual": "[[\"success\",\"complete\"],true]"
+    },
+    {
+      "id": "error.component-error-lifetime",
+      "status": "PASS",
+      "expected": "[true,true]",
+      "actual": "[true,true]"
+    },
+    {
+      "id": "error.app-onerror-hook",
+      "status": "PASS",
+      "expected": "[true]",
+      "actual": "[true]"
+    },
+    {
+      "id": "error.app-unhandledrejection-hook",
+      "status": "PASS",
+      "expected": "[true]",
+      "actual": "[true]"
+    },
+    {
+      "id": "error.console-not-onerror",
+      "status": "PASS",
+      "expected": "[]",
+      "actual": "[]"
+    },
+    {
+      "id": "error.unhandled-rejection",
+      "status": "PASS",
+      "expected": "[\"suite-reject-marker\",true]",
+      "actual": "[\"suite-reject-marker\",true]"
+    },
+    {
+      "id": "app.launch-order",
+      "status": "PASS",
+      "expected": "[\"launch\",\"show\",\"page.load\"]",
+      "actual": "[\"launch\",\"show\",\"page.load\"]"
+    },
+    {
+      "id": "app.launch-pages-empty",
+      "status": "PASS",
+      "expected": "0",
+      "actual": "0"
+    },
+    {
+      "id": "app.launch-options-shape",
+      "status": "PASS",
+      "expected": "{\"path\":\"string\",\"query\":\"object\",\"scene\":\"number\",\"referrerInfo\":\"object\"}",
+      "actual": "{\"path\":\"string\",\"query\":\"object\",\"scene\":\"number\",\"referrerInfo\":\"object\"}"
+    },
+    {
+      "id": "app.enter-options-path",
+      "status": "PASS",
+      "expected": "[\"pages/suite/index\",\"pages/suite/index\"]",
+      "actual": "[\"pages/suite/index\",\"pages/suite/index\"]"
+    },
+    {
+      "id": "app.foreground-stable-during-navigation",
+      "status": "PASS",
+      "expected": "[[],[],0,0]",
+      "actual": "[[],[],0,0]"
+    },
+    {
+      "id": "app.page-not-found-not-fired",
+      "status": "PASS",
+      "expected": "[]",
+      "actual": "[]"
+    },
+    {
+      "id": "app.identity-across-pages",
+      "status": "PASS",
+      "expected": "[true,41]",
+      "actual": "[true,41]"
+    },
+    {
+      "id": "module.cache-identity",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "module.explicit-extension",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "module.relative-parent",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "module.shared-mutation",
+      "status": "PASS",
+      "expected": "37",
+      "actual": "37"
+    },
+    {
+      "id": "module.reverse-shared-mutation",
+      "status": "PASS",
+      "expected": "19",
+      "actual": "19"
+    },
+    {
+      "id": "module.replaced-exports",
+      "status": "PASS",
+      "expected": "{\"value\":\"replacement\"}",
+      "actual": "{\"value\":\"replacement\"}"
+    },
+    {
+      "id": "module.function-export",
+      "status": "PASS",
+      "expected": "\"peel/seed\"",
+      "actual": "\"peel/seed\""
+    },
+    {
+      "id": "module.function-property",
+      "status": "PASS",
+      "expected": "\"callable\"",
+      "actual": "\"callable\""
+    },
+    {
+      "id": "module.constructor-identity",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "module.constructor-instance-state",
+      "status": "PASS",
+      "expected": "[1,2,1]",
+      "actual": "[1,2,1]"
+    },
+    {
+      "id": "module.explicit-directory-index",
+      "status": "PASS",
+      "expected": "\"directory-index\"",
+      "actual": "\"directory-index\""
+    },
+    {
+      "id": "module.directory-shorthand-rejected",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "module.cycle-partial-exports",
+      "status": "PASS",
+      "expected": "[\"right\",\"undefined\"]",
+      "actual": "[\"right\",\"undefined\"]"
+    },
+    {
+      "id": "module.cycle-reference",
+      "status": "PASS",
+      "expected": "false",
+      "actual": "false"
+    },
+    {
+      "id": "module.failure-first",
+      "status": "PASS",
+      "expected": "\"suite-module-failure\"",
+      "actual": "\"suite-module-failure\""
+    },
+    {
+      "id": "module.failure-repeat",
+      "status": "PASS",
+      "expected": "[\"suite-module-failure\",\"suite-module-failure\"]",
+      "actual": "[\"suite-module-failure\",\"suite-module-failure\"]"
+    },
+    {
+      "id": "lifecycle.initial-order",
+      "status": "PASS",
+      "expected": "[\"alpha.load\",\"alpha.show\",\"alpha.ready\"]",
+      "actual": "[\"alpha.load\",\"alpha.show\",\"alpha.ready\"]"
+    },
+    {
+      "id": "lifecycle.push-order",
+      "status": "PASS",
+      "expected": "[\"alpha.hide\",\"beta.load\",\"beta.show\",\"beta.ready\"]",
+      "actual": "[\"alpha.hide\",\"beta.load\",\"beta.show\",\"beta.ready\"]"
+    },
+    {
+      "id": "lifecycle.back-order",
+      "status": "PASS",
+      "expected": "[\"beta.unload\",\"alpha.show\"]",
+      "actual": "[\"beta.unload\",\"alpha.show\"]"
+    },
+    {
+      "id": "lifecycle.hidden-page-retained",
+      "status": "PASS",
+      "expected": "[true,7]",
+      "actual": "[true,7]"
+    },
+    {
+      "id": "lifecycle.multi-back",
+      "status": "PASS",
+      "expected": "[[\"beta.unload\",\"gamma.unload\"],\"alpha\",1]",
+      "actual": "[[\"beta.unload\",\"gamma.unload\"],\"alpha\",1]"
+    },
+    {
+      "id": "lifecycle.redirect-replacement",
+      "status": "PASS",
+      "expected": "[1,1,1,true]",
+      "actual": "[1,1,1,true]"
+    },
+    {
+      "id": "lifecycle.query-encoded-values",
+      "status": "PASS",
+      "expected": "[\"citrus%20peel\",\"%2B\",\"%252F\"]",
+      "actual": "[\"citrus%20peel\",\"%2B\",\"%252F\"]"
+    },
+    {
+      "id": "lifecycle.same-route-new-instance",
+      "status": "PASS",
+      "expected": "[true,0,2]",
+      "actual": "[true,0,2]"
+    },
+    {
+      "id": "lifecycle.failed-navigation-preserves-page",
+      "status": "PASS",
+      "expected": "[[\"fail\",\"complete\"],true,[]]",
+      "actual": "[[\"fail\",\"complete\"],true,[]]"
+    },
+    {
+      "id": "lifecycle.reopen-creates-fresh-page",
+      "status": "PASS",
+      "expected": "[true,0]",
+      "actual": "[true,0]"
+    },
+    {
+      "id": "wxs.state.same-template-shared",
+      "status": "PASS",
+      "expected": "[4,4]",
+      "actual": "[4,4]"
+    },
+    {
+      "id": "wxs.state.instance-isolated",
+      "status": "PASS",
+      "expected": "[4,0]",
+      "actual": "[4,0]"
+    },
+    {
+      "id": "wxs.state.persist-across-renders",
+      "status": "PASS",
+      "expected": "[3,3,3]",
+      "actual": "[3,3,3]"
+    },
+    {
+      "id": "wxs.state.remount-fresh",
+      "status": "PASS",
+      "expected": "[9,0]",
+      "actual": "[9,0]"
+    },
+    {
+      "id": "wxs.state.page-component-isolated",
+      "status": "PASS",
+      "expected": "[6,0]",
+      "actual": "[6,0]"
+    },
+    {
+      "id": "wxs.state.page-fresh-and-retained",
+      "status": "PASS",
+      "expected": "[0,7,7]",
+      "actual": "[0,7,7]"
+    },
+    {
+      "id": "input.focus-events",
+      "status": "PASS",
+      "expected": "[[\"focus\",true,true],[\"focus\",true,true]]",
+      "actual": "[[\"focus\",true,true],[\"focus\",true,true]]"
+    },
+    {
+      "id": "input.value-binding-sync",
+      "status": "PASS",
+      "expected": "[\"fresh\",\"fresh\"]",
+      "actual": "[\"fresh\",\"fresh\"]"
+    },
+    {
+      "id": "component.page-lifetimes",
+      "status": "PASS",
+      "expected": "[\"hide\",\"show\"]",
+      "actual": "[\"hide\",\"show\"]"
+    },
+    {
+      "id": "component.instance-fields",
+      "status": "PASS",
+      "expected": "[\"components/page-probe/index\",\"page-probe\",\"page-probe-origin\"]",
+      "actual": "[\"components/page-probe/index\",\"page-probe\",\"page-probe-origin\"]"
+    },
+    {
+      "id": "slot.multi-instance-order",
+      "status": "PASS",
+      "expected": "[\"first\",\"second\"]",
+      "actual": "[\"first\",\"second\"]"
+    },
+    {
+      "id": "scroll.bindscroll-detail",
+      "status": "PASS",
+      "expected": "[30,220]",
+      "actual": "[30,220]"
+    },
+    {
+      "id": "scroll.into-view-target",
+      "status": "PASS",
+      "expected": "[170]",
+      "actual": "[170]"
+    },
+    {
+      "id": "observer.intersection-toggle",
+      "status": "PASS",
+      "expected": "[1,0,0]",
+      "actual": "[1,0,0]"
+    },
+    {
+      "id": "page.scroll-events",
+      "status": "PASS",
+      "expected": "[true,true]",
+      "actual": "[true,true]"
+    },
+    {
+      "id": "page.reach-bottom",
+      "status": "PASS",
+      "expected": "[false,true]",
+      "actual": "[false,true]"
+    },
+    {
+      "id": "ui.pull-down-refresh",
+      "status": "PASS",
+      "expected": "[[\"refresh\"],\"success\"]",
+      "actual": "[[\"refresh\"],\"success\"]"
+    },
+    {
+      "id": "app.instance",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "page.initial-route",
+      "status": "PASS",
+      "expected": "[\"pages/suite/index\"]",
+      "actual": "[\"pages/suite/index\"]"
+    },
+    {
+      "id": "page.data-path-update",
+      "status": "PASS",
+      "expected": "[\"fresh\",2]",
+      "actual": "[\"fresh\",2]"
+    },
+    {
+      "id": "page.callback-after-render",
+      "status": "PASS",
+      "expected": "\"baked\"",
+      "actual": "\"baked\""
+    },
+    {
+      "id": "component.defaults",
+      "status": "PASS",
+      "expected": "[\"plain\",0,false]",
+      "actual": "[\"plain\",0,false]"
+    },
+    {
+      "id": "component.lifetime-order",
+      "status": "PASS",
+      "expected": "[\"created\",\"attached\",\"ready\"]",
+      "actual": "[\"created\",\"attached\",\"ready\"]"
+    },
+    {
+      "id": "behavior.inherited-method",
+      "status": "PASS",
+      "expected": "\"rye/plain\"",
+      "actual": "\"rye/plain\""
+    },
+    {
+      "id": "behavior.membership",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "observer.multi-field",
+      "status": "PASS",
+      "expected": "[[3,7]]",
+      "actual": "[[3,7]]"
+    },
+    {
+      "id": "observer.deep-path",
+      "status": "PASS",
+      "expected": "[[1,9]]",
+      "actual": "[[1,9]]"
+    },
+    {
+      "id": "component.select-all",
+      "status": "PASS",
+      "expected": "2",
+      "actual": "2"
+    },
+    {
+      "id": "component.scope-boundary",
+      "status": "PASS",
+      "expected": "null",
+      "actual": "null"
+    },
+    {
+      "id": "component.scoped-query",
+      "status": "PASS",
+      "expected": "\"plain\"",
+      "actual": "\"plain\""
+    },
+    {
+      "id": "component.parent-property",
+      "status": "PASS",
+      "expected": "\"rye/salty\"",
+      "actual": "\"rye/salty\""
+    },
+    {
+      "id": "query.no-match",
+      "status": "PASS",
+      "expected": "[]",
+      "actual": "[]"
+    },
+    {
+      "id": "query.rect",
+      "status": "PASS",
+      "expected": "[64,16]",
+      "actual": "[64,16]"
+    },
+    {
+      "id": "query.typed-dataset",
+      "status": "PASS",
+      "expected": "[2,true,\"02\"]",
+      "actual": "[2,true,\"02\"]"
+    },
+    {
+      "id": "query.batch-order",
+      "status": "PASS",
+      "expected": "[\"measure\",null,\"stamp\"]",
+      "actual": "[\"measure\",null,\"stamp\"]"
+    },
+    {
+      "id": "wxml.list-index",
+      "status": "PASS",
+      "expected": "[\"0:pear\",\"1:plum\"]",
+      "actual": "[\"0:pear\",\"1:plum\"]"
+    },
+    {
+      "id": "wxml.list-reorder",
+      "status": "PASS",
+      "expected": "[\"0:plum\",\"1:pear\",\"2:lime\"]",
+      "actual": "[\"0:plum\",\"1:pear\",\"2:lime\"]"
+    },
+    {
+      "id": "wxml.conditional",
+      "status": "PASS",
+      "expected": "[\"cold\",\"hot\"]",
+      "actual": "[\"cold\",\"hot\"]"
+    },
+    {
+      "id": "wxml.template-import",
+      "status": "PASS",
+      "expected": "[\"citrus\"]",
+      "actual": "[\"citrus\"]"
+    },
+    {
+      "id": "wxml.include-scope",
+      "status": "PASS",
+      "expected": "\"peel\"",
+      "actual": "\"peel\""
+    },
+    {
+      "id": "wxs.module-call",
+      "status": "PASS",
+      "expected": "\"[zest]\"",
+      "actual": "\"[zest]\""
+    },
+    {
+      "id": "component.detach",
+      "status": "PASS",
+      "expected": "\"detached\"",
+      "actual": "\"detached\""
+    },
+    {
+      "id": "slot.named-projection",
+      "status": "PASS",
+      "expected": "60",
+      "actual": "60"
+    },
+    {
+      "id": "slot.dynamic-name",
+      "status": "PASS",
+      "expected": "90",
+      "actual": "90"
+    },
+    {
+      "id": "module.shared-exports",
+      "status": "PASS",
+      "expected": "[1,2]",
+      "actual": "[1,2]"
+    },
+    {
+      "id": "event.default-local",
+      "status": "PASS",
+      "expected": "[\"source\"]",
+      "actual": "[\"source\"]"
+    },
+    {
+      "id": "event.detail-payload",
+      "status": "PASS",
+      "expected": "[\"citrus\",2]",
+      "actual": "[\"citrus\",2]"
+    },
+    {
+      "id": "event.capture-order",
+      "status": "PASS",
+      "expected": "[\"outer-capture\",\"middle-capture\",\"source\",\"middle\",\"outer\"]",
+      "actual": "[\"outer-capture\",\"middle-capture\",\"source\",\"middle\",\"outer\"]"
+    },
+    {
+      "id": "query.native-properties",
+      "status": "PASS",
+      "expected": "[\"active-switch\",true]",
+      "actual": "[\"active-switch\",true]"
+    },
+    {
+      "id": "query.field-selection",
+      "status": "PASS",
+      "expected": "[true,false]",
+      "actual": "[true,false]"
+    },
+    {
+      "id": "query.missing-component",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "render.hidden-toggle",
+      "status": "PASS",
+      "expected": "[0,12]",
+      "actual": "[0,12]"
+    },
+    {
+      "id": "observer.media-match",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "relation.child-membership",
+      "status": "PASS",
+      "expected": "[\"pear\",\"apple\"]",
+      "actual": "[\"pear\",\"apple\"]"
+    },
+    {
+      "id": "relation.parent-identity",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "relation.linked-callbacks",
+      "status": "PASS",
+      "expected": "[\"apple\",\"pear\"]",
+      "actual": "[\"apple\",\"pear\"]"
+    },
+    {
+      "id": "relation.unlink",
+      "status": "PASS",
+      "expected": "[[\"pear\"],[\"apple\"]]",
+      "actual": "[[\"pear\"],[\"apple\"]]"
+    },
+    {
+      "id": "relation.reinsert",
+      "status": "PASS",
+      "expected": "[\"apple\",\"apple\",\"pear\"]",
+      "actual": "[\"apple\",\"apple\",\"pear\"]"
+    },
+    {
+      "id": "generic.default",
+      "status": "PASS",
+      "expected": "\"base10/31\"",
+      "actual": "\"base10/31\""
+    },
+    {
+      "id": "generic.override",
+      "status": "PASS",
+      "expected": "\"base16/1f\"",
+      "actual": "\"base16/1f\""
+    },
+    {
+      "id": "generic.update",
+      "status": "PASS",
+      "expected": "[\"base10/47\",\"base16/2f\"]",
+      "actual": "[\"base10/47\",\"base16/2f\"]"
+    },
+    {
+      "id": "generic.owner",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "style.isolated",
+      "status": "PASS",
+      "expected": "22",
+      "actual": "22"
+    },
+    {
+      "id": "style.apply-shared",
+      "status": "PASS",
+      "expected": "37",
+      "actual": "37"
+    },
+    {
+      "id": "style.external-class",
+      "status": "PASS",
+      "expected": "[31,43]",
+      "actual": "[31,43]"
+    },
+    {
+      "id": "contract.property-defaults",
+      "status": "PASS",
+      "expected": "[0,\"\",false]",
+      "actual": "[0,\"\",false]"
+    },
+    {
+      "id": "contract.array-default-isolation",
+      "status": "PASS",
+      "expected": "[[4,9],[4]]",
+      "actual": "[[4,9],[4]]"
+    },
+    {
+      "id": "contract.object-default-isolation",
+      "status": "PASS",
+      "expected": "[\"changed\",\"seed\"]",
+      "actual": "[\"changed\",\"seed\"]"
+    },
+    {
+      "id": "contract.property-data-view",
+      "status": "PASS",
+      "expected": "[7,7]",
+      "actual": "[7,7]"
+    },
+    {
+      "id": "contract.parent-bound-property",
+      "status": "PASS",
+      "expected": "23",
+      "actual": "23"
+    },
+    {
+      "id": "contract.property-observer-values",
+      "status": "PASS",
+      "expected": "[[6,0],[8,6]]",
+      "actual": "[[6,0],[8,6]]"
+    },
+    {
+      "id": "contract.observer-batch",
+      "status": "PASS",
+      "expected": "[[5,9]]",
+      "actual": "[[5,9]]"
+    },
+    {
+      "id": "contract.observer-same-value",
+      "status": "PASS",
+      "expected": "[[1,2]]",
+      "actual": "[[1,2]]"
+    },
+    {
+      "id": "contract.observer-unrelated",
+      "status": "PASS",
+      "expected": "[]",
+      "actual": "[]"
+    },
+    {
+      "id": "contract.observer-nested-update",
+      "status": "PASS",
+      "expected": "[{\"x\":8,\"y\":2}]",
+      "actual": "[{\"x\":8,\"y\":2}]"
+    },
+    {
+      "id": "contract.observer-parent-replacement",
+      "status": "PASS",
+      "expected": "[{\"x\":3,\"y\":4}]",
+      "actual": "[{\"x\":3,\"y\":4}]"
+    },
+    {
+      "id": "contract.observer-array-index",
+      "status": "PASS",
+      "expected": "[6]",
+      "actual": "[6]"
+    },
+    {
+      "id": "contract.observer-array-replacement",
+      "status": "PASS",
+      "expected": "[9]",
+      "actual": "[9]"
+    },
+    {
+      "id": "contract.setdata-before-return",
+      "status": "PASS",
+      "expected": "[12,2]",
+      "actual": "[12,2]"
+    },
+    {
+      "id": "contract.setdata-render-callback",
+      "status": "PASS",
+      "expected": "[4,7]",
+      "actual": "[4,7]"
+    },
+    {
+      "id": "contract.setdata-empty-callback",
+      "status": "PASS",
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "id": "contract.path-preserves-siblings",
+      "status": "PASS",
+      "expected": "{\"x\":10,\"y\":2}",
+      "actual": "{\"x\":10,\"y\":2}"
+    },
+    {
+      "id": "contract.array-preserves-other-index",
+      "status": "PASS",
+      "expected": "[1,11]",
+      "actual": "[1,11]"
+    },
+    {
+      "id": "contract.behavior-data-merge",
+      "status": "PASS",
+      "expected": "{\"base\":true,\"nested\":true,\"own\":true,\"priority\":\"own\"}",
+      "actual": "{\"base\":true,\"priority\":\"own\",\"nested\":true,\"own\":true}"
+    },
+    {
+      "id": "contract.behavior-method-priority",
+      "status": "PASS",
+      "expected": "\"own\"",
+      "actual": "\"own\""
+    },
+    {
+      "id": "contract.behavior-inherited-method",
+      "status": "PASS",
+      "expected": "\"available\"",
+      "actual": "\"available\""
+    },
+    {
+      "id": "contract.behavior-transitive-membership",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "contract.behavior-lifetime-order",
+      "status": "PASS",
+      "expected": "[\"base-attached\",\"nested-attached\",\"own-attached\"]",
+      "actual": "[\"base-attached\",\"nested-attached\",\"own-attached\"]"
+    },
+    {
+      "id": "contract.behavior-property-observer",
+      "status": "PASS",
+      "expected": "[\"behavior-prop\"]",
+      "actual": "[\"behavior-prop\"]"
+    },
+    {
+      "id": "contract.behavior-observer-merge",
+      "status": "PASS",
+      "expected": "[\"base\",\"own\"]",
+      "actual": "[\"base\",\"own\"]"
+    },
+    {
+      "id": "contract.behavior-data-isolation",
+      "status": "PASS",
+      "expected": "[\"changed\",\"own\"]",
+      "actual": "[\"changed\",\"own\"]"
+    },
+    {
+      "id": "event.boundary-default",
+      "status": "PASS",
+      "expected": "[]",
+      "actual": "[]"
+    },
+    {
+      "id": "event.boundary-bubbles",
+      "status": "PASS",
+      "expected": "[[\"inside\",\"leaf\"]]",
+      "actual": "[[\"inside\",\"leaf\"]]"
+    },
+    {
+      "id": "event.boundary-composed-only",
+      "status": "PASS",
+      "expected": "[]",
+      "actual": "[]"
+    },
+    {
+      "id": "event.boundary-crossing",
+      "status": "PASS",
+      "expected": "[[\"inside\",\"leaf\"],[\"host\",\"leaf\"],[\"ancestor\",\"leaf\"]]",
+      "actual": "[[\"inside\",\"leaf\"],[\"host\",\"leaf\"],[\"ancestor\",\"leaf\"]]"
+    },
+    {
+      "id": "event.boundary-direct-host",
+      "status": "PASS",
+      "expected": "[[\"host\",\"leaf\"]]",
+      "actual": "[[\"host\",\"leaf\"]]"
+    },
+    {
+      "id": "event.boundary-direct-bubble",
+      "status": "PASS",
+      "expected": "[[\"host\",\"leaf\"],[\"ancestor\",\"leaf\"]]",
+      "actual": "[[\"host\",\"leaf\"],[\"ancestor\",\"leaf\"]]"
+    },
+    {
+      "id": "event.current-target",
+      "status": "PASS",
+      "expected": "[\"shell\",\"shell\",\"outer-boundary\"]",
+      "actual": "[\"shell\",\"shell\",\"outer-boundary\"]"
+    },
+    {
+      "id": "event.boundary-dataset",
+      "status": "PASS",
+      "expected": "[\"shell-kind\",\"shell-kind\"]",
+      "actual": "[\"shell-kind\",\"shell-kind\"]"
+    },
+    {
+      "id": "pure.logic-field-update",
+      "status": "PASS",
+      "expected": "8",
+      "actual": "8"
+    },
+    {
+      "id": "pure.observer-fires",
+      "status": "PASS",
+      "expected": "[8]",
+      "actual": "[8]"
+    },
+    {
+      "id": "pure.render-field-excluded",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "pure.mixed-update",
+      "status": "PASS",
+      "expected": "[9,12]",
+      "actual": "[9,12]"
+    },
+    {
+      "id": "template.branch-initial",
+      "status": "PASS",
+      "expected": "[\"zero\"]",
+      "actual": "[\"zero\"]"
+    },
+    {
+      "id": "template.branch-elif",
+      "status": "PASS",
+      "expected": "[\"one\"]",
+      "actual": "[\"one\"]"
+    },
+    {
+      "id": "template.branch-else",
+      "status": "PASS",
+      "expected": "[\"other\"]",
+      "actual": "[\"other\"]"
+    },
+    {
+      "id": "template.branch-reentry",
+      "status": "PASS",
+      "expected": "[[\"one\"],[\"zero\"]]",
+      "actual": "[[\"one\"],[\"zero\"]]"
+    },
+    {
+      "id": "template.loop-custom-names",
+      "status": "PASS",
+      "expected": "[\"0:a:pear\",\"1:b:plum\"]",
+      "actual": "[\"0:a:pear\",\"1:b:plum\"]"
+    },
+    {
+      "id": "template.loop-item-path",
+      "status": "PASS",
+      "expected": "[\"0:a:lime\",\"1:b:plum\"]",
+      "actual": "[\"0:a:lime\",\"1:b:plum\"]"
+    },
+    {
+      "id": "template.loop-keyed-reorder",
+      "status": "PASS",
+      "expected": "[\"0:b:plum\",\"1:a:pear\"]",
+      "actual": "[\"0:b:plum\",\"1:a:pear\"]"
+    },
+    {
+      "id": "template.loop-empty",
+      "status": "PASS",
+      "expected": "[]",
+      "actual": "[]"
+    },
+    {
+      "id": "template.loop-regrow",
+      "status": "PASS",
+      "expected": "[\"0:c:fig\"]",
+      "actual": "[\"0:c:fig\"]"
+    },
+    {
+      "id": "template.loop-nested-scope",
+      "status": "PASS",
+      "expected": "[\"north:0:2\",\"north:1:3\",\"south:0:5\"]",
+      "actual": "[\"north:0:2\",\"north:1:3\",\"south:0:5\"]"
+    },
+    {
+      "id": "template.loop-nested-path",
+      "status": "PASS",
+      "expected": "[\"north:0:2\",\"north:1:8\",\"south:0:5\"]",
+      "actual": "[\"north:0:2\",\"north:1:8\",\"south:0:5\"]"
+    },
+    {
+      "id": "template.loop-object-keys",
+      "status": "PASS",
+      "expected": "[\"left:4\",\"right:9\"]",
+      "actual": "[\"left:4\",\"right:9\"]"
+    },
+    {
+      "id": "template.argument-scope",
+      "status": "PASS",
+      "expected": "[\"inner/2\"]",
+      "actual": "[\"inner/2\"]"
+    },
+    {
+      "id": "template.argument-update",
+      "status": "PASS",
+      "expected": "[\"renamed/2\"]",
+      "actual": "[\"renamed/2\"]"
+    },
+    {
+      "id": "template.dynamic-selection",
+      "status": "PASS",
+      "expected": "[\"2:inner\"]",
+      "actual": "[\"2:inner\"]"
+    },
+    {
+      "id": "template.include-data",
+      "status": "PASS",
+      "expected": "\"revised\"",
+      "actual": "\"revised\""
+    },
+    {
+      "id": "expression.arithmetic",
+      "status": "PASS",
+      "expected": "14",
+      "actual": "14"
+    },
+    {
+      "id": "expression.ternary",
+      "status": "PASS",
+      "expected": "[\"no\",\"yes\"]",
+      "actual": "[\"no\",\"yes\"]"
+    },
+    {
+      "id": "expression.logical-fallback",
+      "status": "PASS",
+      "expected": "\"alpha\"",
+      "actual": "\"alpha\""
+    },
+    {
+      "id": "expression.boolean-negation",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "expression.comparisons",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "expression.braces-in-string",
+      "status": "PASS",
+      "expected": "\"left}}right\"",
+      "actual": "\"left}}right\""
+    },
+    {
+      "id": "expression.absent-deep-path",
+      "status": "PASS",
+      "expected": "\"fallback\"",
+      "actual": "\"fallback\""
+    },
+    {
+      "id": "wxs.required-module",
+      "status": "PASS",
+      "expected": "\"seed/3\"",
+      "actual": "\"seed/3\""
+    },
+    {
+      "id": "wxs.input-copy",
+      "status": "PASS",
+      "expected": "[\"local/10\",{\"items\":[1,2],\"name\":\"seed\"}]",
+      "actual": "[\"local/10\",{\"items\":[1,2],\"name\":\"seed\"}]"
+    },
+    {
+      "id": "wxs.string-methods",
+      "status": "PASS",
+      "expected": "\"BLUE/GREEN\"",
+      "actual": "\"BLUE/GREEN\""
+    },
+    {
+      "id": "wxs.date-epoch",
+      "status": "PASS",
+      "expected": "0",
+      "actual": "0"
+    },
+    {
+      "id": "wxs.regexp-match",
+      "status": "PASS",
+      "expected": "[false,true,false]",
+      "actual": "[false,true,false]"
+    },
+    {
+      "id": "wxs.object-replacement",
+      "status": "PASS",
+      "expected": "\"seed/6\"",
+      "actual": "\"seed/6\""
+    },
+    {
+      "id": "wxs.object-argument-path-update",
+      "status": "PASS",
+      "expected": "[5,\"seed/3\"]",
+      "actual": "[5,\"seed/3\"]"
+    },
+    {
+      "id": "definition.behavior-diamond-order",
+      "status": "PASS",
+      "expected": "[\"ancestry\",\"left\",\"right\",\"component\"]",
+      "actual": "[\"ancestry\",\"left\",\"right\",\"component\"]"
+    },
+    {
+      "id": "definition.behavior-diamond-merge",
+      "status": "PASS",
+      "expected": "{\"ancestry\":1,\"left\":2,\"right\":3,\"own\":4}",
+      "actual": "{\"ancestry\":1,\"left\":2,\"right\":3,\"own\":4}"
+    },
+    {
+      "id": "definition.behavior-array-override",
+      "status": "PASS",
+      "expected": "[\"own\"]",
+      "actual": "[\"own\"]"
+    },
+    {
+      "id": "definition.filter-data",
+      "status": "PASS",
+      "expected": "\"inserted\"",
+      "actual": "\"inserted\""
+    },
+    {
+      "id": "definition.filter-method",
+      "status": "PASS",
+      "expected": "\"inserted\"",
+      "actual": "\"inserted\""
+    },
+    {
+      "id": "property.number-from-string",
+      "status": "PASS",
+      "expected": "[12,\"number\"]",
+      "actual": "[12,\"number\"]"
+    },
+    {
+      "id": "property.string-from-number",
+      "status": "PASS",
+      "expected": "[\"91\",\"string\"]",
+      "actual": "[\"91\",\"string\"]"
+    },
+    {
+      "id": "property.boolean-from-string",
+      "status": "PASS",
+      "expected": "[true,\"boolean\"]",
+      "actual": "[true,\"boolean\"]"
+    },
+    {
+      "id": "property.boolean-from-zero",
+      "status": "PASS",
+      "expected": "false",
+      "actual": "false"
+    },
+    {
+      "id": "property.optional-string",
+      "status": "PASS",
+      "expected": "\"flexible\"",
+      "actual": "\"flexible\""
+    },
+    {
+      "id": "property.optional-number",
+      "status": "PASS",
+      "expected": "17",
+      "actual": "17"
+    },
+    {
+      "id": "property.any-object",
+      "status": "PASS",
+      "expected": "{\"enabled\":true}",
+      "actual": "{\"enabled\":true}"
+    },
+    {
+      "id": "property.any-false",
+      "status": "PASS",
+      "expected": "false",
+      "actual": "false"
+    },
+    {
+      "id": "property.any-array",
+      "status": "PASS",
+      "expected": "[3,\"x\"]",
+      "actual": "[3,\"x\"]"
+    },
+    {
+      "id": "property.object-null",
+      "status": "PASS",
+      "expected": "null",
+      "actual": "null"
+    },
+    {
+      "id": "property.array-replacement",
+      "status": "PASS",
+      "expected": "[9]",
+      "actual": "[9]"
+    },
+    {
+      "id": "property.observer-derived",
+      "status": "PASS",
+      "expected": "14",
+      "actual": "14"
+    },
+    {
+      "id": "property.rendered-coercion",
+      "status": "PASS",
+      "expected": "[12,\"91\",true]",
+      "actual": "[12,\"91\",true]"
+    },
+    {
+      "id": "export.public-object",
+      "status": "PASS",
+      "expected": "[true,3]",
+      "actual": "[true,3]"
+    },
+    {
+      "id": "export.hidden-instance-data",
+      "status": "PASS",
+      "expected": "false",
+      "actual": "false"
+    },
+    {
+      "id": "export.null-value",
+      "status": "PASS",
+      "expected": "null",
+      "actual": "null"
+    },
+    {
+      "id": "export.undefined-falls-back",
+      "status": "PASS",
+      "expected": "3",
+      "actual": "3"
+    },
+    {
+      "id": "export.live-instance-state",
+      "status": "PASS",
+      "expected": "11",
+      "actual": "11"
+    },
+    {
+      "id": "export.select-all",
+      "status": "PASS",
+      "expected": "[true,3]",
+      "actual": "[true,3]"
+    },
+    {
+      "id": "reuse.initial-keyed-order",
+      "status": "PASS",
+      "expected": "[\"a\",\"b\",\"c\"]",
+      "actual": "[\"a\",\"b\",\"c\"]"
+    },
+    {
+      "id": "reuse.keyed-reorder-identity",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "reuse.keyed-state-follows-key",
+      "status": "PASS",
+      "expected": "[[\"c\",\"-\"],[\"b\",\"-\"],[\"a\",\"edited-a\"]]",
+      "actual": "[[\"c\",\"-\"],[\"b\",\"-\"],[\"a\",\"edited-a\"]]"
+    },
+    {
+      "id": "reuse.keyed-prepend",
+      "status": "PASS",
+      "expected": "[true,true,true,\"-\"]",
+      "actual": "[true,true,true,\"-\"]"
+    },
+    {
+      "id": "reuse.keyed-delete",
+      "status": "PASS",
+      "expected": "[true,true,[\"b\"]]",
+      "actual": "[true,true,[\"b\"]]"
+    },
+    {
+      "id": "reuse.key-change-replaces-instance",
+      "status": "PASS",
+      "expected": "[true,true,\"-\",[\"b\"]]",
+      "actual": "[true,true,\"-\",[\"b\"]]"
+    },
+    {
+      "id": "reuse.same-key-object-replacement",
+      "status": "PASS",
+      "expected": "[true,\"Changed\",\"edited\"]",
+      "actual": "[true,\"Changed\",\"edited\"]"
+    },
+    {
+      "id": "reuse.keyed-label-path",
+      "status": "PASS",
+      "expected": "[true,\"Updated\",\"edited\"]",
+      "actual": "[true,\"Updated\",\"edited\"]"
+    },
+    {
+      "id": "reuse.keyed-empty",
+      "status": "PASS",
+      "expected": "[0,[\"a\",\"b\",\"c\"]]",
+      "actual": "[0,[\"a\",\"b\",\"c\"]]"
+    },
+    {
+      "id": "reuse.keyed-regrow",
+      "status": "PASS",
+      "expected": "[true,\"-\"]",
+      "actual": "[true,\"-\"]"
+    },
+    {
+      "id": "reuse.unrelated-update",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "reuse.position-reorder-identity",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "reuse.position-state-stays-at-index",
+      "status": "PASS",
+      "expected": "[\"c\",\"a\",\"edited-first\"]",
+      "actual": "[\"c\",\"a\",\"edited-first\"]"
+    },
+    {
+      "id": "reuse.position-prepend",
+      "status": "PASS",
+      "expected": "[true,\"z\",\"a\",\"edited\"]",
+      "actual": "[true,\"z\",\"a\",\"edited\"]"
+    },
+    {
+      "id": "reuse.position-truncate",
+      "status": "PASS",
+      "expected": "[true,true,[\"c\"]]",
+      "actual": "[true,true,[\"c\"]]"
+    },
+    {
+      "id": "reuse.keyed-append",
+      "status": "PASS",
+      "expected": "[true,true,true,\"-\"]",
+      "actual": "[true,true,true,\"-\"]"
+    },
+    {
+      "id": "reuse.condition-recreates-state",
+      "status": "PASS",
+      "expected": "[true,\"-\",[\"a\",\"b\",\"c\"]]",
+      "actual": "[true,\"-\",[\"a\",\"b\",\"c\"]]"
+    },
+    {
+      "id": "reuse.hidden-preserves-state",
+      "status": "PASS",
+      "expected": "[true,\"edited\",[]]",
+      "actual": "[true,\"edited\",[]]"
+    },
+    {
+      "id": "reuse.keyed-event-position",
+      "status": "PASS",
+      "expected": "{\"code\":\"c\",\"draft\":\"edited-c\",\"position\":0}",
+      "actual": "{\"code\":\"c\",\"draft\":\"edited-c\",\"position\":0}"
+    },
+    {
+      "id": "reuse.position-event-payload",
+      "status": "PASS",
+      "expected": "{\"code\":\"c\",\"draft\":\"edited-first\",\"position\":0}",
+      "actual": "{\"code\":\"c\",\"draft\":\"edited-first\",\"position\":0}"
+    },
+    {
+      "id": "reuse.owner-after-reorder",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "reuse.removed-selector",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "reuse.detach-once",
+      "status": "PASS",
+      "expected": "1",
+      "actual": "1"
+    },
+    {
+      "id": "reuse.reinsert-key-is-fresh",
+      "status": "PASS",
+      "expected": "[true,\"-\",true]",
+      "actual": "[true,\"-\",true]"
+    },
+    {
+      "id": "reuse.keys-scoped-to-loop",
+      "status": "PASS",
+      "expected": "[true,\"other-edit\",\"-\"]",
+      "actual": "[true,\"other-edit\",\"-\"]"
+    },
+    {
+      "id": "reuse.move-between-loops",
+      "status": "PASS",
+      "expected": "[true,\"-\",true]",
+      "actual": "[true,\"-\",true]"
+    },
+    {
+      "id": "native.button-disabled",
+      "status": "PASS",
+      "expected": "[false,true]",
+      "actual": "[false,true]"
+    },
+    {
+      "id": "native.switch-checked",
+      "status": "PASS",
+      "expected": "[false,true]",
+      "actual": "[false,true]"
+    },
+    {
+      "id": "native.slider-value",
+      "status": "PASS",
+      "expected": "[21,64]",
+      "actual": "[21,64]"
+    },
+    {
+      "id": "native.progress-percent",
+      "status": "PASS",
+      "expected": "[16,72]",
+      "actual": "[16,72]"
+    },
+    {
+      "id": "native.checkbox-checked",
+      "status": "PASS",
+      "expected": "[true,false]",
+      "actual": "[true,false]"
+    },
+    {
+      "id": "native.radio-checked",
+      "status": "PASS",
+      "expected": "[false,true]",
+      "actual": "[false,true]"
+    },
+    {
+      "id": "native.input-maxlength",
+      "status": "PASS",
+      "expected": "[7,14]",
+      "actual": "[7,14]"
+    },
+    {
+      "id": "native.textarea-maxlength",
+      "status": "PASS",
+      "expected": "[11,18]",
+      "actual": "[11,18]"
+    },
+    {
+      "id": "native.picker-value",
+      "status": "PASS",
+      "expected": "[0,1]",
+      "actual": "[0,1]"
+    },
+    {
+      "id": "native.text-selectable",
+      "status": "PASS",
+      "expected": "[false,true]",
+      "actual": "[false,true]"
+    },
+    {
+      "id": "native.image-mode",
+      "status": "PASS",
+      "expected": "[\"aspectFit\",\"center\"]",
+      "actual": "[\"aspectFit\",\"center\"]"
+    },
+    {
+      "id": "native.swiper-duration",
+      "status": "PASS",
+      "expected": "[180,400]",
+      "actual": "[180,400]"
+    },
+    {
+      "id": "css.rpx-viewport",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "css.descendant-rule",
+      "status": "PASS",
+      "expected": "[19,23]",
+      "actual": "[19,23]"
+    },
+    {
+      "id": "setdata.render-snapshot",
+      "status": "PASS",
+      "expected": "[8,3]",
+      "actual": "[8,3]"
+    },
+    {
+      "id": "render.conditional-remount",
+      "status": "PASS",
+      "expected": "[true,null,true]",
+      "actual": "[true,null,true]"
+    },
+    {
+      "id": "render.object-iteration",
+      "status": "PASS",
+      "expected": "[\"a/2\",\"b/5\"]",
+      "actual": "[\"a/2\",\"b/5\"]"
+    },
+    {
+      "id": "render.nested-scopes",
+      "status": "PASS",
+      "expected": "[\"a1\",\"a2\",\"b3\"]",
+      "actual": "[\"a1\",\"a2\",\"b3\"]"
+    },
+    {
+      "id": "render.list-remove",
+      "status": "PASS",
+      "expected": "[\"b4\"]",
+      "actual": "[\"b4\"]"
+    },
+    {
+      "id": "render.interpolation-types",
+      "status": "PASS",
+      "expected": "[4,true,\"A/B\"]",
+      "actual": "[4,true,\"A/B\"]"
+    },
+    {
+      "id": "render.dynamic-template",
+      "status": "PASS",
+      "expected": "[\"first\",\"second\"]",
+      "actual": "[\"first\",\"second\"]"
+    },
+    {
+      "id": "setdata.sibling-paths",
+      "status": "PASS",
+      "expected": "[7,8,\"x\"]",
+      "actual": "[7,8,\"x\"]"
+    },
+    {
+      "id": "setdata.empty-array",
+      "status": "PASS",
+      "expected": "[]",
+      "actual": "[]"
+    },
+    {
+      "id": "wxs.inline-module",
+      "status": "PASS",
+      "expected": "\"ALPHA\"",
+      "actual": "\"ALPHA\""
+    },
+    {
+      "id": "slot.default-content",
+      "status": "PASS",
+      "expected": "\"projected\"",
+      "actual": "\"projected\""
+    },
+    {
+      "id": "css.class-rule",
+      "status": "PASS",
+      "expected": "[35,14]",
+      "actual": "[35,14]"
+    },
+    {
+      "id": "css.dynamic-class",
+      "status": "PASS",
+      "expected": "[49,14]",
+      "actual": "[49,14]"
+    },
+    {
+      "id": "canvas.pixel-roundtrip",
+      "status": "PASS",
+      "expected": "[255,0,0,255]",
+      "actual": "[255,0,0,255]"
+    },
+    {
+      "id": "route.subpackage-stack-and-lifetimes",
+      "status": "PASS",
+      "expected": "[\"load:blue\",\"ready\",\"pack/stop/index\",2,\"unload\",\"pages/suite/index\",1]",
+      "actual": "[\"load:blue\",\"ready\",\"pack/stop/index\",2,\"unload\",\"pages/suite/index\",1]"
+    },
+    {
+      "id": "route.tab-rejects-navigate",
+      "status": "PASS",
+      "expected": "[\"fail\",\"complete\"]",
+      "actual": "[\"fail\",\"complete\"]"
+    },
+    {
+      "id": "route.switch-tab-reuses-page",
+      "status": "PASS",
+      "expected": "[1,1,2,1]",
+      "actual": "[1,1,2,1]"
+    },
+    {
+      "id": "route.redirect-replaces-top",
+      "status": "PASS",
+      "expected": "[\"arrive:first\",\"depart:first\",\"arrive:second\",2,\"depart:second\"]",
+      "actual": "[\"arrive:first\",\"depart:first\",\"arrive:second\",2,\"depart:second\"]"
+    },
+    {
+      "id": "storage.roundtrip-text",
+      "status": "PASS",
+      "expected": "\"pêche\"",
+      "actual": "\"pêche\""
+    },
+    {
+      "id": "storage.roundtrip-number",
+      "status": "PASS",
+      "expected": "42",
+      "actual": "42"
+    },
+    {
+      "id": "storage.roundtrip-false",
+      "status": "PASS",
+      "expected": "false",
+      "actual": "false"
+    },
+    {
+      "id": "storage.roundtrip-zero",
+      "status": "PASS",
+      "expected": "0",
+      "actual": "0"
+    },
+    {
+      "id": "storage.roundtrip-array",
+      "status": "PASS",
+      "expected": "[2,\"b\"]",
+      "actual": "[2,\"b\"]"
+    },
+    {
+      "id": "storage.roundtrip-nested",
+      "status": "PASS",
+      "expected": "{\"items\":[1,{\"x\":true}]}",
+      "actual": "{\"items\":[1,{\"x\":true}]}"
+    },
+    {
+      "id": "storage.overwrite-remove",
+      "status": "PASS",
+      "expected": "[2,true,false]",
+      "actual": "[2,true,false]"
+    },
+    {
+      "id": "storage.async-roundtrip",
+      "status": "PASS",
+      "expected": "[\"x\",\"y\"]",
+      "actual": "[\"x\",\"y\"]"
+    },
+    {
+      "id": "storage.missing-callback-order",
+      "status": "PASS",
+      "expected": "[\"fail\",\"complete\"]",
+      "actual": "[\"fail\",\"complete\"]"
+    },
+    {
+      "id": "base64.encode-single",
+      "status": "PASS",
+      "expected": "\"AA==\"",
+      "actual": "\"AA==\""
+    },
+    {
+      "id": "base64.decode-single",
+      "status": "PASS",
+      "expected": "[0]",
+      "actual": "[0]"
+    },
+    {
+      "id": "base64.encode-double",
+      "status": "PASS",
+      "expected": "\"//8=\"",
+      "actual": "\"//8=\""
+    },
+    {
+      "id": "base64.decode-double",
+      "status": "PASS",
+      "expected": "[255,255]",
+      "actual": "[255,255]"
+    },
+    {
+      "id": "base64.encode-triple",
+      "status": "PASS",
+      "expected": "\"AH//\"",
+      "actual": "\"AH//\""
+    },
+    {
+      "id": "base64.decode-triple",
+      "status": "PASS",
+      "expected": "[0,127,255]",
+      "actual": "[0,127,255]"
+    },
+    {
+      "id": "base64.encode-padding",
+      "status": "PASS",
+      "expected": "\"AQIDBA==\"",
+      "actual": "\"AQIDBA==\""
+    },
+    {
+      "id": "base64.decode-padding",
+      "status": "PASS",
+      "expected": "[1,2,3,4]",
+      "actual": "[1,2,3,4]"
+    },
+    {
+      "id": "fs.write-utf8",
+      "status": "PASS",
+      "expected": "[207,128]",
+      "actual": "[207,128]"
+    },
+    {
+      "id": "fs.read-utf8",
+      "status": "PASS",
+      "expected": "\"π\"",
+      "actual": "\"π\""
+    },
+    {
+      "id": "fs.write-hex",
+      "status": "PASS",
+      "expected": "[0,254]",
+      "actual": "[0,254]"
+    },
+    {
+      "id": "fs.read-hex",
+      "status": "PASS",
+      "expected": "\"00fe\"",
+      "actual": "\"00fe\""
+    },
+    {
+      "id": "fs.write-base64",
+      "status": "PASS",
+      "expected": "[16,32]",
+      "actual": "[16,32]"
+    },
+    {
+      "id": "fs.read-base64",
+      "status": "PASS",
+      "expected": "\"ECA=\"",
+      "actual": "\"ECA=\""
+    },
+    {
+      "id": "fs.write-ascii",
+      "status": "PASS",
+      "expected": "[65,122]",
+      "actual": "[65,122]"
+    },
+    {
+      "id": "fs.read-ascii",
+      "status": "PASS",
+      "expected": "\"Az\"",
+      "actual": "\"Az\""
+    },
+    {
+      "id": "fs.write-utf16le",
+      "status": "PASS",
+      "expected": "[169,3]",
+      "actual": "[169,3]"
+    },
+    {
+      "id": "fs.read-utf16le",
+      "status": "PASS",
+      "expected": "\"Ω\"",
+      "actual": "\"Ω\""
+    },
+    {
+      "id": "fs.append",
+      "status": "PASS",
+      "expected": "\"abc\"",
+      "actual": "\"abc\""
+    },
+    {
+      "id": "fs.copy-overwrite",
+      "status": "PASS",
+      "expected": "[\"new\",\"new\"]",
+      "actual": "[\"new\",\"new\"]"
+    },
+    {
+      "id": "fs.rename-tree",
+      "status": "PASS",
+      "expected": "[[\"new\"],\"leaf\"]",
+      "actual": "[[\"new\"],\"leaf\"]"
+    },
+    {
+      "id": "fs.stat-types",
+      "status": "PASS",
+      "expected": "[true,false,false,true,3]",
+      "actual": "[true,false,false,true,3]"
+    },
+    {
+      "id": "fs.unlink",
+      "status": "PASS",
+      "expected": "[]",
+      "actual": "[]"
+    },
+    {
+      "id": "fs.missing-read",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "fs.async-operations",
+      "status": "PASS",
+      "expected": "[\"ab\",[]]",
+      "actual": "[\"ab\",[]]"
+    },
+    {
+      "id": "fs.async-missing",
+      "status": "PASS",
+      "expected": "[\"fail\",\"complete\"]",
+      "actual": "[\"fail\",\"complete\"]"
+    },
+    {
+      "id": "fd.read-range",
+      "status": "PASS",
+      "expected": "[2,0,99,100,0]",
+      "actual": "[2,0,99,100,0]"
+    },
+    {
+      "id": "fd.write-position",
+      "status": "PASS",
+      "expected": "\"abXYef\"",
+      "actual": "\"abXYef\""
+    },
+    {
+      "id": "fd.truncate",
+      "status": "PASS",
+      "expected": "[3,\"abc\"]",
+      "actual": "[3,\"abc\"]"
+    },
+    {
+      "id": "fd.closed-read",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "fs.truncate-path",
+      "status": "PASS",
+      "expected": "\"ab\"",
+      "actual": "\"ab\""
+    },
+    {
+      "id": "fs.brotli-sync",
+      "status": "PASS",
+      "expected": "[0,1,2,255]",
+      "actual": "[0,1,2,255]"
+    },
+    {
+      "id": "fs.brotli-async",
+      "status": "PASS",
+      "expected": "[0,1,2,255]",
+      "actual": "[0,1,2,255]"
+    },
+    {
+      "id": "fs.zip-entry",
+      "status": "PASS",
+      "expected": "\"kumquat\"",
+      "actual": "\"kumquat\""
+    },
+    {
+      "id": "fs.unzip-tree",
+      "status": "PASS",
+      "expected": "\"kumquat\"",
+      "actual": "\"kumquat\""
+    },
+    {
+      "id": "fs.digest-md5",
+      "status": "PASS",
+      "expected": "[3,\"900150983cd24fb0d6963f7d28e17f72\"]",
+      "actual": "[3,\"900150983cd24fb0d6963f7d28e17f72\"]"
+    },
+    {
+      "id": "fs.digest-sha1",
+      "status": "PASS",
+      "expected": "[3,\"a9993e364706816aba3e25717850c26c9cd0d89d\"]",
+      "actual": "[3,\"a9993e364706816aba3e25717850c26c9cd0d89d\"]"
+    },
+    {
+      "id": "fs.digest-sha256",
+      "status": "PASS",
+      "expected": "[3,\"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\"]",
+      "actual": "[3,\"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\"]"
+    },
+    {
+      "id": "fs.async-tree",
+      "status": "PASS",
+      "expected": "[\"ab\",true,[]]",
+      "actual": "[\"ab\",true,[]]"
+    },
+    {
+      "id": "fd.async-roundtrip",
+      "status": "PASS",
+      "expected": "[3,2,2,65,66]",
+      "actual": "[3,2,2,65,66]"
+    },
+    {
+      "id": "system.window-dimensions",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "system.device-platform",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "system.api-capability",
+      "status": "PASS",
+      "expected": "[true,false]",
+      "actual": "[true,false]"
+    },
+    {
+      "id": "system.async-window",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "network.type-result",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "audio.recorder-singleton",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "audio.background-singleton",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "audio.independent-contexts",
+      "status": "PASS",
+      "expected": "[true,0.25,0.75]",
+      "actual": "[true,0.25,0.75]"
+    },
+    {
+      "id": "animation.step-snapshot",
+      "status": "PASS",
+      "expected": "2",
+      "actual": "2"
+    },
+    {
+      "id": "worker.message-roundtrip",
+      "status": "PASS",
+      "expected": "[6,\"seed\"]",
+      "actual": "[6,\"seed\"]"
+    },
+    {
+      "id": "worker.message-shapes",
+      "status": "PASS",
+      "expected": "[{\"object\":{\"a\":1,\"nested\":[2,{\"b\":\"x\"}]},\"list\":[3,\"y\",true,null]}]",
+      "actual": "[{\"object\":{\"a\":1,\"nested\":[2,{\"b\":\"x\"}]},\"list\":[3,\"y\",true,null]}]"
+    },
+    {
+      "id": "worker.terminate-stops",
+      "status": "PASS",
+      "expected": "[true,false]",
+      "actual": "[true,false]"
+    },
+    {
+      "id": "storage.batch-order",
+      "status": "PASS",
+      "expected": "[\"second\",\"first\",\"second\"]",
+      "actual": "[\"second\",\"first\",\"second\"]"
+    },
+    {
+      "id": "storage.detached-copy",
+      "status": "PASS",
+      "expected": "[1]",
+      "actual": "[1]"
+    },
+    {
+      "id": "storage.promise-form",
+      "status": "PASS",
+      "expected": "\"promise-value\"",
+      "actual": "\"promise-value\""
+    },
+    {
+      "id": "system.launch-path",
+      "status": "PASS",
+      "expected": "\"pages/suite/index\"",
+      "actual": "\"pages/suite/index\""
+    },
+    {
+      "id": "system.menu-geometry",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "system.base-version",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "clock.monotonic",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "random.requested-lengths",
+      "status": "PASS",
+      "expected": "[2,17]",
+      "actual": "[2,17]"
+    },
+    {
+      "id": "query.viewport-offset",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "canvas.png-export",
+      "status": "PASS",
+      "expected": "[137,80,78,71,13,10,26,10]",
+      "actual": "[137,80,78,71,13,10,26,10]"
+    },
+    {
+      "id": "animation.export-clears-queue",
+      "status": "PASS",
+      "expected": "[1,0]",
+      "actual": "[1,0]"
+    },
+    {
+      "id": "animation.applies-computed-style",
+      "status": "PASS",
+      "expected": "[true]",
+      "actual": "[true]"
+    },
+    {
+      "id": "fs.save-remove-cycle",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "clipboard.roundtrip",
+      "status": "PASS",
+      "expected": "\"suite-clip\"",
+      "actual": "\"suite-clip\""
+    },
+    {
+      "id": "page.scroll-to-selector",
+      "status": "PASS",
+      "expected": "[true,true]",
+      "actual": "[true,true]"
+    },
+    {
+      "id": "image.info-from-canvas",
+      "status": "PASS",
+      "expected": "[true,true,\"png\"]",
+      "actual": "[true,true,\"png\"]"
+    },
+    {
+      "id": "canvas.offscreen-pixels",
+      "status": "PASS",
+      "expected": "[255,0,0,255]",
+      "actual": "[255,0,0,255]"
+    },
+    {
+      "id": "system.api-category",
+      "status": "PASS",
+      "expected": "\"default\"",
+      "actual": "\"default\""
+    },
+    {
+      "id": "storage.missing-sync",
+      "status": "PASS",
+      "expected": "\"\"",
+      "actual": "\"\""
+    },
+    {
+      "id": "storage.info-sync-shape",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "system.sync-and-split",
+      "status": "PASS",
+      "expected": "[true,true,true]",
+      "actual": "[true,true,true]"
+    },
+    {
+      "id": "system.async-callback",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "system.device-info-shape",
+      "status": "PASS",
+      "expected": "[true,true,true,true]",
+      "actual": "[true,true,true,true]"
+    },
+    {
+      "id": "system.account-info-shape",
+      "status": "PASS",
+      "expected": "[true,true]",
+      "actual": "[true,true]"
+    },
+    {
+      "id": "system.enter-path",
+      "status": "PASS",
+      "expected": "\"pages/suite/index\"",
+      "actual": "\"pages/suite/index\""
+    },
+    {
+      "id": "system.app-language",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "system.safe-area",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "storage.async-info",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "ui.navigation-title",
+      "status": "PASS",
+      "expected": "[\"success\",\"complete\"]",
+      "actual": "[\"success\",\"complete\"]"
+    },
+    {
+      "id": "ui.navigation-loading",
+      "status": "PASS",
+      "expected": "[\"showNavigationBarLoading:ok\",\"hideNavigationBarLoading:ok\"]",
+      "actual": "[\"showNavigationBarLoading:ok\",\"hideNavigationBarLoading:ok\"]"
+    },
+    {
+      "id": "ui.navigation-bar-color",
+      "status": "PASS",
+      "expected": "[\"success\",\"complete\"]",
+      "actual": "[\"success\",\"complete\"]"
+    },
+    {
+      "id": "system.setting-shape",
+      "status": "PASS",
+      "expected": "[true,true]",
+      "actual": "[true,true]"
+    },
+    {
+      "id": "system.authorize-setting-values",
+      "status": "PASS",
+      "expected": "[true,true]",
+      "actual": "[true,true]"
+    },
+    {
+      "id": "ui.loading-roundtrip",
+      "status": "PASS",
+      "expected": "[\"showLoading:ok\",\"hideLoading:ok\"]",
+      "actual": "[\"showLoading:ok\",\"hideLoading:ok\"]"
+    },
+    {
+      "id": "ui.toast-roundtrip",
+      "status": "PASS",
+      "expected": "[\"showToast:ok\",\"hideToast:ok\"]",
+      "actual": "[\"showToast:ok\",\"hideToast:ok\"]"
+    },
+    {
+      "id": "ui.tabbar-callbacks",
+      "status": "PASS",
+      "expected": "[\"ok\",\"ok\"]",
+      "actual": "[\"ok\",\"ok\"]"
+    },
+    {
+      "id": "ui.background-style",
+      "status": "PASS",
+      "expected": "[\"ok\",\"ok\"]",
+      "actual": "[\"ok\",\"ok\"]"
+    },
+    {
+      "id": "ui.scroll-top",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "system.next-tick",
+      "status": "PASS",
+      "expected": "[\"sync\",\"tick\"]",
+      "actual": "[\"sync\",\"tick\"]"
+    },
+    {
+      "id": "socket.text-echo",
+      "status": "PASS",
+      "expected": "[\"open\",\"socket-echo\",1000]",
+      "actual": "[\"open\",\"socket-echo\",1000]"
+    },
+    {
+      "id": "socket.binary-echo",
+      "status": "PASS",
+      "expected": "[\"open\",[0,125,255],1000]",
+      "actual": "[\"open\",[0,125,255],1000]"
+    },
+    {
+      "id": "http.query",
+      "status": "PASS",
+      "expected": "[\"GET\",\"a b\"]",
+      "actual": "[\"GET\",\"a b\"]"
+    },
+    {
+      "id": "http.post-json",
+      "status": "PASS",
+      "expected": "{\"color\":\"gold\"}",
+      "actual": "{\"color\":\"gold\"}"
+    },
+    {
+      "id": "http.status",
+      "status": "PASS",
+      "expected": "404",
+      "actual": "404"
+    },
+    {
+      "id": "http.arraybuffer",
+      "status": "PASS",
+      "expected": "[0,255,13]",
+      "actual": "[0,255,13]"
+    },
+    {
+      "id": "http.header-case",
+      "status": "PASS",
+      "expected": "\"violet\"",
+      "actual": "\"violet\""
+    },
+    {
+      "id": "http.text-mode",
+      "status": "PASS",
+      "expected": "\"raw text\"",
+      "actual": "\"raw text\""
+    },
+    {
+      "id": "http.binary-post",
+      "status": "PASS",
+      "expected": "[0,255,32]",
+      "actual": "[0,255,32]"
+    },
+    {
+      "id": "http.upload-form",
+      "status": "PASS",
+      "expected": "[200,true,true]",
+      "actual": "[200,true,true]"
+    },
+    {
+      "id": "http.abort",
+      "status": "PASS",
+      "expected": "[\"fail\",\"complete\"]",
+      "actual": "[\"fail\",\"complete\"]"
+    },
+    {
+      "id": "fs.save-download-async",
+      "status": "PASS",
+      "expected": "[true,[0,255,13],false]",
+      "actual": "[true,[0,255,13],false]"
+    },
+    {
+      "id": "fs.save-download-sync",
+      "status": "PASS",
+      "expected": "[true,[0,255,13],false]",
+      "actual": "[true,[0,255,13],false]"
+    },
+    {
+      "id": "http.download",
+      "status": "PASS",
+      "expected": "[200,0,255,13]",
+      "actual": "[200,0,255,13]"
+    }
+  ]
+}

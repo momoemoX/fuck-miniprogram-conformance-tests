@@ -7,7 +7,8 @@ const { storage, binary } = require("../../cases/data");
 const { http } = require("../../cases/http");
 const { rendering } = require("../../cases/render");
 const { routes } = require("../../cases/routes");
-const { makeReport } = require("../../cases/report");
+const { makeReport, TARGET } = require("../../cases/report");
+const { update, delay } = require("../../cases/support");
 const { descriptors } = require("../../cases/descriptors");
 const { extended } = require("../../cases/extended");
 const { composition } = require("../../cases/composition");
@@ -34,8 +35,24 @@ const { observerContract } = require("../../cases/observer-contract");
 const { pageScrollContract } = require("../../cases/page-scroll");
 const config = require("../../suite-config");
 
+// Fails fast when the primitives every case depends on are unavailable.
+async function preflight(page) {
+  const within = (promise, what) =>
+    Promise.race([
+      promise,
+      delay(3000).then(() => {
+        throw new Error("Harness preflight failed: " + what + " did not complete");
+      }),
+    ]);
+  await within(delay(1), "setTimeout");
+  await within(update(page, { preflight: true }), "setData callback");
+  if (page.data.preflight !== true) throw new Error("Harness preflight failed: setData did not apply");
+}
+
 Page({
   data: {
+    preflight: false,
+    target: TARGET,
     reuseMounted: false,
     errorMounted: false,
     wxsMounted: false,
@@ -108,51 +125,58 @@ Page({
     this.setData({ started: true, summary: "Running" });
     const report = makeReport(this.selectedIds);
     const { check } = report;
+    let interrupted = null;
+    try {
+      // The harness itself relies on timers, promises and setData callbacks. Without
+      // them every case would stall until its timeout, so stop with a clear reason.
+      await preflight(this);
+      await check("component.instance-data", [["mint"], []], () => {
+        const first = this.selectComponent("#first");
+        const second = this.selectComponent("#second");
+        first.append("mint");
+        return [first.snapshot(), second.snapshot()];
+      });
 
-    await check("component.instance-data", [["mint"], []], () => {
-      const first = this.selectComponent("#first");
-      const second = this.selectComponent("#second");
-      first.append("mint");
-      return [first.snapshot(), second.snapshot()];
-    });
+      await check("event.bubble", ["source", "middle", "outer"], () => this.traceNotice("#bubbling"));
+      await check("event.catch", ["source", "middle"], () => this.traceNotice("#stopped"));
+      await check("channel.queued-order", ["oak", "elm"], channelOrder);
 
-    await check("event.bubble", ["source", "middle", "outer"], () => this.traceNotice("#bubbling"));
-    await check("event.catch", ["source", "middle"], () => this.traceNotice("#stopped"));
-    await check("channel.queued-order", ["oak", "elm"], channelOrder);
-
-    await subscriptions(check);
-    await errorContract(this, check);
-    await appContract(check);
-    await moduleContract(check);
-    await lifecycleContract(check);
-    await wxsState(this, check);
-    await inputContract(this, check);
-    await componentExtra(this, check);
-    await scrollContract(this, check);
-    await observerContract(this, check);
-    await pageScrollContract(this, check);
-    await framework(this, check);
-    await composition(this, check);
-    await structure(this, check);
-    await componentContract(this, check);
-    await eventBoundary(this, check);
-    await templateContract(this, check);
-    await definitionContract(this, check);
-    await reuseContract(this, check);
-    await controls(this, check);
-    await rendering(this, check);
-    await routes(check);
-    await navigation(check);
-    await storage(check);
-    await binary(check);
-    await files(check);
-    await descriptors(check);
-    await formats(check);
-    await platform(check);
-    await extended(this, check);
-    await system(check);
-    if (config.socketUrl) await sockets(config.socketUrl, check);
-    if (config.fixtureUrl) await http(config.fixtureUrl, check);
+      await subscriptions(check);
+      await errorContract(this, check);
+      await appContract(check);
+      await moduleContract(check);
+      await lifecycleContract(check);
+      await wxsState(this, check);
+      await inputContract(this, check);
+      await componentExtra(this, check);
+      await scrollContract(this, check);
+      await observerContract(this, check);
+      await pageScrollContract(this, check);
+      await framework(this, check);
+      await composition(this, check);
+      await structure(this, check);
+      await componentContract(this, check);
+      await eventBoundary(this, check);
+      await templateContract(this, check);
+      await definitionContract(this, check);
+      await reuseContract(this, check);
+      await controls(this, check);
+      await rendering(this, check);
+      await routes(check);
+      await navigation(check);
+      await storage(check);
+      await binary(check);
+      await files(check);
+      await descriptors(check);
+      await formats(check);
+      await platform(check);
+      await extended(this, check);
+      await system(check);
+      if (config.socketUrl) await sockets(config.socketUrl, check);
+      if (config.fixtureUrl) await http(config.fixtureUrl, check);
+    } catch (error) {
+      interrupted = String(error && error.message ? error.message : error);
+    }
 
     let reportedSDK = null;
     try {
@@ -161,15 +185,16 @@ Page({
       /* A partial implementation can still produce a case report. */
     }
     this.report = {
-      target: "3.7.0",
+      target: TARGET,
+      interrupted,
       reportedSDK,
       profiles: { core: true, http: !!config.fixtureUrl, socket: !!config.socketUrl },
       results: report.results,
     };
     this.setData({
       results: report.results,
-      summary: report.summary(),
-      baselineScore: report.baselineScore(),
+      summary: interrupted ? "Interrupted: " + interrupted : report.summary(),
+      baselineScore: interrupted ? "No final score for an interrupted run" : report.baselineScore(),
     });
   },
 
@@ -222,11 +247,18 @@ Page({
       });
     }
   },
-  waitForInputTrace(length) {
+  waitForInputTrace(length, timeout = 3000) {
     if (!this.inputTrace) this.inputTrace = [];
     if (this.inputTrace.length >= length) return Promise.resolve();
     if (!this.inputWaiters) this.inputWaiters = [];
-    return new Promise((resolve) => this.inputWaiters.push({ length, resolve }));
+    return new Promise((resolve, reject) => {
+      const waiter = { length, resolve };
+      this.inputWaiters.push(waiter);
+      setTimeout(() => {
+        this.inputWaiters = this.inputWaiters.filter((entry) => entry !== waiter);
+        reject(new Error("Expected " + length + " input events, got " + this.inputTrace.length));
+      }, timeout);
+    });
   },
 
   getScrollEvents() {

@@ -1,4 +1,4 @@
-const { call, uniqueKey, query } = require("./support");
+const { call, uniqueKey, query, waitUntil } = require("./support");
 
 async function extended(page, check) {
   await check("storage.batch-order", ["second", "first", "second"], () => {
@@ -110,9 +110,11 @@ async function extended(page, check) {
     const animation = wx.createAnimation({ duration: 100 });
     animation.translateX(42).step();
     page.setData({ animData: animation.export() });
-    await new Promise((resolve) => setTimeout(resolve, 400));
-    const node = await query(page, "#animated", { computedStyle: ["transform"] });
-    return [typeof node.transform === "string" && node.transform.indexOf("42") !== -1];
+    const applied = await waitUntil(async () => {
+      const node = await query(page, "#animated", { computedStyle: ["transform"] });
+      return typeof node.transform === "string" && node.transform.indexOf("42") !== -1;
+    });
+    return [!!applied];
   });
   await check("fs.save-remove-cycle", [true, true, true], async () => {
     const fs = wx.getFileSystemManager();
@@ -150,20 +152,28 @@ async function extended(page, check) {
     try {
       page.pageScrollTrace = [];
       await call(wx, "pageScrollTo", { selector: "#scroll-fixture", duration: 0 });
-      await new Promise((resolve) => setTimeout(resolve, 700));
-      const trace = page.pageScrollTrace || [];
-      return [trace.length > 0, trace.some((value) => typeof value === "number" && value >= 500)];
+      const trace = () => page.pageScrollTrace || [];
+      const reached = await waitUntil(() =>
+        trace().some((value) => typeof value === "number" && value >= 500),
+      );
+      return [trace().length > 0, !!reached];
     } finally {
       await call(wx, "pageScrollTo", { scrollTop: 0, duration: 0 }).catch(() => null);
-      await new Promise((resolve) => setTimeout(resolve, 300));
+      await waitUntil(() => {
+        const trace = page.pageScrollTrace || [];
+        return trace[trace.length - 1] === 0;
+      });
     }
   });
-  await check("image.info-from-canvas", [true, true], async () => {
+  // The swatch canvas is square; the exported size scales with the host's pixel
+  // density, so only its shape and format are fixed.
+  await check("image.info-from-canvas", [true, true, "png"], async () => {
     const exported = await call(wx, "canvasToTempFilePath", { canvasId: "swatch", fileType: "png" });
     const info = await call(wx, "getImageInfo", { src: exported.tempFilePath });
     return [
       typeof info.width === "number" && info.width > 0,
-      typeof info.height === "number" && info.height > 0,
+      info.width === info.height,
+      info.type,
     ];
   });
   await check("canvas.offscreen-pixels", [255, 0, 0, 255], async () => {
@@ -174,10 +184,8 @@ async function extended(page, check) {
     const data = context.getImageData(0, 0, 1, 1).data;
     return [data[0], data[1], data[2], data[3]];
   });
-  await check("system.api-category", [true], () => {
-    const category = wx.getApiCategory();
-    return [typeof category === "string" && category.length > 0];
-  });
+  // Documented categories; a normal launch reports "default".
+  await check("system.api-category", "default", () => wx.getApiCategory());
   await check("storage.missing-sync", "", () => wx.getStorageSync(uniqueKey()));
   await check("storage.info-sync-shape", [true, true, true], () => {
     const key = uniqueKey();
