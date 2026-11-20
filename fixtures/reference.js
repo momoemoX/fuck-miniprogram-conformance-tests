@@ -258,6 +258,30 @@ module.exports = {
     0,
     0
   ],
+  "observer.relative-to-selector": [
+    [
+      1,
+      0
+    ],
+    100,
+    100
+  ],
+  "observer.relative-to-margins": [
+    [],
+    [
+      1
+    ]
+  ],
+  "observer.custom-thresholds": {
+    "custom": [
+      0.75,
+      0.25
+    ],
+    "fallback": [
+      0.25,
+      0
+    ]
+  },
   "page.scroll-events": [
     true,
     true

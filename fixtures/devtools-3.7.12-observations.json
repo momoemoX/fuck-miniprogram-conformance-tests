@@ -6,11 +6,11 @@
   "runs": [
     {
       "profiles": "core",
-      "summary": "590/590 passed"
+      "summary": "593/593 passed"
     },
     {
       "profiles": "core+http+socket",
-      "summary": "617/617 passed"
+      "summary": "620/620 passed"
     }
   ],
   "results": [
@@ -397,6 +397,24 @@
       "status": "PASS",
       "expected": "[1,0,0]",
       "actual": "[1,0,0]"
+    },
+    {
+      "id": "observer.relative-to-selector",
+      "status": "PASS",
+      "expected": "[[1,0],100,100]",
+      "actual": "[[1,0],100,100]"
+    },
+    {
+      "id": "observer.relative-to-margins",
+      "status": "PASS",
+      "expected": "[[],[1]]",
+      "actual": "[[],[1]]"
+    },
+    {
+      "id": "observer.custom-thresholds",
+      "status": "PASS",
+      "expected": "{\"custom\":[0.75,0.25],\"fallback\":[0.25,0]}",
+      "actual": "{\"custom\":[0.75,0.25],\"fallback\":[0.25,0]}"
     },
     {
       "id": "page.scroll-events",

@@ -848,19 +848,20 @@
           "title": "ScrollView bindings, boundary events & IntersectionObserver / MediaQueryObserver",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
-          "contract": "scroll-view responds to scroll-top/scroll-into-view, fires bindscroll/bindscrolltolower/bindscrolltoupper; IntersectionObserver toggles ratios and stops after disconnect; MediaQueryObserver reports matches.",
+          "status": "covered",
+          "contract": "scroll-view responds to scroll-top/scroll-into-view, fires bindscroll/bindscrolltolower/bindscrolltoupper; IntersectionObserver toggles ratios against the viewport or a relativeTo(selector, margins) reference node, fires only on custom threshold crossings and stops after disconnect; MediaQueryObserver reports matches.",
           "cases": [
             "scroll.bindscroll-detail",
             "scroll.into-view-target",
             "scroll-view.edge-boundary-events",
             "observer.intersection-toggle",
             "observer.media-match",
-            "scroll-view.scroll-into-view-horizontal"
+            "scroll-view.scroll-into-view-horizontal",
+            "observer.relative-to-selector",
+            "observer.relative-to-margins",
+            "observer.custom-thresholds"
           ],
-          "gaps": [
-            "Test IntersectionObserver relativeTo(selector) and custom thresholds."
-          ]
+          "gaps": []
         },
         {
           "id": "RENDER-04",

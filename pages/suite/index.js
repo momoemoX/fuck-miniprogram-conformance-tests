@@ -120,6 +120,8 @@ Page({
     scrollTopValue: 0,
     scrollIntoTarget: "",
     watchedTop: "1500px",
+    ioMounted: false,
+    ioTargetLeft: 20,
     definitionMounted: false,
     definitionInputs: {},
     templateMounted: false,

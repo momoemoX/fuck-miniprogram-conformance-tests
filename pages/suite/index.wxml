@@ -177,6 +177,10 @@
     <view id="scroll-target" style="height:20px"/>
   </scroll-view>
   <view id="watched" style="position:absolute;top:{{watchedTop}};left:0;width:60px;height:20px"/>
+  <block wx:if="{{ioMounted}}">
+    <view id="io-root" style="position:fixed;top:0;left:200px;width:100px;height:100px"/>
+    <view id="io-target" style="position:fixed;top:40px;left:{{ioTargetLeft}}px;width:20px;height:20px"/>
+  </block>
   <view id="animated" animation="{{animData}}" style="width:10px;height:10px"/>
   <canvas wx:if="{{canvas2dMounted}}" type="2d" id="canvas-2d" style="width:40px;height:40px"/>
   <block wx:if="{{nodeQueryMounted}}">

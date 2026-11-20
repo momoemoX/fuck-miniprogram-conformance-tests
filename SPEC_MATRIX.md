@@ -6,9 +6,9 @@ Machine-readable source: [`fixtures/spec-matrix.json`](fixtures/spec-matrix.json
 
 ## Summary
 
-- **Automatable in-scope clauses**: **53** (50 `COVERED`, 3 `PARTIAL`, 0 `MISSING`; plus 1 `OUT-OF-SCOPE`)
-- **P0 clauses fully covered**: **41/42** (98%)
-- **Committed automated baseline cases mapped**: **617/617** (0 unmapped orphan cases)
+- **Automatable in-scope clauses**: **53** (51 `COVERED`, 2 `PARTIAL`, 0 `MISSING`; plus 1 `OUT-OF-SCOPE`)
+- **P0 clauses fully covered**: **42/42** (100%)
+- **Committed automated baseline cases mapped**: **620/620** (0 unmapped orphan cases)
 
 | Domain | Clauses | Covered | Partial | Missing | Out-of-scope | Mapped cases |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -20,7 +20,7 @@ Machine-readable source: [`fixtures/spec-matrix.json`](fixtures/spec-matrix.json
 | [Event Dispatch, Boundaries, mark: & mut-bind:](#events) | 3 | 3 | 0 | 0 | 0 | 21 |
 | [Custom Components, Behaviors, Properties, Observers, Relations & Slots](#components) | 7 | 7 | 0 | 0 | 0 | 81 |
 | [WXSS Styling, Isolation, Units & Page-Level Meta](#wxss-layout) | 3 | 3 | 0 | 0 | 0 | 18 |
-| [Built-in Components, SelectorQuery, Animations & Canvas 2D](#rendering-canvas) | 5 | 4 | 1 | 0 | 0 | 172 |
+| [Built-in Components, SelectorQuery, Animations & Canvas 2D](#rendering-canvas) | 5 | 5 | 0 | 0 | 0 | 175 |
 | [Async Promise Contract, Storage, Data Codecs, Workers & System APIs](#api-contract-storage) | 5 | 5 | 0 | 0 | 0 | 69 |
 | [FileSystemManager & File Descriptors](#filesystem) | 2 | 2 | 0 | 0 | 0 | 35 |
 | [Network Fixtures, Media, Input & Host Profiles](#network-media-host) | 5 | 3 | 1 | 0 | 1 | 36 |
@@ -45,7 +45,6 @@ Machine-readable source: [`fixtures/spec-matrix.json`](fixtures/spec-matrix.json
 
 | Clause | Priority | Status | Mapped | Concrete Gaps to Close |
 | --- | :---: | :---: | ---: | --- |
-| `RENDER-03` ScrollView bindings, boundary events & IntersectionObserver / MediaQueryObserver | P0 | `PARTIAL` | 6 | Test IntersectionObserver relativeTo(selector) and custom thresholds. |
 | `APP-04` App.onPageNotFound real trigger & recovery | P1 | `PARTIAL` | 1 | Cold-start onPageNotFound entry recovery is verified separately via tools/devtools/check-page-not-found.cjs (since wx.restartMiniProgram destroys the running suite page context). |
 | `NET-04` Input focus/binding & interactive form/gesture profile | P1 | `PARTIAL` | 2 | Re-record the 17 interactive checks in pages/input/index on base library 3.7.12 (currently recorded on historical 3.7.0 host). · Verify real blur delivery and touchstart -> touchmove -> touchend -> tap / longpress ordering on a physical device. |
 
@@ -143,7 +142,7 @@ Machine-readable source: [`fixtures/spec-matrix.json`](fixtures/spec-matrix.json
 | --- | :---: | :---: | --- | ---: | --- |
 | `RENDER-01` | P0 | `COVERED` | **Built-in component attribute defaults, bindings & host boxes (34-tag catalog)** — All 34 cataloged built-in components report documented attribute defaults, reflect bound sample values, match v2 computed host styles and pass visual reference checks (61 committed visual refs verified via tools/visual/verify.cjs). | 115 (`component.defaults.`, `component.bound.`, `render.` + 12 explicit) | — |
 | `RENDER-02` | P0 | `COVERED` | **SelectorQuery (fields, rect, computedStyle, scrollOffset, mark, node, context & scoping)** — SelectorQuery supports batched exec ordering, rect/size/dataset/properties/computedStyle/scrollOffset/mark fields, node() (ScrollViewContext/Canvas), context() (VideoContext), selectAll ordering and strict in(component) scope isolation. | 20 (`query.no-match`, `query.rect`, `query.typed-dataset`, `query.batch-order`, …) | — |
-| `RENDER-03` | P0 | `PARTIAL` | **ScrollView bindings, boundary events & IntersectionObserver / MediaQueryObserver** — scroll-view responds to scroll-top/scroll-into-view, fires bindscroll/bindscrolltolower/bindscrolltoupper; IntersectionObserver toggles ratios and stops after disconnect; MediaQueryObserver reports matches. | 6 (`scroll.bindscroll-detail`, `scroll.into-view-target`, `scroll-view.edge-boundary-events`, `observer.intersection-toggle`, …) | Test IntersectionObserver relativeTo(selector) and custom thresholds. |
+| `RENDER-03` | P0 | `COVERED` | **ScrollView bindings, boundary events & IntersectionObserver / MediaQueryObserver** — scroll-view responds to scroll-top/scroll-into-view, fires bindscroll/bindscrolltolower/bindscrolltoupper; IntersectionObserver toggles ratios against the viewport or a relativeTo(selector, margins) reference node, fires only on custom threshold crossings and stops after disconnect; MediaQueryObserver reports matches. | 9 (`scroll.bindscroll-detail`, `scroll.into-view-target`, `scroll-view.edge-boundary-events`, `observer.intersection-toggle`, …) | — |
 | `RENDER-04` | P0 | `COVERED` | **Animations (wx.createAnimation & keyframe animate/clearAnimation)** — wx.createAnimation exports steps and applies computed transform; page.animate() and component.animate() apply keyframe styles, support partial/full clearAnimation(), override previous keyframes, and support scroll-driven keyframes. | 9 (`animation.step-snapshot`, `animation.export-clears-queue`, `animation.applies-computed-style`, `animate.keyframe-applies-and-clears`, …) | — |
 | `RENDER-05` | P0 | `COVERED` | **Canvas 2D (<canvas type='2d'>), offscreen canvas & legacy canvas export** — <canvas type='2d'> exposes node via SelectorQuery.node(), supports 2D context pixel read/write, transforms, images, toDataURL/canvasToTempFilePath({ canvas }), measureText, RAF/cancelRAF, dpr scaling, paths/clip/gradients/compositing, Path2D and offscreen canvas interop. | 22 (`canvas.pixel-roundtrip`, `canvas.png-export`, `canvas.offscreen-pixels`, `image.info-from-canvas`, …) | — |
 
