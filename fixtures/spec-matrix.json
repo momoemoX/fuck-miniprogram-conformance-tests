@@ -8,12 +8,15 @@
       "WXML/WXSS/WXS language and dual-thread bridge contracts (templates, keyed/positional list reuse, model: two-way bindings, mark:, mut-bind:, WXS state and change:prop/ownerInstance).",
       "Mini Program routing, page stack, EventChannel, CommonJS module loader and subpackage async loading (require.async, componentPlaceholder).",
       "Mini Program rendering/query/canvas bridge APIs (built-in component catalog & visual refs, SelectorQuery, animate/clearAnimation, page-meta/page-container, Canvas 2D bridge).",
-      "Core deterministic wx.* APIs (Promise contract, Storage, FileSystemManager, FileDescriptor, Base64, Worker, Clipboard, System/Device info, HTTP/WebSocket fixture contracts)."
+      "Core deterministic wx.* APIs (Promise contract, Storage, FileSystemManager, FileDescriptor, Base64, Worker, Clipboard, System/Device info, HTTP/WebSocket fixture contracts).",
+      "Baseline policy: expectations reproduce what base library 3.7.12 does in the official simulator with the WebView renderer and the default component framework. Where 3.7.12 deviates from the documentation, the observed behavior is the expectation, the case is tagged 'quirk' in cases/report.js, and the clause contract names the deviation.",
+      "Denominator rule: every clause cites the official documentation sections it is derived from in 'sources'. A documented feature without cases must appear as a 'missing' clause, or as an 'out-of-scope' clause that states why, so that 0 MISSING means the documented surface is accounted for rather than only that the listed clauses pass."
     ],
     "outOfScope": [
       "Generic Web/DOM/HTML5 Canvas drawing minutiae already covered by Web Platform Tests (WPT) where Mini Program engines delegate directly to WebView/Skia (e.g., exhaustive Canvas path join/miter/bezier permutations).",
       "WeChat-proprietary commercial or social ecosystem services (WeChat Pay, Ads, Channels/Finder, VoIP, Live Pusher/Player, Store, Share-to-WeChat).",
-      "Hardware-dependent sensors/radios and OS permission dialogs that cannot be deterministically verified in simulator CI (tracked separately under device/hosted/interactive profiles)."
+      "Hardware-dependent sensors/radios and OS permission dialogs that cannot be deterministically verified in simulator CI (tracked separately under device/hosted/interactive profiles).",
+      "Skyline renderer and glass-easel-only component framework features (e.g. Behavior.trait, wx:let): the suite runs on the WebView renderer and the default component framework, so these need a separate profile."
     ],
     "clauseCompletionRule": "A clause is marked 'covered' only when its primary behavior, key edge cases, and failure/isolation contracts are verified by committed cases in fixtures/reference.js with gaps = []. Otherwise it is 'partial' (with explicit remaining gaps) or 'missing'."
   },
@@ -29,6 +32,11 @@
           "automatable": true,
           "status": "covered",
           "contract": "getApp() returns the same singleton across pages; App.onLaunch runs before App.onShow and before the entry page's onLoad with an empty getCurrentPages() stack during onLaunch.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/api/getApp.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/app.html"
+          ],
           "cases": [
             "app.instance",
             "app.launch-order",
@@ -44,6 +52,12 @@
           "automatable": true,
           "status": "covered",
           "contract": "App launch/enter options expose path, query, referrerInfo and numeric scene; in-app page navigation does not fire spurious wx.onAppShow/onAppHide or onPageNotFound.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/base/app/life-cycle/wx.getEnterOptionsSync.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onAppShow.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html"
+          ],
           "cases": [
             "app.launch-options-shape",
             "app.enter-options-path",
@@ -61,6 +75,12 @@
           "automatable": true,
           "status": "covered",
           "contract": "Runtime errors in observers, event handlers, detached lifetimes and API callbacks reach wx.onError, App.onError and component error lifetimes without breaking subsequent bubbling, complete callbacks, detachment or updates; console.error does not trigger onError; unhandled promise rejections reach wx.onUnhandledRejection and App.onUnhandledRejection.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onError.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onUnhandledRejection.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/lifetimes.html"
+          ],
           "cases": [
             "error.observer-recovers",
             "error.event-handler-continues",
@@ -81,11 +101,15 @@
           "automatable": true,
           "status": "partial",
           "contract": "Navigating or launching to a non-existent route triggers onPageNotFound / wx.onPageNotFound with { path, query, isEntryPage } without corrupting the current page stack.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onPageNotFound.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html"
+          ],
           "cases": [
             "route.page-not-found-in-app-isolation"
           ],
           "gaps": [
-            "Cold-start onPageNotFound entry recovery is verified separately via tools/devtools/check-page-not-found.cjs (since wx.restartMiniProgram destroys the running suite page context)."
+            "Cold-start onPageNotFound (isEntryPage: true) and its redirect recovery are checked only by tools/devtools/check-page-not-found.cjs, outside the suite page because wx.restartMiniProgram destroys it; that script's result is not recorded in fixtures/reference.js, so the cold-start half of this clause has no committed baseline."
           ]
         }
       ]
@@ -101,6 +125,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "require() caches modules by resolved path across explicit .js extensions and parent relative paths, shares mutable exports, supports replaced/callable/constructor exports, requires explicit directory index.js and rejects directory shorthand.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/module.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/api/require.html"
+          ],
           "cases": [
             "module.cache-identity",
             "module.explicit-extension",
@@ -125,6 +153,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "Circular require() observes partial exports before replacement; a module that throws during evaluation is not cached as a successful module on repeat require().",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/module.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/api/require.html"
+          ],
           "cases": [
             "module.cycle-partial-exports",
             "module.cycle-reference",
@@ -140,6 +172,11 @@
           "automatable": true,
           "status": "covered",
           "contract": "Subpackage pages load into the normal page stack; require.async(path) and callback require(path, cb, errCb) load subpackage JS asynchronously and reject/error cleanly on missing modules.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/basic.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/async.html"
+          ],
           "cases": [
             "route.subpackage-stack-and-lifetimes",
             "subpackage.require-async",
@@ -154,11 +191,64 @@
           "automatable": true,
           "status": "covered",
           "contract": "A cross-subpackage component declared in componentPlaceholder mounts its placeholder first, then seamlessly replaces it with the real component while preserving bound properties and event listeners.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/async.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/placeholder.html"
+          ],
           "cases": [
             "subpackage.component-placeholder",
             "subpackage.placeholder-props-and-events"
           ],
           "gaps": []
+        },
+        {
+          "id": "MOD-05",
+          "title": "Global usingComponents & resolveAlias module resolution",
+          "priority": "P1",
+          "automatable": true,
+          "status": "missing",
+          "contract": "Components registered in app.json usingComponents are usable from every page and component without local registration, and app.json resolveAlias maps aliased require() and usingComponents paths to their targets.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/module.html"
+          ],
+          "cases": [],
+          "gaps": [
+            "No case registers a component globally in app.json or uses resolveAlias."
+          ]
+        },
+        {
+          "id": "MOD-06",
+          "title": "Independent subpackages, getApp({ allowDefault }) & preloadRule",
+          "priority": "P1",
+          "automatable": true,
+          "status": "missing",
+          "contract": "An independent subpackage page can launch without the main package's app.js, getApp({ allowDefault: true }) returns a default App object there that the later main-package App() merges into, and preloadRule downloads the listed subpackages after the configured page is entered.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/independent.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/preload.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/api/getApp.html"
+          ],
+          "cases": [],
+          "gaps": [
+            "No independent subpackage, getApp({ allowDefault }) call or preloadRule exists in the suite."
+          ]
+        },
+        {
+          "id": "MOD-07",
+          "title": "On-demand component injection (lazyCodeLoading: requiredComponents)",
+          "priority": "P2",
+          "automatable": true,
+          "status": "missing",
+          "contract": "With lazyCodeLoading set to requiredComponents, only components reachable from the rendered page are injected, without changing page or component behavior.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/ability/lazyload.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html"
+          ],
+          "cases": [],
+          "gaps": [
+            "Enabling lazyCodeLoading changes injection for the whole suite app; needs a separate app configuration or profile."
+          ]
         }
       ]
     },
@@ -173,6 +263,12 @@
           "automatable": true,
           "status": "covered",
           "contract": "navigateTo/navigateBack/redirectTo execute onLoad/onShow/onReady/onHide/onUnload in order, retain hidden pages, replace top on redirect, create fresh instances on same-route or reopen, preserve stack on failed navigation, and deliver encoded query values.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/route.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.navigateTo.html"
+          ],
           "cases": [
             "page.initial-route",
             "lifecycle.initial-order",
@@ -191,11 +287,15 @@
         },
         {
           "id": "ROUTE-02",
-          "title": "Tab bar routing (switchTab reuse & navigateTo rejection)",
+          "title": "Tab bar routing (switchTab reuse, stack clearing & URL restrictions)",
           "priority": "P0",
           "automatable": true,
           "status": "covered",
-          "contract": "switchTab reuses cached tab page instances, clears non-tab pages from the stack, and rejects query strings; navigateTo rejects tabBar URLs.",
+          "contract": "switchTab reuses cached tab page instances and closes non-tab pages; switchTab to a non-tab page and navigateTo a tabBar URL both fail. The documentation says switchTab URLs cannot carry a query; 3.7.12 does not fail such a call but resolves success and drops the query (route.switch-tab-query-stripped, tagged quirk).",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.switchTab.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/route.html"
+          ],
           "cases": [
             "route.tab-rejects-navigate",
             "route.switch-tab-reuses-page",
@@ -212,6 +312,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "wx.reLaunch closes all existing pages and opens a fresh single-page stack with query; pushing past the 10-page stack limit fails cleanly without corrupting the existing stack.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/route/wx.reLaunch.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/route.html"
+          ],
           "cases": [
             "route.stack-limit-overflow",
             "route.relaunch-clears-stack-and-query",
@@ -226,6 +330,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "navigateTo EventChannel queues events emitted before receiver binds on(), supports once(), off(name) to clear all listeners for an event, and bidirectional emit/on; channel.off-listener documents the 3.7.12 quirk where off(name, fn) fails to remove wrapped shims.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/route/EventChannel.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/page-relation.html"
+          ],
           "cases": [
             "channel.queued-order",
             "channel.once",
@@ -242,6 +350,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "Pages constructed via Component() map and type-coerce route query parameters onto properties, support behaviors and observers, and run lifetimes + methods page hooks in created -> attached -> onLoad -> onShow -> ready -> onReady -> onUnload -> detached order.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/api/Component.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/properties.html"
+          ],
           "cases": [
             "component-page.query-to-properties",
             "component-page.methods-lifecycles",
@@ -258,6 +370,11 @@
           "automatable": true,
           "status": "covered",
           "contract": "wx.pageScrollTo (by scrollTop or selector) fires onPageScroll, reaching bottom fires onReachBottom (not at top), and wx.startPullDownRefresh triggers onPullDownRefresh when enablePullDownRefresh is enabled.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/ui/scroll/wx.pageScrollTo.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/ui/pull-down-refresh/wx.startPullDownRefresh.html"
+          ],
           "cases": [
             "page.scroll-events",
             "page.reach-bottom",
@@ -266,6 +383,52 @@
             "ui.scroll-top"
           ],
           "gaps": []
+        },
+        {
+          "id": "ROUTE-07",
+          "title": "Router API relative to component path (this.router / this.pageRouter)",
+          "priority": "P1",
+          "automatable": true,
+          "status": "missing",
+          "contract": "this.router and this.pageRouter expose navigateTo/redirectTo/reLaunch/switchTab/navigateBack that resolve relative URLs against the calling component's own path and the owning page's path respectively.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/api/Router.html"
+          ],
+          "cases": [],
+          "gaps": [
+            "No case calls this.router or this.pageRouter (both are present on page instances in 3.7.12, probed in the 3.7.12 simulator on 2026-11-20)."
+          ]
+        },
+        {
+          "id": "ROUTE-08",
+          "title": "Route event listeners (wx.onBeforeAppRoute / onAppRoute / onAppRouteDone / page load hooks)",
+          "priority": "P2",
+          "automatable": true,
+          "status": "missing",
+          "contract": "Route listeners fire in the documented order for each navigation type and carry a stable route event ID shared across one route's events.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/route-event-listener.html"
+          ],
+          "cases": [],
+          "gaps": [
+            "wx.onAppRouteDone is only used by cases/route-harness.js as a wait signal; no case asserts listener order, payloads or event IDs (all six listeners exist in 3.7.12, probed in the 3.7.12 simulator on 2026-11-20)."
+          ]
+        },
+        {
+          "id": "ROUTE-09",
+          "title": "Custom tabBar (custom-tab-bar component & getTabBar())",
+          "priority": "P1",
+          "automatable": true,
+          "status": "missing",
+          "contract": "With tabBar.custom enabled, each tab page gets its own custom-tab-bar instance reachable through getTabBar(), and the instance's state survives switchTab within the same page.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/ability/custom-tabbar.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html"
+          ],
+          "cases": [],
+          "gaps": [
+            "Enabling tabBar.custom changes every tab page in the suite app; needs a dedicated fixture or profile."
+          ]
         }
       ]
     },
@@ -280,6 +443,9 @@
           "automatable": true,
           "status": "covered",
           "contract": "wx:if/wx:elif/wx:else mounts/destroys subtrees cleanly on reentry; hidden toggles visibility without destroying component state.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/conditional.html"
+          ],
           "cases": [
             "wxml.conditional",
             "render.hidden-toggle",
@@ -298,6 +464,9 @@
           "automatable": true,
           "status": "covered",
           "contract": "wx:for iterates arrays and objects, supports custom wx:for-item/wx:for-index, nested scopes, empty lists, regrowth, path updates and keyed reordering.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/list.html"
+          ],
           "cases": [
             "wxml.list-index",
             "wxml.list-reorder",
@@ -322,6 +491,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "Keyed loops preserve component identity and state across reorder/prepend/append/delete/object-replacement, replace instances on key change, isolate identical keys across loops, and recreate state on wx:if while preserving it on hidden; positional loops track state by index.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/list.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/data-update-strategy.html"
+          ],
           "cases": [
             "reuse.initial-keyed-order",
             "reuse.keyed-reorder-identity",
@@ -359,6 +532,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "<import>/<template> isolates template scope to passed data (including spread), updates dynamically on is/data changes; <include> shares enclosing page/component data scope.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/template.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/import.html"
+          ],
           "cases": [
             "wxml.template-import",
             "wxml.include-scope",
@@ -377,6 +554,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "Expressions preserve typed results for arithmetic, ternary, logical fallback, negation, comparisons, string braces and absent deep paths.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/data.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/expression.html"
+          ],
           "cases": [
             "render.interpolation-types",
             "expression.arithmetic",
@@ -396,6 +577,9 @@
           "automatable": true,
           "status": "covered",
           "contract": "model:prop synchronizes parent updates into child properties and child setData writes back into parent page data/DOM while preserving types (string, number, boolean, empty string), triggering observers and keeping peer bindings consistent.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/view/two-way-bindings.html"
+          ],
           "cases": [
             "model.parent-update-flows-to-child",
             "model.child-setdata-updates-parent",
@@ -414,6 +598,11 @@
           "automatable": true,
           "status": "covered",
           "contract": "setData mutates data synchronously before return, fires render callbacks after DOM commit (including empty patches), snapshots rendered objects against subsequent mutation, supports sibling/nested/array paths, and handles special values predictably.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/data-updates.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/data-update-strategy.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html"
+          ],
           "cases": [
             "page.data-path-update",
             "page.callback-after-render",
@@ -447,6 +636,12 @@
           "automatable": true,
           "status": "covered",
           "contract": "Inline and external WXS modules support wxs-to-wxs require, copy inputs safely, provide getDate/getRegExp/string methods, and re-evaluate on object replacement vs path update semantics.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxs/",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/wxs/01wxs-module.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/wxs/06datatype.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/wxs/07basiclibrary.html"
+          ],
           "cases": [
             "wxs.module-call",
             "wxs.inline-module",
@@ -467,6 +662,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "Duplicate WXS tags in one template share state, separate component instances and page vs component modules stay isolated, state persists across renders and resets on remount or pushed page.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/wxs/01wxs-module.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/data-update-strategy.html"
+          ],
           "cases": [
             "wxs.state.same-template-shared",
             "wxs.state.instance-isolated",
@@ -484,6 +683,9 @@
           "automatable": true,
           "status": "covered",
           "contract": "change:prop delivers initial and updated values to WXS with (newVal, oldVal, ownerInstance, instance); WXS can call ownerInstance.callMethod, triggerEvent, selectComponent/selectAllComponents, instance.setStyle (object & string), addClass/removeClass/hasClass, getDataset and persistent getState.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/view/interactive-animation.html"
+          ],
           "cases": [
             "wxs.change-prop-initial-and-update",
             "wxs.owner-call-method",
@@ -496,6 +698,21 @@
             "wxs.owner-trigger-event"
           ],
           "gaps": []
+        },
+        {
+          "id": "WXS-04",
+          "title": "WXS event responders (bind:event=\"{{module.fn}}\")",
+          "priority": "P1",
+          "automatable": true,
+          "status": "missing",
+          "contract": "An event bound to a WXS function runs in the view layer with (event, ownerInstance), can update styles and classes through ComponentDescriptor without setData, and can call back into the logic layer via ownerInstance.callMethod.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/view/interactive-animation.html"
+          ],
+          "cases": [],
+          "gaps": [
+            "No WXML binds an event to a WXS function; WXS-03 only covers change:prop. Real touch events need miniprogram-automator taps or touch sequences (run.cjs already uses the automator)."
+          ]
         }
       ]
     },
@@ -510,6 +727,12 @@
           "automatable": true,
           "status": "covered",
           "contract": "Custom events default to local (non-bubbling), carry detail payloads, support bubbles/composed shadow-boundary crossing, capture-bind ordering, catch stopping propagation, and accurate target/currentTarget/dataset.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/event-binding.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/event-system.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/event-object.html"
+          ],
           "cases": [
             "event.bubble",
             "event.catch",
@@ -534,6 +757,9 @@
           "automatable": true,
           "status": "covered",
           "contract": "mark: merges along the bubble path with nearer nodes overriding outer keys, stays strictly scoped to the component shadow tree without leaking inner marks across component boundaries, updates dynamically, and stays distinct from dataset.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html"
+          ],
           "cases": [
             "event.mark-merges-and-overrides",
             "event.mark-isolated-at-component-boundary",
@@ -549,6 +775,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "mut-bind: fires at most one mut-bind handler along the propagation path while still allowing regular bind: handlers to run, and composes cleanly with catch: and capture-bind:.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/event-binding.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html"
+          ],
           "cases": [
             "event.mut-bind-stops-same-kind",
             "event.mut-bind-allows-regular-bind",
@@ -556,6 +786,24 @@
             "event.capture-bind-and-mut-bind-order"
           ],
           "gaps": []
+        },
+        {
+          "id": "EVT-04",
+          "title": "capture-catch: and event object fields",
+          "priority": "P1",
+          "automatable": true,
+          "status": "missing",
+          "contract": "capture-catch: stops propagation during the capture phase; event objects carry type, timeStamp, target, currentTarget, mark, detail, and touches/changedTouches for touch events.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/event-binding.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/event-object.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html"
+          ],
+          "cases": [],
+          "gaps": [
+            "No case uses capture-catch:.",
+            "No case asserts timeStamp or touches/changedTouches; touch fields need automator-driven touches."
+          ]
         }
       ]
     },
@@ -570,6 +818,11 @@
           "automatable": true,
           "status": "covered",
           "contract": "Component instances isolate data, run created -> attached -> ready -> detached lifetimes, receive pageLifetimes show/hide around route transitions, expose is/id/dataset, and respect selectComponent/selectAllComponents/query scope boundaries.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/lifetimes.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/component-tree-visit.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/interaction.html"
+          ],
           "cases": [
             "component.instance-data",
             "component.page-lifetimes",
@@ -591,6 +844,9 @@
           "automatable": true,
           "status": "covered",
           "contract": "Array/object property defaults are isolated per instance; properties mirror into data, coerce Number/String/Boolean, support optionalTypes, unrestricted null type, null object values and array replacement.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/properties.html"
+          ],
           "cases": [
             "contract.property-defaults",
             "contract.array-default-isolation",
@@ -620,6 +876,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "Observers fire for single/multi/nested/array paths, batch multiple fields in one setData, fire on same-value setData, skip unrelated keys, and work on pureDataPattern fields excluded from rendering.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/observer.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/pure-data.html"
+          ],
           "cases": [
             "observer.multi-field",
             "observer.deep-path",
@@ -645,6 +905,11 @@
           "automatable": true,
           "status": "covered",
           "contract": "Behaviors merge data/methods/observers/lifetimes with deterministic diamond ordering, array override semantics, transitive hasBehavior membership and definitionFilter extension.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/behaviors.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/api/Behavior.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/extend.html"
+          ],
           "cases": [
             "behavior.inherited-method",
             "behavior.membership",
@@ -671,6 +936,11 @@
           "automatable": true,
           "status": "covered",
           "contract": "wx://component-export exposes public objects (with null/undefined fallback) through selectComponent/selectAllComponents; abstract generic components resolve defaults and overrides; default, named, dynamic and multipleSlots project in document order.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/component-tree-visit.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/generics.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/slot.html"
+          ],
           "cases": [
             "export.public-object",
             "export.hidden-instance-data",
@@ -696,6 +966,9 @@
           "automatable": true,
           "status": "covered",
           "contract": "Relations connect direct parent/child and cross-wrapper ancestor/descendant nodes, fire linked/linkChanged/unlinked on mount/reorder/unmount, and support targeting a shared Behavior.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/relations.html"
+          ],
           "cases": [
             "relation.child-membership",
             "relation.parent-identity",
@@ -715,11 +988,62 @@
           "automatable": true,
           "status": "covered",
           "contract": "virtualHost: true removes the host box from flex/grid layout so children participate directly in the parent container while selectComponent still resolves the component instance.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/virtual-host.html"
+          ],
           "cases": [
             "component-options.virtual-host-layout",
             "component-options.virtual-host-selector-and-methods"
           ],
           "gaps": []
+        },
+        {
+          "id": "COMP-08",
+          "title": "lifetimes.moved and pageLifetimes.resize / routeDone",
+          "priority": "P1",
+          "automatable": true,
+          "status": "missing",
+          "contract": "lifetimes.moved fires when a component instance is moved to another position in the node tree; pageLifetimes.resize fires on window size changes and pageLifetimes.routeDone after the page's route animation completes.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/lifetimes.html"
+          ],
+          "cases": [],
+          "gaps": [
+            "No component defines moved, resize or routeDone.",
+            "Confirm routeDone availability in 3.7.12 before recording a baseline."
+          ]
+        },
+        {
+          "id": "COMP-09",
+          "title": "Advanced data updates (groupSetData, updateData + applyDataUpdates)",
+          "priority": "P2",
+          "automatable": true,
+          "status": "missing",
+          "contract": "groupSetData batches setData calls from several components into one render; queued updateData changes become visible only after applyDataUpdates.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/data-updates.html"
+          ],
+          "cases": [],
+          "gaps": [
+            "groupSetData and applyDataUpdates exist on page instances in 3.7.12 but updateData is undefined there (probed in the 3.7.12 simulator on 2026-11-20); confirm on Component() instances before writing cases."
+          ]
+        },
+        {
+          "id": "COMP-10",
+          "title": "Property comparers and data copy control",
+          "priority": "P2",
+          "automatable": true,
+          "status": "missing",
+          "contract": "A property comparer decides whether a new value counts as a change for observers and rendering; dataDeepCopy and propertyPassingDeepCopy options control whether data and passed properties are deep-copied.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/properties.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/data-deep-copy.html"
+          ],
+          "cases": [],
+          "gaps": [
+            "No case defines a comparer or copy-control option.",
+            "Confirm availability under the default component framework in 3.7.12; move to out-of-scope if glass-easel-only."
+          ]
         }
       ]
     },
@@ -734,6 +1058,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "750rpx equals windowWidth, descendant and class rules apply deterministically, and dynamic class expressions update computed layout.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxss.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/view/selector.html"
+          ],
           "cases": [
             "css.rpx-viewport",
             "css.descendant-rule",
@@ -749,6 +1077,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "Every styleIsolation mode enforces its exact directional style flow between app.wxss, page.wxss and component.wxss; addGlobalClass allows app/page classes in; externalClasses injects caller classes.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/style.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/external-classes.html"
+          ],
           "cases": [
             "style.isolated",
             "style.apply-shared",
@@ -768,6 +1100,11 @@
           "automatable": true,
           "status": "covered",
           "contract": "<page-meta> updates root-font-size (rem scaling), page-style inheritance and scroll-top; <navigation-bar> binds title; <page-container> emits beforeenter/afterenter/beforeleave/afterleave and respects position/round/overlay/z-index.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/component/page-meta.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/component/navigation-bar.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/component/page-container.html"
+          ],
           "cases": [
             "page-meta.root-font-size-and-style",
             "page-meta.scroll-top-binding",
@@ -777,6 +1114,38 @@
             "page-container.overlay-and-zindex"
           ],
           "gaps": []
+        },
+        {
+          "id": "WXSS-04",
+          "title": ":host selector, multi-level external classes & parent class references",
+          "priority": "P1",
+          "automatable": true,
+          "status": "missing",
+          "contract": ":host styles the component's host node from inside the component; external classes can be forwarded through nested components; ~ and ^ class prefixes reference page and parent component styles.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/style.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/external-classes.html"
+          ],
+          "cases": [],
+          "gaps": [
+            "No component WXSS uses :host.",
+            "No case forwards external classes through more than one level or uses ~/^ prefixed classes."
+          ]
+        },
+        {
+          "id": "WXSS-05",
+          "title": "WXSS @import",
+          "priority": "P1",
+          "automatable": true,
+          "status": "missing",
+          "contract": "@import in app, page and component WXSS inlines the imported file with the importer's isolation scope and source order.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxss.html"
+          ],
+          "cases": [],
+          "gaps": [
+            "No WXSS file in the suite uses @import."
+          ]
         }
       ]
     },
@@ -791,6 +1160,9 @@
           "automatable": true,
           "status": "covered",
           "contract": "All 34 cataloged built-in components report documented attribute defaults, reflect bound sample values, match v2 computed host styles and pass visual reference checks (61 committed visual refs verified via tools/visual/verify.cjs).",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/component/"
+          ],
           "cases": [
             "native.button-disabled",
             "native.switch-checked",
@@ -819,6 +1191,12 @@
           "automatable": true,
           "status": "covered",
           "contract": "SelectorQuery supports batched exec ordering, rect/size/dataset/properties/computedStyle/scrollOffset/mark fields, node() (ScrollViewContext/Canvas), context() (VideoContext), selectAll ordering and strict in(component) scope isolation.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.in.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.fields.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/wxml/NodesRef.node.html"
+          ],
           "cases": [
             "query.no-match",
             "query.rect",
@@ -848,8 +1226,15 @@
           "title": "ScrollView bindings, boundary events & IntersectionObserver / MediaQueryObserver",
           "priority": "P0",
           "automatable": true,
-          "status": "covered",
-          "contract": "scroll-view responds to scroll-top/scroll-into-view, fires bindscroll/bindscrolltolower/bindscrolltoupper; IntersectionObserver toggles ratios against the viewport or a relativeTo(selector, margins) reference node, fires only on custom threshold crossings and stops after disconnect; MediaQueryObserver reports matches.",
+          "status": "partial",
+          "contract": "scroll-view responds to scroll-top/scroll-into-view, fires bindscroll/bindscrolltolower/bindscrolltoupper; IntersectionObserver toggles ratios against the viewport or a relativeTo(selector, margins) reference node, fires only on custom threshold crossings, honors initialRatio and observeAll, and stops after disconnect; MediaQueryObserver reports matches.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/wxml/wx.createIntersectionObserver.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/wxml/IntersectionObserver.relativeTo.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/wxml/MediaQueryObserver.html"
+          ],
           "cases": [
             "scroll.bindscroll-detail",
             "scroll.into-view-target",
@@ -861,7 +1246,9 @@
             "observer.relative-to-margins",
             "observer.custom-thresholds"
           ],
-          "gaps": []
+          "gaps": [
+            "Test the IntersectionObserver initialRatio and observeAll options."
+          ]
         },
         {
           "id": "RENDER-04",
@@ -870,6 +1257,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "wx.createAnimation exports steps and applies computed transform; page.animate() and component.animate() apply keyframe styles, support partial/full clearAnimation(), override previous keyframes, and support scroll-driven keyframes.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/ui/animation/wx.createAnimation.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/view/animation.html"
+          ],
           "cases": [
             "animation.step-snapshot",
             "animation.export-clears-queue",
@@ -890,6 +1281,11 @@
           "automatable": true,
           "status": "covered",
           "contract": "<canvas type='2d'> exposes node via SelectorQuery.node(), supports 2D context pixel read/write, transforms, images, toDataURL/canvasToTempFilePath({ canvas }), measureText, RAF/cancelRAF, dpr scaling, paths/clip/gradients/compositing, Path2D and offscreen canvas interop.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/component/canvas.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createOffscreenCanvas.html"
+          ],
           "cases": [
             "canvas.pixel-roundtrip",
             "canvas.png-export",
@@ -915,6 +1311,22 @@
             "canvas2d.image-onerror"
           ],
           "gaps": []
+        },
+        {
+          "id": "RENDER-06",
+          "title": "Skyline renderer & glass-easel-only framework features",
+          "priority": "P2",
+          "automatable": false,
+          "status": "out-of-scope",
+          "contract": "Skyline rendering and features that require the glass-easel component framework (e.g. Behavior.trait, wx:let) are outside this suite, which runs on the WebView renderer with the default component framework. Behavior.trait is undefined in the 3.7.12 simulator under that configuration (probed in the 3.7.12 simulator on 2026-11-20).",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/skyline/introduction.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/glass-easel/migration.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/trait-behaviors.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/let-variable.html"
+          ],
+          "cases": [],
+          "gaps": []
         }
       ]
     },
@@ -929,6 +1341,9 @@
           "automatable": true,
           "status": "covered",
           "contract": "Async wx.* APIs return a Promise when no success/fail/complete callback is passed, reject with matching errMsg on failure, suppress Promise when any callback is supplied, and never promisify Task-returning APIs (e.g. wx.request) or sync/event APIs.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/api.html"
+          ],
           "cases": [
             "promise.resolves-without-callbacks",
             "promise.rejects-on-failure",
@@ -948,6 +1363,11 @@
           "automatable": true,
           "status": "covered",
           "contract": "Storage round-trips primitives/arrays/nested objects as detached copies, supports async/sync/batch/Promise forms, reports accurate storage info, and clears all keys via clearStorage/clearStorageSync.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorage.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.clearStorage.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.getStorageInfo.html"
+          ],
           "cases": [
             "storage.roundtrip-text",
             "storage.roundtrip-number",
@@ -982,6 +1402,14 @@
           "automatable": true,
           "status": "covered",
           "contract": "arrayBufferToBase64/base64ToArrayBuffer handle all padding lengths; getRandomValues fills requested lengths; clipboard round-trips strings; performance clock is monotonic; wx.nextTick executes asynchronously.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/base/wx.arrayBufferToBase64.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/base/wx.base64ToArrayBuffer.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/device/crypto/wx.getRandomValues.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.setClipboardData.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/wx.getPerformance.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/ui/custom-component/wx.nextTick.html"
+          ],
           "cases": [
             "base64.encode-single",
             "base64.decode-single",
@@ -1005,6 +1433,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "wx.createWorker exchanges messages including nested objects and stops answering after terminate().",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/workers.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/worker/wx.createWorker.html"
+          ],
           "cases": [
             "worker.message-roundtrip",
             "worker.message-shapes",
@@ -1019,6 +1451,14 @@
           "automatable": true,
           "status": "covered",
           "contract": "Split system/window/device/account/setting/authorize APIs return documented shapes and valid enums; navigation bar, loading, toast, tabBar and background style callbacks resolve :ok.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getWindowInfo.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getDeviceInfo.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getAppBaseInfo.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getSystemSetting.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/ui/interaction/wx.showToast.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.setNavigationBarTitle.html"
+          ],
           "cases": [
             "system.window-dimensions",
             "system.device-platform",
@@ -1059,6 +1499,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "FileSystemManager supports utf8/hex/base64/ascii/utf16le read/write, append/copy/rename/stat/unlink/truncate, async tree operations, brotli/zip/unzip, md5/sha1/sha256 digests and saved-file lifecycle.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileSystemManager.html"
+          ],
           "cases": [
             "fs.write-utf8",
             "fs.read-utf8",
@@ -1100,6 +1544,10 @@
           "automatable": true,
           "status": "covered",
           "contract": "open/read/write/ftruncate/close support positional ranges and reject reads on closed descriptors.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.open.html"
+          ],
           "cases": [
             "fd.read-range",
             "fd.write-position",
@@ -1122,6 +1570,11 @@
           "automatable": true,
           "status": "covered",
           "contract": "wx.request/uploadFile/downloadFile handle query/JSON/text/binary payloads, headers, HTTP status codes, abort(), timeout and redirects.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/wx.uploadFile.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/network/download/wx.downloadFile.html"
+          ],
           "cases": [
             "http.query",
             "http.post-json",
@@ -1154,6 +1607,9 @@
           "automatable": true,
           "status": "covered",
           "contract": "wx.connectSocket delivers text and binary frames and closes cleanly.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/network/websocket/wx.connectSocket.html"
+          ],
           "cases": [
             "socket.text-echo",
             "socket.binary-echo"
@@ -1167,6 +1623,11 @@
           "automatable": true,
           "status": "covered",
           "contract": "Audio recorder/background managers are singletons, InnerAudioContext instances are independent and expose playback state events, and wx.createBufferURL/revokeBufferURL manage binary object URLs.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/InnerAudioContext.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/media/video/VideoContext.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.createBufferURL.html"
+          ],
           "cases": [
             "audio.recorder-singleton",
             "audio.background-singleton",
@@ -1189,6 +1650,11 @@
           "automatable": "interactive",
           "status": "partial",
           "contract": "Attribute-driven focus and value bindings work automatically; real typing, blur, form submission/reset, wx://form-field, dialogs and touch/longpress sequences are verified in pages/input/index.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/component/input.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/component/form.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/behaviors.html"
+          ],
           "cases": [
             "input.focus-events",
             "input.value-binding-sync"
@@ -1205,6 +1671,11 @@
           "automatable": "device",
           "status": "out-of-scope",
           "contract": "Hardware sensors, Bluetooth/Wi-Fi, location permissions and WeChat login/account services are tracked in pages/profile/index outside the deterministic simulator CI baseline.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.getLocation.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.openBluetoothAdapter.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/wx.login.html"
+          ],
           "cases": [],
           "gaps": []
         }

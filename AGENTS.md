@@ -26,7 +26,7 @@ Do **not** invent arbitrary test counts or pad the suite with generic Web/DOM/HT
 4. **Update generated & derived artifacts**:
    - Update `fixtures/devtools-3.7.12-observations.json` with verified 3.7.12 results.
    - Run `node tools/reference.cjs` to regenerate `fixtures/reference.js`.
-   - Update `fixtures/spec-matrix.json` (map every new case ID, update clause `status` and `gaps`), then run `node tools/spec-matrix.cjs` to regenerate `SPEC_MATRIX.md`. Do **not** edit `SPEC_MATRIX.md` by hand.
+   - Update `fixtures/spec-matrix.json` (map every new case ID, update clause `status` and `gaps`; a new clause must cite the official documentation pages it comes from in `sources`), then run `node tools/spec-matrix.cjs` to regenerate `SPEC_MATRIX.md`. Do **not** edit `SPEC_MATRIX.md` by hand.
    - If you changed `tools/components/generate.cjs`, re-run it and re-verify visual references with `node tools/visual/verify.cjs`.
 5. **Run all offline CI checks before finishing**:
    ```sh

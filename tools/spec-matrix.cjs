@@ -250,6 +250,7 @@ for (const domain of matrix.domains) {
           ? list.length + " (" + list.slice(0, 4).map((id) => "`" + id + "`").join(", ") + (list.length > 4 ? ", …" : "") + ")"
           : "0";
     const gapText = clause.gaps && clause.gaps.length ? clause.gaps.join("; ") : "—";
+    const docs = (clause.sources || []).map((url, i) => "[" + (i + 1) + "](" + url + ")").join(" ");
     lines.push(
       "| `" +
         clause.id +
@@ -261,6 +262,7 @@ for (const domain of matrix.domains) {
         clause.title +
         "** — " +
         clause.contract +
+        (docs ? " Docs: " + docs : "") +
         " | " +
         caseSummary +
         " | " +

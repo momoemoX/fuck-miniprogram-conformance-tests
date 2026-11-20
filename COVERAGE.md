@@ -214,13 +214,25 @@ All 90 cases reproduced in the 3.7.12 simulator (590/590 core, 617/617 with netw
 
 ## IntersectionObserver reference nodes & thresholds (3 cases)
 
-Three isolated cases close the last `PARTIAL` P0 clause, `RENDER-03`, bringing P0 coverage to **42/42**. They mount a fixed reference box (`#io-root`) and a target (`#io-target`) on demand, and keep the target inside the viewport so only the reference node decides intersection:
+Three isolated cases cover `relativeTo(selector, margins)` and custom `thresholds` for the P0 clause `RENDER-03` (its `initialRatio` and `observeAll` options remain open after the matrix rebuild below). They mount a fixed reference box (`#io-root`) and a target (`#io-target`) on demand, and keep the target inside the viewport so only the reference node decides intersection:
 
 - **`observer.relative-to-selector`**: `relativeTo("#io-root")` reports ratio 1 inside the root and 0 outside it, and `relativeRect` reflects the root's 100×100 bounds.
 - **`observer.relative-to-margins`**: `relativeTo("#io-root", { left: 30 })` reports a target sitting 2px left of the root as fully intersecting, while an unmargined observer on the same moves stays silent.
 - **`observer.custom-thresholds`**: `thresholds: [0.5]` fires only on 0.5 crossings (`[0.75, 0.25]`), while a default-threshold observer on the same moves fires on 0 crossings (`[0.25, 0]`).
 
 All 3 cases reproduced in the 3.7.12 simulator (593/593 core, 620/620 with network fixtures).
+
+## Spec matrix rebuilt against the official documentation
+
+The clause list in [`fixtures/spec-matrix.json`](fixtures/spec-matrix.json) was originally written alongside the cases, so "0 missing" only meant every listed clause had cases. It is now derived from the official documentation:
+
+- Every clause cites the documentation pages it comes from in `sources`, and `SPEC_MATRIX.md` links them. All 125 links returned HTTP 200 when added.
+- A pass over the framework documentation (app service, routing, component framework, custom components, WXML/WXS/WXSS references, subpackages and configuration) added 13 `MISSING` clauses for documented features with no cases, such as WXS event responders, `capture-catch:`, the Router API, custom tabBar, `:host`, WXSS `@import`, independent subpackages and route listeners, plus one `OUT-OF-SCOPE` clause for Skyline and glass-easel-only features.
+- API availability that decides between `missing` and `out-of-scope` was probed in the 3.7.12 simulator: `groupSetData`, `applyDataUpdates`, `this.router`/`this.pageRouter`, `getTabBar` and the route listeners exist; `updateData` (on a `Page()` instance) and `Behavior.trait` do not.
+- `ROUTE-02` now states that 3.7.12 resolves `switchTab` with a query and drops it, instead of claiming the call is rejected. `RENDER-03` is `PARTIAL` again until `initialRatio` and `observeAll` have cases.
+- The scope now states the baseline policy: expectations follow observed 3.7.12 behavior on the WebView renderer and default component framework, with documented deviations tagged `quirk`.
+
+The matrix now lists 66 in-scope clauses: 50 covered, 3 partial, 13 missing, with P0 at 41/42.
 
 ## Independent web-runtime cross-check (historical 363-case snapshot)
 
