@@ -1,0 +1,5 @@
+.caret-parent-cls {
+  display: block;
+  width: 47px;
+  height: 2px;
+}

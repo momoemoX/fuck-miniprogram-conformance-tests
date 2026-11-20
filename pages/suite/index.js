@@ -44,11 +44,14 @@ const { subpackageAsync } = require("../../cases/subpackage-async");
 const { canvas2dContract } = require("../../cases/canvas-2d");
 const { nodeQueryContract } = require("../../cases/node-query");
 const { renderModernContract } = require("../../cases/render-modern");
-const {
-  routeBoundaries,
-  reLaunchBoundaries,
-  verifyPageNotFoundEntry,
-} = require("../../cases/route-boundaries");
+const { routeBoundaries, reLaunchBoundaries } = require("../../cases/route-boundaries");
+const { verifyColdStart } = require("../../cases/cold-start");
+const { moduleConfig } = require("../../cases/module-config");
+const { routerContract } = require("../../cases/router-contract");
+const { wxsEvents } = require("../../cases/wxs-events");
+const { eventObject } = require("../../cases/event-object");
+const { componentLifetimes } = require("../../cases/component-lifetimes");
+const { styleContract } = require("../../cases/style-contract");
 const { storageSerialization } = require("../../cases/storage-serialization");
 const { mediaBoundaries, videoBoundaries } = require("../../cases/media-boundaries");
 const config = require("../../suite-config");
@@ -122,6 +125,18 @@ Page({
     watchedTop: "1500px",
     ioMounted: false,
     ioTargetLeft: 20,
+    ioMultiMounted: false,
+    globalMounted: false,
+    routerMounted: false,
+    moveMounted: false,
+    moveKeyed: [],
+    movePositional: [],
+    pageEventMounted: false,
+    groupMounted: false,
+    styleGapMounted: false,
+    wxsEventMounted: false,
+    wxsScrollTop: 0,
+    eventObjectMounted: false,
     definitionMounted: false,
     definitionInputs: {},
     templateMounted: false,
@@ -239,6 +254,12 @@ Page({
       await canvas2dContract(this, check);
       await nodeQueryContract(this, check);
       await renderModernContract(this, check);
+      await moduleConfig(this, check);
+      await routerContract(this, check);
+      await wxsEvents(this, check);
+      await eventObject(this, check);
+      await componentLifetimes(this, check);
+      await styleContract(this, check);
       if (config.fixtureUrl) await videoBoundaries(this, config.fixtureUrl, check);
       await reLaunchBoundaries(check);
       if (config.socketUrl) await sockets(config.socketUrl, check);
@@ -257,7 +278,12 @@ Page({
       target: TARGET,
       interrupted,
       reportedSDK,
-      profiles: { core: true, http: !!config.fixtureUrl, socket: !!config.socketUrl },
+      profiles: {
+        core: true,
+        http: !!config.fixtureUrl,
+        socket: !!config.socketUrl,
+        driver: !!config.driver,
+      },
       breakdown: report.breakdown(),
       results: report.results,
     };
@@ -292,8 +318,8 @@ Page({
     }
   },
 
-  verifyPageNotFoundEntry() {
-    return verifyPageNotFoundEntry(this);
+  verifyColdStart(kind, snapshot) {
+    return verifyColdStart(this, kind, snapshot);
   },
 
   // Diagnostic hook: runs only the listed case IDs. Used to re-check pending
@@ -352,6 +378,47 @@ Page({
         reject(new Error("Expected " + length + " input events, got " + this.inputTrace.length));
       }, timeout);
     });
+  },
+
+  // Probes for the WXS event responder, capture-catch and event object cases. Each case
+  // installs this.eventTrace before acting and removes it in finally.
+  traceEvent(entry) {
+    if (this.eventTrace) this.eventTrace.push(entry);
+  },
+  onWxsEvent(payload) {
+    this.traceEvent(["wxs", payload]);
+  },
+  onWxsOuterTouch(event) {
+    this.traceEvent(["outer", event.type]);
+  },
+  evtCapCatchOuter() {
+    this.traceEvent("capture-catch-outer");
+  },
+  evtBindOuter() {
+    this.traceEvent("bind-outer");
+  },
+  evtCapBindMid() {
+    this.traceEvent("capture-bind-mid");
+  },
+  evtBindMid() {
+    this.traceEvent("bind-mid");
+  },
+  evtBindHost() {
+    this.traceEvent("bind-host");
+  },
+  evtObjectOuter(event) {
+    this.traceEvent(event);
+  },
+  evtTouch(event) {
+    this.traceEvent(event);
+  },
+  onResize(size) {
+    const app = getApp();
+    if (app.pageEventTrace) {
+      const width = size && size.size ? size.size.windowWidth : null;
+      const height = size && size.size ? size.size.windowHeight : null;
+      app.pageEventTrace.push(["suite-page", "onResize", width > height ? "landscape" : "portrait"]);
+    }
   },
 
   getScrollEvents() {

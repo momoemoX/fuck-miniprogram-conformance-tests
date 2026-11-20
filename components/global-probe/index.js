@@ -1,0 +1,1 @@
+Component({ data: { kind: "global" } });

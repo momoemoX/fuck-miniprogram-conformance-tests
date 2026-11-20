@@ -27,11 +27,13 @@ const TARGET = "3.7.12";
 const BASELINE_CONFIRMED = "Baseline-confirmed expectation (" + TARGET + ")";
 // Cases whose expected value captures a known 3.7.12 runtime quirk rather than a
 // clean specification requirement (e.g. off(name, fn) failing due to try/catch shimming,
-// switchTab stripping query instead of rejecting, or simulator following manual redirects).
+// switchTab stripping query instead of rejecting, simulator following manual redirects,
+// or beforeDetach not being delivered under the default component framework).
 const QUIRKS = new Set([
   "channel.off-listener",
   "route.switch-tab-query-stripped",
   "http.redirect-manual",
+  "component.before-detach-order",
 ]);
 // Cases that primarily check returned object shapes, enum membership or singleton
 // identity rather than complex multi-step runtime behavior.
@@ -70,6 +72,20 @@ const CASE_TIMEOUT = 60000;
 const CLEANUP_GRACE = 15000;
 
 class RunInterrupted extends Error {}
+
+function resultEntry(id, expected, actualText, passed) {
+  const baselineConfirmed =
+    Object.prototype.hasOwnProperty.call(reference, id) && matches(reference[id], expected);
+  return {
+    id,
+    category: categoryOf(id),
+    baselineConfirmed,
+    evidence: baselineConfirmed ? BASELINE_CONFIRMED : "Pending baseline confirmation",
+    status: passed ? "PASS" : "FAIL",
+    expected: JSON.stringify(expected),
+    actual: actualText,
+  };
+}
 
 function makeReport(filter) {
   const results = [];
@@ -130,17 +146,7 @@ function makeReport(filter) {
         actual += " (cleanup still pending after " + CLEANUP_GRACE + "ms)";
       }
     }
-    const baselineConfirmed =
-      Object.prototype.hasOwnProperty.call(reference, id) && matches(reference[id], expected);
-    results.push({
-      id,
-      category: categoryOf(id),
-      baselineConfirmed,
-      evidence: baselineConfirmed ? BASELINE_CONFIRMED : "Pending baseline confirmation",
-      status: passed ? "PASS" : "FAIL",
-      expected: JSON.stringify(expected),
-      actual,
-    });
+    results.push(resultEntry(id, expected, actual, passed));
     if (cleanupPending) {
       throw new RunInterrupted(
         "Case " + id + " cleanup did not finish within " + CLEANUP_GRACE + "ms",
@@ -187,4 +193,4 @@ function makeReport(filter) {
   return { check, results, summary, baselineScore, breakdown, breakdownSummary };
 }
 
-module.exports = { makeReport, matches, RunInterrupted, TARGET, QUIRKS, SHAPE_CHECKS, categoryOf };
+module.exports = { makeReport, matches, resultEntry, RunInterrupted, TARGET, QUIRKS, SHAPE_CHECKS, categoryOf };

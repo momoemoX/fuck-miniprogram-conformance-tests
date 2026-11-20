@@ -1,0 +1,28 @@
+// WXS event responders: these run in the view layer and report through ownerInstance.
+var startX = 0;
+function onTouchStart(event, ownerInstance) {
+  startX = event.touches[0].pageX;
+  ownerInstance.callMethod("onWxsEvent", { kind: "touchstart", x: Math.round(startX) });
+}
+function onTouchMove(event, ownerInstance) {
+  var dx = event.touches[0].pageX - startX;
+  event.instance.setStyle({ transform: "translateX(" + dx + "px)" });
+  ownerInstance.callMethod("onWxsEvent", { kind: "touchmove", dx: Math.round(dx) });
+}
+function stopInner(event, ownerInstance) {
+  ownerInstance.callMethod("onWxsEvent", { kind: "stop-inner" });
+  return false;
+}
+function onScroll(event, ownerInstance) {
+  ownerInstance.callMethod("onWxsEvent", { kind: "scroll", top: Math.round(event.detail.scrollTop) });
+}
+function onPing(event, ownerInstance) {
+  ownerInstance.callMethod("onWxsEvent", { kind: "ping", source: event.detail.source });
+}
+module.exports = {
+  onTouchStart: onTouchStart,
+  onTouchMove: onTouchMove,
+  stopInner: stopInner,
+  onScroll: onScroll,
+  onPing: onPing,
+};

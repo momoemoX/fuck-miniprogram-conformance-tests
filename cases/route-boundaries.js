@@ -1,6 +1,5 @@
 const { call, delay, waitUntil } = require("./support");
 const { createRouteHarness, isolatedNavigation } = require("./route-harness");
-const { matches } = require("./report");
 
 function invokeRouteCallbacks(method, url) {
   return new Promise((resolve) => {
@@ -357,53 +356,4 @@ async function reLaunchBoundaries(check) {
   );
 }
 
-// Verifies the real onPageNotFound trigger path when the Mini Program is routed to
-// `pages/missing-entry/index?tag=probe&from=cold` (via wx.restartMiniProgram or external
-// launch) and App.onPageNotFound synchronously recovers via wx.reLaunch.
-function verifyPageNotFoundEntry(page) {
-  const app = getApp();
-  const expectedPayload = {
-    path: "pages/missing-entry/index",
-    query: { tag: "probe", from: "cold" },
-    isEntryPage: false,
-  };
-  const stack = getCurrentPages();
-  const top = stack[stack.length - 1];
-  const cases = [
-    [
-      "route.page-not-found-app-hook",
-      expectedPayload,
-      app && app.pageNotFoundEvents ? app.pageNotFoundEvents[0] || null : null,
-    ],
-    [
-      "route.page-not-found-wx-listener",
-      expectedPayload,
-      app && app.wxPageNotFoundEvents ? app.wxPageNotFoundEvents[0] || null : null,
-    ],
-    [
-      "route.page-not-found-sync-redirect",
-      ["pages/suite/index", 1, "1"],
-      [
-        top ? top.route : "",
-        stack.length,
-        page && page.entryOptions ? page.entryOptions.fromNotFound || "" : "",
-      ],
-    ],
-  ];
-  const results = cases.map(([id, expected, actual]) => ({
-    id,
-    category: "behavior",
-    baselineConfirmed: false,
-    evidence: "Pending baseline confirmation",
-    status: matches(actual, expected) ? "PASS" : "FAIL",
-    expected: JSON.stringify(expected),
-    actual: JSON.stringify(actual),
-  }));
-  const passed = results.filter((entry) => entry.status === "PASS").length;
-  return {
-    summary: passed + "/" + results.length + " passed",
-    results,
-  };
-}
-
-module.exports = { routeBoundaries, reLaunchBoundaries, verifyPageNotFoundEntry };
+module.exports = { routeBoundaries, reLaunchBoundaries };

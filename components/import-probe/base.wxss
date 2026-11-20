@@ -1,0 +1,10 @@
+.imp-base {
+  display: block;
+  width: 51px;
+  height: 2px;
+}
+.imp-override {
+  display: block;
+  width: 99px;
+  height: 2px;
+}

@@ -5,12 +5,12 @@
   "appStyle": "v2",
   "runs": [
     {
-      "profiles": "core",
-      "summary": "593/593 passed"
+      "profiles": "core+driver",
+      "summary": "624/624 passed"
     },
     {
-      "profiles": "core+http+socket",
-      "summary": "620/620 passed"
+      "profiles": "core+driver+http+socket",
+      "summary": "651/651 passed"
     }
   ],
   "results": [
@@ -415,6 +415,18 @@
       "status": "PASS",
       "expected": "{\"custom\":[0.75,0.25],\"fallback\":[0.25,0]}",
       "actual": "{\"custom\":[0.75,0.25],\"fallback\":[0.25,0]}"
+    },
+    {
+      "id": "observer.initial-ratio",
+      "status": "PASS",
+      "expected": "[[0],[]]",
+      "actual": "[[0],[]]"
+    },
+    {
+      "id": "observer.observe-all",
+      "status": "PASS",
+      "expected": "{\"all\":[\"io-m1\",\"io-m2\",\"io-m3\"],\"single\":[\"io-m1\"]}",
+      "actual": "{\"all\":[\"io-m1\",\"io-m2\",\"io-m3\"],\"single\":[\"io-m1\"]}"
     },
     {
       "id": "page.scroll-events",
@@ -2349,10 +2361,10 @@
       "actual": "[\"showToast:ok\",\"hideToast:ok\"]"
     },
     {
-      "id": "ui.tabbar-callbacks",
+      "id": "ui.tabbar-badge-fails-with-custom-tabbar",
       "status": "PASS",
-      "expected": "[\"ok\",\"ok\"]",
-      "actual": "[\"ok\",\"ok\"]"
+      "expected": "[\"setTabBarBadge:fail custom Tabbar\",\"removeTabBarBadge:fail custom Tabbar\"]",
+      "actual": "[\"setTabBarBadge:fail custom Tabbar\",\"removeTabBarBadge:fail custom Tabbar\"]"
     },
     {
       "id": "ui.background-style",
@@ -3561,6 +3573,150 @@
       "actual": "true"
     },
     {
+      "id": "module.global-component-in-page-and-component",
+      "status": "PASS",
+      "expected": "[\"components/global-probe/index\",\"components/global-probe/index\",\"global\"]",
+      "actual": "[\"components/global-probe/index\",\"components/global-probe/index\",\"global\"]"
+    },
+    {
+      "id": "module.resolve-alias-require",
+      "status": "PASS",
+      "expected": "[true,0]",
+      "actual": "[true,0]"
+    },
+    {
+      "id": "module.lazy-code-loading-on-demand",
+      "status": "PASS",
+      "expected": "[false,true]",
+      "actual": "[false,true]"
+    },
+    {
+      "id": "subpackage.independent-page-in-stack",
+      "status": "PASS",
+      "expected": "[{\"route\":\"indie/page/index\",\"getApp\":\"object\",\"defaultApp\":\"object\",\"sameAsApp\":true},1,0]",
+      "actual": "[{\"route\":\"indie/page/index\",\"getApp\":\"object\",\"defaultApp\":\"object\",\"sameAsApp\":true},1,0]"
+    },
+    {
+      "id": "route.component-router-relative-to-component",
+      "status": "PASS",
+      "expected": "[\"fail:true\",\"success\",\"pages/lifecycle/index\"]",
+      "actual": "[\"fail:true\",\"success\",\"pages/lifecycle/index\"]"
+    },
+    {
+      "id": "route.page-router-relative-to-page",
+      "status": "PASS",
+      "expected": "[\"success\",\"pages/lifecycle/index\"]",
+      "actual": "[\"success\",\"pages/lifecycle/index\"]"
+    },
+    {
+      "id": "route.listeners-navigate-and-back",
+      "status": "PASS",
+      "expected": "[[[\"onBeforeAppRoute\",\"navigateTo\",\"pages/lifecycle/index\"],[\"onBeforePageLoad\",null,\"pages/lifecycle/index\"],[\"onAfterPageLoad\",null,\"pages/lifecycle/index\"],[\"onAppRoute\",\"navigateTo\",\"pages/lifecycle/index\"],[\"onAppRouteDone\",\"navigateTo\",\"pages/lifecycle/index\"]],[[\"onBeforeAppRoute\",\"navigateBack\",\"pages/suite/index\"],[\"onBeforePageUnload\",null,\"pages/lifecycle/index\"],[\"onAppRoute\",\"navigateBack\",\"pages/suite/index\"],[\"onAppRouteDone\",\"navigateBack\",\"pages/suite/index\"]],[true,true,true]]",
+      "actual": "[[[\"onBeforeAppRoute\",\"navigateTo\",\"pages/lifecycle/index\"],[\"onBeforePageLoad\",null,\"pages/lifecycle/index\"],[\"onAfterPageLoad\",null,\"pages/lifecycle/index\"],[\"onAppRoute\",\"navigateTo\",\"pages/lifecycle/index\"],[\"onAppRouteDone\",\"navigateTo\",\"pages/lifecycle/index\"]],[[\"onBeforeAppRoute\",\"navigateBack\",\"pages/suite/index\"],[\"onBeforePageUnload\",null,\"pages/lifecycle/index\"],[\"onAppRoute\",\"navigateBack\",\"pages/suite/index\"],[\"onAppRouteDone\",\"navigateBack\",\"pages/suite/index\"]],[true,true,true]]"
+    },
+    {
+      "id": "route.custom-tab-bar-per-page-instance",
+      "status": "PASS",
+      "expected": "[\"custom-tab-bar/index\",\"custom-tab-bar/index\",true,\"\",true,\"suite-mark\",0]",
+      "actual": "[\"custom-tab-bar/index\",\"custom-tab-bar/index\",true,\"\",true,\"suite-mark\",0]"
+    },
+    {
+      "id": "wxs.event-responder-scroll",
+      "status": "PASS",
+      "expected": "[true,[\"wxs\",{\"kind\":\"scroll\",\"top\":60}]]",
+      "actual": "[true,[\"wxs\",{\"kind\":\"scroll\",\"top\":60}]]"
+    },
+    {
+      "id": "wxs.event-responder-touch-sets-style",
+      "status": "PASS",
+      "expected": "[[[\"wxs\",{\"kind\":\"touchstart\",\"x\":10}],[\"outer\",\"touchstart\"],[\"wxs\",{\"kind\":\"touchmove\",\"dx\":30}]],\"matrix(1, 0, 0, 1, 30, 0)\"]",
+      "actual": "[[[\"wxs\",{\"kind\":\"touchstart\",\"x\":10}],[\"outer\",\"touchstart\"],[\"wxs\",{\"kind\":\"touchmove\",\"dx\":30}]],\"matrix(1, 0, 0, 1, 30, 0)\"]"
+    },
+    {
+      "id": "wxs.event-responder-return-false-stops-bubbling",
+      "status": "PASS",
+      "expected": "[[\"wxs\",{\"kind\":\"stop-inner\"}]]",
+      "actual": "[[\"wxs\",{\"kind\":\"stop-inner\"}]]"
+    },
+    {
+      "id": "event.capture-catch-stops-capture",
+      "status": "PASS",
+      "expected": "[[\"capture-catch-outer\"],[\"bind-host\",\"bind-mid\",\"bind-outer\"]]",
+      "actual": "[[\"capture-catch-outer\"],[\"bind-host\",\"bind-mid\",\"bind-outer\"]]"
+    },
+    {
+      "id": "event.custom-event-object-fields",
+      "status": "PASS",
+      "expected": "{\"type\":\"ping\",\"timeStamp\":[\"number\",true],\"target\":[\"eo-host\",\"host\"],\"currentTarget\":[\"eo-outer\",\"outer\"],\"mark\":{\"zone\":\"host\"},\"detail\":{\"source\":\"host\"},\"touches\":\"undefined\",\"changedTouches\":\"undefined\"}",
+      "actual": "{\"type\":\"ping\",\"timeStamp\":[\"number\",true],\"target\":[\"eo-host\",\"host\"],\"currentTarget\":[\"eo-outer\",\"outer\"],\"mark\":{\"zone\":\"host\"},\"detail\":{\"source\":\"host\"},\"touches\":\"undefined\",\"changedTouches\":\"undefined\"}"
+    },
+    {
+      "id": "event.touch-object-fields",
+      "status": "PASS",
+      "expected": "[[{\"type\":\"touchstart\",\"touches\":1,\"changedTouches\":1,\"pointKeys\":[\"clientX\",\"clientY\",\"force\",\"identifier\",\"pageX\",\"pageY\"],\"pageX\":12,\"targetId\":\"touch-box\",\"role\":\"touch\",\"timeStamp\":\"number\"},{\"type\":\"touchmove\",\"touches\":1,\"changedTouches\":1,\"pointKeys\":[\"clientX\",\"clientY\",\"force\",\"identifier\",\"pageX\",\"pageY\"],\"pageX\":24,\"targetId\":\"touch-box\",\"role\":\"touch\",\"timeStamp\":\"number\"},{\"type\":\"touchend\",\"touches\":0,\"changedTouches\":1,\"pointKeys\":[\"clientX\",\"clientY\",\"force\",\"identifier\",\"pageX\",\"pageY\"],\"pageX\":24,\"targetId\":\"touch-box\",\"role\":\"touch\",\"timeStamp\":\"number\"}],true]",
+      "actual": "[[{\"type\":\"touchstart\",\"touches\":1,\"changedTouches\":1,\"pointKeys\":[\"clientX\",\"clientY\",\"force\",\"identifier\",\"pageX\",\"pageY\"],\"pageX\":12,\"targetId\":\"touch-box\",\"role\":\"touch\",\"timeStamp\":\"number\"},{\"type\":\"touchmove\",\"touches\":1,\"changedTouches\":1,\"pointKeys\":[\"clientX\",\"clientY\",\"force\",\"identifier\",\"pageX\",\"pageY\"],\"pageX\":24,\"targetId\":\"touch-box\",\"role\":\"touch\",\"timeStamp\":\"number\"},{\"type\":\"touchend\",\"touches\":0,\"changedTouches\":1,\"pointKeys\":[\"clientX\",\"clientY\",\"force\",\"identifier\",\"pageX\",\"pageY\"],\"pageX\":24,\"targetId\":\"touch-box\",\"role\":\"touch\",\"timeStamp\":\"number\"}],true]"
+    },
+    {
+      "id": "event.tap-and-longpress-sequence",
+      "status": "PASS",
+      "expected": "[[\"touchstart\",\"touchend\",\"tap\"],[\"touchstart\",\"longpress\",\"touchend\"]]",
+      "actual": "[[\"touchstart\",\"touchend\",\"tap\"],[\"touchstart\",\"longpress\",\"touchend\"]]"
+    },
+    {
+      "id": "component.moved-on-list-reorder",
+      "status": "PASS",
+      "expected": "[\"keyed:c:moved\"]",
+      "actual": "[\"keyed:c:moved\"]"
+    },
+    {
+      "id": "component.before-detach-order",
+      "status": "PASS",
+      "expected": "[\"keyed:x:detached\"]",
+      "actual": "[\"keyed:x:detached\"]"
+    },
+    {
+      "id": "component.page-lifetimes-resize",
+      "status": "PASS",
+      "expected": "[[\"suite\",\"resize\",\"landscape\"],[\"suite-page\",\"onResize\",\"landscape\"],[\"suite\",\"resize\",\"portrait\"],[\"suite-page\",\"onResize\",\"portrait\"]]",
+      "actual": "[[\"suite\",\"resize\",\"landscape\"],[\"suite-page\",\"onResize\",\"landscape\"],[\"suite\",\"resize\",\"portrait\"],[\"suite-page\",\"onResize\",\"portrait\"]]"
+    },
+    {
+      "id": "component.page-lifetimes-route-done",
+      "status": "PASS",
+      "expected": "[[[\"route-done-page\",\"load\"],[\"route-done-page\",\"ready\"],[\"pushed\",\"routeDone\"]],[[\"suite\",\"routeDone\"]]]",
+      "actual": "[[[\"route-done-page\",\"load\"],[\"route-done-page\",\"ready\"],[\"pushed\",\"routeDone\"]],[[\"suite\",\"routeDone\"]]]"
+    },
+    {
+      "id": "component.group-set-data-applies-each-update",
+      "status": "PASS",
+      "expected": "{\"separate\":[1,2],\"grouped\":[3,4],\"data\":4}",
+      "actual": "{\"separate\":[1,2],\"grouped\":[3,4],\"data\":4}"
+    },
+    {
+      "id": "style.host-selector",
+      "status": "PASS",
+      "expected": "37",
+      "actual": "37"
+    },
+    {
+      "id": "style.external-class-forwarded-two-levels",
+      "status": "PASS",
+      "expected": "41",
+      "actual": "41"
+    },
+    {
+      "id": "style.page-and-parent-class-references",
+      "status": "PASS",
+      "expected": "[43,47]",
+      "actual": "[43,47]"
+    },
+    {
+      "id": "style.wxss-import",
+      "status": "PASS",
+      "expected": "[51,53]",
+      "actual": "[51,53]"
+    },
+    {
       "id": "video.context-play-pause",
       "status": "PASS",
       "expected": "[[\"play\",\"pause\",\"play\"],true]",
@@ -3733,6 +3889,36 @@
       "status": "PASS",
       "expected": "[[\"success\",\"complete\"],true]",
       "actual": "[[\"success\",\"complete\"],true]"
+    },
+    {
+      "id": "route.page-not-found-app-hook",
+      "status": "PASS",
+      "expected": "{\"path\":\"pages/missing-entry/index\",\"query\":{\"tag\":\"probe\",\"from\":\"cold\"},\"isEntryPage\":false}",
+      "actual": "{\"path\":\"pages/missing-entry/index\",\"query\":{\"tag\":\"probe\",\"from\":\"cold\"},\"isEntryPage\":false}"
+    },
+    {
+      "id": "route.page-not-found-wx-listener",
+      "status": "PASS",
+      "expected": "{\"path\":\"pages/missing-entry/index\",\"query\":{\"tag\":\"probe\",\"from\":\"cold\"},\"isEntryPage\":false}",
+      "actual": "{\"path\":\"pages/missing-entry/index\",\"query\":{\"tag\":\"probe\",\"from\":\"cold\"},\"isEntryPage\":false}"
+    },
+    {
+      "id": "route.page-not-found-sync-redirect",
+      "status": "PASS",
+      "expected": "[\"pages/suite/index\",1,\"1\"]",
+      "actual": "[\"pages/suite/index\",1,\"1\"]"
+    },
+    {
+      "id": "subpackage.independent-cold-start",
+      "status": "PASS",
+      "expected": "{\"route\":\"indie/page/index\",\"getApp\":\"undefined\",\"defaultApp\":\"object\",\"query\":{\"cold\":\"1\"}}",
+      "actual": "{\"route\":\"indie/page/index\",\"getApp\":\"undefined\",\"defaultApp\":\"object\",\"query\":{\"cold\":\"1\"}}"
+    },
+    {
+      "id": "subpackage.independent-default-app-merge",
+      "status": "PASS",
+      "expected": "[\"set-before-main\",true]",
+      "actual": "[\"set-before-main\",true]"
     }
   ]
 }

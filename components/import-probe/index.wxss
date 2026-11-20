@@ -1,0 +1,5 @@
+@import "./base.wxss";
+
+.imp-override {
+  width: 53px;
+}

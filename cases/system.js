@@ -137,11 +137,26 @@ async function system(check) {
     const hide = await call(wx, "hideToast");
     return [show.errMsg, hide.errMsg];
   });
-  await check("ui.tabbar-callbacks", ["ok", "ok"], async () => {
-    const badge = await call(wx, "setTabBarBadge", { index: 0, text: "1" });
-    const remove = await call(wx, "removeTabBarBadge", { index: 0 });
-    return [badge.errMsg.split(":")[1], remove.errMsg.split(":")[1]];
-  });
+  // The suite app uses a custom tabBar (app.json tabBar.custom), with which the native
+  // tabBar badge APIs are documented to stop working; 3.7.12 fails them explicitly.
+  await check(
+    "ui.tabbar-badge-fails-with-custom-tabbar",
+    ["setTabBarBadge:fail custom Tabbar", "removeTabBarBadge:fail custom Tabbar"],
+    async () => {
+      const errMsgOf = (method, options) =>
+        new Promise((resolve) =>
+          wx[method]({
+            ...options,
+            success: (result) => resolve(result.errMsg),
+            fail: (error) => resolve(error.errMsg),
+          }),
+        );
+      return [
+        await errMsgOf("setTabBarBadge", { index: 0, text: "1" }),
+        await errMsgOf("removeTabBarBadge", { index: 0 }),
+      ];
+    },
+  );
   await check("ui.background-style", ["ok", "ok"], async () => {
     const color = await call(wx, "setBackgroundColor", {
       backgroundColorTop: "#ffffff",

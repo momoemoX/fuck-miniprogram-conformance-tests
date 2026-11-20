@@ -282,6 +282,22 @@ module.exports = {
       0
     ]
   },
+  "observer.initial-ratio": [
+    [
+      0
+    ],
+    []
+  ],
+  "observer.observe-all": {
+    "all": [
+      "io-m1",
+      "io-m2",
+      "io-m3"
+    ],
+    "single": [
+      "io-m1"
+    ]
+  },
   "page.scroll-events": [
     true,
     true
@@ -1576,9 +1592,9 @@ module.exports = {
     "showToast:ok",
     "hideToast:ok"
   ],
-  "ui.tabbar-callbacks": [
-    "ok",
-    "ok"
+  "ui.tabbar-badge-fails-with-custom-tabbar": [
+    "setTabBarBadge:fail custom Tabbar",
+    "removeTabBarBadge:fail custom Tabbar"
   ],
   "ui.background-style": [
     "ok",
@@ -4280,6 +4296,316 @@ module.exports = {
     "upper"
   ],
   "scroll-view.scroll-into-view-horizontal": true,
+  "module.global-component-in-page-and-component": [
+    "components/global-probe/index",
+    "components/global-probe/index",
+    "global"
+  ],
+  "module.resolve-alias-require": [
+    true,
+    0
+  ],
+  "module.lazy-code-loading-on-demand": [
+    false,
+    true
+  ],
+  "subpackage.independent-page-in-stack": [
+    {
+      "route": "indie/page/index",
+      "getApp": "object",
+      "defaultApp": "object",
+      "sameAsApp": true
+    },
+    1,
+    0
+  ],
+  "route.component-router-relative-to-component": [
+    "fail:true",
+    "success",
+    "pages/lifecycle/index"
+  ],
+  "route.page-router-relative-to-page": [
+    "success",
+    "pages/lifecycle/index"
+  ],
+  "route.listeners-navigate-and-back": [
+    [
+      [
+        "onBeforeAppRoute",
+        "navigateTo",
+        "pages/lifecycle/index"
+      ],
+      [
+        "onBeforePageLoad",
+        null,
+        "pages/lifecycle/index"
+      ],
+      [
+        "onAfterPageLoad",
+        null,
+        "pages/lifecycle/index"
+      ],
+      [
+        "onAppRoute",
+        "navigateTo",
+        "pages/lifecycle/index"
+      ],
+      [
+        "onAppRouteDone",
+        "navigateTo",
+        "pages/lifecycle/index"
+      ]
+    ],
+    [
+      [
+        "onBeforeAppRoute",
+        "navigateBack",
+        "pages/suite/index"
+      ],
+      [
+        "onBeforePageUnload",
+        null,
+        "pages/lifecycle/index"
+      ],
+      [
+        "onAppRoute",
+        "navigateBack",
+        "pages/suite/index"
+      ],
+      [
+        "onAppRouteDone",
+        "navigateBack",
+        "pages/suite/index"
+      ]
+    ],
+    [
+      true,
+      true,
+      true
+    ]
+  ],
+  "route.custom-tab-bar-per-page-instance": [
+    "custom-tab-bar/index",
+    "custom-tab-bar/index",
+    true,
+    "",
+    true,
+    "suite-mark",
+    0
+  ],
+  "wxs.event-responder-scroll": [
+    true,
+    [
+      "wxs",
+      {
+        "kind": "scroll",
+        "top": 60
+      }
+    ]
+  ],
+  "wxs.event-responder-touch-sets-style": [
+    [
+      [
+        "wxs",
+        {
+          "kind": "touchstart",
+          "x": 10
+        }
+      ],
+      [
+        "outer",
+        "touchstart"
+      ],
+      [
+        "wxs",
+        {
+          "kind": "touchmove",
+          "dx": 30
+        }
+      ]
+    ],
+    "matrix(1, 0, 0, 1, 30, 0)"
+  ],
+  "wxs.event-responder-return-false-stops-bubbling": [
+    [
+      "wxs",
+      {
+        "kind": "stop-inner"
+      }
+    ]
+  ],
+  "event.capture-catch-stops-capture": [
+    [
+      "capture-catch-outer"
+    ],
+    [
+      "bind-host",
+      "bind-mid",
+      "bind-outer"
+    ]
+  ],
+  "event.custom-event-object-fields": {
+    "type": "ping",
+    "timeStamp": [
+      "number",
+      true
+    ],
+    "target": [
+      "eo-host",
+      "host"
+    ],
+    "currentTarget": [
+      "eo-outer",
+      "outer"
+    ],
+    "mark": {
+      "zone": "host"
+    },
+    "detail": {
+      "source": "host"
+    },
+    "touches": "undefined",
+    "changedTouches": "undefined"
+  },
+  "event.touch-object-fields": [
+    [
+      {
+        "type": "touchstart",
+        "touches": 1,
+        "changedTouches": 1,
+        "pointKeys": [
+          "clientX",
+          "clientY",
+          "force",
+          "identifier",
+          "pageX",
+          "pageY"
+        ],
+        "pageX": 12,
+        "targetId": "touch-box",
+        "role": "touch",
+        "timeStamp": "number"
+      },
+      {
+        "type": "touchmove",
+        "touches": 1,
+        "changedTouches": 1,
+        "pointKeys": [
+          "clientX",
+          "clientY",
+          "force",
+          "identifier",
+          "pageX",
+          "pageY"
+        ],
+        "pageX": 24,
+        "targetId": "touch-box",
+        "role": "touch",
+        "timeStamp": "number"
+      },
+      {
+        "type": "touchend",
+        "touches": 0,
+        "changedTouches": 1,
+        "pointKeys": [
+          "clientX",
+          "clientY",
+          "force",
+          "identifier",
+          "pageX",
+          "pageY"
+        ],
+        "pageX": 24,
+        "targetId": "touch-box",
+        "role": "touch",
+        "timeStamp": "number"
+      }
+    ],
+    true
+  ],
+  "event.tap-and-longpress-sequence": [
+    [
+      "touchstart",
+      "touchend",
+      "tap"
+    ],
+    [
+      "touchstart",
+      "longpress",
+      "touchend"
+    ]
+  ],
+  "component.moved-on-list-reorder": [
+    "keyed:c:moved"
+  ],
+  "component.before-detach-order": [
+    "keyed:x:detached"
+  ],
+  "component.page-lifetimes-resize": [
+    [
+      "suite",
+      "resize",
+      "landscape"
+    ],
+    [
+      "suite-page",
+      "onResize",
+      "landscape"
+    ],
+    [
+      "suite",
+      "resize",
+      "portrait"
+    ],
+    [
+      "suite-page",
+      "onResize",
+      "portrait"
+    ]
+  ],
+  "component.page-lifetimes-route-done": [
+    [
+      [
+        "route-done-page",
+        "load"
+      ],
+      [
+        "route-done-page",
+        "ready"
+      ],
+      [
+        "pushed",
+        "routeDone"
+      ]
+    ],
+    [
+      [
+        "suite",
+        "routeDone"
+      ]
+    ]
+  ],
+  "component.group-set-data-applies-each-update": {
+    "separate": [
+      1,
+      2
+    ],
+    "grouped": [
+      3,
+      4
+    ],
+    "data": 4
+  },
+  "style.host-selector": 37,
+  "style.external-class-forwarded-two-levels": 41,
+  "style.page-and-parent-class-references": [
+    43,
+    47
+  ],
+  "style.wxss-import": [
+    51,
+    53
+  ],
   "video.context-play-pause": [
     [
       "play",
@@ -4472,6 +4798,39 @@ module.exports = {
       "success",
       "complete"
     ],
+    true
+  ],
+  "route.page-not-found-app-hook": {
+    "path": "pages/missing-entry/index",
+    "query": {
+      "tag": "probe",
+      "from": "cold"
+    },
+    "isEntryPage": false
+  },
+  "route.page-not-found-wx-listener": {
+    "path": "pages/missing-entry/index",
+    "query": {
+      "tag": "probe",
+      "from": "cold"
+    },
+    "isEntryPage": false
+  },
+  "route.page-not-found-sync-redirect": [
+    "pages/suite/index",
+    1,
+    "1"
+  ],
+  "subpackage.independent-cold-start": {
+    "route": "indie/page/index",
+    "getApp": "undefined",
+    "defaultApp": "object",
+    "query": {
+      "cold": "1"
+    }
+  },
+  "subpackage.independent-default-app-merge": [
+    "set-before-main",
     true
   ]
 };

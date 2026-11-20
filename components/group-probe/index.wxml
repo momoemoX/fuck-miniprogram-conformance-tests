@@ -1,0 +1,2 @@
+<wxs module="seen" src="./seen.wxs"/>
+<view id="group-value" prop="{{value}}" change:prop="{{seen.observe}}"/>

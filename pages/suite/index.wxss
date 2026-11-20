@@ -10,3 +10,5 @@
 .fallback-page { width: 13px; height: 10px; }
 #page-kf { width: 20px; height: 12px; opacity: 1; }
 #scroll-kf { width: 20px; height: 12px; }
+.ext-pass-width { display: block; width: 41px; height: 2px; }
+.page-tilde-cls { display: block; width: 43px; height: 2px; }

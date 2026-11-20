@@ -38,7 +38,16 @@
     "animate-probe": "/components/animate-probe/index",
     "serial-probe": "/components/serial-probe/index",
     "media-probe": "/components/media-probe/index",
-    "async-widget": "/pack/async-widget/index"
+    "async-widget": "/pack/async-widget/index",
+    "global-host": "/components/global-host/index",
+    "router-probe": "/components/router-probe/index",
+    "move-probe": "/components/move-probe/index",
+    "page-event-probe": "/components/page-event-probe/index",
+    "group-probe": "/components/group-probe/index",
+    "host-style-probe": "/components/host-style-probe/index",
+    "ext-bar": "/components/ext-chain/bar",
+    "caret-parent": "/components/caret-style/parent",
+    "import-probe": "/components/import-probe/index"
   },
   "componentPlaceholder": {
     "async-widget": "view"

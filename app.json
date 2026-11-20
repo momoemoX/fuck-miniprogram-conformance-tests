@@ -10,7 +10,9 @@
     "pages/lifecycle/index",
     "pages/comp-page/index",
     "pages/meta-page/index",
-    "pages/gallery/index"
+    "pages/gallery/index",
+    "pages/route-done/index",
+    "pages/lazy-host/index"
   ],
   "window": {
     "navigationBarTitleText": "Conformance tests"
@@ -23,6 +25,13 @@
       "pages": [
         "stop/index"
       ]
+    },
+    {
+      "root": "indie",
+      "pages": [
+        "page/index"
+      ],
+      "independent": true
     }
   ],
   "permission": {
@@ -43,6 +52,14 @@
         "pagePath": "pages/tab/index",
         "text": "Tab fixture"
       }
-    ]
-  }
+    ],
+    "custom": true
+  },
+  "usingComponents": {
+    "global-probe": "/components/global-probe/index"
+  },
+  "resolveAlias": {
+    "@fixtures/*": "/fixtures/*"
+  },
+  "lazyCodeLoading": "requiredComponents"
 }

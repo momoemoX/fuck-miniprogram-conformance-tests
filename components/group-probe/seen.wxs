@@ -1,0 +1,4 @@
+function observe(newValue, oldValue, ownerInstance) {
+  ownerInstance.callMethod("onSeen", newValue);
+}
+module.exports = { observe: observe };

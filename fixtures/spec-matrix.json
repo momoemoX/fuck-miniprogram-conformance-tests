@@ -10,7 +10,8 @@
       "Mini Program rendering/query/canvas bridge APIs (built-in component catalog & visual refs, SelectorQuery, animate/clearAnimation, page-meta/page-container, Canvas 2D bridge).",
       "Core deterministic wx.* APIs (Promise contract, Storage, FileSystemManager, FileDescriptor, Base64, Worker, Clipboard, System/Device info, HTTP/WebSocket fixture contracts).",
       "Baseline policy: expectations reproduce what base library 3.7.12 does in the official simulator with the WebView renderer and the default component framework. Where 3.7.12 deviates from the documentation, the observed behavior is the expectation, the case is tagged 'quirk' in cases/report.js, and the clause contract names the deviation.",
-      "Denominator rule: every clause cites the official documentation sections it is derived from in 'sources'. A documented feature without cases must appear as a 'missing' clause, or as an 'out-of-scope' clause that states why, so that 0 MISSING means the documented surface is accounted for rather than only that the listed clauses pass."
+      "Denominator rule: every clause cites the official documentation sections it is derived from in 'sources'. A documented feature without cases must appear as a 'missing' clause, or as an 'out-of-scope' clause that states why, so that 0 MISSING means the documented surface is accounted for rather than only that the listed clauses pass.",
+      "Driver profile: cases that need real touch input or a mini program restart run only under tools/devtools/run.cjs, which performs touches requested through cases/driver.js and runs the cold-start checks after the suite. A manual run of pages/suite/index leaves them out, like the HTTP and WebSocket fixture profiles."
     ],
     "outOfScope": [
       "Generic Web/DOM/HTML5 Canvas drawing minutiae already covered by Web Platform Tests (WPT) where Mini Program engines delegate directly to WebView/Skia (e.g., exhaustive Canvas path join/miter/bezier permutations).",
@@ -99,18 +100,19 @@
           "title": "App.onPageNotFound real trigger & recovery",
           "priority": "P1",
           "automatable": true,
-          "status": "partial",
-          "contract": "Navigating or launching to a non-existent route triggers onPageNotFound / wx.onPageNotFound with { path, query, isEntryPage } without corrupting the current page stack.",
+          "status": "covered",
+          "contract": "Navigating or launching to a non-existent route triggers onPageNotFound / wx.onPageNotFound with { path, query, isEntryPage } without corrupting the current page stack, and App.onPageNotFound can recover with a synchronous wx.reLaunch. 3.7.12 reports isEntryPage: false for a cold start through wx.restartMiniProgram.",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/api/base/app/app-event/wx.onPageNotFound.html",
             "https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html"
           ],
           "cases": [
-            "route.page-not-found-in-app-isolation"
+            "route.page-not-found-in-app-isolation",
+            "route.page-not-found-app-hook",
+            "route.page-not-found-wx-listener",
+            "route.page-not-found-sync-redirect"
           ],
-          "gaps": [
-            "Cold-start onPageNotFound (isEntryPage: true) and its redirect recovery are checked only by tools/devtools/check-page-not-found.cjs, outside the suite page because wx.restartMiniProgram destroys it; that script's result is not recorded in fixtures/reference.js, so the cold-start half of this clause has no committed baseline."
-          ]
+          "gaps": []
         }
       ]
     },
@@ -206,49 +208,64 @@
           "title": "Global usingComponents & resolveAlias module resolution",
           "priority": "P1",
           "automatable": true,
-          "status": "missing",
-          "contract": "Components registered in app.json usingComponents are usable from every page and component without local registration, and app.json resolveAlias maps aliased require() and usingComponents paths to their targets.",
+          "status": "covered",
+          "contract": "Components registered in app.json usingComponents are usable from every page and component without local registration; app.json resolveAlias maps aliased require() paths to the same cached module as the relative path. resolveAlias applies to require() only (documented); the developer tool rejects an aliased usingComponents path.",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html",
             "https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/module.html"
           ],
-          "cases": [],
-          "gaps": [
-            "No case registers a component globally in app.json or uses resolveAlias."
-          ]
+          "cases": [
+            "module.global-component-in-page-and-component",
+            "module.resolve-alias-require"
+          ],
+          "gaps": []
         },
         {
           "id": "MOD-06",
-          "title": "Independent subpackages, getApp({ allowDefault }) & preloadRule",
+          "title": "Independent subpackages & getApp({ allowDefault })",
           "priority": "P1",
           "automatable": true,
-          "status": "missing",
-          "contract": "An independent subpackage page can launch without the main package's app.js, getApp({ allowDefault: true }) returns a default App object there that the later main-package App() merges into, and preloadRule downloads the listed subpackages after the configured page is entered.",
+          "status": "covered",
+          "contract": "An independent subpackage page can be entered from the main package (getApp({ allowDefault: true }) then returns the main App, and app.wxss does not apply) and can cold-start without the main package: getApp() is undefined there, getApp({ allowDefault: true }) returns a default App object, and fields set on it survive the later main-package App() merge.",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/independent.html",
-            "https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/preload.html",
             "https://developers.weixin.qq.com/miniprogram/dev/reference/api/getApp.html"
           ],
-          "cases": [],
-          "gaps": [
-            "No independent subpackage, getApp({ allowDefault }) call or preloadRule exists in the suite."
-          ]
+          "cases": [
+            "subpackage.independent-page-in-stack",
+            "subpackage.independent-cold-start",
+            "subpackage.independent-default-app-merge"
+          ],
+          "gaps": []
         },
         {
           "id": "MOD-07",
           "title": "On-demand component injection (lazyCodeLoading: requiredComponents)",
           "priority": "P2",
           "automatable": true,
-          "status": "missing",
-          "contract": "With lazyCodeLoading set to requiredComponents, only components reachable from the rendered page are injected, without changing page or component behavior.",
+          "status": "covered",
+          "contract": "With lazyCodeLoading set to requiredComponents, a component's module code runs only when a page that declares it is opened, not at launch (a control run without lazyCodeLoading executes it at launch).",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/framework/ability/lazyload.html",
             "https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html"
           ],
+          "cases": [
+            "module.lazy-code-loading-on-demand"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "MOD-08",
+          "title": "Subpackage pre-download (preloadRule)",
+          "priority": "P2",
+          "automatable": false,
+          "status": "out-of-scope",
+          "contract": "preloadRule only changes when a subpackage is downloaded; no JS API or event exposes the download, so pages see identical behavior with or without it and a black-box case cannot tell them apart.",
+          "sources": [
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/preload.html"
+          ],
           "cases": [],
-          "gaps": [
-            "Enabling lazyCodeLoading changes injection for the whole suite app; needs a separate app configuration or profile."
-          ]
+          "gaps": []
         }
       ]
     },
@@ -389,46 +406,48 @@
           "title": "Router API relative to component path (this.router / this.pageRouter)",
           "priority": "P1",
           "automatable": true,
-          "status": "missing",
+          "status": "covered",
           "contract": "this.router and this.pageRouter expose navigateTo/redirectTo/reLaunch/switchTab/navigateBack that resolve relative URLs against the calling component's own path and the owning page's path respectively.",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/reference/api/Router.html"
           ],
-          "cases": [],
-          "gaps": [
-            "No case calls this.router or this.pageRouter (both are present on page instances in 3.7.12, probed in the 3.7.12 simulator on 2026-11-20)."
-          ]
+          "cases": [
+            "route.component-router-relative-to-component",
+            "route.page-router-relative-to-page"
+          ],
+          "gaps": []
         },
         {
           "id": "ROUTE-08",
           "title": "Route event listeners (wx.onBeforeAppRoute / onAppRoute / onAppRouteDone / page load hooks)",
           "priority": "P2",
           "automatable": true,
-          "status": "missing",
-          "contract": "Route listeners fire in the documented order for each navigation type and carry a stable route event ID shared across one route's events.",
+          "status": "covered",
+          "contract": "For navigateTo the listeners fire as onBeforeAppRoute, onBeforePageLoad, onAfterPageLoad, onAppRoute, onAppRouteDone; for navigateBack as onBeforeAppRoute, onBeforePageUnload, onAppRoute, onAppRouteDone. All events of one route share a routeEventId that differs between routes.",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/route-event-listener.html"
           ],
-          "cases": [],
-          "gaps": [
-            "wx.onAppRouteDone is only used by cases/route-harness.js as a wait signal; no case asserts listener order, payloads or event IDs (all six listeners exist in 3.7.12, probed in the 3.7.12 simulator on 2026-11-20)."
-          ]
+          "cases": [
+            "route.listeners-navigate-and-back"
+          ],
+          "gaps": []
         },
         {
           "id": "ROUTE-09",
           "title": "Custom tabBar (custom-tab-bar component & getTabBar())",
           "priority": "P1",
           "automatable": true,
-          "status": "missing",
-          "contract": "With tabBar.custom enabled, each tab page gets its own custom-tab-bar instance reachable through getTabBar(), and the instance's state survives switchTab within the same page.",
+          "status": "covered",
+          "contract": "With tabBar.custom enabled, each tab page gets its own custom-tab-bar instance reachable through getTabBar(), its state survives switchTab, the custom tabBar does not receive pageLifetimes, and the native tabBar badge APIs fail with 'custom Tabbar' (documented: native tabBar style APIs stop working).",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/framework/ability/custom-tabbar.html",
             "https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html"
           ],
-          "cases": [],
-          "gaps": [
-            "Enabling tabBar.custom changes every tab page in the suite app; needs a dedicated fixture or profile."
-          ]
+          "cases": [
+            "route.custom-tab-bar-per-page-instance",
+            "ui.tabbar-badge-fails-with-custom-tabbar"
+          ],
+          "gaps": []
         }
       ]
     },
@@ -704,15 +723,17 @@
           "title": "WXS event responders (bind:event=\"{{module.fn}}\")",
           "priority": "P1",
           "automatable": true,
-          "status": "missing",
-          "contract": "An event bound to a WXS function runs in the view layer with (event, ownerInstance), can update styles and classes through ComponentDescriptor without setData, and can call back into the logic layer via ownerInstance.callMethod.",
+          "status": "covered",
+          "contract": "An event bound to a WXS function runs in the view layer with (event, ownerInstance): touch handlers move a node with instance.setStyle without setData, report through ownerInstance.callMethod, let the event bubble unless they return false, and scroll-view bindscroll can also be handled in WXS.",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/framework/view/interactive-animation.html"
           ],
-          "cases": [],
-          "gaps": [
-            "No WXML binds an event to a WXS function; WXS-03 only covers change:prop. Real touch events need miniprogram-automator taps or touch sequences (run.cjs already uses the automator)."
-          ]
+          "cases": [
+            "wxs.event-responder-scroll",
+            "wxs.event-responder-touch-sets-style",
+            "wxs.event-responder-return-false-stops-bubbling"
+          ],
+          "gaps": []
         }
       ]
     },
@@ -792,18 +813,20 @@
           "title": "capture-catch: and event object fields",
           "priority": "P1",
           "automatable": true,
-          "status": "missing",
-          "contract": "capture-catch: stops propagation during the capture phase; event objects carry type, timeStamp, target, currentTarget, mark, detail, and touches/changedTouches for touch events.",
+          "status": "covered",
+          "contract": "capture-catch: stops propagation during the capture phase without affecting bubbling; custom events carry type, timeStamp, target, currentTarget, mark and detail but no touches; touch events carry touches/changedTouches with identifier, pageX/pageY, clientX/clientY and force; a tap is delivered as touchstart, touchend, tap and a long press as touchstart, longpress, touchend.",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/event-binding.html",
             "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/event-object.html",
             "https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html"
           ],
-          "cases": [],
-          "gaps": [
-            "No case uses capture-catch:.",
-            "No case asserts timeStamp or touches/changedTouches; touch fields need automator-driven touches."
-          ]
+          "cases": [
+            "event.capture-catch-stops-capture",
+            "event.custom-event-object-fields",
+            "event.touch-object-fields",
+            "event.tap-and-longpress-sequence"
+          ],
+          "gaps": []
         }
       ]
     },
@@ -999,51 +1022,52 @@
         },
         {
           "id": "COMP-08",
-          "title": "lifetimes.moved and pageLifetimes.resize / routeDone",
+          "title": "lifetimes.moved / beforeDetach and pageLifetimes.resize / routeDone",
           "priority": "P1",
           "automatable": true,
-          "status": "missing",
-          "contract": "lifetimes.moved fires when a component instance is moved to another position in the node tree; pageLifetimes.resize fires on window size changes and pageLifetimes.routeDone after the page's route animation completes.",
+          "status": "covered",
+          "contract": "lifetimes.moved fires for a keyed wx:for item that moves on reorder (not for positional items); pageLifetimes.resize runs before the page's onResize on each orientation change; pageLifetimes.routeDone reaches the pushed page's components after onReady and the revealed page's components after navigateBack. The documentation lists beforeDetach before detached, but 3.7.12 under the default component framework only delivers detached (component.before-detach-order, tagged quirk).",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/lifetimes.html"
           ],
-          "cases": [],
-          "gaps": [
-            "No component defines moved, resize or routeDone.",
-            "Confirm routeDone availability in 3.7.12 before recording a baseline."
-          ]
+          "cases": [
+            "component.moved-on-list-reorder",
+            "component.before-detach-order",
+            "component.page-lifetimes-resize",
+            "component.page-lifetimes-route-done"
+          ],
+          "gaps": []
         },
         {
           "id": "COMP-09",
-          "title": "Advanced data updates (groupSetData, updateData + applyDataUpdates)",
+          "title": "groupSetData",
           "priority": "P2",
           "automatable": true,
-          "status": "missing",
-          "contract": "groupSetData batches setData calls from several components into one render; queued updateData changes become visible only after applyDataUpdates.",
+          "status": "partial",
+          "contract": "groupSetData runs its callback synchronously and applies every grouped setData in order; it is documented to keep the view from showing the state between the grouped calls.",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/data-updates.html"
           ],
-          "cases": [],
+          "cases": [
+            "component.group-set-data-applies-each-update"
+          ],
           "gaps": [
-            "groupSetData and applyDataUpdates exist on page instances in 3.7.12 but updateData is undefined there (probed in the 3.7.12 simulator on 2026-11-20); confirm on Component() instances before writing cases."
+            "The documented guarantee (no intermediate state shown) is not observable from the logic layer or WXS: a WXS change:prop observer sees each intermediate value with and without groupSetData. Needs a view-layer frame or screenshot probe."
           ]
         },
         {
           "id": "COMP-10",
           "title": "Property comparers and data copy control",
           "priority": "P2",
-          "automatable": true,
-          "status": "missing",
-          "contract": "A property comparer decides whether a new value counts as a change for observers and rendering; dataDeepCopy and propertyPassingDeepCopy options control whether data and passed properties are deep-copied.",
+          "automatable": false,
+          "status": "out-of-scope",
+          "contract": "Property comparers and the dataDeepCopy / propertyPassingDeepCopy options are documented as supported only by the glass-easel component framework, which this suite does not run (see RENDER-06).",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/properties.html",
             "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/data-deep-copy.html"
           ],
           "cases": [],
-          "gaps": [
-            "No case defines a comparer or copy-control option.",
-            "Confirm availability under the default component framework in 3.7.12; move to out-of-scope if glass-easel-only."
-          ]
+          "gaps": []
         }
       ]
     },
@@ -1120,32 +1144,33 @@
           "title": ":host selector, multi-level external classes & parent class references",
           "priority": "P1",
           "automatable": true,
-          "status": "missing",
+          "status": "covered",
           "contract": ":host styles the component's host node from inside the component; external classes can be forwarded through nested components; ~ and ^ class prefixes reference page and parent component styles.",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/style.html",
             "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/external-classes.html"
           ],
-          "cases": [],
-          "gaps": [
-            "No component WXSS uses :host.",
-            "No case forwards external classes through more than one level or uses ~/^ prefixed classes."
-          ]
+          "cases": [
+            "style.host-selector",
+            "style.external-class-forwarded-two-levels",
+            "style.page-and-parent-class-references"
+          ],
+          "gaps": []
         },
         {
           "id": "WXSS-05",
           "title": "WXSS @import",
           "priority": "P1",
           "automatable": true,
-          "status": "missing",
-          "contract": "@import in app, page and component WXSS inlines the imported file with the importer's isolation scope and source order.",
+          "status": "covered",
+          "contract": "@import in component WXSS inlines the imported file in place, so later rules in the importing file override imported rules of the same specificity.",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxss.html"
           ],
-          "cases": [],
-          "gaps": [
-            "No WXSS file in the suite uses @import."
-          ]
+          "cases": [
+            "style.wxss-import"
+          ],
+          "gaps": []
         }
       ]
     },
@@ -1226,7 +1251,7 @@
           "title": "ScrollView bindings, boundary events & IntersectionObserver / MediaQueryObserver",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "scroll-view responds to scroll-top/scroll-into-view, fires bindscroll/bindscrolltolower/bindscrolltoupper; IntersectionObserver toggles ratios against the viewport or a relativeTo(selector, margins) reference node, fires only on custom threshold crossings, honors initialRatio and observeAll, and stops after disconnect; MediaQueryObserver reports matches.",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/component/scroll-view.html",
@@ -1244,11 +1269,11 @@
             "scroll-view.scroll-into-view-horizontal",
             "observer.relative-to-selector",
             "observer.relative-to-margins",
-            "observer.custom-thresholds"
+            "observer.custom-thresholds",
+            "observer.initial-ratio",
+            "observer.observe-all"
           ],
-          "gaps": [
-            "Test the IntersectionObserver initialRatio and observeAll options."
-          ]
+          "gaps": []
         },
         {
           "id": "RENDER-04",
@@ -1318,12 +1343,13 @@
           "priority": "P2",
           "automatable": false,
           "status": "out-of-scope",
-          "contract": "Skyline rendering and features that require the glass-easel component framework (e.g. Behavior.trait, wx:let) are outside this suite, which runs on the WebView renderer with the default component framework. Behavior.trait is undefined in the 3.7.12 simulator under that configuration (probed in the 3.7.12 simulator on 2026-11-20).",
+          "contract": "Skyline rendering and features that require the glass-easel component framework are outside this suite, which runs on the WebView renderer with the default component framework: Behavior.trait (undefined in 3.7.12), wx:let, updateData (documented glass-easel-only, undefined on a 3.7.12 Page() instance), property comparers and data copy control (documented glass-easel-only).",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/skyline/introduction.html",
             "https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/glass-easel/migration.html",
             "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/trait-behaviors.html",
-            "https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/let-variable.html"
+            "https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/let-variable.html",
+            "https://developers.weixin.qq.com/miniprogram/dev/framework/component-framework/data-updates.html"
           ],
           "cases": [],
           "gaps": []
@@ -1449,8 +1475,8 @@
           "title": "System, device, window, account, settings & UI feedback callbacks",
           "priority": "P1",
           "automatable": true,
-          "status": "covered",
-          "contract": "Split system/window/device/account/setting/authorize APIs return documented shapes and valid enums; navigation bar, loading, toast, tabBar and background style callbacks resolve :ok.",
+          "status": "partial",
+          "contract": "Split system/window/device/account/setting/authorize APIs return documented shapes and valid enums; navigation bar, loading, toast and background style callbacks resolve :ok.",
           "sources": [
             "https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getWindowInfo.html",
             "https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getDeviceInfo.html",
@@ -1481,10 +1507,11 @@
             "ui.navigation-bar-color",
             "ui.loading-roundtrip",
             "ui.toast-roundtrip",
-            "ui.tabbar-callbacks",
             "ui.background-style"
           ],
-          "gaps": []
+          "gaps": [
+            "The native tabBar API success path (setTabBarBadge and other tabBar style APIs) is untestable while the suite app uses a custom tabBar (ROUTE-09); it needs a separate app configuration with a native tabBar."
+          ]
         }
       ]
     },
@@ -1660,8 +1687,8 @@
             "input.value-binding-sync"
           ],
           "gaps": [
-            "Re-record the 17 interactive checks in pages/input/index on base library 3.7.12 (currently recorded on historical 3.7.0 host).",
-            "Verify real blur delivery and touchstart -> touchmove -> touchend -> tap / longpress ordering on a physical device."
+            "Re-record the 17 interactive checks in pages/input/index (real typing, form submit/reset, wx://form-field, modal and action sheet dialogs) on base library 3.7.12; they are still recorded on the historical 3.7.0 host and need a person at the developer tool.",
+            "Verify blur delivery and touch, tap and longpress ordering on a physical device; the simulator ordering is covered by event.tap-and-longpress-sequence (driver profile)."
           ]
         },
         {

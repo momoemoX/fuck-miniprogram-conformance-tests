@@ -45,6 +45,7 @@ async function observerContract(page, check) {
   });
 
   await relativeToContract(page, check);
+  await observerOptions(page, check);
 }
 
 // #io-root is a fixed 100x100 box at x=200..300 and #io-target a fixed 20x20 box whose
@@ -71,6 +72,49 @@ async function withIntersectionFixture(page, run) {
     observers.forEach((observer) => observer.disconnect());
     await update(page, { ioMounted: false, ioTargetLeft: OUTSIDE });
   }
+}
+
+async function observerOptions(page, check) {
+  // initialRatio is the ratio the observer assumes before its first measurement: a
+  // target that is already outside the root reports once when the assumed ratio is 1.
+  await check("observer.initial-ratio", [[0], []], () =>
+    withIntersectionFixture(page, async (create) => {
+      const primed = [];
+      const plain = [];
+      create({ initialRatio: 1 })
+        .relativeTo("#io-root")
+        .observe("#io-target", (result) => primed.push(round2(result.intersectionRatio)));
+      create()
+        .relativeTo("#io-root")
+        .observe("#io-target", (result) => plain.push(round2(result.intersectionRatio)));
+      await waitUntil(() => primed.length >= 1);
+      // Negative window for the default observer.
+      await delay(400);
+      return [primed, plain];
+    }),
+  );
+
+  // observeAll watches every node the selector matches; without it only the first.
+  await check("observer.observe-all", { all: ["io-m1", "io-m2", "io-m3"], single: ["io-m1"] }, async () => {
+    const observers = [];
+    try {
+      await update(page, { ioMultiMounted: true });
+      const all = [];
+      const single = [];
+      const every = page.createIntersectionObserver({ observeAll: true });
+      observers.push(every);
+      every.relativeTo("#io-multi-root").observe(".io-multi", (result) => all.push(result.id));
+      const first = page.createIntersectionObserver();
+      observers.push(first);
+      first.relativeTo("#io-multi-root").observe(".io-multi", (result) => single.push(result.id));
+      await waitUntil(() => all.length >= 3 && single.length >= 1);
+      await delay(300);
+      return { all: all.slice().sort(), single };
+    } finally {
+      observers.forEach((observer) => observer.disconnect());
+      await update(page, { ioMultiMounted: false });
+    }
+  });
 }
 
 async function relativeToContract(page, check) {

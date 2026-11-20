@@ -1,5 +1,6 @@
 <import src="../../fixtures/row.wxml"/>
 <wxs module="format" src="../../fixtures/format.wxs"/>
+<wxs module="wxsEvents" src="../../fixtures/wxs-events.wxs"/>
 <view>
   <view id="scroll-spacer" style="height:2000px" aria-hidden="true"/>
   <button id="run" bindtap="run" disabled="{{started}}">Run suite</button>
@@ -222,5 +223,51 @@
     <view id="page-kf"/>
     <view id="scroll-kf"/>
     <animate-probe id="animate-probe"/>
+  </block>
+  <block wx:if="{{ioMultiMounted}}">
+    <view id="io-multi-root" style="position:fixed;top:0;left:200px;width:100px;height:100px"/>
+    <view id="io-m1" class="io-multi" style="position:fixed;top:10px;left:205px;width:20px;height:20px"/>
+    <view id="io-m2" class="io-multi" style="position:fixed;top:10px;left:235px;width:20px;height:20px"/>
+    <view id="io-m3" class="io-multi" style="position:fixed;top:10px;left:265px;width:20px;height:20px"/>
+  </block>
+  <block wx:if="{{globalMounted}}">
+    <global-probe id="global-in-page"/>
+    <global-host id="global-host"/>
+  </block>
+  <router-probe wx:if="{{routerMounted}}" id="router-probe"/>
+  <block wx:if="{{moveMounted}}">
+    <move-probe wx:for="{{moveKeyed}}" wx:key="key" group="keyed" item-key="{{item.key}}"/>
+    <move-probe wx:for="{{movePositional}}" group="positional" item-key="{{item.key}}"/>
+  </block>
+  <page-event-probe wx:if="{{pageEventMounted}}" tag="suite"/>
+  <group-probe wx:if="{{groupMounted}}" id="group-probe"/>
+  <block wx:if="{{styleGapMounted}}">
+    <host-style-probe id="host-style-probe"/>
+    <ext-bar id="ext-bar" bar-class="ext-pass-width"/>
+    <caret-parent id="caret-parent"/>
+    <import-probe id="import-probe"/>
+  </block>
+  <block wx:if="{{wxsEventMounted}}">
+    <view id="wxs-touch-outer" bindtouchstart="onWxsOuterTouch">
+      <view id="wxs-touch-box" bindtouchstart="{{wxsEvents.onTouchStart}}" bindtouchmove="{{wxsEvents.onTouchMove}}" style="width:80px;height:30px"/>
+    </view>
+    <view id="wxs-stop-outer" bindtouchstart="onWxsOuterTouch">
+      <view id="wxs-stop-box" bindtouchstart="{{wxsEvents.stopInner}}" style="width:80px;height:30px"/>
+    </view>
+    <scroll-view id="wxs-scroll" scroll-y scroll-top="{{wxsScrollTop}}" bindscroll="{{wxsEvents.onScroll}}" style="height:30px;width:80px">
+      <view style="height:200px"/>
+    </scroll-view>
+    <event-adv-host id="wxs-ping-host" bind:ping="{{wxsEvents.onPing}}"/>
+  </block>
+  <block wx:if="{{eventObjectMounted}}">
+    <view id="cc-outer" capture-catch:ping="evtCapCatchOuter" bind:ping="evtBindOuter">
+      <view id="cc-mid" capture-bind:ping="evtCapBindMid" bind:ping="evtBindMid">
+        <event-adv-host id="cc-host" bind:ping="evtBindHost"/>
+      </view>
+    </view>
+    <view id="eo-outer" data-role="outer" mark:zone="outer" bind:ping="evtObjectOuter">
+      <event-adv-host id="eo-host" data-role="host" mark:zone="host"/>
+    </view>
+    <view id="touch-box" data-role="touch" bindtouchstart="evtTouch" bindtouchmove="evtTouch" bindtouchend="evtTouch" bindtap="evtTouch" bindlongpress="evtTouch" style="width:80px;height:30px"/>
   </block>
 </view>

@@ -1,0 +1,1 @@
+<view class="custom-tab-bar" style="height:1px;overflow:hidden">{{mark}}</view>

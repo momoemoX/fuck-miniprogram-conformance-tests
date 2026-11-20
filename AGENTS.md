@@ -19,6 +19,7 @@ Do **not** invent arbitrary test counts or pad the suite with generic Web/DOM/HT
    - Restore any mutated `page.data` fields in `finally` so `runSelected` and arbitrary case order never leak state.
    - Use `isolatedNavigation` from `cases/route-harness.js` for navigation cases so the page stack is always restored.
    - Use `waitUntil` from `cases/support.js` instead of fixed `delay()` for positive observations.
+   - For real touch input, use `drive()` from `cases/driver.js` on a page-level element and guard the case with `driverEnabled()`; cases that must restart the mini program belong in `COLD_START_CHECKS` in `tools/devtools/run.cjs` with a verifier in `cases/cold-start.js`.
    - Never rely on static `require()` literals pointing to non-existent files (DevTools static bundling will fail).
 3. **Verify against the official 3.7.12 baseline**:
    - Run `node tools/devtools/run.cjs --appid <AppID> --out /tmp/core.json` (and `--fixtures` with `tools/http-fixture.mjs` + `tools/socket/echo.cjs` for full baseline).

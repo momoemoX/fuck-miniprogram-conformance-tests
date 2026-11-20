@@ -1,0 +1,1 @@
+<view class="global-probe">{{kind}}</view>
