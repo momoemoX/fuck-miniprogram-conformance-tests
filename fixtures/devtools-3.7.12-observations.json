@@ -2,16 +2,16 @@
   "sdkVersion": "3.7.12",
   "environment": "devtools simulator",
   "toolVersion": "2.02.2611062 Nightly",
-  "suiteBranch": "feat/framework-core-contracts",
+  "suiteBranch": "feat/render-canvas-node-contracts",
   "appStyle": "v2",
   "runs": [
     {
       "profiles": "core",
-      "summary": "493/493 passed"
+      "summary": "513/513 passed"
     },
     {
       "profiles": "core+http+socket",
-      "summary": "507/507 passed"
+      "summary": "527/527 passed"
     }
   ],
   "results": [
@@ -2972,6 +2972,126 @@
       "status": "PASS",
       "expected": "[\"pack-widget-ready\",\"pack-widget-ready\"]",
       "actual": "[\"pack-widget-ready\",\"pack-widget-ready\"]"
+    },
+    {
+      "id": "canvas2d.node-and-context",
+      "status": "PASS",
+      "expected": "[true,true,true,true,true,40,40]",
+      "actual": "[true,true,true,true,true,40,40]"
+    },
+    {
+      "id": "canvas2d.fill-and-read-pixels",
+      "status": "PASS",
+      "expected": "[18,52,86,255]",
+      "actual": "[18,52,86,255]"
+    },
+    {
+      "id": "canvas2d.put-and-clear-rect",
+      "status": "PASS",
+      "expected": "[[255,128,0,255],[0,0,0,0]]",
+      "actual": "[[255,128,0,255],[0,0,0,0]]"
+    },
+    {
+      "id": "canvas2d.save-restore-transform",
+      "status": "PASS",
+      "expected": "[[255,0,0,255],[0,255,0,255]]",
+      "actual": "[[255,0,0,255],[0,255,0,255]]"
+    },
+    {
+      "id": "canvas2d.image-load-and-draw",
+      "status": "PASS",
+      "expected": "[true,true,255]",
+      "actual": "[true,true,255]"
+    },
+    {
+      "id": "canvas2d.to-data-url-and-export-file",
+      "status": "PASS",
+      "expected": "[true,true,\"png\"]",
+      "actual": "[true,true,\"png\"]"
+    },
+    {
+      "id": "canvas2d.measure-text",
+      "status": "PASS",
+      "expected": "[true,true]",
+      "actual": "[true,true]"
+    },
+    {
+      "id": "canvas2d.request-animation-frame",
+      "status": "PASS",
+      "expected": "[false,true,true]",
+      "actual": "[false,true,true]"
+    },
+    {
+      "id": "query.scroll-view-node-scroll-to",
+      "status": "PASS",
+      "expected": "[true,60]",
+      "actual": "[true,60]"
+    },
+    {
+      "id": "query.context-video",
+      "status": "PASS",
+      "expected": "[true,true,true,true]",
+      "actual": "[true,true,true,true]"
+    },
+    {
+      "id": "query.computed-style-and-rect",
+      "status": "PASS",
+      "expected": "[72,28,\"block\",\"relative\",\"rgb(18, 52, 86)\",\"6px\",\"3\"]",
+      "actual": "[72,28,\"block\",\"relative\",\"rgb(18, 52, 86)\",\"6px\",\"3\"]"
+    },
+    {
+      "id": "query.scroll-offset-and-viewport",
+      "status": "PASS",
+      "expected": "[true,true,0,0]",
+      "actual": "[true,true,0,0]"
+    },
+    {
+      "id": "query.mark-field",
+      "status": "PASS",
+      "expected": "[\"node-marked\",\"probe-data\",{\"zone\":\"query\",\"role\":\"leaf\"}]",
+      "actual": "[\"node-marked\",\"probe-data\",{\"role\":\"leaf\",\"zone\":\"query\"}]"
+    },
+    {
+      "id": "query.select-all-order-and-rect",
+      "status": "PASS",
+      "expected": "[3,[12,12,12],[12,12]]",
+      "actual": "[3,[12,12,12],[12,12]]"
+    },
+    {
+      "id": "animate.keyframe-applies-and-clears",
+      "status": "PASS",
+      "expected": "[[80,\"0.5\"],[20,\"1\"]]",
+      "actual": "[[80,\"0.5\"],[20,\"1\"]]"
+    },
+    {
+      "id": "animate.component-scoped",
+      "status": "PASS",
+      "expected": "[[72,\"0.5\"],[24,\"1\"]]",
+      "actual": "[[72,\"0.5\"],[24,\"1\"]]"
+    },
+    {
+      "id": "page-meta.root-font-size-and-style",
+      "status": "PASS",
+      "expected": "[60,30,\"rgb(17, 34, 51)\"]",
+      "actual": "[60,30,\"rgb(17, 34, 51)\"]"
+    },
+    {
+      "id": "page-meta.scroll-top-binding",
+      "status": "PASS",
+      "expected": "true",
+      "actual": "true"
+    },
+    {
+      "id": "page-container.show-events-and-hide",
+      "status": "PASS",
+      "expected": "[\"beforeenter\",\"afterenter\",\"beforeleave\",\"afterleave\"]",
+      "actual": "[\"beforeenter\",\"afterenter\",\"beforeleave\",\"afterleave\"]"
+    },
+    {
+      "id": "scroll-view.edge-boundary-events",
+      "status": "PASS",
+      "expected": "[\"lower\",\"upper\"]",
+      "actual": "[\"lower\",\"upper\"]"
     },
     {
       "id": "socket.text-echo",

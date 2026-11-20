@@ -1,0 +1,18 @@
+<page-meta root-font-size="{{rootFontSize}}" page-style="{{pageStyle}}" scroll-top="{{metaScrollTop}}">
+  <navigation-bar title="{{navTitle}}"/>
+</page-meta>
+<view id="meta-body">
+  <view id="rem-box" style="width:3rem;height:12px"/>
+  <view style="height:1800px"/>
+  <page-container
+    show="{{containerShow}}"
+    duration="{{50}}"
+    overlay="{{false}}"
+    bind:beforeenter="onBeforeEnter"
+    bind:afterenter="onAfterEnter"
+    bind:beforeleave="onBeforeLeave"
+    bind:afterleave="onAfterLeave"
+  >
+    <view id="pc-inner" style="height:40px">Inside</view>
+  </page-container>
+</view>

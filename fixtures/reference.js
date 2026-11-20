@@ -3526,6 +3526,149 @@ module.exports = {
     "pack-widget-ready",
     "pack-widget-ready"
   ],
+  "canvas2d.node-and-context": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    40,
+    40
+  ],
+  "canvas2d.fill-and-read-pixels": [
+    18,
+    52,
+    86,
+    255
+  ],
+  "canvas2d.put-and-clear-rect": [
+    [
+      255,
+      128,
+      0,
+      255
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "canvas2d.save-restore-transform": [
+    [
+      255,
+      0,
+      0,
+      255
+    ],
+    [
+      0,
+      255,
+      0,
+      255
+    ]
+  ],
+  "canvas2d.image-load-and-draw": [
+    true,
+    true,
+    255
+  ],
+  "canvas2d.to-data-url-and-export-file": [
+    true,
+    true,
+    "png"
+  ],
+  "canvas2d.measure-text": [
+    true,
+    true
+  ],
+  "canvas2d.request-animation-frame": [
+    false,
+    true,
+    true
+  ],
+  "query.scroll-view-node-scroll-to": [
+    true,
+    60
+  ],
+  "query.context-video": [
+    true,
+    true,
+    true,
+    true
+  ],
+  "query.computed-style-and-rect": [
+    72,
+    28,
+    "block",
+    "relative",
+    "rgb(18, 52, 86)",
+    "6px",
+    "3"
+  ],
+  "query.scroll-offset-and-viewport": [
+    true,
+    true,
+    0,
+    0
+  ],
+  "query.mark-field": [
+    "node-marked",
+    "probe-data",
+    {
+      "zone": "query",
+      "role": "leaf"
+    }
+  ],
+  "query.select-all-order-and-rect": [
+    3,
+    [
+      12,
+      12,
+      12
+    ],
+    [
+      12,
+      12
+    ]
+  ],
+  "animate.keyframe-applies-and-clears": [
+    [
+      80,
+      "0.5"
+    ],
+    [
+      20,
+      "1"
+    ]
+  ],
+  "animate.component-scoped": [
+    [
+      72,
+      "0.5"
+    ],
+    [
+      24,
+      "1"
+    ]
+  ],
+  "page-meta.root-font-size-and-style": [
+    60,
+    30,
+    "rgb(17, 34, 51)"
+  ],
+  "page-meta.scroll-top-binding": true,
+  "page-container.show-events-and-hide": [
+    "beforeenter",
+    "afterenter",
+    "beforeleave",
+    "afterleave"
+  ],
+  "scroll-view.edge-boundary-events": [
+    "lower",
+    "upper"
+  ],
   "socket.text-echo": [
     "open",
     "socket-echo",

@@ -9,6 +9,7 @@
     "pages/transit/index",
     "pages/lifecycle/index",
     "pages/comp-page/index",
+    "pages/meta-page/index",
     "pages/gallery/index"
   ],
   "window": {

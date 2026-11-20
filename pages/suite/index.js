@@ -41,6 +41,9 @@ const { eventAdvanced } = require("../../cases/event-advanced");
 const { componentPage } = require("../../cases/component-page");
 const { componentOptions } = require("../../cases/component-options");
 const { subpackageAsync } = require("../../cases/subpackage-async");
+const { canvas2dContract } = require("../../cases/canvas-2d");
+const { nodeQueryContract } = require("../../cases/node-query");
+const { renderModernContract } = require("../../cases/render-modern");
 const config = require("../../suite-config");
 
 // Fails fast when the primitives every case depends on are unavailable.
@@ -73,6 +76,10 @@ Page({
     treeRelMounted: false,
     treeOrder: ["first", "second"],
     asyncWidgetMounted: false,
+    canvas2dMounted: false,
+    nodeQueryMounted: false,
+    nodeScrollTop: 0,
+    animateMounted: false,
     galleryMounted: false,
     galleryFont: "",
     target: TARGET,
@@ -203,6 +210,9 @@ Page({
       await componentPage(check);
       await componentOptions(this, check);
       await subpackageAsync(this, check);
+      await canvas2dContract(this, check);
+      await nodeQueryContract(this, check);
+      await renderModernContract(this, check);
       if (config.socketUrl) await sockets(config.socketUrl, check);
       if (config.fixtureUrl) await http(config.fixtureUrl, check);
     } catch (error) {
@@ -315,6 +325,12 @@ Page({
       top: Math.round(event.detail.scrollTop),
       height: Math.round(event.detail.scrollHeight),
     });
+  },
+  onNodeScrollUpper() {
+    if (this.nodeScrollEdges) this.nodeScrollEdges.push("upper");
+  },
+  onNodeScrollLower() {
+    if (this.nodeScrollEdges) this.nodeScrollEdges.push("lower");
   },
 
   boundaryHost(event) {

@@ -151,4 +151,32 @@
   </scroll-view>
   <view id="watched" style="position:absolute;top:{{watchedTop}};left:0;width:60px;height:20px"/>
   <view id="animated" animation="{{animData}}" style="width:10px;height:10px"/>
+  <canvas wx:if="{{canvas2dMounted}}" type="2d" id="canvas-2d" style="width:40px;height:40px"/>
+  <block wx:if="{{nodeQueryMounted}}">
+    <scroll-view
+      id="node-scroll"
+      enhanced="{{true}}"
+      scroll-y="{{true}}"
+      scroll-top="{{nodeScrollTop}}"
+      upper-threshold="{{20}}"
+      lower-threshold="{{20}}"
+      bindscrolltoupper="onNodeScrollUpper"
+      bindscrolltolower="onNodeScrollLower"
+      style="height:60px;width:120px"
+    >
+      <view style="height:240px;width:80px"/>
+    </scroll-view>
+    <video id="node-video" style="width:60px;height:40px"/>
+    <view id="node-styled" style="display:block;position:relative;width:72px;height:28px;background-color:#123456;border-radius:6px;z-index:3"/>
+    <view mark:zone="query">
+      <view id="node-marked" mark:role="leaf" data-label="probe-data" style="width:10px;height:10px"/>
+    </view>
+    <view>
+      <view wx:for="{{[1, 2, 3]}}" wx:key="*this" class="q-box" style="width:30px;height:12px"/>
+    </view>
+  </block>
+  <block wx:if="{{animateMounted}}">
+    <view id="page-kf"/>
+    <animate-probe id="animate-probe"/>
+  </block>
 </view>

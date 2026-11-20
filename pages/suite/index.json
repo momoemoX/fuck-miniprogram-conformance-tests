@@ -31,6 +31,7 @@
     "style-pas-probe": "/components/options-probe/style-page-apply",
     "tree-root": "/components/tree-rel/root",
     "tree-leaf": "/components/tree-rel/leaf",
+    "animate-probe": "/components/animate-probe/index",
     "async-widget": "/pack/async-widget/index"
   },
   "componentPlaceholder": {
