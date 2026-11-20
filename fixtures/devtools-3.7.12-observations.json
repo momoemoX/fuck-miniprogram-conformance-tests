@@ -2,16 +2,16 @@
   "sdkVersion": "3.7.12",
   "environment": "devtools simulator",
   "toolVersion": "2.02.2611062 Nightly",
-  "suiteCommit": "eea947b1c0df15bbfe188fb85f322299b4f68509",
+  "suiteBranch": "feat/framework-core-contracts",
   "appStyle": "v2",
   "runs": [
     {
       "profiles": "core",
-      "summary": "468/468 passed"
+      "summary": "493/493 passed"
     },
     {
       "profiles": "core+http+socket",
-      "summary": "482/482 passed"
+      "summary": "507/507 passed"
     }
   ],
   "results": [
@@ -2822,6 +2822,156 @@
       "status": "PASS",
       "expected": "{\"width\":184,\"height\":40,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"95.5px\",\"margin-bottom\":\"0px\",\"margin-left\":\"95.5px\",\"padding-top\":\"8px\",\"padding-right\":\"24px\",\"padding-bottom\":\"8px\",\"padding-left\":\"24px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgba(0, 0, 0, 0.18)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgb(250, 250, 250)\",\"color\":\"rgba(0, 0, 0, 0.18)\",\"font-size\":\"17px\",\"font-weight\":\"700\",\"line-height\":\"24px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}",
       "actual": "{\"width\":184,\"height\":40,\"display\":\"block\",\"position\":\"relative\",\"box-sizing\":\"border-box\",\"margin-top\":\"0px\",\"margin-right\":\"95.5px\",\"margin-bottom\":\"0px\",\"margin-left\":\"95.5px\",\"padding-top\":\"8px\",\"padding-right\":\"24px\",\"padding-bottom\":\"8px\",\"padding-left\":\"24px\",\"border-top-width\":\"0px\",\"border-right-width\":\"0px\",\"border-bottom-width\":\"0px\",\"border-left-width\":\"0px\",\"border-top-style\":\"none\",\"border-top-color\":\"rgba(0, 0, 0, 0.18)\",\"border-top-left-radius\":\"4px\",\"background-color\":\"rgb(250, 250, 250)\",\"color\":\"rgba(0, 0, 0, 0.18)\",\"font-size\":\"17px\",\"font-weight\":\"700\",\"line-height\":\"24px\",\"text-align\":\"center\",\"overflow-x\":\"hidden\",\"overflow-y\":\"hidden\",\"vertical-align\":\"baseline\",\"white-space\":\"normal\",\"opacity\":\"1\"}"
+    },
+    {
+      "id": "promise.resolves-without-callbacks",
+      "status": "PASS",
+      "expected": "[true,true,\"ok\"]",
+      "actual": "[true,true,\"ok\"]"
+    },
+    {
+      "id": "promise.rejects-on-failure",
+      "status": "PASS",
+      "expected": "[true,true]",
+      "actual": "[true,true]"
+    },
+    {
+      "id": "promise.callback-disables-promise",
+      "status": "PASS",
+      "expected": "[false,true]",
+      "actual": "[false,true]"
+    },
+    {
+      "id": "promise.task-api-not-promisified",
+      "status": "PASS",
+      "expected": "[true,false]",
+      "actual": "[true,false]"
+    },
+    {
+      "id": "wxs.change-prop-initial-and-update",
+      "status": "PASS",
+      "expected": "[{\"next\":1,\"prev\":null},{\"next\":3,\"prev\":1}]",
+      "actual": "[{\"next\":1,\"prev\":null},{\"next\":3,\"prev\":1}]"
+    },
+    {
+      "id": "wxs.owner-call-method",
+      "status": "PASS",
+      "expected": "{\"next\":4,\"prev\":1}",
+      "actual": "{\"next\":4,\"prev\":1}"
+    },
+    {
+      "id": "wxs.owner-set-style",
+      "status": "PASS",
+      "expected": "[30,50]",
+      "actual": "[30,50]"
+    },
+    {
+      "id": "wxs.owner-class-toggle",
+      "status": "PASS",
+      "expected": "[[15,false],[55,true],[15,false]]",
+      "actual": "[[15,false],[55,true],[15,false]]"
+    },
+    {
+      "id": "model.parent-update-flows-to-child",
+      "status": "PASS",
+      "expected": "[\"from-parent\",\"from-parent\"]",
+      "actual": "[\"from-parent\",\"from-parent\"]"
+    },
+    {
+      "id": "model.child-setdata-updates-parent",
+      "status": "PASS",
+      "expected": "[\"from-child\",\"from-child\"]",
+      "actual": "[\"from-child\",\"from-child\"]"
+    },
+    {
+      "id": "model.numeric-property-roundtrip",
+      "status": "PASS",
+      "expected": "[42,\"number\",42]",
+      "actual": "[42,\"number\",42]"
+    },
+    {
+      "id": "event.mark-merges-and-overrides",
+      "status": "PASS",
+      "expected": "{\"outer\":\"page\",\"mid\":\"mid\",\"host\":\"host\",\"shared\":\"host\"}",
+      "actual": "{\"host\":\"host\",\"shared\":\"host\",\"mid\":\"mid\",\"outer\":\"page\"}"
+    },
+    {
+      "id": "event.mark-isolated-at-component-boundary",
+      "status": "PASS",
+      "expected": "[{\"inner\":\"in\",\"leaf\":\"leaf\",\"shared\":\"leaf\"},{\"outer\":\"page\",\"mid\":\"mid\",\"host\":\"host\",\"shared\":\"host\"}]",
+      "actual": "[{\"leaf\":\"leaf\",\"shared\":\"leaf\",\"inner\":\"in\"},{\"host\":\"host\",\"shared\":\"host\",\"mid\":\"mid\",\"outer\":\"page\"}]"
+    },
+    {
+      "id": "event.mut-bind-stops-same-kind",
+      "status": "PASS",
+      "expected": "[\"mut-mid\"]",
+      "actual": "[\"mut-mid\"]"
+    },
+    {
+      "id": "event.mut-bind-allows-regular-bind",
+      "status": "PASS",
+      "expected": "[\"bind-host\",\"mut-mid\",\"bind-outer\"]",
+      "actual": "[\"bind-host\",\"mut-mid\",\"bind-outer\"]"
+    },
+    {
+      "id": "component-page.query-to-properties",
+      "status": "PASS",
+      "expected": "[\"alpha\",7,\"number\",\"alpha\",7]",
+      "actual": "[\"alpha\",7,\"number\",\"alpha\",7]"
+    },
+    {
+      "id": "component-page.methods-lifecycles",
+      "status": "PASS",
+      "expected": "[\"pages/comp-page/index\",[\"created\",\"attached\",\"onLoad\",\"onShow\",\"ready\",\"onReady\",\"onUnload\",\"detached\"]]",
+      "actual": "[\"pages/comp-page/index\",[\"created\",\"attached\",\"onLoad\",\"onShow\",\"ready\",\"onReady\",\"onUnload\",\"detached\"]]"
+    },
+    {
+      "id": "component-options.virtual-host-layout",
+      "status": "PASS",
+      "expected": "[true,false,true,true]",
+      "actual": "[true,false,true,true]"
+    },
+    {
+      "id": "component-options.add-global-class",
+      "status": "PASS",
+      "expected": "[53,61]",
+      "actual": "[53,61]"
+    },
+    {
+      "id": "component-options.style-shared",
+      "status": "PASS",
+      "expected": "[61,67]",
+      "actual": "[61,67]"
+    },
+    {
+      "id": "component-options.style-page-apply-shared",
+      "status": "PASS",
+      "expected": "[61,13]",
+      "actual": "[61,13]"
+    },
+    {
+      "id": "component-options.relation-ancestor-descendant",
+      "status": "PASS",
+      "expected": "[[\"first\",\"second\"],[true,true]]",
+      "actual": "[[\"first\",\"second\"],[true,true]]"
+    },
+    {
+      "id": "component-options.relation-link-changed",
+      "status": "PASS",
+      "expected": "[[\"second\",\"first\"],true]",
+      "actual": "[[\"second\",\"first\"],true]"
+    },
+    {
+      "id": "subpackage.require-async",
+      "status": "PASS",
+      "expected": "[\"pack-async\",21]",
+      "actual": "[\"pack-async\",21]"
+    },
+    {
+      "id": "subpackage.component-placeholder",
+      "status": "PASS",
+      "expected": "[\"pack-widget-ready\",\"pack-widget-ready\"]",
+      "actual": "[\"pack-widget-ready\",\"pack-widget-ready\"]"
     },
     {
       "id": "socket.text-echo",

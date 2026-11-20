@@ -1,0 +1,7 @@
+.flag {
+  width: 15px;
+  height: 10px;
+}
+.flag.wide {
+  width: 55px;
+}

@@ -1,0 +1,2 @@
+<view id="gc-app" class="fallback suite-global-rule"/>
+<view id="gc-page" class="fallback suite-page-rule"/>

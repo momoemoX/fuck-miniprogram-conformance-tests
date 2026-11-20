@@ -8,6 +8,7 @@
     "pages/tab/index",
     "pages/transit/index",
     "pages/lifecycle/index",
+    "pages/comp-page/index",
     "pages/gallery/index"
   ],
   "window": {

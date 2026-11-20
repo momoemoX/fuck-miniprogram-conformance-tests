@@ -34,6 +34,13 @@ const { scrollContract } = require("../../cases/scroll-contract");
 const { observerContract } = require("../../cases/observer-contract");
 const { pageScrollContract } = require("../../cases/page-scroll");
 const { componentCatalog } = require("../../cases/component-catalog");
+const { promiseContract } = require("../../cases/promise-contract");
+const { wxsResponder } = require("../../cases/wxs-responder");
+const { modelContract } = require("../../cases/model-contract");
+const { eventAdvanced } = require("../../cases/event-advanced");
+const { componentPage } = require("../../cases/component-page");
+const { componentOptions } = require("../../cases/component-options");
+const { subpackageAsync } = require("../../cases/subpackage-async");
 const config = require("../../suite-config");
 
 // Fails fast when the primitives every case depends on are unavailable.
@@ -53,6 +60,19 @@ async function preflight(page) {
 Page({
   data: {
     preflight: false,
+    wxsResponderMounted: false,
+    wxsResponderStep: 1,
+    modelMounted: false,
+    modelText: "seed",
+    modelCount: 5,
+    eventAdvMounted: false,
+    virtualHostMounted: false,
+    globalClassMounted: false,
+    styleSharedMounted: false,
+    stylePageApplyMounted: false,
+    treeRelMounted: false,
+    treeOrder: ["first", "second"],
+    asyncWidgetMounted: false,
     galleryMounted: false,
     galleryFont: "",
     target: TARGET,
@@ -176,6 +196,13 @@ Page({
       await extended(this, check);
       await system(check);
       await componentCatalog(this, check);
+      await promiseContract(check);
+      await wxsResponder(this, check);
+      await modelContract(this, check);
+      await eventAdvanced(this, check);
+      await componentPage(check);
+      await componentOptions(this, check);
+      await subpackageAsync(this, check);
       if (config.socketUrl) await sockets(config.socketUrl, check);
       if (config.fixtureUrl) await http(config.fixtureUrl, check);
     } catch (error) {
@@ -301,6 +328,25 @@ Page({
   boundaryAncestor(event) {
     getApp().boundaryTrace.push(["ancestor", event.detail.value]);
     if (this.boundaryTargets) this.boundaryTargets.push(event.currentTarget.id);
+  },
+
+  recordAdvEvent(at, event) {
+    const app = getApp();
+    if (app.advEventTrace) {
+      app.advEventTrace.push({ at, mark: Object.assign({}, event.mark || {}) });
+    }
+  },
+  advBindHost(event) {
+    this.recordAdvEvent("bind-host", event);
+  },
+  advMutMid(event) {
+    this.recordAdvEvent("mut-mid", event);
+  },
+  advMutOuter(event) {
+    this.recordAdvEvent("mut-outer", event);
+  },
+  advBindOuter(event) {
+    this.recordAdvEvent("bind-outer", event);
   },
 
   showReport() {

@@ -1,0 +1,24 @@
+module.exports = {
+  onStep: function (newVal, oldVal, ownerInstance, instance) {
+    ownerInstance.callMethod("onWxsStep", {
+      next: newVal,
+      prev: oldVal === undefined ? null : oldVal,
+    });
+    if (typeof newVal === "number") {
+      instance.setStyle({
+        width: 20 + newVal * 10 + "px",
+      });
+      var flag = ownerInstance.selectComponent("#flag");
+      if (flag) {
+        if (newVal >= 2) {
+          flag.addClass("wide");
+        } else {
+          flag.removeClass("wide");
+        }
+        ownerInstance.callMethod("onWxsClass", {
+          has: flag.hasClass("wide"),
+        });
+      }
+    }
+  },
+};

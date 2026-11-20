@@ -1,0 +1,1 @@
+<view id="model-view" data-value="{{value}}" data-count="{{count}}"/>

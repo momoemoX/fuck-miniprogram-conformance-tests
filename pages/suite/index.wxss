@@ -6,3 +6,5 @@
 .page-sized.page-sized {width:37px;}
 .small-external {width:31px;height:1px;}
 .wide-external {width:43px;height:1px;}
+.suite-page-rule.suite-page-rule { width: 61px; height: 10px; }
+.fallback-page { width: 13px; height: 10px; }

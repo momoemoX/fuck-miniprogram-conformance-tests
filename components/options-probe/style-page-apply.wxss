@@ -1,0 +1,8 @@
+.fallback {
+  width: 11px;
+  height: 10px;
+}
+.suite-pas-leak.suite-pas-leak {
+  width: 71px;
+  height: 10px;
+}

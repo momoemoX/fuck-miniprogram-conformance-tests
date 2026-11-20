@@ -1,0 +1,3 @@
+<wxs module="handler" src="./handler.wxs"/>
+<view id="box" prop="{{step}}" change:prop="{{handler.onStep}}" style="width:10px;height:10px"/>
+<view id="flag" class="flag"/>

@@ -1,0 +1,3 @@
+<view mark:inner="in" mark:shared="inner" bind:ping="onInsidePing">
+  <event-adv-leaf id="adv-leaf" mark:leaf="leaf" mark:shared="leaf"/>
+</view>

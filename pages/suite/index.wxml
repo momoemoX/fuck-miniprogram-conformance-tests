@@ -21,6 +21,39 @@
     <view>Actual: {{item.actual}}</view>
   </view>
   <view aria-hidden="true" style="position:absolute;left:-200vw;top:0;width:100vw">
+    <wxs-responder wx:if="{{wxsResponderMounted}}" id="wxs-responder" step="{{wxsResponderStep}}"/>
+    <block wx:if="{{modelMounted}}">
+      <model-probe id="model-probe" model:value="{{modelText}}" model:count="{{modelCount}}"/>
+      <view id="model-parent-mirror" data-value="{{modelText}}" data-count="{{modelCount}}"/>
+    </block>
+    <block wx:if="{{eventAdvMounted}}">
+      <view id="adv-outer-bind" mark:outer="page" mark:shared="outer" bind:ping="advBindOuter">
+        <view id="adv-outer-mut" mut-bind:ping="advMutOuter">
+          <view id="adv-mid" mark:mid="mid" mark:shared="mid" mut-bind:ping="advMutMid">
+            <event-adv-host id="adv-host" mark:host="host" mark:shared="host" bind:ping="advBindHost"/>
+          </view>
+        </view>
+      </view>
+    </block>
+    <block wx:if="{{virtualHostMounted}}">
+      <view style="display:flex;width:120px"><normal-host-probe id="normal-host"/></view>
+      <view style="display:flex;width:120px"><virtual-host-probe id="virtual-host"/></view>
+    </block>
+    <global-class-probe wx:if="{{globalClassMounted}}" id="global-class-probe"/>
+    <block wx:if="{{styleSharedMounted}}">
+      <style-shared-probe id="style-shared-probe"/>
+      <view id="shared-leak-target" class="fallback-page suite-shared-leak"/>
+    </block>
+    <block wx:if="{{stylePageApplyMounted}}">
+      <style-pas-probe id="style-pas-probe"/>
+      <view id="pas-leak-target" class="fallback-page suite-pas-leak"/>
+    </block>
+    <tree-root wx:if="{{treeRelMounted}}" id="tree-root">
+      <view>
+        <tree-leaf wx:for="{{treeOrder}}" wx:key="*this" class="tree-leaf" label="{{item}}"/>
+      </view>
+    </tree-root>
+    <async-widget wx:if="{{asyncWidgetMounted}}" id="async-widget"/>
     <component-gallery wx:if="{{galleryMounted}}" id="gallery" font="{{galleryFont}}"/>
     <reuse-list wx:if="{{reuseMounted}}" id="reuse-list"/>
     <block wx:if="{{errorMounted}}">

@@ -20,6 +20,20 @@
     "error-probe": "/components/error-probe/index",
     "wxs-probe": "/components/wxs-probe/index",
     "page-probe": "/components/page-probe/index",
-    "component-gallery": "/components/gallery/index"
+    "component-gallery": "/components/gallery/index",
+    "wxs-responder": "/components/wxs-responder/index",
+    "model-probe": "/components/model-probe/index",
+    "event-adv-host": "/components/event-advanced/host",
+    "virtual-host-probe": "/components/options-probe/virtual-host",
+    "normal-host-probe": "/components/options-probe/normal-host",
+    "global-class-probe": "/components/options-probe/global-class",
+    "style-shared-probe": "/components/options-probe/style-shared",
+    "style-pas-probe": "/components/options-probe/style-page-apply",
+    "tree-root": "/components/tree-rel/root",
+    "tree-leaf": "/components/tree-rel/leaf",
+    "async-widget": "/pack/async-widget/index"
+  },
+  "componentPlaceholder": {
+    "async-widget": "view"
   }
 }

@@ -3374,6 +3374,158 @@ module.exports = {
     "white-space": "normal",
     "opacity": "1"
   },
+  "promise.resolves-without-callbacks": [
+    true,
+    true,
+    "ok"
+  ],
+  "promise.rejects-on-failure": [
+    true,
+    true
+  ],
+  "promise.callback-disables-promise": [
+    false,
+    true
+  ],
+  "promise.task-api-not-promisified": [
+    true,
+    false
+  ],
+  "wxs.change-prop-initial-and-update": [
+    {
+      "next": 1,
+      "prev": null
+    },
+    {
+      "next": 3,
+      "prev": 1
+    }
+  ],
+  "wxs.owner-call-method": {
+    "next": 4,
+    "prev": 1
+  },
+  "wxs.owner-set-style": [
+    30,
+    50
+  ],
+  "wxs.owner-class-toggle": [
+    [
+      15,
+      false
+    ],
+    [
+      55,
+      true
+    ],
+    [
+      15,
+      false
+    ]
+  ],
+  "model.parent-update-flows-to-child": [
+    "from-parent",
+    "from-parent"
+  ],
+  "model.child-setdata-updates-parent": [
+    "from-child",
+    "from-child"
+  ],
+  "model.numeric-property-roundtrip": [
+    42,
+    "number",
+    42
+  ],
+  "event.mark-merges-and-overrides": {
+    "outer": "page",
+    "mid": "mid",
+    "host": "host",
+    "shared": "host"
+  },
+  "event.mark-isolated-at-component-boundary": [
+    {
+      "inner": "in",
+      "leaf": "leaf",
+      "shared": "leaf"
+    },
+    {
+      "outer": "page",
+      "mid": "mid",
+      "host": "host",
+      "shared": "host"
+    }
+  ],
+  "event.mut-bind-stops-same-kind": [
+    "mut-mid"
+  ],
+  "event.mut-bind-allows-regular-bind": [
+    "bind-host",
+    "mut-mid",
+    "bind-outer"
+  ],
+  "component-page.query-to-properties": [
+    "alpha",
+    7,
+    "number",
+    "alpha",
+    7
+  ],
+  "component-page.methods-lifecycles": [
+    "pages/comp-page/index",
+    [
+      "created",
+      "attached",
+      "onLoad",
+      "onShow",
+      "ready",
+      "onReady",
+      "onUnload",
+      "detached"
+    ]
+  ],
+  "component-options.virtual-host-layout": [
+    true,
+    false,
+    true,
+    true
+  ],
+  "component-options.add-global-class": [
+    53,
+    61
+  ],
+  "component-options.style-shared": [
+    61,
+    67
+  ],
+  "component-options.style-page-apply-shared": [
+    61,
+    13
+  ],
+  "component-options.relation-ancestor-descendant": [
+    [
+      "first",
+      "second"
+    ],
+    [
+      true,
+      true
+    ]
+  ],
+  "component-options.relation-link-changed": [
+    [
+      "second",
+      "first"
+    ],
+    true
+  ],
+  "subpackage.require-async": [
+    "pack-async",
+    21
+  ],
+  "subpackage.component-placeholder": [
+    "pack-widget-ready",
+    "pack-widget-ready"
+  ],
   "socket.text-echo": [
     "open",
     "socket-echo",
