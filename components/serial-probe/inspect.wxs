@@ -1,0 +1,39 @@
+function describe(val) {
+  if (val === undefined) return "undefined";
+  if (val === null) return "null";
+  if (typeof val === "number") {
+    if (isNaN(val)) return "NaN";
+    if (!isFinite(val)) return val > 0 ? "Infinity" : "-Infinity";
+    return "number:" + val;
+  }
+  if (typeof val === "string") return "string:" + val;
+  if (typeof val === "boolean") return "boolean:" + val;
+  if (val.constructor === "Array") return "array:" + val.length;
+  if (val.constructor === "Date") return "date:" + val.getTime();
+  return "object:" + JSON.stringify(val);
+}
+
+function hasKey(obj, key) {
+  if (!obj) return false;
+  return JSON.stringify(obj).indexOf('"' + key + '"') !== -1;
+}
+
+function strLen(val) {
+  return typeof val === "string" ? val.length : -1;
+}
+
+function arrLen(val) {
+  return val && val.constructor === "Array" ? val.length : -1;
+}
+
+function arrAt(val, idx) {
+  return val && val.constructor === "Array" ? describe(val[idx]) : "not-array";
+}
+
+module.exports = {
+  describe: describe,
+  hasKey: hasKey,
+  strLen: strLen,
+  arrLen: arrLen,
+  arrAt: arrAt,
+};

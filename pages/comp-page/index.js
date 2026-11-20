@@ -1,4 +1,7 @@
+const pageBehavior = require("./page-behavior");
+
 Component({
+  behaviors: [pageBehavior],
   properties: {
     code: {
       type: String,
@@ -8,10 +11,15 @@ Component({
       type: Number,
       value: 0,
     },
+    flag: {
+      type: Boolean,
+      value: false,
+    },
   },
   lifetimes: {
     created() {
       this.phases = ["created"];
+      this.observed = [];
     },
     attached() {
       this.phases.push("attached");
@@ -23,6 +31,11 @@ Component({
       this.phases.push("detached");
       const probe = getApp().compPageProbe;
       if (probe) probe.record("detached");
+    },
+  },
+  observers: {
+    "code, count"(code, count) {
+      if (this.observed) this.observed.push([code, count]);
     },
   },
   methods: {

@@ -5,6 +5,10 @@ Page({
     navTitle: "Meta Initial",
     metaScrollTop: "0px",
     containerShow: false,
+    containerPosition: "bottom",
+    containerRound: false,
+    containerOverlay: false,
+    containerZIndex: 100,
   },
   onLoad() {
     this.scrollLog = [];

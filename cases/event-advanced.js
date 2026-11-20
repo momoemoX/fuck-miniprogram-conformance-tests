@@ -7,10 +7,10 @@ async function eventAdvanced(page, check) {
       const app = getApp();
       app.advEventTrace = [];
       try {
-        await update(page, { eventAdvMounted: true });
+        await update(page, { advDynMark: "v1", eventAdvMounted: true });
         return await exercise(page.selectComponent("#adv-host"));
       } finally {
-        await update(page, { eventAdvMounted: false });
+        await update(page, { eventAdvMounted: false, advDynMark: "v1" });
         delete app.advEventTrace;
       }
     });
@@ -18,7 +18,7 @@ async function eventAdvanced(page, check) {
 
   await isolated(
     "event.mark-merges-and-overrides",
-    { outer: "page", mid: "mid", host: "host", shared: "host" },
+    { outer: "page", mid: "mid", host: "host", shared: "host", dyn: "v1" },
     (host) => {
       host.fireHost({ bubbles: true });
       const outer = getApp().advEventTrace.find((entry) => entry.at === "bind-outer");
@@ -33,7 +33,7 @@ async function eventAdvanced(page, check) {
     "event.mark-isolated-at-component-boundary",
     [
       { inner: "in", leaf: "leaf", shared: "leaf" },
-      { outer: "page", mid: "mid", host: "host", shared: "host" },
+      { outer: "page", mid: "mid", host: "host", shared: "host", dyn: "v1" },
     ],
     (host) => {
       host.fireLeaf({ bubbles: true, composed: true });
@@ -55,6 +55,40 @@ async function eventAdvanced(page, check) {
     host.fireHost({ bubbles: true });
     return getApp().advEventTrace.map((entry) => entry.at);
   });
+
+  await isolated("event.mark-dynamic-update", ["v1", "v2", ""], async (host) => {
+    host.fireHost({ bubbles: true });
+    const first = getApp().advEventTrace.find((entry) => entry.at === "bind-outer").mark.dyn;
+    getApp().advEventTrace = [];
+    await update(page, { advDynMark: "v2" });
+    host.fireHost({ bubbles: true });
+    const second = getApp().advEventTrace.find((entry) => entry.at === "bind-outer").mark.dyn;
+    getApp().advEventTrace = [];
+    await update(page, { advDynMark: "" });
+    host.fireHost({ bubbles: true });
+    const third = getApp().advEventTrace.find((entry) => entry.at === "bind-outer").mark.dyn;
+    return [first, second, third];
+  });
+
+  await isolated("event.mark-distinct-from-dataset", ["host-ds", "outer-ds", "host"], (host) => {
+    host.fireHost({ bubbles: true });
+    const outer = getApp().advEventTrace.find((entry) => entry.at === "bind-outer");
+    return [outer.targetDs, outer.currentDs, outer.mark.shared];
+  });
+
+  await isolated("event.mut-bind-and-catch-interaction", ["mut-inner", "catch-mid"], () => {
+    page.selectComponent("#adv-catch-host").fireHost({ bubbles: true });
+    return getApp().advEventTrace.map((entry) => entry.at);
+  });
+
+  await isolated(
+    "event.capture-bind-and-mut-bind-order",
+    ["cap-bind-outer", "bind-cap-host", "mut-cap-mid"],
+    () => {
+      page.selectComponent("#adv-cap-host").fireHost({ bubbles: true, capturePhase: true });
+      return getApp().advEventTrace.map((entry) => entry.at);
+    },
+  );
 }
 
 module.exports = { eventAdvanced };

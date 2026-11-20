@@ -44,6 +44,13 @@ const { subpackageAsync } = require("../../cases/subpackage-async");
 const { canvas2dContract } = require("../../cases/canvas-2d");
 const { nodeQueryContract } = require("../../cases/node-query");
 const { renderModernContract } = require("../../cases/render-modern");
+const {
+  routeBoundaries,
+  reLaunchBoundaries,
+  verifyPageNotFoundEntry,
+} = require("../../cases/route-boundaries");
+const { storageSerialization } = require("../../cases/storage-serialization");
+const { mediaBoundaries, videoBoundaries } = require("../../cases/media-boundaries");
 const config = require("../../suite-config");
 
 // Fails fast when the primitives every case depends on are unavailable.
@@ -65,21 +72,35 @@ Page({
     preflight: false,
     wxsResponderMounted: false,
     wxsResponderStep: 1,
+    wxsResponderPayload: null,
     modelMounted: false,
     modelText: "seed",
     modelCount: 5,
+    modelFlag: true,
+    modelInput: "init",
     eventAdvMounted: false,
+    advDynMark: "v1",
     virtualHostMounted: false,
     globalClassMounted: false,
     styleSharedMounted: false,
     stylePageApplyMounted: false,
+    stylePageSharedMounted: false,
+    styleIsolatedMounted: false,
     treeRelMounted: false,
     treeOrder: ["first", "second"],
+    behRelMounted: false,
+    behRelShowSecond: true,
     asyncWidgetMounted: false,
+    asyncWidgetTitle: "hello-pack",
     canvas2dMounted: false,
     nodeQueryMounted: false,
     nodeScrollTop: 0,
+    nodeScrollIntoX: "",
+    qSwitchChecked: false,
+    qSliderVal: 20,
     animateMounted: false,
+    serialMounted: false,
+    mediaMounted: false,
     galleryMounted: false,
     galleryFont: "",
     target: TARGET,
@@ -194,12 +215,15 @@ Page({
       await rendering(this, check);
       await routes(check);
       await navigation(check);
+      await routeBoundaries(check);
       await storage(check);
+      await storageSerialization(this, check);
       await binary(check);
       await files(check);
       await descriptors(check);
       await formats(check);
       await platform(check);
+      await mediaBoundaries(this, check);
       await extended(this, check);
       await system(check);
       await componentCatalog(this, check);
@@ -213,6 +237,8 @@ Page({
       await canvas2dContract(this, check);
       await nodeQueryContract(this, check);
       await renderModernContract(this, check);
+      if (config.fixtureUrl) await videoBoundaries(this, config.fixtureUrl, check);
+      await reLaunchBoundaries(check);
       if (config.socketUrl) await sockets(config.socketUrl, check);
       if (config.fixtureUrl) await http(config.fixtureUrl, check);
     } catch (error) {
@@ -225,7 +251,7 @@ Page({
     } catch {
       /* A partial implementation can still produce a case report. */
     }
-    this.report = {
+    const finalReport = {
       target: TARGET,
       interrupted,
       reportedSDK,
@@ -233,7 +259,10 @@ Page({
       breakdown: report.breakdown(),
       results: report.results,
     };
-    this.setData({
+    const host = getCurrentPages().find((entry) => entry.route === "pages/suite/index") || this;
+    host.report = finalReport;
+    if (host !== this) this.report = finalReport;
+    host.setData({
       results: report.results,
       summary: interrupted ? "Interrupted: " + interrupted : report.summary(),
       baselineScore: interrupted ? "No final score for an interrupted run" : report.baselineScore(),
@@ -241,9 +270,28 @@ Page({
     });
   },
 
-  onLoad() {
+  onLoad(options) {
+    this.entryOptions = options || {};
     const app = getApp();
     if (app && app.bootTrace) app.bootTrace.push("page.load");
+  },
+
+  onReady() {
+    const app = getApp();
+    if (app && app.reLaunchProbe && typeof app.reLaunchProbe.onSuiteReady === "function") {
+      app.reLaunchProbe.onSuiteReady(this);
+    }
+  },
+
+  onUnload() {
+    const app = getApp();
+    if (app && app.reLaunchProbe && typeof app.reLaunchProbe.onSuiteUnload === "function") {
+      app.reLaunchProbe.onSuiteUnload();
+    }
+  },
+
+  verifyPageNotFoundEntry() {
+    return verifyPageNotFoundEntry(this);
   },
 
   // Diagnostic hook: runs only the listed case IDs. Used to re-check pending
@@ -349,7 +397,15 @@ Page({
   recordAdvEvent(at, event) {
     const app = getApp();
     if (app.advEventTrace) {
-      app.advEventTrace.push({ at, mark: Object.assign({}, event.mark || {}) });
+      app.advEventTrace.push({
+        at,
+        mark: Object.assign({}, event.mark || {}),
+        targetDs: event.target && event.target.dataset ? event.target.dataset.ds : undefined,
+        currentDs:
+          event.currentTarget && event.currentTarget.dataset
+            ? event.currentTarget.dataset.ds
+            : undefined,
+      });
     }
   },
   advBindHost(event) {
@@ -363,6 +419,30 @@ Page({
   },
   advBindOuter(event) {
     this.recordAdvEvent("bind-outer", event);
+  },
+  advMutInner(event) {
+    this.recordAdvEvent("mut-inner", event);
+  },
+  advCatchMid(event) {
+    this.recordAdvEvent("catch-mid", event);
+  },
+  advCatchOuter(event) {
+    this.recordAdvEvent("catch-outer", event);
+  },
+  advCapBindOuter(event) {
+    this.recordAdvEvent("cap-bind-outer", event);
+  },
+  advMutCapMid(event) {
+    this.recordAdvEvent("mut-cap-mid", event);
+  },
+  advBindCapHost(event) {
+    this.recordAdvEvent("bind-cap-host", event);
+  },
+  onWxsNotify(event) {
+    if (this.wxsNotifyTrace) this.wxsNotifyTrace.push(event.detail);
+  },
+  onAsyncWidgetReady(event) {
+    if (this.asyncWidgetEvents) this.asyncWidgetEvents.push(event.detail);
   },
 
   showReport() {

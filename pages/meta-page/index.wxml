@@ -7,7 +7,10 @@
   <page-container
     show="{{containerShow}}"
     duration="{{50}}"
-    overlay="{{false}}"
+    position="{{containerPosition}}"
+    round="{{containerRound}}"
+    overlay="{{containerOverlay}}"
+    z-index="{{containerZIndex}}"
     bind:beforeenter="onBeforeEnter"
     bind:afterenter="onAfterEnter"
     bind:beforeleave="onBeforeLeave"

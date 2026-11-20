@@ -10,7 +10,9 @@ async function componentOptions(page, check) {
       } finally {
         const reset = {};
         for (const key of Object.keys(patch)) {
-          reset[key] = typeof patch[key] === "boolean" ? false : key === "treeOrder" ? ["first", "second"] : patch[key];
+          if (typeof patch[key] === "boolean") reset[key] = false;
+          else if (key === "treeOrder") reset[key] = ["first", "second"];
+          else reset[key] = patch[key];
         }
         await update(page, reset);
       }
@@ -26,13 +28,22 @@ async function componentOptions(page, check) {
       const virtual = page.selectComponent("#virtual-host");
       const nRects = await query(normal, ".vh-item", { rect: true }, true);
       const vRects = await query(virtual, ".vh-item", { rect: true }, true);
-      // Normal host wraps its children in a single flex item so they stack vertically;
-      // virtualHost exposes its children directly to the parent flex container horizontally.
       const normalStacked = nRects[1].top > nRects[0].top && Math.abs(nRects[1].left - nRects[0].left) <= 1;
       const normalHorizontal = Math.abs(nRects[1].top - nRects[0].top) <= 1 && nRects[1].left > nRects[0].left;
       const virtualSameRow = Math.abs(vRects[1].top - vRects[0].top) <= 1;
       const virtualAdjacent = Math.abs(vRects[1].left - vRects[0].left - 40) <= 1;
       return [normalStacked, normalHorizontal, virtualSameRow, virtualAdjacent];
+    },
+  );
+
+  await withOptions(
+    "component-options.virtual-host-selector-and-methods",
+    ["virtual-host-instance", 2],
+    { virtualHostMounted: true },
+    async () => {
+      const virtual = page.selectComponent("#virtual-host");
+      const items = await query(virtual, ".vh-item", { size: true }, true);
+      return [virtual.who(), items.length];
     },
   );
 
@@ -73,6 +84,30 @@ async function componentOptions(page, check) {
   );
 
   await withOptions(
+    "component-options.style-page-shared",
+    [61, 73],
+    { stylePageSharedMounted: true },
+    async () => {
+      const comp = page.selectComponent("#style-ps-probe");
+      const insideWidth = (await query(comp, "#ps-page", { size: true })).width;
+      const leakedWidth = (await query(page, "#ps-leak-target", { size: true })).width;
+      return [insideWidth, leakedWidth];
+    },
+  );
+
+  await withOptions(
+    "component-options.style-isolated-blocks-global",
+    [11, 11],
+    { styleIsolatedMounted: true },
+    async () => {
+      const comp = page.selectComponent("#style-iso-probe");
+      const appWidth = (await query(comp, "#iso-app", { size: true })).width;
+      const pageWidth = (await query(comp, "#iso-page", { size: true })).width;
+      return [appWidth, pageWidth];
+    },
+  );
+
+  await withOptions(
     "component-options.relation-ancestor-descendant",
     [["first", "second"], [true, true]],
     { treeRelMounted: true, treeOrder: ["first", "second"] },
@@ -93,6 +128,31 @@ async function componentOptions(page, check) {
       await update(page, { treeOrder: ["second", "first"] });
       const hasLinkChanged = root.events.some((entry) => entry[0] === "linkChanged");
       return [root.leafLabels(), hasLinkChanged];
+    },
+  );
+
+  await withOptions(
+    "component-options.relation-behavior-target-lifecycle",
+    [
+      ["alpha", "beta"],
+      ["alpha"],
+      [["unlinked", "beta"]],
+      ["alpha", "beta"],
+      [["linked", "beta"]],
+    ],
+    { behRelMounted: true, behRelShowSecond: true },
+    async () => {
+      const root = page.selectComponent("#beh-tree-root");
+      const initial = root.labels();
+      root.events = [];
+      await update(page, { behRelShowSecond: false });
+      const afterRemove = root.labels();
+      const unlinkEvents = root.events.slice();
+      root.events = [];
+      await update(page, { behRelShowSecond: true });
+      const afterAdd = root.labels();
+      const linkEvents = root.events.slice();
+      return [initial, afterRemove, unlinkEvents, afterAdd, linkEvents];
     },
   );
 }

@@ -8,6 +8,20 @@ Component({
       type: Number,
       value: 0,
     },
+    flag: {
+      type: Boolean,
+      value: true,
+    },
+  },
+  lifetimes: {
+    created() {
+      this.observedValues = [];
+    },
+  },
+  observers: {
+    value(next) {
+      if (this.observedValues) this.observedValues.push(next);
+    },
   },
   methods: {
     writeValue(next) {
@@ -15,6 +29,9 @@ Component({
     },
     writeCount(next) {
       return new Promise((resolve) => this.setData({ count: next }, resolve));
+    },
+    writeFlag(next) {
+      return new Promise((resolve) => this.setData({ flag: next }, resolve));
     },
   },
 });

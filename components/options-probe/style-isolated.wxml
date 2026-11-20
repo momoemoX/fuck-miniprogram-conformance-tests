@@ -1,0 +1,2 @@
+<view id="iso-app" class="fallback suite-global-rule"/>
+<view id="iso-page" class="fallback suite-page-rule"/>

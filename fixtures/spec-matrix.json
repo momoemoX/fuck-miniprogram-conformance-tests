@@ -79,11 +79,13 @@
           "title": "App.onPageNotFound real trigger & recovery",
           "priority": "P1",
           "automatable": true,
-          "status": "missing",
+          "status": "partial",
           "contract": "Navigating or launching to a non-existent route triggers onPageNotFound / wx.onPageNotFound with { path, query, isEntryPage } without corrupting the current page stack.",
-          "cases": [],
+          "cases": [
+            "route.page-not-found-in-app-isolation"
+          ],
           "gaps": [
-            "Verify whether navigateTo to an unknown route triggers wx.onPageNotFound or fails via navigateTo.fail on 3.7.12, and assert exact payload shape and stack preservation."
+            "Cold-start onPageNotFound entry recovery is verified separately via tools/devtools/check-page-not-found.cjs (since wx.restartMiniProgram destroys the running suite page context)."
           ]
         }
       ]
@@ -136,31 +138,27 @@
           "title": "Subpackage routing & async require.async / callback require",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "Subpackage pages load into the normal page stack; require.async(path) and callback require(path, cb, errCb) load subpackage JS asynchronously and reject/error cleanly on missing modules.",
           "cases": [
             "route.subpackage-stack-and-lifetimes",
-            "subpackage.require-async"
+            "subpackage.require-async",
+            "subpackage.require-callback-and-error"
           ],
-          "gaps": [
-            "Test callback form require(path, onSuccess, onError) for subpackage modules.",
-            "Test error path when asynchronously requiring a missing module (using dynamic path string if static bundler rejects literals)."
-          ]
+          "gaps": []
         },
         {
           "id": "MOD-04",
           "title": "Subpackage componentPlaceholder replacement & binding continuity",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "A cross-subpackage component declared in componentPlaceholder mounts its placeholder first, then seamlessly replaces it with the real component while preserving bound properties and event listeners.",
           "cases": [
-            "subpackage.component-placeholder"
+            "subpackage.component-placeholder",
+            "subpackage.placeholder-props-and-events"
           ],
-          "gaps": [
-            "Verify bound properties updated both before and after placeholder replacement reach the loaded subpackage component.",
-            "Verify custom events triggered by the loaded subpackage component reach the host page listener."
-          ]
+          "gaps": []
         }
       ]
     },
@@ -196,29 +194,30 @@
           "title": "Tab bar routing (switchTab reuse & navigateTo rejection)",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "switchTab reuses cached tab page instances, clears non-tab pages from the stack, and rejects query strings; navigateTo rejects tabBar URLs.",
           "cases": [
             "route.tab-rejects-navigate",
-            "route.switch-tab-reuses-page"
+            "route.switch-tab-reuses-page",
+            "route.switch-tab-rejects-non-tab",
+            "route.switch-tab-query-stripped",
+            "route.switch-tab-clears-non-tab-stack"
           ],
-          "gaps": [
-            "Test switchTab clearing a deep non-tab page stack and unloading intermediate pages.",
-            "Test switchTab rejecting URLs with query parameters."
-          ]
+          "gaps": []
         },
         {
           "id": "ROUTE-03",
           "title": "wx.reLaunch stack reset & page-stack depth limit (10 pages)",
           "priority": "P0",
           "automatable": true,
-          "status": "missing",
+          "status": "covered",
           "contract": "wx.reLaunch closes all existing pages and opens a fresh single-page stack with query; pushing past the 10-page stack limit fails cleanly without corrupting the existing stack.",
-          "cases": [],
-          "gaps": [
-            "Test wx.reLaunch unloading all pages and launching target page with query (in an isolated navigation flow or dedicated sub-run).",
-            "Test 10-level page stack limit: 10th page succeeds, 11th navigateTo fails and leaves stack at 10."
-          ]
+          "cases": [
+            "route.stack-limit-overflow",
+            "route.relaunch-clears-stack-and-query",
+            "route.relaunch-to-tab-page"
+          ],
+          "gaps": []
         },
         {
           "id": "ROUTE-04",
@@ -241,16 +240,16 @@
           "title": "Component()-defined pages (query-to-properties & lifecycle hooks)",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "Pages constructed via Component() map and type-coerce route query parameters onto properties, support behaviors and observers, and run lifetimes + methods page hooks in created -> attached -> onLoad -> onShow -> ready -> onReady -> onUnload -> detached order.",
           "cases": [
             "component-page.query-to-properties",
-            "component-page.methods-lifecycles"
+            "component-page.methods-lifecycles",
+            "component-page.behavior-and-observers",
+            "component-page.query-defaults-and-boolean",
+            "component-page.query-encoded-and-setdata"
           ],
-          "gaps": [
-            "Test behaviors and property observers firing from route query on a Component() page.",
-            "Test default property fallback, Boolean query coercion, percent-encoded query values and setData updates on a Component() page."
-          ]
+          "gaps": []
         },
         {
           "id": "ROUTE-06",
@@ -395,26 +394,25 @@
           "title": "Simple two-way binding (model:prop)",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "model:prop synchronizes parent updates into child properties and child setData writes back into parent page data/DOM while preserving types (string, number, boolean, empty string), triggering observers and keeping peer bindings consistent.",
           "cases": [
             "model.parent-update-flows-to-child",
             "model.child-setdata-updates-parent",
-            "model.numeric-property-roundtrip"
+            "model.numeric-property-roundtrip",
+            "model.child-write-triggers-observers",
+            "model.two-children-share-parent-field",
+            "model.falsy-boolean-and-empty-string",
+            "model.native-input-binding-sync"
           ],
-          "gaps": [
-            "Test child setData triggering child observers while syncing back to parent.",
-            "Test two sibling components bound via model:value to the same parent field converging cleanly.",
-            "Test falsy values (boolean false and empty string '') round-tripping without being dropped.",
-            "Test native <input model:value> binding synchronization."
-          ]
+          "gaps": []
         },
         {
           "id": "WXML-07",
           "title": "setData path updates, snapshot semantics & special values",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "setData mutates data synchronously before return, fires render callbacks after DOM commit (including empty patches), snapshots rendered objects against subsequent mutation, supports sibling/nested/array paths, and handles special values predictably.",
           "cases": [
             "page.data-path-update",
@@ -426,11 +424,15 @@
             "contract.setdata-render-callback",
             "contract.setdata-empty-callback",
             "contract.path-preserves-siblings",
-            "contract.array-preserves-other-index"
+            "contract.array-preserves-other-index",
+            "setdata.special-undefined",
+            "setdata.special-nan-infinity",
+            "setdata.special-date",
+            "setdata.special-arraybuffer",
+            "setdata.special-sparse-array",
+            "setdata.large-payload"
           ],
-          "gaps": [
-            "Test setData serialization edge cases: undefined fields, NaN/Infinity, sparse array paths and nested object replacement."
-          ]
+          "gaps": []
         }
       ]
     },
@@ -480,19 +482,20 @@
           "title": "WXS change:prop observer & ownerInstance bridge",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "change:prop delivers initial and updated values to WXS with (newVal, oldVal, ownerInstance, instance); WXS can call ownerInstance.callMethod, triggerEvent, selectComponent/selectAllComponents, instance.setStyle (object & string), addClass/removeClass/hasClass, getDataset and persistent getState.",
           "cases": [
             "wxs.change-prop-initial-and-update",
             "wxs.owner-call-method",
             "wxs.owner-set-style",
-            "wxs.owner-class-toggle"
+            "wxs.owner-class-toggle",
+            "wxs.owner-get-dataset-and-state",
+            "wxs.owner-select-all-components",
+            "wxs.owner-set-style-string",
+            "wxs.change-prop-object-payload",
+            "wxs.owner-trigger-event"
           ],
-          "gaps": [
-            "Test instance.getDataset() and instance.getState() persistence across calls.",
-            "Test ownerInstance.selectAllComponents() batch style updates and string-form instance.setStyle('...').",
-            "Test change:prop with object payloads and ownerInstance.triggerEvent() reaching host listeners."
-          ]
+          "gaps": []
         }
       ]
     },
@@ -529,32 +532,30 @@
           "title": "mark: propagation, overriding & component boundary isolation",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "mark: merges along the bubble path with nearer nodes overriding outer keys, stays strictly scoped to the component shadow tree without leaking inner marks across component boundaries, updates dynamically, and stays distinct from dataset.",
           "cases": [
             "event.mark-merges-and-overrides",
-            "event.mark-isolated-at-component-boundary"
+            "event.mark-isolated-at-component-boundary",
+            "event.mark-dynamic-update",
+            "event.mark-distinct-from-dataset"
           ],
-          "gaps": [
-            "Test dynamic mark:prop='{{expr}}' updates including empty/falsy values.",
-            "Test mark: remaining distinct from target.dataset / currentTarget.dataset on the same elements."
-          ]
+          "gaps": []
         },
         {
           "id": "EVT-03",
           "title": "mut-bind: mutual exclusion & interaction with bind/catch/capture",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "mut-bind: fires at most one mut-bind handler along the propagation path while still allowing regular bind: handlers to run, and composes cleanly with catch: and capture-bind:.",
           "cases": [
             "event.mut-bind-stops-same-kind",
-            "event.mut-bind-allows-regular-bind"
+            "event.mut-bind-allows-regular-bind",
+            "event.mut-bind-and-catch-interaction",
+            "event.capture-bind-and-mut-bind-order"
           ],
-          "gaps": [
-            "Test mut-bind: combined with ancestor catch: stopping higher bind: handlers.",
-            "Test capture-bind / capture-catch interaction with descendant mut-bind:."
-          ]
+          "gaps": []
         }
       ]
     },
@@ -693,7 +694,7 @@
           "title": "Component relations (parent/child, ancestor/descendant, linkChanged & behavior target)",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "Relations connect direct parent/child and cross-wrapper ancestor/descendant nodes, fire linked/linkChanged/unlinked on mount/reorder/unmount, and support targeting a shared Behavior.",
           "cases": [
             "relation.child-membership",
@@ -702,25 +703,23 @@
             "relation.unlink",
             "relation.reinsert",
             "component-options.relation-ancestor-descendant",
-            "component-options.relation-link-changed"
+            "component-options.relation-link-changed",
+            "component-options.relation-behavior-target-lifecycle"
           ],
-          "gaps": [
-            "Test relations using a Behavior as target with dynamic wx:if unlink/re-link lifecycle verification."
-          ]
+          "gaps": []
         },
         {
           "id": "COMP-07",
           "title": "virtualHost layout transparency & selector behavior",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "virtualHost: true removes the host box from flex/grid layout so children participate directly in the parent container while selectComponent still resolves the component instance.",
           "cases": [
-            "component-options.virtual-host-layout"
+            "component-options.virtual-host-layout",
+            "component-options.virtual-host-selector-and-methods"
           ],
-          "gaps": [
-            "Verify selectComponent('#virtual-host') resolves the component instance and exposes its methods alongside child queries."
-          ]
+          "gaps": []
         }
       ]
     },
@@ -748,7 +747,7 @@
           "title": "Style isolation modes (isolated, apply-shared, shared, page-apply-shared, page-shared), addGlobalClass & externalClasses",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "Every styleIsolation mode enforces its exact directional style flow between app.wxss, page.wxss and component.wxss; addGlobalClass allows app/page classes in; externalClasses injects caller classes.",
           "cases": [
             "style.isolated",
@@ -756,29 +755,28 @@
             "style.external-class",
             "component-options.add-global-class",
             "component-options.style-shared",
-            "component-options.style-page-apply-shared"
+            "component-options.style-page-apply-shared",
+            "component-options.style-page-shared",
+            "component-options.style-isolated-blocks-global"
           ],
-          "gaps": [
-            "Test styleIsolation: 'page-shared' bidirectional flow between page and component.",
-            "Test styleIsolation: 'isolated' explicitly blocking app.wxss global rules as well as page rules."
-          ]
+          "gaps": []
         },
         {
           "id": "WXSS-03",
           "title": "<page-meta>, <navigation-bar> & <page-container>",
           "priority": "P1",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "<page-meta> updates root-font-size (rem scaling), page-style inheritance and scroll-top; <navigation-bar> binds title; <page-container> emits beforeenter/afterenter/beforeleave/afterleave and respects position/round/overlay/z-index.",
           "cases": [
             "page-meta.root-font-size-and-style",
             "page-meta.scroll-top-binding",
-            "page-container.show-events-and-hide"
+            "page-container.show-events-and-hide",
+            "page-meta.dynamic-page-style-update",
+            "page-container.positions-top-vs-bottom",
+            "page-container.overlay-and-zindex"
           ],
-          "gaps": [
-            "Test dynamic <page-meta page-style> updates propagating to descendants.",
-            "Test <page-container> position='top' vs 'bottom', round, overlay and z-index layout."
-          ]
+          "gaps": []
         }
       ]
     },
@@ -819,7 +817,7 @@
           "title": "SelectorQuery (fields, rect, computedStyle, scrollOffset, mark, node, context & scoping)",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "SelectorQuery supports batched exec ordering, rect/size/dataset/properties/computedStyle/scrollOffset/mark fields, node() (ScrollViewContext/Canvas), context() (VideoContext), selectAll ordering and strict in(component) scope isolation.",
           "cases": [
             "query.no-match",
@@ -835,12 +833,15 @@
             "query.computed-style-and-rect",
             "query.scroll-offset-and-viewport",
             "query.mark-field",
-            "query.select-all-order-and-rect"
+            "query.select-all-order-and-rect",
+            "query.in-component-scope-isolation",
+            "query.missing-select-vs-select-all",
+            "query.native-properties-dynamic-sync",
+            "query.mixed-batch-exec-order",
+            "query.scroll-view-horizontal-scroll-to",
+            "query.dataset-order-on-select-all"
           ],
-          "gaps": [
-            "Test wx.createSelectorQuery().in(comp) scope isolation (cannot query page nodes from component or component nodes from page).",
-            "Test select() missing -> null vs selectAll() missing -> [] in one batch, mixed batch exec ordering, and horizontal ScrollViewContext.scrollTo({ left })."
-          ]
+          "gaps": []
         },
         {
           "id": "RENDER-03",
@@ -854,10 +855,10 @@
             "scroll.into-view-target",
             "scroll-view.edge-boundary-events",
             "observer.intersection-toggle",
-            "observer.media-match"
+            "observer.media-match",
+            "scroll-view.scroll-into-view-horizontal"
           ],
           "gaps": [
-            "Test horizontal scroll-into-view on scroll-x scroll-view.",
             "Test IntersectionObserver relativeTo(selector) and custom thresholds."
           ]
         },
@@ -866,26 +867,27 @@
           "title": "Animations (wx.createAnimation & keyframe animate/clearAnimation)",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "wx.createAnimation exports steps and applies computed transform; page.animate() and component.animate() apply keyframe styles, support partial/full clearAnimation(), override previous keyframes, and support scroll-driven keyframes.",
           "cases": [
             "animation.step-snapshot",
             "animation.export-clears-queue",
             "animation.applies-computed-style",
             "animate.keyframe-applies-and-clears",
-            "animate.component-scoped"
+            "animate.component-scoped",
+            "animate.partial-clear-preserves-remaining",
+            "animate.override-previous-keyframe",
+            "animate.scroll-driven-keyframe",
+            "animate.missing-selector-no-throw"
           ],
-          "gaps": [
-            "Test partial clearAnimation(selector, { width: true }) preserving non-cleared properties.",
-            "Test overriding an active keyframe animation and scroll-driven keyframe animation ({ scrollSource })."
-          ]
+          "gaps": []
         },
         {
           "id": "RENDER-05",
           "title": "Canvas 2D (<canvas type='2d'>), offscreen canvas & legacy canvas export",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "<canvas type='2d'> exposes node via SelectorQuery.node(), supports 2D context pixel read/write, transforms, images, toDataURL/canvasToTempFilePath({ canvas }), measureText, RAF/cancelRAF, dpr scaling, paths/clip/gradients/compositing, Path2D and offscreen canvas interop.",
           "cases": [
             "canvas.pixel-roundtrip",
@@ -899,11 +901,19 @@
             "canvas2d.image-load-and-draw",
             "canvas2d.to-data-url-and-export-file",
             "canvas2d.measure-text",
-            "canvas2d.request-animation-frame"
+            "canvas2d.request-animation-frame",
+            "canvas2d.dpr-scale-alignment",
+            "canvas2d.path-stroke-and-fill",
+            "canvas2d.arc-circle-pixels",
+            "canvas2d.clip-region",
+            "canvas2d.linear-gradient",
+            "canvas2d.global-alpha-blending",
+            "canvas2d.composite-destination-out",
+            "canvas2d.path2d-support",
+            "canvas2d.draw-offscreen-canvas",
+            "canvas2d.image-onerror"
           ],
-          "gaps": [
-            "Test dpr scaling (ctx.scale(2,2)) physical pixel alignment, clip(), globalAlpha/destination-out compositing, Path2D, offscreen->onscreen drawImage and createImage onerror."
-          ]
+          "gaps": []
         }
       ]
     },
@@ -916,25 +926,26 @@
           "title": "Async wx.* Promise contract vs callback & Task APIs",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "Async wx.* APIs return a Promise when no success/fail/complete callback is passed, reject with matching errMsg on failure, suppress Promise when any callback is supplied, and never promisify Task-returning APIs (e.g. wx.request) or sync/event APIs.",
           "cases": [
             "promise.resolves-without-callbacks",
             "promise.rejects-on-failure",
             "promise.callback-disables-promise",
-            "promise.task-api-not-promisified"
+            "promise.task-api-not-promisified",
+            "promise.complete-only-disables-promise",
+            "promise.fail-only-disables-promise",
+            "promise.reject-matches-fail-errMsg",
+            "promise.sync-api-returns-value-directly"
           ],
-          "gaps": [
-            "Test complete-only and fail-only callbacks suppressing Promise return without unhandledRejection.",
-            "Test Promise rejection errMsg matching fail callback errMsg and sync/on* APIs returning non-thenables."
-          ]
+          "gaps": []
         },
         {
           "id": "API-02",
           "title": "Storage (sync/async/batch/promise/info & clearStorage)",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "Storage round-trips primitives/arrays/nested objects as detached copies, supports async/sync/batch/Promise forms, reports accurate storage info, and clears all keys via clearStorage/clearStorageSync.",
           "cases": [
             "storage.roundtrip-text",
@@ -951,12 +962,17 @@
             "storage.promise-form",
             "storage.missing-sync",
             "storage.info-sync-shape",
-            "storage.async-info"
+            "storage.async-info",
+            "storage.clear-sync",
+            "storage.clear-async",
+            "storage.special-undefined",
+            "storage.special-nan-infinity",
+            "storage.special-date",
+            "storage.special-arraybuffer",
+            "storage.special-sparse-array",
+            "storage.large-payload-limit"
           ],
-          "gaps": [
-            "Test clearStorage / clearStorageSync clearing multiple keys and resetting getStorageInfoSync().keys.",
-            "Test special value serialization boundaries (undefined, NaN, Date, ArrayBuffer)."
-          ]
+          "gaps": []
         },
         {
           "id": "API-03",
@@ -1103,7 +1119,7 @@
           "title": "HTTP request, upload, download & cancellation (fixture profile)",
           "priority": "P0",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "wx.request/uploadFile/downloadFile handle query/JSON/text/binary payloads, headers, HTTP status codes, abort(), timeout and redirects.",
           "cases": [
             "http.query",
@@ -1115,12 +1131,20 @@
             "http.binary-post",
             "http.upload-form",
             "http.abort",
-            "http.download"
+            "http.download",
+            "http.timeout",
+            "http.redirect-follow",
+            "http.redirect-chain",
+            "http.redirect-manual",
+            "http.large-transfer",
+            "http.large-download",
+            "http.chunked-transfer",
+            "http.concurrent-requests",
+            "http.abort-inflight-and-idempotent",
+            "http.abort-isolated-in-concurrency",
+            "http.abort-after-complete-noop"
           ],
-          "gaps": [
-            "Test wx.request timeout option triggering fail with timeout errMsg.",
-            "Test HTTP 302 redirect handling and RequestTask.onHeadersReceived."
-          ]
+          "gaps": []
         },
         {
           "id": "NET-02",
@@ -1140,17 +1164,22 @@
           "title": "Audio/Video contexts & buffer URLs",
           "priority": "P2",
           "automatable": true,
-          "status": "partial",
+          "status": "covered",
           "contract": "Audio recorder/background managers are singletons, InnerAudioContext instances are independent and expose playback state events, and wx.createBufferURL/revokeBufferURL manage binary object URLs.",
           "cases": [
             "audio.recorder-singleton",
             "audio.background-singleton",
-            "audio.independent-contexts"
+            "audio.independent-contexts",
+            "audio.play-pause-resume",
+            "audio.seek-and-timeupdate",
+            "audio.play-to-ended",
+            "audio.stop-resets-state",
+            "buffer-url.create-unique-and-revoke",
+            "buffer-url.image-load-and-revoke",
+            "video.context-play-pause",
+            "video.context-seek-timeupdate-ended"
           ],
-          "gaps": [
-            "Test wx.createBufferURL / wx.revokeBufferURL lifecycle.",
-            "Test InnerAudioContext property/event state transitions with a minimal local WAV/MP3 fixture."
-          ]
+          "gaps": []
         },
         {
           "id": "NET-04",

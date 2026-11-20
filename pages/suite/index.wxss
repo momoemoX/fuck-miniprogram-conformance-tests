@@ -9,3 +9,4 @@
 .suite-page-rule.suite-page-rule { width: 61px; height: 10px; }
 .fallback-page { width: 13px; height: 10px; }
 #page-kf { width: 20px; height: 12px; opacity: 1; }
+#scroll-kf { width: 20px; height: 12px; }

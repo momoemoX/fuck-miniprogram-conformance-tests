@@ -58,14 +58,33 @@ if (option("fixtures", false)) {
     page.callMethod(ids ? "runSelected" : "run", ...(ids ? [ids.split(",")] : [])).catch(() => null);
     const deadline = Date.now() + 60 * 60 * 1000;
     let report = null;
+    let lastLog = "";
     while (!report && Date.now() < deadline) {
-      await new Promise((resolve) => setTimeout(resolve, ids ? 1500 : 5000));
-      report = await mp.evaluate(() => {
+      await new Promise((resolve) => setTimeout(resolve, ids ? 1500 : 3000));
+      const probe = await mp.evaluate(() => {
         const suite = getCurrentPages().find((entry) => entry.route === "pages/suite/index");
+        const app = typeof getApp === "function" ? getApp() : null;
+        const progress = app && app.__suiteProgress ? app.__suiteProgress : null;
         const summary = suite && suite.data.summary;
-        if (!summary || summary === "Ready" || summary === "Running") return null;
-        return { summary, baselineScore: suite.data.baselineScore, report: suite.report };
+        if (!summary || summary === "Ready" || summary === "Running") {
+          return { done: false, progress, stack: getCurrentPages().map((p) => p.route) };
+        }
+        return {
+          done: true,
+          summary,
+          baselineScore: suite.data.baselineScore,
+          report: suite.report,
+        };
       });
+      if (probe && probe.done) {
+        report = probe;
+      } else if (probe && probe.progress) {
+        const line = `  [${probe.progress.completed}] running ${probe.progress.current} (stack: ${probe.stack.join(" -> ")})`;
+        if (line !== lastLog) {
+          console.log(line);
+          lastLog = line;
+        }
+      }
     }
     if (!report) throw new Error("The suite did not finish within an hour");
     fs.writeFileSync(out, JSON.stringify({ sdk, ...report }, null, 2));

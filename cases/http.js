@@ -1,4 +1,20 @@
-const { call, uniqueKey } = require("./support");
+const { call, delay, uniqueKey } = require("./support");
+
+function verifyLargePattern(buffer) {
+  const bytes = new Uint8Array(buffer);
+  if (bytes.length !== 524288) return false;
+  for (let i = 0; i < bytes.length; i += 1) {
+    if (bytes[i] !== ((i * 31 + 7) & 0xff)) return false;
+  }
+  return true;
+}
+
+function decodeAsciiBuffer(buffer) {
+  const bytes = new Uint8Array(buffer);
+  let out = "";
+  for (let i = 0; i < bytes.length; i += 1) out += String.fromCharCode(bytes[i]);
+  return out;
+}
 
 async function http(base, check) {
   const endpoint = base.replace(/\/$/, "");
@@ -109,6 +125,261 @@ async function http(base, check) {
     const response = await call(wx, "downloadFile", { url: endpoint + "/bytes" });
     const data = wx.getFileSystemManager().readFileSync(response.tempFilePath);
     return [response.statusCode, ...new Uint8Array(data)];
+  });
+
+  await check("http.timeout", [["fail", "complete"], true, true], async () => {
+    const started = Date.now();
+    const outcome = await new Promise((resolve) => {
+      const seen = [];
+      let errMsg = "";
+      wx.request({
+        url: endpoint + "/delayed?ms=2000",
+        timeout: 200,
+        success() {
+          seen.push("success");
+        },
+        fail(error) {
+          seen.push("fail");
+          errMsg = error && error.errMsg ? String(error.errMsg) : String(error || "");
+        },
+        complete() {
+          seen.push("complete");
+          resolve({ seen, errMsg, elapsed: Date.now() - started });
+        },
+      });
+    });
+    return [
+      outcome.seen,
+      /timeout|timed?\s*out/i.test(outcome.errMsg),
+      outcome.elapsed < 1500,
+    ];
+  });
+
+  await check("http.redirect-follow", [200, "raw text"], async () => {
+    const response = await call(wx, "request", {
+      url: endpoint + "/redirect",
+      dataType: "text",
+    });
+    return [response.statusCode, response.data];
+  });
+
+  await check("http.redirect-chain", [200, "raw text"], async () => {
+    const response = await call(wx, "request", {
+      url: endpoint + "/redirect-hop1",
+      dataType: "text",
+    });
+    return [response.statusCode, response.data];
+  });
+
+  // 3.7.12 simulator quirk: wx.request with redirect: "manual" still follows the 302
+  // redirect in the desktop simulator (mobile clients return 302 with Location).
+  // Tagged as category "quirk" in cases/report.js.
+  await check("http.redirect-manual", [200, "raw text"], async () => {
+    const response = await call(wx, "request", {
+      url: endpoint + "/redirect",
+      redirect: "manual",
+      dataType: "text",
+    });
+    return [response.statusCode, response.data];
+  });
+
+  await check("http.large-transfer", [200, 524288, true], async () => {
+    const response = await call(wx, "request", {
+      url: endpoint + "/large",
+      responseType: "arraybuffer",
+    });
+    return [
+      response.statusCode,
+      response.data ? response.data.byteLength : -1,
+      Boolean(response.data && verifyLargePattern(response.data)),
+    ];
+  });
+
+  await check("http.large-download", [200, 524288, true], async () => {
+    const response = await call(wx, "downloadFile", { url: endpoint + "/large" });
+    const data = wx.getFileSystemManager().readFileSync(response.tempFilePath);
+    return [response.statusCode, data.byteLength, verifyLargePattern(data)];
+  });
+
+  await check(
+    "http.chunked-transfer",
+    [true, true, "chunk-1|chunk-2|chunk-3", 200, ["success", "complete"]],
+    () =>
+      new Promise((resolve) => {
+        const seen = [];
+        const chunks = [];
+        let headersReceived = false;
+        let statusCode = 0;
+        const task = wx.request({
+          url: endpoint + "/chunked",
+          enableChunked: true,
+          success(res) {
+            seen.push("success");
+            statusCode = res.statusCode;
+          },
+          fail() {
+            seen.push("fail");
+          },
+          complete() {
+            seen.push("complete");
+            const combined = chunks.map(decodeAsciiBuffer).join("");
+            resolve([
+              headersReceived,
+              chunks.length >= 1 && chunks.every((item) => item instanceof ArrayBuffer && item.byteLength > 0),
+              combined,
+              statusCode,
+              seen,
+            ]);
+          },
+        });
+        if (task && typeof task.onHeadersReceived === "function") {
+          task.onHeadersReceived(() => {
+            headersReceived = true;
+          });
+        }
+        if (task && typeof task.onChunkReceived === "function") {
+          task.onChunkReceived((res) => {
+            if (res && res.data) chunks.push(res.data);
+          });
+        }
+      }),
+  );
+
+  await check(
+    "http.concurrent-requests",
+    [
+      [200, 200, 200, 200, 200, 200],
+      ["c0", "c1", "c2", "c3", "c4", "c5"],
+    ],
+    async () => {
+      const delays = [120, 40, 100, 20, 80, 60];
+      const responses = await Promise.all(
+        delays.map((ms, idx) =>
+          call(wx, "request", {
+            url: endpoint + "/delayed?ms=" + ms + "&tag=c" + idx,
+            dataType: "text",
+          }),
+        ),
+      );
+      return [
+        responses.map((res) => res.statusCode),
+        responses.map((res) => res.data),
+      ];
+    },
+  );
+
+  await check("http.abort-inflight-and-idempotent", [["fail", "complete"], true], async () => {
+    const seen = [];
+    let errMsg = "";
+    let task;
+    let done;
+    const completed = new Promise((resolve) => {
+      done = resolve;
+    });
+    task = wx.request({
+      url: endpoint + "/delayed?ms=2000",
+      success() {
+        seen.push("success");
+      },
+      fail(error) {
+        seen.push("fail");
+        errMsg = error && error.errMsg ? String(error.errMsg) : String(error || "");
+      },
+      complete() {
+        seen.push("complete");
+        done();
+      },
+    });
+    await delay(50);
+    task.abort();
+    await completed;
+    task.abort();
+    // Negative window: second abort must not trigger duplicate fail/complete callbacks.
+    await delay(200);
+    return [seen, /abort/i.test(errMsg)];
+  });
+
+  await check(
+    "http.abort-isolated-in-concurrency",
+    [["fail", "complete"], true, ["success", "complete"], "survivor"],
+    async () => {
+      const seenA = [];
+      let errA = "";
+      let doneA;
+      const promiseA = new Promise((resolve) => {
+        doneA = resolve;
+      });
+      const taskA = wx.request({
+        url: endpoint + "/delayed?ms=2000&tag=aborted",
+        dataType: "text",
+        success() {
+          seenA.push("success");
+        },
+        fail(error) {
+          seenA.push("fail");
+          errA = error && error.errMsg ? String(error.errMsg) : String(error || "");
+        },
+        complete() {
+          seenA.push("complete");
+          doneA();
+        },
+      });
+
+      const seenB = [];
+      let bodyB = "";
+      const promiseB = new Promise((resolve) => {
+        wx.request({
+          url: endpoint + "/delayed?ms=150&tag=survivor",
+          dataType: "text",
+          success(res) {
+            seenB.push("success");
+            bodyB = res.data;
+          },
+          fail() {
+            seenB.push("fail");
+          },
+          complete() {
+            seenB.push("complete");
+            resolve();
+          },
+        });
+      });
+
+      await delay(50);
+      taskA.abort();
+      await Promise.all([promiseA, promiseB]);
+      return [seenA, /abort/i.test(errA), seenB, bodyB];
+    },
+  );
+
+  await check("http.abort-after-complete-noop", [["success", "complete"], true], async () => {
+    const seen = [];
+    let task;
+    await new Promise((resolve) => {
+      task = wx.request({
+        url: endpoint + "/plain",
+        dataType: "text",
+        success() {
+          seen.push("success");
+        },
+        fail() {
+          seen.push("fail");
+        },
+        complete() {
+          seen.push("complete");
+          resolve();
+        },
+      });
+    });
+    let noThrow = true;
+    try {
+      task.abort();
+    } catch {
+      noThrow = false;
+    }
+    // Negative window: aborting a settled task must not emit a late fail/complete.
+    await delay(150);
+    return [seen, noThrow];
   });
 }
 module.exports = { http };

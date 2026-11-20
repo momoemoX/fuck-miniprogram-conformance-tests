@@ -26,8 +26,13 @@ function matches(actual, expected) {
 const TARGET = "3.7.12";
 const BASELINE_CONFIRMED = "Baseline-confirmed expectation (" + TARGET + ")";
 // Cases whose expected value captures a known 3.7.12 runtime quirk rather than a
-// clean specification requirement (e.g. off(name, fn) failing due to try/catch shimming).
-const QUIRKS = new Set(["channel.off-listener"]);
+// clean specification requirement (e.g. off(name, fn) failing due to try/catch shimming,
+// switchTab stripping query instead of rejecting, or simulator following manual redirects).
+const QUIRKS = new Set([
+  "channel.off-listener",
+  "route.switch-tab-query-stripped",
+  "http.redirect-manual",
+]);
 // Cases that primarily check returned object shapes, enum membership or singleton
 // identity rather than complex multi-step runtime behavior.
 const SHAPE_CHECKS = new Set([
@@ -70,13 +75,23 @@ function makeReport(filter) {
   const results = [];
   const home = getCurrentPages();
   const homeDepth = home.length;
-  const homePage = home[homeDepth - 1];
-  function stackRestored() {
+  let homePage = home[homeDepth - 1];
+  const homeRoute = homePage && homePage.route;
+  function stackRestored(allowsReLaunch) {
     const stack = getCurrentPages();
-    return stack.length === homeDepth && stack[stack.length - 1] === homePage;
+    if (stack.length !== homeDepth) return false;
+    const top = stack[stack.length - 1];
+    if (top === homePage) return true;
+    if (allowsReLaunch && top && top.route === homeRoute) {
+      homePage = top;
+      return true;
+    }
+    return false;
   }
-  async function check(id, expected, exercise) {
+  async function check(id, expected, exercise, options = {}) {
     if (filter && filter.indexOf(id) === -1) return;
+    const app = typeof getApp === "function" ? getApp() : null;
+    if (app) app.__suiteProgress = { current: id, completed: results.length };
     let actual,
       passed = false,
       timer,
@@ -132,7 +147,8 @@ function makeReport(filter) {
       );
     }
     // Every case must hand back the page stack it started with; later cases assume it.
-    if (!(await waitUntil(stackRestored, { timeout: 3000 }))) {
+    const allowsReLaunch = Boolean(options && options.allowsReLaunch);
+    if (!(await waitUntil(() => stackRestored(allowsReLaunch), { timeout: 3000 }))) {
       throw new RunInterrupted("Case " + id + " left the page stack changed");
     }
   }

@@ -21,17 +21,31 @@
     <view>Actual: {{item.actual}}</view>
   </view>
   <view aria-hidden="true" style="position:absolute;left:-200vw;top:0;width:100vw">
-    <wxs-responder wx:if="{{wxsResponderMounted}}" id="wxs-responder" step="{{wxsResponderStep}}"/>
+    <wxs-responder wx:if="{{wxsResponderMounted}}" id="wxs-responder" step="{{wxsResponderStep}}" payload="{{wxsResponderPayload}}" bind:wxsnotify="onWxsNotify"/>
     <block wx:if="{{modelMounted}}">
-      <model-probe id="model-probe" model:value="{{modelText}}" model:count="{{modelCount}}"/>
+      <model-probe id="model-probe" model:value="{{modelText}}" model:count="{{modelCount}}" model:flag="{{modelFlag}}"/>
+      <model-probe id="model-probe-peer" model:value="{{modelText}}"/>
       <view id="model-parent-mirror" data-value="{{modelText}}" data-count="{{modelCount}}"/>
+      <input id="model-native-input" model:value="{{modelInput}}"/>
     </block>
     <block wx:if="{{eventAdvMounted}}">
-      <view id="adv-outer-bind" mark:outer="page" mark:shared="outer" bind:ping="advBindOuter">
+      <view id="adv-outer-bind" data-ds="outer-ds" mark:outer="page" mark:shared="outer" bind:ping="advBindOuter">
         <view id="adv-outer-mut" mut-bind:ping="advMutOuter">
           <view id="adv-mid" mark:mid="mid" mark:shared="mid" mut-bind:ping="advMutMid">
-            <event-adv-host id="adv-host" mark:host="host" mark:shared="host" bind:ping="advBindHost"/>
+            <event-adv-host id="adv-host" data-ds="host-ds" mark:host="host" mark:shared="host" mark:dyn="{{advDynMark}}" bind:ping="advBindHost"/>
           </view>
+        </view>
+      </view>
+      <view id="adv-catch-outer" bind:ping="advCatchOuter">
+        <view id="adv-catch-mid" catch:ping="advCatchMid">
+          <view id="adv-catch-inner" mark:t="1" mut-bind:ping="advMutInner">
+            <event-adv-host id="adv-catch-host"/>
+          </view>
+        </view>
+      </view>
+      <view id="adv-cap-outer" capture-bind:ping="advCapBindOuter">
+        <view id="adv-cap-mid" mark:t="2" mut-bind:ping="advMutCapMid">
+          <event-adv-host id="adv-cap-host" bind:ping="advBindCapHost"/>
         </view>
       </view>
     </block>
@@ -48,13 +62,26 @@
       <style-pas-probe id="style-pas-probe"/>
       <view id="pas-leak-target" class="fallback-page suite-pas-leak"/>
     </block>
+    <block wx:if="{{stylePageSharedMounted}}">
+      <style-ps-probe id="style-ps-probe"/>
+      <view id="ps-leak-target" class="fallback-page suite-ps-leak"/>
+    </block>
+    <style-iso-probe wx:if="{{styleIsolatedMounted}}" id="style-iso-probe"/>
     <tree-root wx:if="{{treeRelMounted}}" id="tree-root">
       <view>
         <tree-leaf wx:for="{{treeOrder}}" wx:key="*this" class="tree-leaf" label="{{item}}"/>
       </view>
     </tree-root>
-    <async-widget wx:if="{{asyncWidgetMounted}}" id="async-widget"/>
+    <beh-tree-root wx:if="{{behRelMounted}}" id="beh-tree-root">
+      <view>
+        <beh-tree-leaf label="alpha"/>
+        <beh-tree-leaf wx:if="{{behRelShowSecond}}" label="beta"/>
+      </view>
+    </beh-tree-root>
+    <async-widget wx:if="{{asyncWidgetMounted}}" id="async-widget" title="{{asyncWidgetTitle}}" bind:widgetready="onAsyncWidgetReady"/>
     <component-gallery wx:if="{{galleryMounted}}" id="gallery" font="{{galleryFont}}"/>
+    <serial-probe wx:if="{{serialMounted}}" id="serial-probe"/>
+    <media-probe wx:if="{{mediaMounted}}" id="media-probe"/>
     <reuse-list wx:if="{{reuseMounted}}" id="reuse-list"/>
     <block wx:if="{{errorMounted}}">
       <view id="error-bubble-outer" bind:boom="boomOuter">
@@ -166,17 +193,30 @@
     >
       <view style="height:240px;width:80px"/>
     </scroll-view>
+    <scroll-view
+      id="node-scroll-x"
+      enhanced="{{true}}"
+      scroll-x="{{true}}"
+      scroll-into-view="{{nodeScrollIntoX}}"
+      style="height:30px;width:120px;white-space:nowrap"
+    >
+      <view style="display:inline-block;width:120px;height:20px"/>
+      <view id="sx-target" style="display:inline-block;width:120px;height:20px"/>
+    </scroll-view>
     <video id="node-video" style="width:60px;height:40px"/>
     <view id="node-styled" style="display:block;position:relative;width:72px;height:28px;background-color:#123456;border-radius:6px;z-index:3"/>
     <view mark:zone="query">
       <view id="node-marked" mark:role="leaf" data-label="probe-data" style="width:10px;height:10px"/>
     </view>
+    <switch id="q-switch" checked="{{qSwitchChecked}}"/>
+    <slider id="q-slider" value="{{qSliderVal}}"/>
     <view>
-      <view wx:for="{{[1, 2, 3]}}" wx:key="*this" class="q-box" style="width:30px;height:12px"/>
+      <view wx:for="{{[1, 2, 3]}}" wx:key="*this" class="q-box" data-idx="{{item}}" style="width:30px;height:12px"/>
     </view>
   </block>
   <block wx:if="{{animateMounted}}">
     <view id="page-kf"/>
+    <view id="scroll-kf"/>
     <animate-probe id="animate-probe"/>
   </block>
 </view>

@@ -1,1 +1,1 @@
-<view id="async-widget-node" data-value="pack-widget-ready"/>
+<view id="async-widget-node" data-value="pack-widget-ready" data-title="{{title}}"/>

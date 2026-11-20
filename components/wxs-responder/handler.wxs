@@ -1,8 +1,14 @@
 module.exports = {
   onStep: function (newVal, oldVal, ownerInstance, instance) {
+    var st = instance.getState();
+    st.hits = (st.hits || 0) + 1;
+    var ds = instance.getDataset();
     ownerInstance.callMethod("onWxsStep", {
       next: newVal,
       prev: oldVal === undefined ? null : oldVal,
+      hits: st.hits,
+      tag: ds.tag,
+      num: ds.num,
     });
     if (typeof newVal === "number") {
       instance.setStyle({
@@ -19,6 +25,23 @@ module.exports = {
           has: flag.hasClass("wide"),
         });
       }
+      if (newVal === 5) {
+        var chips = ownerInstance.selectAllComponents(".wxs-chip");
+        for (var i = 0; i < chips.length; i++) {
+          chips[i].setStyle({ width: 20 + i * 10 + "px" });
+        }
+        var strBox = ownerInstance.selectComponent("#str-box");
+        if (strBox) {
+          strBox.setStyle("width:44px;height:14px;");
+        }
+        ownerInstance.triggerEvent("wxsnotify", { from: "wxs", step: newVal });
+      }
     }
+  },
+  onPayload: function (newVal, oldVal, ownerInstance) {
+    ownerInstance.callMethod("onWxsPayload", {
+      next: newVal || null,
+      prev: oldVal || null,
+    });
   },
 };

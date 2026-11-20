@@ -1,0 +1,8 @@
+.fallback {
+  width: 11px;
+  height: 10px;
+}
+.suite-ps-leak.suite-ps-leak {
+  width: 73px;
+  height: 10px;
+}

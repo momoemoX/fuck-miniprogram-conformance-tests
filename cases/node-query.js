@@ -9,16 +9,26 @@ function execQuery(page, setup) {
 }
 
 // Modern SelectorQuery APIs: node() (ScrollViewContext), context() (VideoContext),
-// computedStyle, scrollOffset, mark field and selectAll boundingClientRect ordering.
+// computedStyle, scrollOffset, mark field, scope isolation and selectAll ordering.
 async function nodeQueryContract(page, check) {
   async function isolated(id, expected, exercise) {
     await check(id, expected, async () => {
       page.nodeScrollEdges = [];
       try {
-        await update(page, { nodeQueryMounted: true });
+        await update(page, {
+          nodeQueryMounted: true,
+          qSwitchChecked: false,
+          qSliderVal: 20,
+          nodeScrollIntoX: "",
+        });
         return await exercise();
       } finally {
-        await update(page, { nodeQueryMounted: false });
+        await update(page, {
+          nodeQueryMounted: false,
+          qSwitchChecked: false,
+          qSliderVal: 20,
+          nodeScrollIntoX: "",
+        });
         delete page.nodeScrollEdges;
       }
     });
@@ -104,6 +114,90 @@ async function nodeQueryContract(page, check) {
       rects.length,
       rects.map((r) => Math.round(r.height)),
       [Math.round(rects[1].top - rects[0].top), Math.round(rects[2].top - rects[1].top)],
+    ];
+  });
+
+  await isolated("query.in-component-scope-isolation", [null, 24, null], async () => {
+    try {
+      await update(page, { animateMounted: true });
+      const comp = page.selectComponent("#animate-probe");
+      const [pageFromComp, selfFromComp] = await new Promise((resolve) => {
+        wx.createSelectorQuery()
+          .in(comp)
+          .select("#node-styled")
+          .fields({ id: true })
+          .select("#comp-kf")
+          .fields({ size: true })
+          .exec(resolve);
+      });
+      const [compFromPage] = await execQuery(page, (q) => q.select("#comp-kf").fields({ id: true }));
+      return [pageFromComp, selfFromComp ? Math.round(selfFromComp.width) : null, compFromPage];
+    } finally {
+      await update(page, { animateMounted: false });
+    }
+  });
+
+  await isolated("query.missing-select-vs-select-all", [null, []], async () => {
+    const [single, all] = await execQuery(page, (q) => {
+      q.select("#definitely-no-such-node").fields({ id: true });
+      q.selectAll(".definitely-no-such-class").fields({ id: true });
+    });
+    return [single, all];
+  });
+
+  await isolated("query.native-properties-dynamic-sync", [[false, 20], [true, 75]], async () => {
+    const readPair = async () => {
+      const [sw, sl] = await execQuery(page, (q) => {
+        q.select("#q-switch").fields({ properties: ["checked"] });
+        q.select("#q-slider").fields({ properties: ["value"] });
+      });
+      return [sw.checked, sl.value];
+    };
+    const before = await readPair();
+    await update(page, { qSwitchChecked: true, qSliderVal: 75 });
+    const after = await readPair();
+    return [before, after];
+  });
+
+  await isolated("query.mixed-batch-exec-order", [4, 72, true, 3, null], async () => {
+    const rows = await execQuery(page, (q) => {
+      q.select("#node-styled").boundingClientRect();
+      q.selectViewport().scrollOffset();
+      q.selectAll(".q-box").boundingClientRect();
+      q.select("#missing-batch-node").fields({ id: true });
+    });
+    return [
+      rows.length,
+      Math.round(rows[0].width),
+      typeof rows[1].scrollTop === "number",
+      rows[2].length,
+      rows[3],
+    ];
+  });
+
+  await isolated("query.scroll-view-horizontal-scroll-to", [true, 50], async () => {
+    const [nodeRes] = await execQuery(page, (q) => q.select("#node-scroll-x").node());
+    const scrollView = nodeRes && nodeRes.node;
+    const hasScrollTo = !!scrollView && typeof scrollView.scrollTo === "function";
+    scrollView.scrollTo({ left: 50, animated: false });
+    await waitUntil(
+      async () => {
+        const [off] = await execQuery(page, (q) => q.select("#node-scroll-x").scrollOffset());
+        return off && Math.round(off.scrollLeft) === 50;
+      },
+      { timeout: 3000 },
+    );
+    const [offset] = await execQuery(page, (q) => q.select("#node-scroll-x").scrollOffset());
+    return [hasScrollTo, Math.round(offset.scrollLeft)];
+  });
+
+  await isolated("query.dataset-order-on-select-all", [[1, 2, 3], [30, 30, 30]], async () => {
+    const [rows] = await execQuery(page, (q) =>
+      q.selectAll(".q-box").fields({ dataset: true, size: true }),
+    );
+    return [
+      rows.map((r) => r.dataset.idx),
+      rows.map((r) => Math.round(r.width)),
     ];
   });
 }

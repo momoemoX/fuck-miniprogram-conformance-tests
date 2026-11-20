@@ -1,0 +1,24 @@
+<view>
+  <video
+    wx:if="{{videoMounted}}"
+    id="probe-video"
+    src="{{videoSrc}}"
+    muted="{{true}}"
+    controls="{{false}}"
+    autoplay="{{false}}"
+    bindplay="onVideoPlay"
+    bindpause="onVideoPause"
+    bindtimeupdate="onVideoTimeUpdate"
+    bindended="onVideoEnded"
+    binderror="onVideoError"
+    style="width:64px;height:64px"
+  />
+  <image
+    wx:if="{{imageMounted}}"
+    id="probe-image"
+    src="{{imageSrc}}"
+    bindload="onImageLoad"
+    binderror="onImageError"
+    style="width:16px;height:16px"
+  />
+</view>

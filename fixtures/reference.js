@@ -1004,6 +1004,71 @@ module.exports = {
     2,
     "depart:second"
   ],
+  "route.stack-limit-overflow": [
+    10,
+    [
+      "fail",
+      "complete"
+    ],
+    true,
+    10,
+    true,
+    [],
+    10,
+    true,
+    true,
+    true
+  ],
+  "route.switch-tab-rejects-non-tab": [
+    [
+      "fail",
+      "complete"
+    ],
+    true,
+    "pages/suite/index",
+    1,
+    true
+  ],
+  "route.switch-tab-query-stripped": [
+    [
+      "success",
+      "complete"
+    ],
+    "pages/tab/index",
+    1,
+    {},
+    true
+  ],
+  "route.switch-tab-clears-non-tab-stack": [
+    [
+      "alpha.unload",
+      "beta.unload"
+    ],
+    1,
+    "pages/tab/index",
+    1,
+    true
+  ],
+  "route.page-not-found-in-app-isolation": [
+    true,
+    [
+      "fail",
+      "complete"
+    ],
+    [
+      "fail",
+      "complete"
+    ],
+    [
+      "fail",
+      "complete"
+    ],
+    0,
+    0,
+    0,
+    1,
+    true
+  ],
   "storage.roundtrip-text": "pêche",
   "storage.roundtrip-number": 42,
   "storage.roundtrip-false": false,
@@ -1032,6 +1097,125 @@ module.exports = {
   "storage.missing-callback-order": [
     "fail",
     "complete"
+  ],
+  "storage.clear-sync": [
+    true,
+    true,
+    0,
+    "",
+    ""
+  ],
+  "storage.clear-async": [
+    [
+      "success",
+      "complete"
+    ],
+    0,
+    "",
+    ""
+  ],
+  "storage.special-undefined": [
+    "",
+    [
+      "keep"
+    ],
+    1,
+    false,
+    [
+      1,
+      null,
+      3
+    ]
+  ],
+  "storage.special-nan-infinity": [
+    {
+      "nan": null,
+      "pos": null,
+      "neg": null,
+      "ok": 7
+    },
+    [
+      null,
+      null,
+      null
+    ]
+  ],
+  "storage.special-date": [
+    true,
+    "2025-01-02T03:04:05.678Z",
+    "string",
+    "2025-01-02T03:04:05.678Z"
+  ],
+  "storage.special-arraybuffer": [
+    false,
+    "",
+    false,
+    {},
+    "ok"
+  ],
+  "storage.special-sparse-array": [
+    [
+      null,
+      null,
+      {
+        "list": [
+          null,
+          "mid",
+          null,
+          9
+        ]
+      }
+    ],
+    true,
+    true,
+    true,
+    true
+  ],
+  "storage.large-payload-limit": [
+    262144,
+    "aaaa",
+    "aaaa",
+    [
+      "fail",
+      "complete"
+    ],
+    true
+  ],
+  "setdata.special-undefined": [
+    true,
+    "string:before",
+    "string:after",
+    false,
+    3,
+    "number:1",
+    "null",
+    "number:3"
+  ],
+  "setdata.special-nan-infinity": [
+    "null",
+    "null",
+    "null",
+    "number:7"
+  ],
+  "setdata.special-date": "object:{}",
+  "setdata.special-arraybuffer": [
+    "object:{}",
+    "string:alive"
+  ],
+  "setdata.special-sparse-array": [
+    3,
+    "null",
+    "null",
+    4,
+    "null",
+    "string:mid",
+    "null",
+    "number:9"
+  ],
+  "setdata.large-payload": [
+    262144,
+    262144,
+    "string:committed"
   ],
   "base64.encode-single": "AA==",
   "base64.decode-single": [
@@ -1206,6 +1390,56 @@ module.exports = {
   "worker.terminate-stops": [
     true,
     false
+  ],
+  "audio.play-pause-resume": [
+    true,
+    [
+      "play",
+      "pause",
+      "play"
+    ],
+    false,
+    true,
+    true,
+    true,
+    false,
+    true
+  ],
+  "audio.seek-and-timeupdate": [
+    true,
+    true,
+    true,
+    true
+  ],
+  "audio.play-to-ended": [
+    [
+      "play",
+      "ended"
+    ],
+    true,
+    true
+  ],
+  "audio.stop-resets-state": [
+    [
+      "play",
+      "stop"
+    ],
+    true,
+    true
+  ],
+  "buffer-url.create-unique-and-revoke": [
+    true,
+    true,
+    true,
+    true
+  ],
+  "buffer-url.image-load-and-revoke": [
+    [
+      "load",
+      1,
+      1
+    ],
+    "error"
   ],
   "storage.batch-order": [
     "second",
@@ -3391,6 +3625,23 @@ module.exports = {
     true,
     false
   ],
+  "promise.complete-only-disables-promise": [
+    false,
+    true
+  ],
+  "promise.fail-only-disables-promise": [
+    false,
+    true
+  ],
+  "promise.reject-matches-fail-errMsg": [
+    true,
+    true
+  ],
+  "promise.sync-api-returns-value-directly": [
+    false,
+    "sync-val",
+    false
+  ],
   "wxs.change-prop-initial-and-update": [
     {
       "next": 1,
@@ -3423,6 +3674,34 @@ module.exports = {
       false
     ]
   ],
+  "wxs.owner-get-dataset-and-state": [
+    "wxs-tag",
+    7,
+    true
+  ],
+  "wxs.owner-select-all-components": [
+    20,
+    30,
+    40
+  ],
+  "wxs.owner-set-style-string": [
+    44,
+    14
+  ],
+  "wxs.change-prop-object-payload": [
+    {
+      "label": "a",
+      "size": 2
+    },
+    {
+      "label": "b",
+      "size": 5
+    }
+  ],
+  "wxs.owner-trigger-event": {
+    "from": "wxs",
+    "step": 5
+  },
   "model.parent-update-flows-to-child": [
     "from-parent",
     "from-parent"
@@ -3436,11 +3715,31 @@ module.exports = {
     "number",
     42
   ],
+  "model.child-write-triggers-observers": [
+    "synced",
+    true
+  ],
+  "model.two-children-share-parent-field": [
+    "shared-next",
+    "shared-next",
+    "shared-next"
+  ],
+  "model.falsy-boolean-and-empty-string": [
+    false,
+    "boolean",
+    "",
+    "string"
+  ],
+  "model.native-input-binding-sync": [
+    "hello",
+    ""
+  ],
   "event.mark-merges-and-overrides": {
     "outer": "page",
     "mid": "mid",
     "host": "host",
-    "shared": "host"
+    "shared": "host",
+    "dyn": "v1"
   },
   "event.mark-isolated-at-component-boundary": [
     {
@@ -3452,7 +3751,8 @@ module.exports = {
       "outer": "page",
       "mid": "mid",
       "host": "host",
-      "shared": "host"
+      "shared": "host",
+      "dyn": "v1"
     }
   ],
   "event.mut-bind-stops-same-kind": [
@@ -3462,6 +3762,25 @@ module.exports = {
     "bind-host",
     "mut-mid",
     "bind-outer"
+  ],
+  "event.mark-dynamic-update": [
+    "v1",
+    "v2",
+    ""
+  ],
+  "event.mark-distinct-from-dataset": [
+    "host-ds",
+    "outer-ds",
+    "host"
+  ],
+  "event.mut-bind-and-catch-interaction": [
+    "mut-inner",
+    "catch-mid"
+  ],
+  "event.capture-bind-and-mut-bind-order": [
+    "cap-bind-outer",
+    "bind-cap-host",
+    "mut-cap-mid"
   ],
   "component-page.query-to-properties": [
     "alpha",
@@ -3483,11 +3802,31 @@ module.exports = {
       "detached"
     ]
   ],
+  "component-page.behavior-and-observers": [
+    "beh-data",
+    "from-behavior",
+    true
+  ],
+  "component-page.query-defaults-and-boolean": [
+    "none",
+    0,
+    true,
+    "boolean"
+  ],
+  "component-page.query-encoded-and-setdata": [
+    "a b/c",
+    "updated",
+    "updated"
+  ],
   "component-options.virtual-host-layout": [
     true,
     false,
     true,
     true
+  ],
+  "component-options.virtual-host-selector-and-methods": [
+    "virtual-host-instance",
+    2
   ],
   "component-options.add-global-class": [
     53,
@@ -3500,6 +3839,14 @@ module.exports = {
   "component-options.style-page-apply-shared": [
     61,
     13
+  ],
+  "component-options.style-page-shared": [
+    61,
+    73
+  ],
+  "component-options.style-isolated-blocks-global": [
+    11,
+    11
   ],
   "component-options.relation-ancestor-descendant": [
     [
@@ -3518,13 +3865,49 @@ module.exports = {
     ],
     true
   ],
+  "component-options.relation-behavior-target-lifecycle": [
+    [
+      "alpha",
+      "beta"
+    ],
+    [
+      "alpha"
+    ],
+    [
+      [
+        "unlinked",
+        "beta"
+      ]
+    ],
+    [
+      "alpha",
+      "beta"
+    ],
+    [
+      [
+        "linked",
+        "beta"
+      ]
+    ]
+  ],
   "subpackage.require-async": [
     "pack-async",
     21
   ],
+  "subpackage.require-callback-and-error": [
+    "pack-async",
+    true
+  ],
   "subpackage.component-placeholder": [
     "pack-widget-ready",
     "pack-widget-ready"
+  ],
+  "subpackage.placeholder-props-and-events": [
+    "hello-pack",
+    "updated-pack",
+    {
+      "title": "updated-pack"
+    }
   ],
   "canvas2d.node-and-context": [
     true,
@@ -3588,6 +3971,136 @@ module.exports = {
     true,
     true
   ],
+  "canvas2d.dpr-scale-alignment": [
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      255,
+      0,
+      0,
+      255
+    ],
+    [
+      255,
+      0,
+      0,
+      255
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "canvas2d.path-stroke-and-fill": [
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      255,
+      255
+    ],
+    [
+      255,
+      0,
+      0,
+      255
+    ]
+  ],
+  "canvas2d.arc-circle-pixels": [
+    [
+      0,
+      128,
+      255,
+      255
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "canvas2d.clip-region": [
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      255,
+      255,
+      0,
+      255
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "canvas2d.linear-gradient": [
+    true,
+    true,
+    true
+  ],
+  "canvas2d.global-alpha-blending": [
+    true,
+    0,
+    true,
+    255
+  ],
+  "canvas2d.composite-destination-out": [
+    [
+      0,
+      255,
+      0,
+      255
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "canvas2d.path2d-support": [
+    true,
+    [
+      128,
+      0,
+      128,
+      255
+    ],
+    [
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "canvas2d.draw-offscreen-canvas": [
+    255,
+    0,
+    255,
+    255
+  ],
+  "canvas2d.image-onerror": [
+    false,
+    true
+  ],
   "query.scroll-view-node-scroll-to": [
     true,
     60
@@ -3633,6 +4146,48 @@ module.exports = {
       12
     ]
   ],
+  "query.in-component-scope-isolation": [
+    null,
+    24,
+    null
+  ],
+  "query.missing-select-vs-select-all": [
+    null,
+    []
+  ],
+  "query.native-properties-dynamic-sync": [
+    [
+      false,
+      20
+    ],
+    [
+      true,
+      75
+    ]
+  ],
+  "query.mixed-batch-exec-order": [
+    4,
+    72,
+    true,
+    3,
+    null
+  ],
+  "query.scroll-view-horizontal-scroll-to": [
+    true,
+    50
+  ],
+  "query.dataset-order-on-select-all": [
+    [
+      1,
+      2,
+      3
+    ],
+    [
+      30,
+      30,
+      30
+    ]
+  ],
   "animate.keyframe-applies-and-clears": [
     [
       80,
@@ -3653,10 +4208,33 @@ module.exports = {
       "1"
     ]
   ],
+  "animate.partial-clear-preserves-remaining": [
+    [
+      20,
+      "0.4"
+    ],
+    [
+      20,
+      "1"
+    ]
+  ],
+  "animate.override-previous-keyframe": 45,
+  "animate.scroll-driven-keyframe": [
+    true,
+    true
+  ],
+  "animate.missing-selector-no-throw": [
+    true,
+    true
+  ],
   "page-meta.root-font-size-and-style": [
     60,
     30,
     "rgb(17, 34, 51)"
+  ],
+  "page-meta.dynamic-page-style-update": [
+    "rgb(17, 34, 51)",
+    "rgb(68, 85, 102)"
   ],
   "page-meta.scroll-top-binding": true,
   "page-container.show-events-and-hide": [
@@ -3665,9 +4243,61 @@ module.exports = {
     "beforeleave",
     "afterleave"
   ],
+  "page-container.positions-top-vs-bottom": [
+    true,
+    true
+  ],
+  "page-container.overlay-and-zindex": [
+    true,
+    true
+  ],
   "scroll-view.edge-boundary-events": [
     "lower",
     "upper"
+  ],
+  "scroll-view.scroll-into-view-horizontal": true,
+  "video.context-play-pause": [
+    [
+      "play",
+      "pause",
+      "play"
+    ],
+    true
+  ],
+  "video.context-seek-timeupdate-ended": [
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "route.relaunch-clears-stack-and-query": [
+    [
+      "alpha.unload",
+      "beta.unload",
+      "suite.unload"
+    ],
+    [
+      "relaunch.load",
+      "relaunch.show",
+      "relaunch.ready"
+    ],
+    1,
+    "pages/lifecycle/index",
+    {
+      "name": "relaunch",
+      "tag": "fresh",
+      "num": "42"
+    }
+  ],
+  "route.relaunch-to-tab-page": [
+    [
+      "alpha.unload",
+      "suite.unload"
+    ],
+    1,
+    1,
+    "pages/tab/index"
   ],
   "socket.text-echo": [
     "open",
@@ -3735,5 +4365,89 @@ module.exports = {
     0,
     255,
     13
+  ],
+  "http.timeout": [
+    [
+      "fail",
+      "complete"
+    ],
+    true,
+    true
+  ],
+  "http.redirect-follow": [
+    200,
+    "raw text"
+  ],
+  "http.redirect-chain": [
+    200,
+    "raw text"
+  ],
+  "http.redirect-manual": [
+    200,
+    "raw text"
+  ],
+  "http.large-transfer": [
+    200,
+    524288,
+    true
+  ],
+  "http.large-download": [
+    200,
+    524288,
+    true
+  ],
+  "http.chunked-transfer": [
+    true,
+    true,
+    "chunk-1|chunk-2|chunk-3",
+    200,
+    [
+      "success",
+      "complete"
+    ]
+  ],
+  "http.concurrent-requests": [
+    [
+      200,
+      200,
+      200,
+      200,
+      200,
+      200
+    ],
+    [
+      "c0",
+      "c1",
+      "c2",
+      "c3",
+      "c4",
+      "c5"
+    ]
+  ],
+  "http.abort-inflight-and-idempotent": [
+    [
+      "fail",
+      "complete"
+    ],
+    true
+  ],
+  "http.abort-isolated-in-concurrency": [
+    [
+      "fail",
+      "complete"
+    ],
+    true,
+    [
+      "success",
+      "complete"
+    ],
+    "survivor"
+  ],
+  "http.abort-after-complete-noop": [
+    [
+      "success",
+      "complete"
+    ],
+    true
   ]
 };

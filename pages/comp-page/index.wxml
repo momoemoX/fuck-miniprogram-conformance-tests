@@ -1,1 +1,1 @@
-<view id="comp-page-info" data-code="{{code}}" data-count="{{count}}"/>
+<view id="comp-page-info" data-code="{{code}}" data-count="{{count}}" data-flag="{{flag}}"/>

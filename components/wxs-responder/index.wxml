@@ -1,3 +1,8 @@
 <wxs module="handler" src="./handler.wxs"/>
-<view id="box" prop="{{step}}" change:prop="{{handler.onStep}}" style="width:10px;height:10px"/>
+<view id="box" data-tag="wxs-tag" data-num="{{7}}" prop="{{step}}" change:prop="{{handler.onStep}}" style="width:10px;height:10px"/>
 <view id="flag" class="flag"/>
+<view id="str-box" style="width:10px;height:10px"/>
+<view id="payload-box" payload="{{payload}}" change:payload="{{handler.onPayload}}"/>
+<view class="wxs-chip" style="width:10px;height:8px"/>
+<view class="wxs-chip" style="width:10px;height:8px"/>
+<view class="wxs-chip" style="width:10px;height:8px"/>

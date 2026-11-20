@@ -29,9 +29,15 @@
     "global-class-probe": "/components/options-probe/global-class",
     "style-shared-probe": "/components/options-probe/style-shared",
     "style-pas-probe": "/components/options-probe/style-page-apply",
+    "style-ps-probe": "/components/options-probe/style-page-shared",
+    "style-iso-probe": "/components/options-probe/style-isolated",
     "tree-root": "/components/tree-rel/root",
     "tree-leaf": "/components/tree-rel/leaf",
+    "beh-tree-root": "/components/tree-rel/beh-root",
+    "beh-tree-leaf": "/components/tree-rel/beh-leaf",
     "animate-probe": "/components/animate-probe/index",
+    "serial-probe": "/components/serial-probe/index",
+    "media-probe": "/components/media-probe/index",
     "async-widget": "/pack/async-widget/index"
   },
   "componentPlaceholder": {
