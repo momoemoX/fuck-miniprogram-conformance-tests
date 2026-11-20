@@ -1,0 +1,22 @@
+/* Layout contract for visual capture (tools/visual/lib.cjs relies on these numbers):
+   a 40px magenta square 8px from the page's top-left corner, then a 375px-wide white
+   stage starting 56px below the page top. The square is surrounded by white so its
+   anti-aliased edges can be measured to a fraction of a pixel. */
+page {
+  background: #ffffff;
+}
+.calibration {
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin: 8px 0 0 8px;
+  background: #ff00ff;
+}
+.stage {
+  display: block;
+  box-sizing: border-box;
+  width: 375px;
+  margin-top: 8px;
+  padding: 8px;
+  background: #ffffff;
+}

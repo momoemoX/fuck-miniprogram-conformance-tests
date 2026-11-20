@@ -54,7 +54,7 @@ The component layer checks 34 built-in components against the public attribute l
 
 All expected values were recorded in the 3.7.12 simulator with `"style": "v2"`; under the legacy style a default button is a full-width 46px block instead of a centered 184×40 box. The gallery was recorded three times with the default, serif and monospace font families; fields that changed between those runs depend on font metrics, which differ across operating systems, and are not asserted. Eight fields were dropped that way: the width and height of inline text-bearing components (`text`, `label`) and the height of `checkbox`, `radio`, `navigator` and `picker`. A render state becomes a case only when a stable field differs from the default box.
 
-The layer asserts the host box, not the component's inner rendering. Of 149 generated states, 142 leave the host box unchanged and change only inner elements, such as a checked `switch` or `checkbox`, or progress `show-info`. The inner structure is implementation-specific, so those states need a screenshot comparison rather than an in-app assertion; they are listed under remaining coverage. Map, video, editor and canvas states are not generated, because they change only the inner surface.
+The layer asserts the host box, not the component's inner rendering. Of 149 generated states, 142 leave the host box unchanged and change only inner elements, such as a checked `switch` or `checkbox`, or progress `show-info`. The inner structure is implementation-specific, so those states are compared through the visual references below rather than an in-app assertion. Map, video, editor and canvas states are not generated, because they change only the inner surface.
 
 Regenerate the layer after a catalog or tool update:
 
@@ -64,6 +64,38 @@ node tools/components/generate.cjs
 # record with empty fixtures/component-expectations.js, once per gallery font
 node tools/components/record-expectations.cjs default.json serif.json monospace.json
 ```
+
+## Visual references
+
+The in-app layer cannot see inside a component, so `fixtures/visual/` holds 65 reference images of component renderings. `pages/gallery/index?cell=<cell>` shows one cell on a white stage below a 40px magenta calibration square. Unlike the in-app gallery, each visual cell has content so it draws something: `image` and `cover-image` show an asymmetric sample image in a grey 80px box, so every `mode` crops or aligns it differently; `input` and `textarea` hold text, `swiper` has coloured slides, `progress` and `slider` have values, `picker-view` has options. `map` (network tiles), `canvas` (needs drawing code), `form` and `match-media` (containers without visuals of their own) have no cells.
+
+Of 178 generated cells, 113 are not referenced: 4 draw nothing, and 109 are states whose rendering is pixel-identical to the component's default, such as `open-type`, `form-type`, `confirm-type`, `lang` and `easing-function`. The remaining 65 include every image mode, checked and disabled `switch`, `checkbox` and `radio`, the v2 button types, `plain`, `disabled` and `loading`, `password`, `show-info`, `show-value`, swiper indicator dots, `rich-text` spacing and `video` controls.
+
+`tools/visual/compare.cjs` accepts any screenshot of the gallery page. It finds the calibration square to the sub-pixel, derives the page origin and scale from it, crops the stage and resamples it to one pixel per CSS pixel, so device frames, zoom and device pixel ratio do not matter. Screenshots that carry Display-P3 values, as the simulator writes on wide-gamut displays, are recognised from the square's colour and converted to sRGB. Each reference is checked three ways:
+
+| Check | Fails when |
+| --- | --- |
+| Pixel share | Differing pixels, excluding anti-aliased edges, exceed the reference's tolerance as a share of the pixels either image draws |
+| Local defects | More 4×4 blocks than the baseline itself showed have most of their pixels changed, such as a missing tick or dot |
+| Palette | A colour that fills at least 12 pixels of the reference, solid in a uniform 3×3 neighbourhood, is nearly absent from the candidate; pure white never counts as a match, so a missing light grey fill is caught |
+
+Each cell was captured three times in the 3.7.12 simulator: twice with the default font and once with serif. Pixels that change under serif depend on the platform's fonts; they are stored transparent in the reference and are not compared, so a button's glyph is excused while its fill, border and size are not. Four cells hold text that kept its own font family under serif, so the serif capture cannot reveal its glyphs: `input`, its `password` state, `cover-view` and the disabled `button`. For them only the position of the drawn area (within 3px) and the palette are compared. The other 61 are compared pixel by pixel. Tolerances are the larger of 3% and twice the difference between the two default captures. Every cell's two default captures were pixel-identical, so all references use 3%.
+
+Two checks on the references used captures that played no part in recording them. A fresh simulator capture matched all 65 references. A build of the open-wxa engine, served in Chromium, matched 31. Its 34 failures are real rendering gaps: `switch` drawn as a checkbox, the browser's native `slider`, other checked and disabled styles for `checkbox` and `radio`, an `icon` without its colour, image modes that crop or align without scaling, a plain `button` without its border, and differences in `rich-text` spacing, `textarea` padding, swiper indicator dots, `progress` labels and `video` controls.
+
+```sh
+npm ci --prefix tools/visual
+# references: one capture of every cell, then the repeat and serif captures of the cells worth keeping
+node tools/visual/capture-devtools.cjs --appid <AppID> --out raw-1
+node tools/visual/capture-devtools.cjs --appid <AppID> --out raw-2 --only "$(node tools/visual/select.cjs raw-1)"
+node tools/visual/capture-devtools.cjs --appid <AppID> --out raw-serif --font serif --only "$(node tools/visual/select.cjs raw-1)"
+node tools/visual/record.cjs raw-1 raw-2 raw-serif
+# an implementation: capture its screenshots any way its host allows, then compare
+node tools/visual/capture-browser.cjs --url http://localhost:3000/ --out shots
+node tools/visual/compare.cjs --candidate shots --out diff
+```
+
+The visual layer is a separate profile: its outcome depends on how an implementation is screenshotted, and agreement across rendering engines carries more noise than the in-app assertions. It is reported by `compare.cjs`, not by the suite page. Its thresholds were validated against the official renderer only; no second conforming implementation exists yet to measure how much two correct renderers differ.
 
 ## Component and event cases
 
@@ -168,7 +200,7 @@ Run `node tools/coverage.cjs` for direct source references and the list of basel
 | Area | Missing or partial behavior |
 | --- | --- |
 | Framework and rendering | Blur delivery when focus moves between inputs (absent in the 3.7.12 simulator; needs a device run), advanced relation and generic combinations, theme change delivery, window resize events, and the remaining built-in components and their property, event and accessibility combinations. |
-| Component rendering | Inner rendering of component states (checked switches and checkboxes, progress labels, slider values and similar) is not asserted; it needs reference screenshots of the gallery states. |
+| Component rendering | Inner rendering is compared through the visual references, outside the in-app score. Animated cells, `map`, and interaction states such as hover, focus and pressed have no reference. |
 | Interactive input | The 17 interactive checks were recorded on the earlier 3.7.0 host and have not been re-run on 3.7.12. They need real keystrokes, native dialogs and gestures that the automation driver does not reproduce faithfully. |
 | Desktop APIs | Additional success, failure and cancellation paths, task listeners, media playback and decoding, maps, TCP/UDP, native UI and platform-specific branches. |
 | Device integration | Camera and microphone hardware, background operation, BLE data exchange with a peripheral, NFC tags, Wi-Fi changes, device model and permission-denial paths. |

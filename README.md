@@ -25,6 +25,17 @@ The script runs a temporary copy of the repository, prints the simulator's SDK v
 
 The component cases are generated from the attribute catalog that the developer tool ships for WXML completion; `COVERAGE.md` describes how to regenerate and re-record them with `tools/components/`.
 
+## Visual references
+
+The in-app cases measure component boxes and computed styles, but they can't see what a component draws inside its box. `fixtures/visual/` holds 65 reference screenshots of component renderings from the 3.7.12 simulator. Examples are a switch's track, a checked checkbox, image modes and button types. Capture `pages/gallery/index?cell=<cell>` for each reference in your implementation, then compare:
+
+```sh
+npm ci --prefix tools/visual
+node tools/visual/compare.cjs --candidate <directory of screenshots> --out diff
+```
+
+The comparison works with any device frame, zoom, pixel ratio or Display-P3 encoding, and it ignores pixels that depend on the platform's fonts. `tools/visual/capture-browser.cjs` captures a browser-hosted implementation with Playwright. This layer is reported separately from the suite score; `COVERAGE.md` describes how the references were recorded and checked.
+
 ## Optional network fixtures
 
 Run the HTTP fixture with Node.js:

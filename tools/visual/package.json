@@ -1,0 +1,9 @@
+{
+  "name": "conformance-visual-references",
+  "private": true,
+  "dependencies": {
+    "miniprogram-automator": "^0.13.0",
+    "pixelmatch": "5.3.0",
+    "pngjs": "^7.0.0"
+  }
+}
