@@ -2,6 +2,7 @@
   "sdkVersion": "3.7.12",
   "environment": "devtools",
   "toolVersion": "2.02.2611062 Nightly",
+  "suiteCommit": "9f29c9fa3161374303d32fa1eed014e1026fa4ee",
   "results": [
     {
       "id": "reuse.initial-keyed-order",

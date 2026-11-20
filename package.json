@@ -1,0 +1,12 @@
+{
+  "name": "miniprogram-conformance-tests",
+  "private": true,
+  "description": "Black-box conformance test suite for Mini Program base library 3.7.12",
+  "scripts": {
+    "check:syntax": "node tools/check-syntax.cjs",
+    "check:generated": "node tools/components/generate.cjs && git diff --exit-code -- components/gallery pages/gallery fixtures/component-values.js fixtures/component-states.js fixtures/visual-cells.js",
+    "check:reference": "node tools/reference.cjs --check",
+    "check:visual": "node tools/visual/verify.cjs",
+    "check": "npm run check:syntax && npm run check:generated && npm run check:reference && npm run check:visual"
+  }
+}

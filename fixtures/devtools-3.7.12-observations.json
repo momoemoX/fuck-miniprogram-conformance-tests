@@ -2,6 +2,7 @@
   "sdkVersion": "3.7.12",
   "environment": "devtools simulator",
   "toolVersion": "2.02.2611062 Nightly",
+  "suiteCommit": "eea947b1c0df15bbfe188fb85f322299b4f68509",
   "appStyle": "v2",
   "runs": [
     {

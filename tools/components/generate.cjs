@@ -63,8 +63,8 @@ const cells = [];
 const visualCells = [];
 const NO_VISUAL = new Set(["map", "canvas", "form", "match-media"]);
 // Cells that render text, either from their content or from the component itself.
-const TEXT_TAGS = new Set([...TEXT_CHILD, "input", "textarea", "editor", "rich-text", "picker-view", "picker-view-column"]);
-const TEXT_STATES = new Set(["progress.show-info=true", "slider.show-value=true"]);
+const TEXT_TAGS = new Set([...TEXT_CHILD, "input", "textarea", "editor", "rich-text", "picker-view", "picker-view-column", "video"]);
+const TEXT_STATES = new Set(["audio.controls=true", "progress.show-info=true", "slider.show-value=true"]);
 const SAMPLE = 'src="/fixtures/visual-sample.png" style="width:80px;height:80px;background:#eeeeee"';
 const SLIDES = '<swiper-item style="background:#e64340"/><swiper-item style="background:#10aeff"/><swiper-item style="background:#07c160"/>';
 const COLUMN = "<view>One</view><view>Two</view><view>Three</view>";
@@ -90,7 +90,7 @@ const VISUAL = {
     `<picker-view style="height:100px"><picker-view-column id="${id}"${a}>${COLUMN}</picker-view-column></picker-view>`,
   "scroll-view": (id, a) =>
     `<scroll-view id="${id}" style="height:40px"${a}><view style="height:30px;background:#e64340"/><view style="height:30px;background:#10aeff"/></scroll-view>`,
-  "rich-text": (id, a) => `<rich-text id="${id}" nodes="{{'<b>Rich</b> text'}}"${a}/>`,
+  "rich-text": (id, a) => `<rich-text id="${id}" nodes="{{'<b>Rich</b>   text'}}"${a}/>`,
   "checkbox-group": (id, a) =>
     `<checkbox-group id="${id}"${a}><checkbox value="a" checked="{{true}}"/><checkbox value="b"/></checkbox-group>`,
   "radio-group": (id, a) => `<radio-group id="${id}"${a}><radio value="a" checked="{{true}}"/><radio value="b"/></radio-group>`,

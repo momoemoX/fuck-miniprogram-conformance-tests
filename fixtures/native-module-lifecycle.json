@@ -2,6 +2,7 @@
   "sdkVersion": "3.7.12",
   "environment": "devtools",
   "toolVersion": "2.02.2611062 Nightly",
+  "suiteCommit": "60becb13e22b76f2a27d80f26582af098795b53f",
   "results": [
     {
       "id": "module.cache-identity",

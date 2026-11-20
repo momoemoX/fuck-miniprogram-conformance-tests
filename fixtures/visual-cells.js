@@ -11,7 +11,7 @@ module.exports = {
   },
   "state.audio.controls=true": {
     "cell": "v-audio-controls-0",
-    "text": false
+    "text": true
   },
   "button": {
     "cell": "d-button",
@@ -703,7 +703,7 @@ module.exports = {
   },
   "video": {
     "cell": "d-video",
-    "text": false
+    "text": true
   },
   "view": {
     "cell": "d-view",

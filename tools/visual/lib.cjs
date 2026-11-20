@@ -12,6 +12,12 @@ const pixelmatch = require("pixelmatch");
 const SQUARE = { left: 8, top: 8, size: 40 };
 const STAGE = { left: 0, top: 56, width: 375 };
 
+// Strict enough to detect #f8f8f8 vs #ffffff (7/255) and light-grey spinners, while
+// absorbing small cross-renderer and Display-P3 rounding differences (<= 6/255).
+const MATCH_THRESHOLD = 0.025;
+// Default bounding-box tolerance (in CSS pixels) for glyph-only cells.
+const GLYPH_BOX = 3;
+
 // Some hosts, including the developer-tool simulator on wide-gamut displays, write
 // Display-P3 values into an untagged screenshot. sRGB magenta then reads (234, 51, 247),
 // so the calibration square tells which space an image uses.
@@ -79,6 +85,12 @@ function readPlain(file) {
 
 function write(file, image) {
   fs.writeFileSync(file, PNG.sync.write(image));
+}
+
+function blankImage(width, height) {
+  const image = new PNG({ width, height });
+  image.data.fill(255);
+  return image;
 }
 
 // How much of a pixel the magenta square covers. Its neighbours are white, so the green
@@ -170,7 +182,7 @@ function ink(image, i) {
   return image.data[i] < 253 || image.data[i + 1] < 253 || image.data[i + 2] < 253;
 }
 
-// Bounding box of drawn pixels, or null for a blank image.
+// Bounding box of drawn pixels (ignoring alpha), or null for a blank image.
 function inkBox(image) {
   let left = Infinity,
     top = Infinity,
@@ -187,12 +199,27 @@ function inkBox(image) {
   return right < 0 ? null : { left, top, right, bottom };
 }
 
-// Colours that cover a meaningful area, quantized to 32 levels per channel.
-const LEVELS = 5;
+function boxDiff(expected, found) {
+  if (!expected && !found) return 0;
+  if (!expected || !found) return Infinity;
+  return Math.max(...["left", "top", "right", "bottom"].map((side) => Math.abs(found[side] - expected[side])));
+}
+
+// Colours that cover a meaningful area, quantized to 64 levels per channel (step 4).
+// Bin 63 covers 252..255 (pure white stage), keeping light WeUI greys like #f8f8f8 (248)
+// and #fafafa (250) in bin 62 so missing light fills are caught.
+const LEVELS = 6;
 const MAX = (1 << LEVELS) - 1;
 const WHITE = (MAX << (2 * LEVELS)) | (MAX << LEVELS) | MAX;
 function bin(r, g, b) {
   return ((r >> (8 - LEVELS)) << (2 * LEVELS)) | ((g >> (8 - LEVELS)) << LEVELS) | (b >> (8 - LEVELS));
+}
+
+// Coarser 32-level quantization for coloured glyph ink inside font-masked areas.
+const INK_LEVELS = 5;
+const INK_MAX = (1 << INK_LEVELS) - 1;
+function inkBin(r, g, b) {
+  return ((r >> (8 - INK_LEVELS)) << (2 * INK_LEVELS)) | ((g >> (8 - INK_LEVELS)) << INK_LEVELS) | (b >> (8 - INK_LEVELS));
 }
 
 // With `solidOnly`, a pixel counts only when its 3x3 neighbourhood has the same colour:
@@ -211,7 +238,7 @@ function palette(image, solidOnly) {
         for (let dy = -1; dy <= 1 && uniform; dy++)
           for (let dx = -1; dx <= 1 && uniform; dx++) {
             const j = (width * (y + dy) + (x + dx)) * 4;
-            if (Math.abs(data[j] - data[i]) > 6 || Math.abs(data[j + 1] - data[i + 1]) > 6 || Math.abs(data[j + 2] - data[i + 2]) > 6) uniform = false;
+            if (Math.abs(data[j] - data[i]) > 4 || Math.abs(data[j + 1] - data[i + 1]) > 4 || Math.abs(data[j + 2] - data[i + 2]) > 4) uniform = false;
           }
         if (!uniform) continue;
       }
@@ -222,13 +249,30 @@ function palette(image, solidOnly) {
   return bins;
 }
 
-// Filled reference colours (at least 12 solid pixels, not white) that the candidate
-// lacks: fewer than a quarter as many pixels within one quantization step, never
-// counting pure white, so a light grey background that is missing is not excused by the
-// white stage. This catches a wrong colour independently of glyph shapes and edges.
+// Chromatic glyph ink (saturation >= 48) in font-masked pixels (or the whole candidate).
+// Font shape varies across platforms, but coloured text (e.g. warn red vs default green)
+// keeps its hue regardless of the font family.
+function chromaticInk(image, maskedOnly) {
+  const bins = new Map();
+  const { data } = image;
+  for (let i = 0; i < data.length; i += 4) {
+    if (maskedOnly && data[i + 3] >= 128) continue;
+    const r = data[i],
+      g = data[i + 1],
+      b = data[i + 2];
+    if (Math.max(r, g, b) - Math.min(r, g, b) < 48) continue;
+    const key = inkBin(r, g, b);
+    bins.set(key, (bins.get(key) || 0) + 1);
+  }
+  return bins;
+}
+
+// Filled reference colours (at least 12 solid pixels, not white) and chromatic masked
+// glyph colours (at least 10 pixels) that the candidate lacks. Pure white never counts
+// as a match, so a missing light grey background is not excused by the white stage.
 function missingColors(reference, candidate) {
   const ref = palette(reference, true);
-  const cand = palette(candidate, false);
+  const cand = palette(opaque(candidate), false);
   const missing = [];
   for (const [key, count] of ref) {
     if (count < 12 || key === WHITE) continue;
@@ -245,14 +289,36 @@ function missingColors(reference, candidate) {
           if (near !== WHITE) found += cand.get(near) || 0;
         }
     if (found < count / 4) {
-      const hex = [r, g, b].map((v) => ((v << (8 - LEVELS)) | 4).toString(16).padStart(2, "0")).join("");
+      const hex = [r, g, b].map((v) => ((v << (8 - LEVELS)) | 2).toString(16).padStart(2, "0")).join("");
       missing.push("#" + hex + "×" + count);
+    }
+  }
+  const refInk = chromaticInk(reference, true);
+  if (refInk.size > 0) {
+    const candInk = chromaticInk(candidate, false);
+    for (const [key, count] of refInk) {
+      if (count < 10) continue;
+      const r = key >> (2 * INK_LEVELS);
+      const g = (key >> INK_LEVELS) & INK_MAX;
+      const b = key & INK_MAX;
+      let found = 0;
+      for (let dr = -2; dr <= 2; dr++)
+        for (let dg = -2; dg <= 2; dg++)
+          for (let db = -2; db <= 2; db++) {
+            const [nr, ng, nb] = [r + dr, g + dg, b + db];
+            if (nr < 0 || ng < 0 || nb < 0 || nr > INK_MAX || ng > INK_MAX || nb > INK_MAX) continue;
+            found += candInk.get((nr << (2 * INK_LEVELS)) | (ng << INK_LEVELS) | nb) || 0;
+          }
+      if (found < count / 4) {
+        const hex = [r, g, b].map((v) => ((v << (8 - INK_LEVELS)) | 4).toString(16).padStart(2, "0")).join("");
+        missing.push("ink:#" + hex + "×" + count);
+      }
     }
   }
   return missing;
 }
 
-// 4×4 blocks in which most pixels differ: a local defect such as a missing tick or dot.
+// 4×4 blocks in which >6 pixels differ: a local defect such as a missing tick, dot or spinner.
 function blockDefects(diff, width, height, masked) {
   let blocks = 0;
   for (let by = 0; by + 4 <= height; by += 4) {
@@ -264,7 +330,7 @@ function blockDefects(diff, width, height, masked) {
           // pixelmatch paints differing pixels red and anti-aliased ones yellow.
           if (!masked[width * y + x] && diff.data[i] === 255 && diff.data[i + 1] === 0 && diff.data[i + 2] === 0) bad++;
         }
-      if (bad > 8) blocks++;
+      if (bad > 6) blocks++;
     }
   }
   return blocks;
@@ -295,8 +361,8 @@ function compare(reference, candidate) {
   }
   const masked = maskOf(reference);
   const diff = new PNG({ width, height });
-  pixelmatch(opaque(reference).data, candidate.data, diff.data, width, height, {
-    threshold: 0.1,
+  pixelmatch(opaque(reference).data, opaque(candidate).data, diff.data, width, height, {
+    threshold: MATCH_THRESHOLD,
     includeAA: false,
     diffColor: [255, 0, 0],
     aaColor: [255, 255, 0],
@@ -322,13 +388,42 @@ function compare(reference, candidate) {
   };
 }
 
+// Evaluates a candidate image against a reference and its manifest entry.
+// Shared by compare.cjs, record.cjs and verify.cjs so recording and checking agree.
+function evaluate(reference, actual, entry) {
+  const { ratio, blocks, missing, diff } = compare(reference, actual);
+  const problems = [];
+  if (entry.glyphs) {
+    const limit = entry.glyphBox || GLYPH_BOX;
+    const off = boxDiff(inkBox(reference), inkBox(actual));
+    if (off > limit) problems.push("drawn area off by " + off + "px (limit " + limit + "px)");
+  } else {
+    if (ratio > entry.tolerance) {
+      problems.push((ratio * 100).toFixed(1) + "% of drawn pixels differ (limit " + (entry.tolerance * 100).toFixed(1) + "%)");
+    }
+    if (blocks > entry.blocks) problems.push(blocks + " local defects (limit " + entry.blocks + ")");
+  }
+  if (entry.palette && missing.length) problems.push("missing colours " + missing.join(" "));
+  return {
+    passed: problems.length === 0,
+    ratio,
+    blocks,
+    missing,
+    problems,
+    diff,
+  };
+}
+
 // Pixels that change when only the font family changes, widened by two pixels: glyphs
 // and anything they push around. Returned as a copy of `reference` with those pixels
 // made transparent.
 function fontMask(reference, alternate) {
   const { width, height } = reference;
   const diff = new PNG({ width, height });
-  pixelmatch(opaque(reference).data, alternate.data, diff.data, width, height, { threshold: 0.1, includeAA: true });
+  pixelmatch(opaque(reference).data, opaque(alternate).data, diff.data, width, height, {
+    threshold: MATCH_THRESHOLD,
+    includeAA: true,
+  });
   const changed = new Uint8Array(width * height);
   for (let p = 0; p < changed.length; p++) {
     const i = p * 4;
@@ -350,10 +445,25 @@ function fontMask(reference, alternate) {
   return out;
 }
 
-// Share of pixels that draw anything on the white stage.
+// Count of pixels that draw anything on the white stage.
 function drawn(image) {
   let count = 0;
   for (let i = 0; i < image.data.length; i += 4) if (ink(image, i)) count++;
+  return count;
+}
+
+// Count of unmasked (alpha >= 128) drawn pixels in a reference image.
+function unmaskedDrawn(image) {
+  let count = 0;
+  for (let i = 0; i < image.data.length; i += 4) {
+    if (image.data[i + 3] >= 128 && ink(image, i)) count++;
+  }
+  return count;
+}
+
+function maskedCount(image) {
+  let count = 0;
+  for (let i = 3; i < image.data.length; i += 4) if (image.data[i] < 128) count++;
   return count;
 }
 
@@ -375,4 +485,25 @@ function redundancy(key, image, defaults) {
   return null;
 }
 
-module.exports = { read, readPlain, write, normalize, compare, fontMask, inkBox, locateSquare, redundancy, drawn, STAGE, SAME };
+module.exports = {
+  read,
+  readPlain,
+  write,
+  blankImage,
+  opaque,
+  normalize,
+  compare,
+  evaluate,
+  fontMask,
+  inkBox,
+  boxDiff,
+  locateSquare,
+  redundancy,
+  drawn,
+  unmaskedDrawn,
+  maskedCount,
+  STAGE,
+  SAME,
+  GLYPH_BOX,
+  MATCH_THRESHOLD,
+};

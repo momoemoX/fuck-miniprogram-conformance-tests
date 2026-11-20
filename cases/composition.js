@@ -8,8 +8,13 @@ async function composition(page, check) {
   }
   await check("slot.named-projection", 60, projectedWidth);
   await check("slot.dynamic-name", 90, async () => {
-    await update(page, { outlet: "tail" });
-    return projectedWidth();
+    const original = page.data.outlet;
+    try {
+      await update(page, { outlet: "tail" });
+      return await projectedWidth();
+    } finally {
+      await update(page, { outlet: original });
+    }
   });
   await check("module.shared-exports", [1, 2], () => {
     note.counter = 1;
@@ -52,10 +57,14 @@ async function composition(page, check) {
   await check("query.missing-component", true, () => page.selectComponent("#not-present") == null);
   await check("render.hidden-toggle", [0, 12], async () => {
     const height = async () => (await query(page, "#hideable", { size: true })).height;
-    await update(page, { invisible: true });
-    const hidden = await height();
-    await update(page, { invisible: false });
-    return [hidden, await height()];
+    try {
+      await update(page, { invisible: true });
+      const hidden = await height();
+      await update(page, { invisible: false });
+      return [hidden, await height()];
+    } finally {
+      await update(page, { invisible: false });
+    }
   });
   await check(
     "observer.media-match",

@@ -8,9 +8,9 @@ A black-box test suite for independent implementations of the Mini Program base 
 2. Tap **Run suite**. The navigation cases open another page and return automatically.
 3. Read the expected and actual values for each case. **Show JSON report** exposes the case IDs, enabled profiles, reported SDK version and outcomes. Relaunch the project for another run.
 
-The default run contains **468 automatic cases**, including 103 generated from the official component catalog. With both network fixtures enabled, it contains **482**. The suite app enables `"style": "v2"`, the component style most mini programs use. All of them reproduced in the 3.7.12 simulator baseline. The page also reports a score restricted to expectations reproduced in that baseline, so an edited expected value is set apart until it is checked again. An interrupted run has no final score.
+The default run contains **468 automatic cases**, including 103 generated from the official component catalog. With both network fixtures enabled, it contains **482**. The suite app enables `"style": "v2"`, the component style most mini programs use. All of them reproduced in the 3.7.12 simulator baseline. Each result labels whether its expected value is a `Baseline-confirmed expectation (3.7.12)` (distinct from whether the tested implementation passed), and the summary also reports a score restricted to baseline-confirmed expectations plus a category breakdown (`Behavior` · `Shape` · `Quirk`, where known 3.7.12 runtime quirks such as `channel.off-listener` are tagged separately). An interrupted run has no final score.
 
-Each case has 60 seconds, and each route transition inside it 10 seconds. A case that overruns is recorded as a failure and gets 15 more seconds to finish its cleanup. Every case must return the page stack it started with; otherwise the run stops as interrupted, because later cases would observe a different page.
+Each case has 60 seconds, and each route transition inside it 10 seconds. A case that overruns is recorded as a failure and gets 15 more seconds to finish its cleanup; if cleanup is still pending after 15 seconds, or if a case leaves the page stack changed, the run stops as interrupted so late writes or a different page cannot contaminate later cases.
 
 ## Reproduce the baseline
 
@@ -27,14 +27,25 @@ The component cases are generated from the attribute catalog that the developer 
 
 ## Visual references
 
-The in-app cases measure component boxes and computed styles, but they can't see what a component draws inside its box. `fixtures/visual/` holds 65 reference screenshots of component renderings from the 3.7.12 simulator. Examples are a switch's track, a checked checkbox, image modes and button types. Capture `pages/gallery/index?cell=<cell>` for each reference in your implementation, then compare:
+The in-app cases measure component boxes and computed styles, but they can't see what a component draws inside its box. `fixtures/visual/` holds 61 reference screenshots of component renderings from the 3.7.12 simulator. Examples are a switch's track, a checked checkbox, image modes, audio controls, rich-text spacing and button types. Capture `pages/gallery/index?cell=<cell>` for each reference in your implementation, then compare:
 
 ```sh
 npm ci --prefix tools/visual
 node tools/visual/compare.cjs --candidate <directory of screenshots> --out diff
 ```
 
-The comparison works with any device frame, zoom, pixel ratio or Display-P3 encoding, and it ignores pixels that depend on the platform's fonts. `tools/visual/capture-browser.cjs` captures a browser-hosted implementation with Playwright. This layer is reported separately from the suite score; `COVERAGE.md` describes how the references were recorded and checked.
+The comparison works with any device frame, zoom, pixel ratio or Display-P3 encoding; it font-masks only text-bearing cells while checking bounding boxes for glyph-only cells and preserving coloured text ink. `tools/visual/capture-browser.cjs` captures a browser-hosted implementation with Playwright. This layer is reported separately from the suite score; `COVERAGE.md` describes how the references were recorded and checked.
+
+## Offline checks (CI)
+
+Run all offline repository checks without launching the developer tool:
+
+```sh
+npm ci --prefix tools/visual
+npm run check
+```
+
+This checks JavaScript syntax across the repository, verifies that `tools/components/generate.cjs` produces no uncommitted diff, verifies that `fixtures/reference.js` matches `fixtures/devtools-3.7.12-observations.json` (`node tools/reference.cjs --check`), and verifies that every committed visual reference fails on a blank white stage and distinguishes every component state from its default (`node tools/visual/verify.cjs`).
 
 ## Optional network fixtures
 

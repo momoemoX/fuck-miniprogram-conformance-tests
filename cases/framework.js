@@ -16,12 +16,22 @@ async function framework(page, check) {
     getCurrentPages().map((item) => item.route),
   );
   await check("page.data-path-update", ["fresh", 2], async () => {
-    await update(page, { "recipe.notes[0]": "fresh" });
-    return [page.data.recipe.notes[0], page.data.recipe.notes.length];
+    const original = page.data.recipe.notes[0];
+    try {
+      await update(page, { "recipe.notes[0]": "fresh" });
+      return [page.data.recipe.notes[0], page.data.recipe.notes.length];
+    } finally {
+      await update(page, { "recipe.notes[0]": original });
+    }
   });
   await check("page.callback-after-render", "baked", async () => {
-    await update(page, { title: "baked" });
-    return value("#stamp");
+    const original = page.data.title;
+    try {
+      await update(page, { title: "baked" });
+      return await value("#stamp");
+    } finally {
+      await update(page, { title: original });
+    }
   });
   await check("component.defaults", ["plain", 0, false], () => {
     const props = state().properties;
@@ -52,8 +62,13 @@ async function framework(page, check) {
     async () => (await query(state(), "#inside", { dataset: true })).dataset.flavor,
   );
   await check("component.parent-property", "rye/salty", async () => {
-    await update(page, { seasoning: "salty" });
-    return page.selectComponent("#bound").recipe();
+    const original = page.data.seasoning;
+    try {
+      await update(page, { seasoning: "salty" });
+      return page.selectComponent("#bound").recipe();
+    } finally {
+      await update(page, { seasoning: original });
+    }
   });
   await check("query.no-match", [], () => query(page, ".absent", { id: true }, true));
   await check("query.rect", [64, 16], async () => {
@@ -77,24 +92,43 @@ async function framework(page, check) {
   );
   await check("wxml.list-index", ["0:pear", "1:plum"], () => values(".fruit"));
   await check("wxml.list-reorder", ["0:plum", "1:pear", "2:lime"], async () => {
-    await update(page, { fruit: ["plum", "pear", "lime"] });
-    return values(".fruit");
+    const original = page.data.fruit.slice();
+    try {
+      await update(page, { fruit: ["plum", "pear", "lime"] });
+      return await values(".fruit");
+    } finally {
+      await update(page, { fruit: original });
+    }
   });
   await check("wxml.conditional", ["cold", "hot"], async () => {
-    const cold = await value("#temperature");
-    await update(page, { hot: true });
-    return [cold, await value("#temperature")];
+    const original = page.data.hot;
+    try {
+      const cold = await value("#temperature");
+      await update(page, { hot: true });
+      return [cold, await value("#temperature")];
+    } finally {
+      await update(page, { hot: original });
+    }
   });
   await check("wxml.template-import", ["citrus"], () => values(".tag"));
   await check("wxml.include-scope", "peel", async () => {
-    await update(page, { title: "peel" });
-    return value("#stamp");
+    const original = page.data.title;
+    try {
+      await update(page, { title: "peel" });
+      return await value("#stamp");
+    } finally {
+      await update(page, { title: original });
+    }
   });
   await check("wxs.module-call", "[zest]", () => value("#formatted"));
   await check("component.detach", "detached", async () => {
     const previous = state();
-    await update(page, { mounted: false });
-    return previous.visits[previous.visits.length - 1];
+    try {
+      await update(page, { mounted: false });
+      return previous.visits[previous.visits.length - 1];
+    } finally {
+      await update(page, { mounted: true });
+    }
   });
 }
 module.exports = { framework };

@@ -10,8 +10,16 @@ async function rendering(page, check) {
   );
   await check("render.nested-scopes", ["a1", "a2", "b3"], order);
   await check("render.list-remove", ["b4"], async () => {
-    await update(page, { groups: [{ label: "b", items: [4] }] });
-    return order();
+    const original = page.data.groups.map((group) => ({
+      label: group.label,
+      items: group.items.slice(),
+    }));
+    try {
+      await update(page, { groups: [{ label: "b", items: [4] }] });
+      return await order();
+    } finally {
+      await update(page, { groups: original });
+    }
   });
   await check("render.interpolation-types", [4, true, "A/B"], async () => [
     await field("expression", "number"),
@@ -19,17 +27,35 @@ async function rendering(page, check) {
     await field("expression", "joined"),
   ]);
   await check("render.dynamic-template", ["first", "second"], async () => {
-    const before = await field("dynamic");
-    await update(page, { templateName: "beta" });
-    return [before, await field("dynamic")];
+    const original = page.data.templateName;
+    try {
+      const before = await field("dynamic");
+      await update(page, { templateName: "beta" });
+      return [before, await field("dynamic")];
+    } finally {
+      await update(page, { templateName: original });
+    }
   });
   await check("setdata.sibling-paths", [7, 8, "x"], async () => {
-    await update(page, { "matrix[0].x": 7, "matrix[1].x": 8 });
-    return [page.data.matrix[0].x, page.data.matrix[1].x, page.data.matrix[0].tag];
+    const original = page.data.matrix.map((row) => Object.assign({}, row));
+    try {
+      await update(page, { "matrix[0].x": 7, "matrix[1].x": 8 });
+      return [page.data.matrix[0].x, page.data.matrix[1].x, page.data.matrix[0].tag];
+    } finally {
+      await update(page, { matrix: original });
+    }
   });
   await check("setdata.empty-array", [], async () => {
-    await update(page, { groups: [] });
-    return order();
+    const original = page.data.groups.map((group) => ({
+      label: group.label,
+      items: group.items.slice(),
+    }));
+    try {
+      await update(page, { groups: [] });
+      return await order();
+    } finally {
+      await update(page, { groups: original });
+    }
   });
   await check("wxs.inline-module", "ALPHA", () => field("inline"));
   await check(
@@ -42,9 +68,14 @@ async function rendering(page, check) {
     return [box.width, box.height];
   });
   await check("css.dynamic-class", [49, 14], async () => {
-    await update(page, { wide: true });
-    const box = await query(page, "#styled", { size: true });
-    return [box.width, box.height];
+    const original = page.data.wide;
+    try {
+      await update(page, { wide: true });
+      const box = await query(page, "#styled", { size: true });
+      return [box.width, box.height];
+    } finally {
+      await update(page, { wide: original });
+    }
   });
   await check(
     "canvas.pixel-roundtrip",

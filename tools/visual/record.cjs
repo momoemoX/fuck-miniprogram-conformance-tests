@@ -3,9 +3,11 @@
 //   node tools/visual/record.cjs raw-default-1/ raw-default-2/ raw-serif/
 //
 // The first capture becomes the reference. The difference between the two default
-// captures measures rendering noise (animations, decoding). Pixels that change in the
-// serif capture depend on the platform's fonts; they are stored transparent and are not
-// compared. Each reference's limits come from the remaining noise.
+// captures measures rendering noise (animations, decoding). For text-bearing cells,
+// pixels that change in the serif capture depend on the platform's fonts; they are
+// stored transparent and are not compared. Non-text controls are never font-masked,
+// and every recorded reference is verified against both a blank stage and its component
+// default before being admitted to the manifest.
 const fs = require("fs");
 const path = require("path");
 const lib = require("./lib.cjs");
@@ -50,35 +52,64 @@ for (const key of Object.keys(cells)) {
     skipped[key] = "missing repeat capture";
     continue;
   }
-  const serifImage = lib.normalize(file(alternate), height);
-  // Font-dependent pixels (glyphs and what they push around) become transparent in the
-  // stored reference and are not compared; the rest of the cell stays strict.
-  const masked = lib.fontMask(reference, serifImage);
-  const again = lib.compare(masked, lib.normalize(file(repeat), height));
-  const serif = lib.compare(masked, serifImage);
+  const repeatImage = lib.normalize(file(repeat), height);
+  const isText = Boolean(cells[key].text);
+  const serifImage = isText ? lib.normalize(file(alternate), height) : null;
+  // Only text-bearing cells are font-masked; masking non-text controls (e.g. checkbox)
+  // wipes out ticks and icons shifted by the stage's serif line-height metrics.
+  const masked = isText ? lib.fontMask(reference, serifImage) : lib.opaque(reference);
+  const again = lib.compare(masked, repeatImage);
+  const serif = isText ? lib.compare(masked, serifImage) : null;
   const noise = again.ratio;
   if (noise > UNSTABLE) {
     skipped[key] = "animated: repeat captures differ by " + (noise * 100).toFixed(1) + "%";
     continue;
   }
-  // Text that ignores the stage font (inputs and similar keep their own font family)
-  // shows no font dependence in the serif capture, so its glyphs cannot be masked; the
-  // whole cell is compared loosely instead.
-  const unmaskedFont = lib.compare(reference, serifImage).ratio;
-  const glyphs = Boolean(cells[key].text) && unmaskedFont < 0.001;
-  lib.write(path.join(out, key + ".png"), masked);
-  manifest[key] = {
+  const unmaskedFont = isText ? lib.compare(reference, serifImage).ratio : 0;
+  // Use bounding-box (glyphs) matching when a text cell either ignores the stage font
+  // (nothing could be masked) or has no unmasked ink left after font masking.
+  const unmaskedInk = lib.unmaskedDrawn(masked);
+  const glyphs = isText && (lib.maskedCount(masked) === 0 || unmaskedInk === 0);
+  const entry = {
     cell: cells[key].cell,
     height,
     glyphs,
-    tolerance: Number(Math.max(FLOOR, 2 * noise, 1.5 * serif.ratio).toFixed(4)),
+    tolerance: Number(Math.max(FLOOR, 2 * noise, serif ? 1.5 * serif.ratio : 0).toFixed(4)),
     // Local defects and missing colours are only asserted as far as the baseline's own
-    // repeat and serif captures stay clean of them.
-    blocks: Math.max(again.blocks, serif.blocks),
-    palette: again.missing.length === 0 && serif.missing.length === 0,
+    // repeat (and for text cells, serif) captures stay clean of them.
+    blocks: serif ? Math.max(again.blocks, serif.blocks) : again.blocks,
+    palette: again.missing.length === 0 && (!serif || serif.missing.length === 0),
     noise: Number(noise.toFixed(4)),
     fontNoise: Number(unmaskedFont.toFixed(4)),
   };
+  if (glyphs) {
+    const refBox = lib.inkBox(reference);
+    const repeatOff = lib.boxDiff(refBox, lib.inkBox(repeatImage));
+    const serifOff = serifImage ? lib.boxDiff(refBox, lib.inkBox(serifImage)) : 0;
+    entry.glyphBox = Math.max(
+      lib.GLYPH_BOX,
+      Number.isFinite(repeatOff) ? repeatOff : 0,
+      Number.isFinite(serifOff) ? serifOff : 0,
+    );
+  }
+  // Never admit a reference that passes on a blank white stage or cannot distinguish
+  // a component state from its own default rendering under the real comparator.
+  const blankCheck = lib.evaluate(masked, lib.blankImage(masked.width, masked.height), entry);
+  if (blankCheck.passed) {
+    skipped[key] = "indistinguishable from blank";
+    continue;
+  }
+  const stateMatch = /^state\.([^.]+)\./.exec(key);
+  const defaultImg = stateMatch && defaults[stateMatch[1]];
+  if (defaultImg && defaultImg.height === height) {
+    const defaultCheck = lib.evaluate(masked, defaultImg, entry);
+    if (defaultCheck.passed) {
+      skipped[key] = "same as the default after masking";
+      continue;
+    }
+  }
+  lib.write(path.join(out, key + ".png"), masked);
+  manifest[key] = entry;
 }
 fs.writeFileSync(
   path.join(out, "manifest.json"),

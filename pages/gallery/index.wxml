@@ -123,11 +123,11 @@
   <block wx:if="{{cell === 'd-radio'}}"><radio id="d-radio"/></block>
   <block wx:if="{{cell === 'v-radio-checked-0'}}"><radio id="v-radio-checked-0" checked="{{true}}"/></block>
   <block wx:if="{{cell === 'v-radio-disabled-0'}}"><radio id="v-radio-disabled-0" disabled="{{true}}"/></block>
-  <block wx:if="{{cell === 'd-rich-text'}}"><rich-text id="d-rich-text" nodes="{{'<b>Rich</b> text'}}"/></block>
-  <block wx:if="{{cell === 'v-rich-text-space-0'}}"><rich-text id="v-rich-text-space-0" nodes="{{'<b>Rich</b> text'}}" space="ensp"/></block>
-  <block wx:if="{{cell === 'v-rich-text-space-1'}}"><rich-text id="v-rich-text-space-1" nodes="{{'<b>Rich</b> text'}}" space="emsp"/></block>
-  <block wx:if="{{cell === 'v-rich-text-space-2'}}"><rich-text id="v-rich-text-space-2" nodes="{{'<b>Rich</b> text'}}" space="nbsp"/></block>
-  <block wx:if="{{cell === 'v-rich-text-user-select-0'}}"><rich-text id="v-rich-text-user-select-0" nodes="{{'<b>Rich</b> text'}}" user-select="{{true}}"/></block>
+  <block wx:if="{{cell === 'd-rich-text'}}"><rich-text id="d-rich-text" nodes="{{'<b>Rich</b>   text'}}"/></block>
+  <block wx:if="{{cell === 'v-rich-text-space-0'}}"><rich-text id="v-rich-text-space-0" nodes="{{'<b>Rich</b>   text'}}" space="ensp"/></block>
+  <block wx:if="{{cell === 'v-rich-text-space-1'}}"><rich-text id="v-rich-text-space-1" nodes="{{'<b>Rich</b>   text'}}" space="emsp"/></block>
+  <block wx:if="{{cell === 'v-rich-text-space-2'}}"><rich-text id="v-rich-text-space-2" nodes="{{'<b>Rich</b>   text'}}" space="nbsp"/></block>
+  <block wx:if="{{cell === 'v-rich-text-user-select-0'}}"><rich-text id="v-rich-text-user-select-0" nodes="{{'<b>Rich</b>   text'}}" user-select="{{true}}"/></block>
   <block wx:if="{{cell === 'd-scroll-view'}}"><scroll-view id="d-scroll-view" style="height:40px"><view style="height:30px;background:#e64340"/><view style="height:30px;background:#10aeff"/></scroll-view></block>
   <block wx:if="{{cell === 'v-scroll-view-scroll-x-0'}}"><scroll-view id="v-scroll-view-scroll-x-0" style="height:40px" scroll-x="{{true}}"><view style="height:30px;background:#e64340"/><view style="height:30px;background:#10aeff"/></scroll-view></block>
   <block wx:if="{{cell === 'v-scroll-view-scroll-y-0'}}"><scroll-view id="v-scroll-view-scroll-y-0" style="height:40px" scroll-y="{{true}}"><view style="height:30px;background:#e64340"/><view style="height:30px;background:#10aeff"/></scroll-view></block>

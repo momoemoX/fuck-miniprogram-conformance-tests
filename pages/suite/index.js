@@ -193,12 +193,14 @@ Page({
       interrupted,
       reportedSDK,
       profiles: { core: true, http: !!config.fixtureUrl, socket: !!config.socketUrl },
+      breakdown: report.breakdown(),
       results: report.results,
     };
     this.setData({
       results: report.results,
       summary: interrupted ? "Interrupted: " + interrupted : report.summary(),
       baselineScore: interrupted ? "No final score for an interrupted run" : report.baselineScore(),
+      breakdownSummary: interrupted ? "" : report.breakdownSummary(),
     });
   },
 

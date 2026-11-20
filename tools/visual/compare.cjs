@@ -23,8 +23,6 @@ if (!candidate) {
   process.exit(2);
 }
 const diffDir = option("out", null);
-// How far the drawn area of a text-only cell may move, in CSS pixels.
-const GLYPH_BOX = 3;
 const jsonOut = option("json", null);
 const references = path.resolve(__dirname, "../../fixtures/visual");
 const { references: manifest } = JSON.parse(fs.readFileSync(path.join(references, "manifest.json"), "utf8"));
@@ -41,25 +39,7 @@ for (const [key, entry] of Object.entries(manifest)) {
   try {
     const reference = lib.readPlain(path.join(references, key + ".png"));
     const actual = lib.normalize(shot, entry.height);
-    const { ratio, blocks, missing, diff } = lib.compare(reference, actual);
-    const problems = [];
-    if (entry.glyphs) {
-      // Text in the platform's own font: glyph pixels cannot be compared across
-      // platforms, so the drawn area must sit in the same place within a few pixels.
-      const expected = lib.inkBox(reference);
-      const found = lib.inkBox(actual);
-      const off = found
-        ? Math.max(...["left", "top", "right", "bottom"].map((side) => Math.abs(found[side] - expected[side])))
-        : Infinity;
-      if (off > GLYPH_BOX) problems.push("drawn area off by " + off + "px (limit " + GLYPH_BOX + "px)");
-    } else {
-      if (ratio > entry.tolerance) {
-        problems.push((ratio * 100).toFixed(1) + "% of drawn pixels differ (limit " + (entry.tolerance * 100).toFixed(1) + "%)");
-      }
-      if (blocks > entry.blocks) problems.push(blocks + " local defects (limit " + entry.blocks + ")");
-    }
-    if (entry.palette && missing.length) problems.push("missing colours " + missing.join(" "));
-    const passed = problems.length === 0;
+    const { passed, ratio, blocks, missing, problems, diff } = lib.evaluate(reference, actual, entry);
     results.push({
       ...result,
       status: passed ? "PASS" : "FAIL",

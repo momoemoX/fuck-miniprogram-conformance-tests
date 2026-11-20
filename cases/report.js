@@ -24,7 +24,40 @@ function matches(actual, expected) {
 }
 
 const TARGET = "3.7.12";
-const REPRODUCED = "Reproduced on " + TARGET;
+const BASELINE_CONFIRMED = "Baseline-confirmed expectation (" + TARGET + ")";
+// Cases whose expected value captures a known 3.7.12 runtime quirk rather than a
+// clean specification requirement (e.g. off(name, fn) failing due to try/catch shimming).
+const QUIRKS = new Set(["channel.off-listener"]);
+// Cases that primarily check returned object shapes, enum membership or singleton
+// identity rather than complex multi-step runtime behavior.
+const SHAPE_CHECKS = new Set([
+  "audio.background-singleton",
+  "audio.recorder-singleton",
+  "network.type-result",
+  "storage.async-info",
+  "storage.info-sync-shape",
+  "system.account-info-shape",
+  "system.api-capability",
+  "system.app-language",
+  "system.async-callback",
+  "system.async-window",
+  "system.authorize-setting-values",
+  "system.base-version",
+  "system.device-info-shape",
+  "system.device-platform",
+  "system.menu-geometry",
+  "system.safe-area",
+  "system.setting-shape",
+  "system.sync-and-split",
+  "system.window-dimensions",
+]);
+
+function categoryOf(id) {
+  if (QUIRKS.has(id)) return "quirk";
+  if (SHAPE_CHECKS.has(id)) return "shape";
+  return "behavior";
+}
+
 // One case may chain several navigations, each bounded by its own 10s wait.
 const CASE_TIMEOUT = 60000;
 // After a timeout the exercise keeps running; its cleanup gets this long to restore
@@ -47,7 +80,8 @@ function makeReport(filter) {
     let actual,
       passed = false,
       timer,
-      timedOut = false;
+      timedOut = false,
+      cleanupPending = false;
     const run = Promise.resolve().then(exercise);
     try {
       const timeout = new Promise((_, reject) => {
@@ -76,17 +110,27 @@ function makeReport(filter) {
         }),
       ]);
       clearTimeout(grace);
-      if (!finished) actual += " (cleanup still pending after " + CLEANUP_GRACE + "ms)";
+      if (!finished) {
+        cleanupPending = true;
+        actual += " (cleanup still pending after " + CLEANUP_GRACE + "ms)";
+      }
     }
-    const reproduced =
+    const baselineConfirmed =
       Object.prototype.hasOwnProperty.call(reference, id) && matches(reference[id], expected);
     results.push({
       id,
-      evidence: reproduced ? REPRODUCED : "Pending baseline confirmation",
+      category: categoryOf(id),
+      baselineConfirmed,
+      evidence: baselineConfirmed ? BASELINE_CONFIRMED : "Pending baseline confirmation",
       status: passed ? "PASS" : "FAIL",
       expected: JSON.stringify(expected),
       actual,
     });
+    if (cleanupPending) {
+      throw new RunInterrupted(
+        "Case " + id + " cleanup did not finish within " + CLEANUP_GRACE + "ms",
+      );
+    }
     // Every case must hand back the page stack it started with; later cases assume it.
     if (!(await waitUntil(stackRestored, { timeout: 3000 }))) {
       throw new RunInterrupted("Case " + id + " left the page stack changed");
@@ -98,11 +142,33 @@ function makeReport(filter) {
     );
   }
   function baselineScore() {
-    const comparable = results.filter((result) => result.evidence === REPRODUCED);
+    const comparable = results.filter((result) => result.baselineConfirmed);
     const confirmed = comparable.filter((result) => result.status === "PASS");
-    return confirmed.length + "/" + comparable.length + " reproduced expectations matched";
+    return confirmed.length + "/" + comparable.length + " baseline-confirmed expectations passed";
   }
-  return { check, results, summary, baselineScore };
+  function breakdown() {
+    const tally = (category) => {
+      const subset = results.filter((result) => result.category === category);
+      return {
+        passed: subset.filter((result) => result.status === "PASS").length,
+        total: subset.length,
+      };
+    };
+    return {
+      behavior: tally("behavior"),
+      shape: tally("shape"),
+      quirk: tally("quirk"),
+    };
+  }
+  function breakdownSummary() {
+    const b = breakdown();
+    return [
+      "Behavior " + b.behavior.passed + "/" + b.behavior.total,
+      "Shape " + b.shape.passed + "/" + b.shape.total,
+      "Quirk " + b.quirk.passed + "/" + b.quirk.total,
+    ].join(" · ");
+  }
+  return { check, results, summary, baselineScore, breakdown, breakdownSummary };
 }
 
-module.exports = { makeReport, matches, RunInterrupted, TARGET };
+module.exports = { makeReport, matches, RunInterrupted, TARGET, QUIRKS, SHAPE_CHECKS, categoryOf };

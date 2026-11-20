@@ -9,7 +9,7 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.0267
+      "fontNoise": 0.0441
     },
     "button": {
       "cell": "d-button",
@@ -19,7 +19,7 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.0056
+      "fontNoise": 0.0096
     },
     "state.button.size=mini": {
       "cell": "v-button-size-1",
@@ -29,7 +29,7 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.0414
+      "fontNoise": 0.054
     },
     "state.button.type=primary": {
       "cell": "v-button-type-0",
@@ -39,7 +39,7 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.0042
+      "fontNoise": 0.0091
     },
     "state.button.type=default": {
       "cell": "v-button-type-1",
@@ -49,7 +49,7 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.0047
+      "fontNoise": 0.0092
     },
     "state.button.type=warn": {
       "cell": "v-button-type-2",
@@ -59,7 +59,7 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.0043
+      "fontNoise": 0.0093
     },
     "state.button.plain=true": {
       "cell": "v-button-plain-0",
@@ -69,27 +69,7 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.0424
-    },
-    "state.button.disabled=true": {
-      "cell": "v-button-disabled-0",
-      "height": 56,
-      "glyphs": true,
-      "tolerance": 0.03,
-      "blocks": 0,
-      "palette": true,
-      "noise": 0,
-      "fontNoise": 0.0008
-    },
-    "state.button.loading=true": {
-      "cell": "v-button-loading-0",
-      "height": 56,
-      "glyphs": false,
-      "tolerance": 0.03,
-      "blocks": 0,
-      "palette": true,
-      "noise": 0,
-      "fontNoise": 0.0107
+      "fontNoise": 0.0489
     },
     "checkbox-group": {
       "cell": "d-checkbox-group",
@@ -99,7 +79,7 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.0191
+      "fontNoise": 0
     },
     "checkbox": {
       "cell": "d-checkbox",
@@ -129,7 +109,7 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.0335
+      "fontNoise": 0
     },
     "cover-image": {
       "cell": "d-cover-image",
@@ -149,17 +129,19 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0
+      "fontNoise": 0,
+      "glyphBox": 3
     },
     "editor": {
       "cell": "d-editor",
       "height": 216,
-      "glyphs": false,
+      "glyphs": true,
       "tolerance": 0.03,
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.4269
+      "fontNoise": 0.6278,
+      "glyphBox": 4
     },
     "icon": {
       "cell": "d-icon",
@@ -319,7 +301,8 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0
+      "fontNoise": 0,
+      "glyphBox": 3
     },
     "state.input.password=true": {
       "cell": "v-input-password-0",
@@ -329,17 +312,19 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0
+      "fontNoise": 0,
+      "glyphBox": 3
     },
     "label": {
       "cell": "d-label",
       "height": 39,
-      "glyphs": false,
+      "glyphs": true,
       "tolerance": 0.03,
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.3187
+      "fontNoise": 0.5408,
+      "glyphBox": 3
     },
     "movable-area": {
       "cell": "d-movable-area",
@@ -364,12 +349,13 @@
     "navigator": {
       "cell": "d-navigator",
       "height": 39,
-      "glyphs": false,
+      "glyphs": true,
       "tolerance": 0.03,
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.3187
+      "fontNoise": 0.5408,
+      "glyphBox": 3
     },
     "picker-view-column": {
       "cell": "d-picker-view-column",
@@ -379,7 +365,7 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.1222
+      "fontNoise": 0.1634
     },
     "picker-view": {
       "cell": "d-picker-view",
@@ -389,17 +375,18 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.1222
+      "fontNoise": 0.1634
     },
     "picker": {
       "cell": "d-picker",
       "height": 39,
-      "glyphs": false,
+      "glyphs": true,
       "tolerance": 0.03,
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.3187
+      "fontNoise": 0.5408,
+      "glyphBox": 3
     },
     "progress": {
       "cell": "d-progress",
@@ -419,7 +406,7 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.0706
+      "fontNoise": 0.1046
     },
     "radio-group": {
       "cell": "d-radio-group",
@@ -429,7 +416,7 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.0085
+      "fontNoise": 0
     },
     "radio": {
       "cell": "d-radio",
@@ -449,7 +436,7 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.0114
+      "fontNoise": 0
     },
     "state.radio.disabled=true": {
       "cell": "v-radio-disabled-0",
@@ -464,42 +451,35 @@
     "rich-text": {
       "cell": "d-rich-text",
       "height": 39,
-      "glyphs": false,
+      "glyphs": true,
       "tolerance": 0.03,
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.5666
+      "fontNoise": 0.6257,
+      "glyphBox": 8
     },
     "state.rich-text.space=ensp": {
       "cell": "v-rich-text-space-0",
       "height": 39,
-      "glyphs": false,
+      "glyphs": true,
       "tolerance": 0.03,
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.571
+      "fontNoise": 0.6317,
+      "glyphBox": 7
     },
     "state.rich-text.space=emsp": {
       "cell": "v-rich-text-space-1",
       "height": 39,
-      "glyphs": false,
+      "glyphs": true,
       "tolerance": 0.03,
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.5732
-    },
-    "state.rich-text.user-select=true": {
-      "cell": "v-rich-text-user-select-0",
-      "height": 39,
-      "glyphs": false,
-      "tolerance": 0.03,
-      "blocks": 0,
-      "palette": true,
-      "noise": 0,
-      "fontNoise": 0.5846
+      "fontNoise": 0.6592,
+      "glyphBox": 7
     },
     "scroll-view": {
       "cell": "d-scroll-view",
@@ -539,7 +519,7 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.0531
+      "fontNoise": 0.1625
     },
     "swiper-item": {
       "cell": "d-swiper-item",
@@ -604,42 +584,35 @@
     "text": {
       "cell": "d-text",
       "height": 39,
-      "glyphs": false,
+      "glyphs": true,
       "tolerance": 0.03,
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.3187
-    },
-    "state.text.user-select=true": {
-      "cell": "v-text-user-select-0",
-      "height": 39,
-      "glyphs": false,
-      "tolerance": 0.03,
-      "blocks": 0,
-      "palette": true,
-      "noise": 0,
-      "fontNoise": 0.4679
+      "fontNoise": 0.5408,
+      "glyphBox": 3
     },
     "textarea": {
       "cell": "d-textarea",
       "height": 76,
-      "glyphs": false,
+      "glyphs": true,
       "tolerance": 0.03,
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.5127
+      "fontNoise": 0.6327,
+      "glyphBox": 3
     },
     "state.textarea.auto-height=true": {
       "cell": "v-textarea-auto-height-0",
       "height": 37,
-      "glyphs": false,
+      "glyphs": true,
       "tolerance": 0.03,
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.5127
+      "fontNoise": 0.6327,
+      "glyphBox": 3
     },
     "video": {
       "cell": "d-video",
@@ -649,13 +622,15 @@
       "blocks": 0,
       "palette": true,
       "noise": 0,
-      "fontNoise": 0.0073
+      "fontNoise": 0.0103
     }
   },
   "skipped": {
     "audio": "draws nothing",
     "state.audio.loop=true": "draws nothing",
     "state.button.size=default": "same as the default",
+    "state.button.disabled=true": "same as the default after masking",
+    "state.button.loading=true": "same as the default after masking",
     "state.button.form-type=submit": "same as the default",
     "state.button.form-type=reset": "same as the default",
     "state.button.form-type=submitToGroup": "same as the default",
@@ -728,12 +703,13 @@
     "state.picker.level=region": "same as the default",
     "state.picker.level=sub-district": "same as the default",
     "state.progress.active=true": "same as the default",
-    "state.rich-text.space=nbsp": "same as the default",
+    "state.rich-text.space=nbsp": "same as the default after masking",
+    "state.rich-text.user-select=true": "same as the default after masking",
     "state.scroll-view.scroll-x=true": "same as the default",
     "state.scroll-view.scroll-with-animation=true": "same as the default",
     "state.scroll-view.enable-back-to-top=true": "same as the default",
     "state.scroll-view.enable-passive=true": "same as the default",
-    "state.scroll-view.refresher-enabled=true": "same as the default",
+    "state.scroll-view.refresher-enabled=true": "same as the default after masking",
     "state.scroll-view.refresher-triggered=true": "same as the default",
     "state.scroll-view.bounces=true": "same as the default",
     "state.scroll-view.show-scrollbar=true": "same as the default",
@@ -752,6 +728,7 @@
     "state.swiper.direction=positive": "same as the default",
     "state.swiper.direction=negative": "same as the default",
     "state.text.selectable=true": "same as the default",
+    "state.text.user-select=true": "same as the default after masking",
     "state.textarea.disabled=true": "same as the default",
     "state.textarea.adjust-position=true": "same as the default",
     "state.textarea.hold-keyboard=true": "same as the default",

@@ -24,15 +24,20 @@ async function inputContract(page, check) {
         await second;
         return page.inputTrace.filter((entry) => entry[0] === "focus").slice(0, 2);
       } finally {
-        await update(page, { focusA: false, focusB: false });
+        await update(page, { focusValue: "", focusA: false, focusB: false });
       }
     },
   );
 
   await check("input.value-binding-sync", ["fresh", "fresh"], async () => {
-    await update(page, { boundInput: "fresh" });
-    const node = await query(page, "#bound-input", { properties: ["value"] });
-    return [node.value, page.data.boundInput];
+    const original = page.data.boundInput;
+    try {
+      await update(page, { boundInput: "fresh" });
+      const node = await query(page, "#bound-input", { properties: ["value"] });
+      return [node.value, page.data.boundInput];
+    } finally {
+      await update(page, { boundInput: original });
+    }
   });
 }
 module.exports = { inputContract };

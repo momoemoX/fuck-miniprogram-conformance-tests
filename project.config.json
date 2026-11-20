@@ -5,7 +5,9 @@
   "appid": "touristappid",
   "packOptions": {
     "ignore": [
+      {"type":"folder","value":".github"},
       {"type":"folder","value":"tools"},
+      {"type":"file","value":"package.json"},
       {"type":"file","value":"README.md"},
       {"type":"file","value":"COVERAGE.md"}
     ]

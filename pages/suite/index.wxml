@@ -11,10 +11,11 @@
   <view>Profiles: {{profiles}}</view>
   <view id="summary">{{summary}}</view>
   <view>{{baselineScore}}</view>
+  <view wx:if="{{breakdownSummary}}">{{breakdownSummary}}</view>
   <button wx:if="{{results.length}}" bindtap="showReport">Show JSON report</button>
   <text wx:if="{{reportText}}" id="report" selectable="{{true}}">{{reportText}}</text>
   <view wx:for="{{results}}" wx:key="id">
-    <view>{{item.status}} {{item.id}}</view>
+    <view>{{item.status}} {{item.id}} [{{item.category}}]</view>
     <view>{{item.evidence}}</view>
     <view>Expected: {{item.expected}}</view>
     <view>Actual: {{item.actual}}</view>
