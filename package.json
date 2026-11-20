@@ -6,7 +6,8 @@
     "check:syntax": "node tools/check-syntax.cjs",
     "check:generated": "node tools/components/generate.cjs && git diff --exit-code -- components/gallery pages/gallery fixtures/component-values.js fixtures/component-states.js fixtures/visual-cells.js",
     "check:reference": "node tools/reference.cjs --check",
+    "check:matrix": "node tools/spec-matrix.cjs --check",
     "check:visual": "node tools/visual/verify.cjs",
-    "check": "npm run check:syntax && npm run check:generated && npm run check:reference && npm run check:visual"
+    "check": "npm run check:syntax && npm run check:generated && npm run check:reference && npm run check:matrix && npm run check:visual"
   }
 }

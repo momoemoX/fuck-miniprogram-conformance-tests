@@ -1,0 +1,1184 @@
+{
+  "schemaVersion": 1,
+  "targetSDK": "3.7.12",
+  "title": "Mini Program Base Library Conformance Spec Matrix",
+  "stoppingCriterion": {
+    "inScope": [
+      "Mini Program-specific framework semantics (App/Page/Component lifecycles, setData snapshots, observers, behaviors, relations, slots, pureDataPattern, virtualHost, styleIsolation).",
+      "WXML/WXSS/WXS language and dual-thread bridge contracts (templates, keyed/positional list reuse, model: two-way bindings, mark:, mut-bind:, WXS state and change:prop/ownerInstance).",
+      "Mini Program routing, page stack, EventChannel, CommonJS module loader and subpackage async loading (require.async, componentPlaceholder).",
+      "Mini Program rendering/query/canvas bridge APIs (built-in component catalog & visual refs, SelectorQuery, animate/clearAnimation, page-meta/page-container, Canvas 2D bridge).",
+      "Core deterministic wx.* APIs (Promise contract, Storage, FileSystemManager, FileDescriptor, Base64, Worker, Clipboard, System/Device info, HTTP/WebSocket fixture contracts)."
+    ],
+    "outOfScope": [
+      "Generic Web/DOM/HTML5 Canvas drawing minutiae already covered by Web Platform Tests (WPT) where Mini Program engines delegate directly to WebView/Skia (e.g., exhaustive Canvas path join/miter/bezier permutations).",
+      "WeChat-proprietary commercial or social ecosystem services (WeChat Pay, Ads, Channels/Finder, VoIP, Live Pusher/Player, Store, Share-to-WeChat).",
+      "Hardware-dependent sensors/radios and OS permission dialogs that cannot be deterministically verified in simulator CI (tracked separately under device/hosted/interactive profiles)."
+    ],
+    "clauseCompletionRule": "A clause is marked 'covered' only when its primary behavior, key edge cases, and failure/isolation contracts are verified by committed cases in fixtures/reference.js with gaps = []. Otherwise it is 'partial' (with explicit remaining gaps) or 'missing'."
+  },
+  "domains": [
+    {
+      "id": "app-runtime",
+      "name": "App Lifecycle, Errors & Global Runtime",
+      "clauses": [
+        {
+          "id": "APP-01",
+          "title": "App singleton identity & launch lifecycle ordering",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "getApp() returns the same singleton across pages; App.onLaunch runs before App.onShow and before the entry page's onLoad with an empty getCurrentPages() stack during onLaunch.",
+          "cases": [
+            "app.instance",
+            "app.launch-order",
+            "app.launch-pages-empty",
+            "app.identity-across-pages"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "APP-02",
+          "title": "Launch & enter options shape and foreground stability",
+          "priority": "P1",
+          "automatable": true,
+          "status": "covered",
+          "contract": "App launch/enter options expose path, query, referrerInfo and numeric scene; in-app page navigation does not fire spurious wx.onAppShow/onAppHide or onPageNotFound.",
+          "cases": [
+            "app.launch-options-shape",
+            "app.enter-options-path",
+            "app.foreground-stable-during-navigation",
+            "app.page-not-found-not-fired",
+            "system.launch-path",
+            "system.enter-path"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "APP-03",
+          "title": "Error propagation, App/wx error hooks & recovery",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "Runtime errors in observers, event handlers, detached lifetimes and API callbacks reach wx.onError, App.onError and component error lifetimes without breaking subsequent bubbling, complete callbacks, detachment or updates; console.error does not trigger onError; unhandled promise rejections reach wx.onUnhandledRejection and App.onUnhandledRejection.",
+          "cases": [
+            "error.observer-recovers",
+            "error.event-handler-continues",
+            "error.detached-recovers",
+            "error.api-callback-complete",
+            "error.component-error-lifetime",
+            "error.app-onerror-hook",
+            "error.app-unhandledrejection-hook",
+            "error.console-not-onerror",
+            "error.unhandled-rejection"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "APP-04",
+          "title": "App.onPageNotFound real trigger & recovery",
+          "priority": "P1",
+          "automatable": true,
+          "status": "missing",
+          "contract": "Navigating or launching to a non-existent route triggers onPageNotFound / wx.onPageNotFound with { path, query, isEntryPage } without corrupting the current page stack.",
+          "cases": [],
+          "gaps": [
+            "Verify whether navigateTo to an unknown route triggers wx.onPageNotFound or fails via navigateTo.fail on 3.7.12, and assert exact payload shape and stack preservation."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "modules-subpackages",
+      "name": "CommonJS Modules & Subpackage Async Loading",
+      "clauses": [
+        {
+          "id": "MOD-01",
+          "title": "Module caching, resolution & shared mutable exports",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "require() caches modules by resolved path across explicit .js extensions and parent relative paths, shares mutable exports, supports replaced/callable/constructor exports, requires explicit directory index.js and rejects directory shorthand.",
+          "cases": [
+            "module.cache-identity",
+            "module.explicit-extension",
+            "module.relative-parent",
+            "module.shared-mutation",
+            "module.reverse-shared-mutation",
+            "module.replaced-exports",
+            "module.function-export",
+            "module.function-property",
+            "module.constructor-identity",
+            "module.constructor-instance-state",
+            "module.explicit-directory-index",
+            "module.directory-shorthand-rejected",
+            "module.shared-exports"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "MOD-02",
+          "title": "Circular dependencies & failing module non-caching",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "Circular require() observes partial exports before replacement; a module that throws during evaluation is not cached as a successful module on repeat require().",
+          "cases": [
+            "module.cycle-partial-exports",
+            "module.cycle-reference",
+            "module.failure-first",
+            "module.failure-repeat"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "MOD-03",
+          "title": "Subpackage routing & async require.async / callback require",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "Subpackage pages load into the normal page stack; require.async(path) and callback require(path, cb, errCb) load subpackage JS asynchronously and reject/error cleanly on missing modules.",
+          "cases": [
+            "route.subpackage-stack-and-lifetimes",
+            "subpackage.require-async"
+          ],
+          "gaps": [
+            "Test callback form require(path, onSuccess, onError) for subpackage modules.",
+            "Test error path when asynchronously requiring a missing module (using dynamic path string if static bundler rejects literals)."
+          ]
+        },
+        {
+          "id": "MOD-04",
+          "title": "Subpackage componentPlaceholder replacement & binding continuity",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "A cross-subpackage component declared in componentPlaceholder mounts its placeholder first, then seamlessly replaces it with the real component while preserving bound properties and event listeners.",
+          "cases": [
+            "subpackage.component-placeholder"
+          ],
+          "gaps": [
+            "Verify bound properties updated both before and after placeholder replacement reach the loaded subpackage component.",
+            "Verify custom events triggered by the loaded subpackage component reach the host page listener."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "routing-pages",
+      "name": "Routing, Page Stack, Page Lifecycles & EventChannel",
+      "clauses": [
+        {
+          "id": "ROUTE-01",
+          "title": "Page navigation lifecycle order, hidden-page retention & multi-back",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "navigateTo/navigateBack/redirectTo execute onLoad/onShow/onReady/onHide/onUnload in order, retain hidden pages, replace top on redirect, create fresh instances on same-route or reopen, preserve stack on failed navigation, and deliver encoded query values.",
+          "cases": [
+            "page.initial-route",
+            "lifecycle.initial-order",
+            "lifecycle.push-order",
+            "lifecycle.back-order",
+            "lifecycle.hidden-page-retained",
+            "lifecycle.multi-back",
+            "lifecycle.redirect-replacement",
+            "lifecycle.query-encoded-values",
+            "lifecycle.same-route-new-instance",
+            "lifecycle.failed-navigation-preserves-page",
+            "lifecycle.reopen-creates-fresh-page",
+            "route.redirect-replaces-top"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "ROUTE-02",
+          "title": "Tab bar routing (switchTab reuse & navigateTo rejection)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "switchTab reuses cached tab page instances, clears non-tab pages from the stack, and rejects query strings; navigateTo rejects tabBar URLs.",
+          "cases": [
+            "route.tab-rejects-navigate",
+            "route.switch-tab-reuses-page"
+          ],
+          "gaps": [
+            "Test switchTab clearing a deep non-tab page stack and unloading intermediate pages.",
+            "Test switchTab rejecting URLs with query parameters."
+          ]
+        },
+        {
+          "id": "ROUTE-03",
+          "title": "wx.reLaunch stack reset & page-stack depth limit (10 pages)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "missing",
+          "contract": "wx.reLaunch closes all existing pages and opens a fresh single-page stack with query; pushing past the 10-page stack limit fails cleanly without corrupting the existing stack.",
+          "cases": [],
+          "gaps": [
+            "Test wx.reLaunch unloading all pages and launching target page with query (in an isolated navigation flow or dedicated sub-run).",
+            "Test 10-level page stack limit: 10th page succeeds, 11th navigateTo fails and leaves stack at 10."
+          ]
+        },
+        {
+          "id": "ROUTE-04",
+          "title": "EventChannel bidirectional & queued delivery",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "navigateTo EventChannel queues events emitted before receiver binds on(), supports once(), off(name) to clear all listeners for an event, and bidirectional emit/on; channel.off-listener documents the 3.7.12 quirk where off(name, fn) fails to remove wrapped shims.",
+          "cases": [
+            "channel.queued-order",
+            "channel.once",
+            "channel.off-listener",
+            "channel.off-all-listeners",
+            "channel.reverse-direction"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "ROUTE-05",
+          "title": "Component()-defined pages (query-to-properties & lifecycle hooks)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "Pages constructed via Component() map and type-coerce route query parameters onto properties, support behaviors and observers, and run lifetimes + methods page hooks in created -> attached -> onLoad -> onShow -> ready -> onReady -> onUnload -> detached order.",
+          "cases": [
+            "component-page.query-to-properties",
+            "component-page.methods-lifecycles"
+          ],
+          "gaps": [
+            "Test behaviors and property observers firing from route query on a Component() page.",
+            "Test default property fallback, Boolean query coercion, percent-encoded query values and setData updates on a Component() page."
+          ]
+        },
+        {
+          "id": "ROUTE-06",
+          "title": "Page scroll, reach-bottom & pull-down refresh hooks",
+          "priority": "P1",
+          "automatable": true,
+          "status": "covered",
+          "contract": "wx.pageScrollTo (by scrollTop or selector) fires onPageScroll, reaching bottom fires onReachBottom (not at top), and wx.startPullDownRefresh triggers onPullDownRefresh when enablePullDownRefresh is enabled.",
+          "cases": [
+            "page.scroll-events",
+            "page.reach-bottom",
+            "page.scroll-to-selector",
+            "ui.pull-down-refresh",
+            "ui.scroll-top"
+          ],
+          "gaps": []
+        }
+      ]
+    },
+    {
+      "id": "wxml-templates",
+      "name": "WXML Directives, Expressions, Templates & List Reuse",
+      "clauses": [
+        {
+          "id": "WXML-01",
+          "title": "Conditional rendering (wx:if/elif/else & hidden)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "wx:if/wx:elif/wx:else mounts/destroys subtrees cleanly on reentry; hidden toggles visibility without destroying component state.",
+          "cases": [
+            "wxml.conditional",
+            "render.hidden-toggle",
+            "render.conditional-remount",
+            "template.branch-initial",
+            "template.branch-elif",
+            "template.branch-else",
+            "template.branch-reentry"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "WXML-02",
+          "title": "List rendering (wx:for, custom aliases, nested & object iteration)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "wx:for iterates arrays and objects, supports custom wx:for-item/wx:for-index, nested scopes, empty lists, regrowth, path updates and keyed reordering.",
+          "cases": [
+            "wxml.list-index",
+            "wxml.list-reorder",
+            "render.object-iteration",
+            "render.nested-scopes",
+            "render.list-remove",
+            "template.loop-custom-names",
+            "template.loop-item-path",
+            "template.loop-keyed-reorder",
+            "template.loop-empty",
+            "template.loop-regrow",
+            "template.loop-nested-scope",
+            "template.loop-nested-path",
+            "template.loop-object-keys"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "WXML-03",
+          "title": "Component instance reuse in keyed vs positional loops",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "Keyed loops preserve component identity and state across reorder/prepend/append/delete/object-replacement, replace instances on key change, isolate identical keys across loops, and recreate state on wx:if while preserving it on hidden; positional loops track state by index.",
+          "cases": [
+            "reuse.initial-keyed-order",
+            "reuse.keyed-reorder-identity",
+            "reuse.keyed-state-follows-key",
+            "reuse.keyed-prepend",
+            "reuse.keyed-delete",
+            "reuse.key-change-replaces-instance",
+            "reuse.same-key-object-replacement",
+            "reuse.keyed-label-path",
+            "reuse.keyed-empty",
+            "reuse.keyed-regrow",
+            "reuse.unrelated-update",
+            "reuse.position-reorder-identity",
+            "reuse.position-state-stays-at-index",
+            "reuse.position-prepend",
+            "reuse.position-truncate",
+            "reuse.keyed-append",
+            "reuse.condition-recreates-state",
+            "reuse.hidden-preserves-state",
+            "reuse.keyed-event-position",
+            "reuse.position-event-payload",
+            "reuse.owner-after-reorder",
+            "reuse.removed-selector",
+            "reuse.detach-once",
+            "reuse.reinsert-key-is-fresh",
+            "reuse.keys-scoped-to-loop",
+            "reuse.move-between-loops"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "WXML-04",
+          "title": "Templates (import, dynamic is, data spread) & include scope",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "<import>/<template> isolates template scope to passed data (including spread), updates dynamically on is/data changes; <include> shares enclosing page/component data scope.",
+          "cases": [
+            "wxml.template-import",
+            "wxml.include-scope",
+            "render.dynamic-template",
+            "template.argument-scope",
+            "template.argument-update",
+            "template.dynamic-selection",
+            "template.include-data"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "WXML-05",
+          "title": "Mustache interpolation & expressions",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "Expressions preserve typed results for arithmetic, ternary, logical fallback, negation, comparisons, string braces and absent deep paths.",
+          "cases": [
+            "render.interpolation-types",
+            "expression.arithmetic",
+            "expression.ternary",
+            "expression.logical-fallback",
+            "expression.boolean-negation",
+            "expression.comparisons",
+            "expression.braces-in-string",
+            "expression.absent-deep-path"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "WXML-06",
+          "title": "Simple two-way binding (model:prop)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "model:prop synchronizes parent updates into child properties and child setData writes back into parent page data/DOM while preserving types (string, number, boolean, empty string), triggering observers and keeping peer bindings consistent.",
+          "cases": [
+            "model.parent-update-flows-to-child",
+            "model.child-setdata-updates-parent",
+            "model.numeric-property-roundtrip"
+          ],
+          "gaps": [
+            "Test child setData triggering child observers while syncing back to parent.",
+            "Test two sibling components bound via model:value to the same parent field converging cleanly.",
+            "Test falsy values (boolean false and empty string '') round-tripping without being dropped.",
+            "Test native <input model:value> binding synchronization."
+          ]
+        },
+        {
+          "id": "WXML-07",
+          "title": "setData path updates, snapshot semantics & special values",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "setData mutates data synchronously before return, fires render callbacks after DOM commit (including empty patches), snapshots rendered objects against subsequent mutation, supports sibling/nested/array paths, and handles special values predictably.",
+          "cases": [
+            "page.data-path-update",
+            "page.callback-after-render",
+            "setdata.render-snapshot",
+            "setdata.sibling-paths",
+            "setdata.empty-array",
+            "contract.setdata-before-return",
+            "contract.setdata-render-callback",
+            "contract.setdata-empty-callback",
+            "contract.path-preserves-siblings",
+            "contract.array-preserves-other-index"
+          ],
+          "gaps": [
+            "Test setData serialization edge cases: undefined fields, NaN/Infinity, sparse array paths and nested object replacement."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wxs",
+      "name": "WXS Modules, State & Event Responders",
+      "clauses": [
+        {
+          "id": "WXS-01",
+          "title": "WXS pure execution, inline/external modules & stdlib helpers",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "Inline and external WXS modules support wxs-to-wxs require, copy inputs safely, provide getDate/getRegExp/string methods, and re-evaluate on object replacement vs path update semantics.",
+          "cases": [
+            "wxs.module-call",
+            "wxs.inline-module",
+            "wxs.required-module",
+            "wxs.input-copy",
+            "wxs.string-methods",
+            "wxs.date-epoch",
+            "wxs.regexp-match",
+            "wxs.object-replacement",
+            "wxs.object-argument-path-update"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "WXS-02",
+          "title": "WXS module state sharing & isolation across instances/pages",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "Duplicate WXS tags in one template share state, separate component instances and page vs component modules stay isolated, state persists across renders and resets on remount or pushed page.",
+          "cases": [
+            "wxs.state.same-template-shared",
+            "wxs.state.instance-isolated",
+            "wxs.state.persist-across-renders",
+            "wxs.state.remount-fresh",
+            "wxs.state.page-component-isolated",
+            "wxs.state.page-fresh-and-retained"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "WXS-03",
+          "title": "WXS change:prop observer & ownerInstance bridge",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "change:prop delivers initial and updated values to WXS with (newVal, oldVal, ownerInstance, instance); WXS can call ownerInstance.callMethod, triggerEvent, selectComponent/selectAllComponents, instance.setStyle (object & string), addClass/removeClass/hasClass, getDataset and persistent getState.",
+          "cases": [
+            "wxs.change-prop-initial-and-update",
+            "wxs.owner-call-method",
+            "wxs.owner-set-style",
+            "wxs.owner-class-toggle"
+          ],
+          "gaps": [
+            "Test instance.getDataset() and instance.getState() persistence across calls.",
+            "Test ownerInstance.selectAllComponents() batch style updates and string-form instance.setStyle('...').",
+            "Test change:prop with object payloads and ownerInstance.triggerEvent() reaching host listeners."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "events",
+      "name": "Event Dispatch, Boundaries, mark: & mut-bind:",
+      "clauses": [
+        {
+          "id": "EVT-01",
+          "title": "Bubbling, catch, capture phase & payload/target/dataset semantics",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "Custom events default to local (non-bubbling), carry detail payloads, support bubbles/composed shadow-boundary crossing, capture-bind ordering, catch stopping propagation, and accurate target/currentTarget/dataset.",
+          "cases": [
+            "event.bubble",
+            "event.catch",
+            "event.default-local",
+            "event.detail-payload",
+            "event.capture-order",
+            "event.boundary-default",
+            "event.boundary-bubbles",
+            "event.boundary-composed-only",
+            "event.boundary-crossing",
+            "event.boundary-direct-host",
+            "event.boundary-direct-bubble",
+            "event.current-target",
+            "event.boundary-dataset"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "EVT-02",
+          "title": "mark: propagation, overriding & component boundary isolation",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "mark: merges along the bubble path with nearer nodes overriding outer keys, stays strictly scoped to the component shadow tree without leaking inner marks across component boundaries, updates dynamically, and stays distinct from dataset.",
+          "cases": [
+            "event.mark-merges-and-overrides",
+            "event.mark-isolated-at-component-boundary"
+          ],
+          "gaps": [
+            "Test dynamic mark:prop='{{expr}}' updates including empty/falsy values.",
+            "Test mark: remaining distinct from target.dataset / currentTarget.dataset on the same elements."
+          ]
+        },
+        {
+          "id": "EVT-03",
+          "title": "mut-bind: mutual exclusion & interaction with bind/catch/capture",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "mut-bind: fires at most one mut-bind handler along the propagation path while still allowing regular bind: handlers to run, and composes cleanly with catch: and capture-bind:.",
+          "cases": [
+            "event.mut-bind-stops-same-kind",
+            "event.mut-bind-allows-regular-bind"
+          ],
+          "gaps": [
+            "Test mut-bind: combined with ancestor catch: stopping higher bind: handlers.",
+            "Test capture-bind / capture-catch interaction with descendant mut-bind:."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "components",
+      "name": "Custom Components, Behaviors, Properties, Observers, Relations & Slots",
+      "clauses": [
+        {
+          "id": "COMP-01",
+          "title": "Component instance state, lifetimes, pageLifetimes & selectors",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "Component instances isolate data, run created -> attached -> ready -> detached lifetimes, receive pageLifetimes show/hide around route transitions, expose is/id/dataset, and respect selectComponent/selectAllComponents/query scope boundaries.",
+          "cases": [
+            "component.instance-data",
+            "component.page-lifetimes",
+            "component.instance-fields",
+            "component.defaults",
+            "component.lifetime-order",
+            "component.select-all",
+            "component.scope-boundary",
+            "component.scoped-query",
+            "component.parent-property",
+            "component.detach"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "COMP-02",
+          "title": "Property defaults, isolation, type coercion & optionalTypes",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "Array/object property defaults are isolated per instance; properties mirror into data, coerce Number/String/Boolean, support optionalTypes, unrestricted null type, null object values and array replacement.",
+          "cases": [
+            "contract.property-defaults",
+            "contract.array-default-isolation",
+            "contract.object-default-isolation",
+            "contract.property-data-view",
+            "contract.parent-bound-property",
+            "property.number-from-string",
+            "property.string-from-number",
+            "property.boolean-from-string",
+            "property.boolean-from-zero",
+            "property.optional-string",
+            "property.optional-number",
+            "property.any-object",
+            "property.any-false",
+            "property.any-array",
+            "property.object-null",
+            "property.array-replacement",
+            "property.observer-derived",
+            "property.rendered-coercion"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "COMP-03",
+          "title": "Observers (multi-field, deep paths, batching & pureDataPattern)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "Observers fire for single/multi/nested/array paths, batch multiple fields in one setData, fire on same-value setData, skip unrelated keys, and work on pureDataPattern fields excluded from rendering.",
+          "cases": [
+            "observer.multi-field",
+            "observer.deep-path",
+            "contract.property-observer-values",
+            "contract.observer-batch",
+            "contract.observer-same-value",
+            "contract.observer-unrelated",
+            "contract.observer-nested-update",
+            "contract.observer-parent-replacement",
+            "contract.observer-array-index",
+            "contract.observer-array-replacement",
+            "pure.logic-field-update",
+            "pure.observer-fires",
+            "pure.render-field-excluded",
+            "pure.mixed-update"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "COMP-04",
+          "title": "Behaviors, diamond inheritance & definitionFilter",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "Behaviors merge data/methods/observers/lifetimes with deterministic diamond ordering, array override semantics, transitive hasBehavior membership and definitionFilter extension.",
+          "cases": [
+            "behavior.inherited-method",
+            "behavior.membership",
+            "contract.behavior-data-merge",
+            "contract.behavior-method-priority",
+            "contract.behavior-inherited-method",
+            "contract.behavior-transitive-membership",
+            "contract.behavior-lifetime-order",
+            "contract.behavior-property-observer",
+            "contract.behavior-observer-merge",
+            "contract.behavior-data-isolation",
+            "definition.behavior-diamond-order",
+            "definition.behavior-diamond-merge",
+            "definition.behavior-array-override",
+            "definition.filter-data",
+            "definition.filter-method"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "COMP-05",
+          "title": "Component export(), generics & slots (default, named, multipleSlots)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "wx://component-export exposes public objects (with null/undefined fallback) through selectComponent/selectAllComponents; abstract generic components resolve defaults and overrides; default, named, dynamic and multipleSlots project in document order.",
+          "cases": [
+            "export.public-object",
+            "export.hidden-instance-data",
+            "export.null-value",
+            "export.undefined-falls-back",
+            "export.live-instance-state",
+            "export.select-all",
+            "generic.default",
+            "generic.override",
+            "generic.update",
+            "generic.owner",
+            "slot.multi-instance-order",
+            "slot.named-projection",
+            "slot.dynamic-name",
+            "slot.default-content"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "COMP-06",
+          "title": "Component relations (parent/child, ancestor/descendant, linkChanged & behavior target)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "Relations connect direct parent/child and cross-wrapper ancestor/descendant nodes, fire linked/linkChanged/unlinked on mount/reorder/unmount, and support targeting a shared Behavior.",
+          "cases": [
+            "relation.child-membership",
+            "relation.parent-identity",
+            "relation.linked-callbacks",
+            "relation.unlink",
+            "relation.reinsert",
+            "component-options.relation-ancestor-descendant",
+            "component-options.relation-link-changed"
+          ],
+          "gaps": [
+            "Test relations using a Behavior as target with dynamic wx:if unlink/re-link lifecycle verification."
+          ]
+        },
+        {
+          "id": "COMP-07",
+          "title": "virtualHost layout transparency & selector behavior",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "virtualHost: true removes the host box from flex/grid layout so children participate directly in the parent container while selectComponent still resolves the component instance.",
+          "cases": [
+            "component-options.virtual-host-layout"
+          ],
+          "gaps": [
+            "Verify selectComponent('#virtual-host') resolves the component instance and exposes its methods alongside child queries."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wxss-layout",
+      "name": "WXSS Styling, Isolation, Units & Page-Level Meta",
+      "clauses": [
+        {
+          "id": "WXSS-01",
+          "title": "rpx viewport scaling, selectors & dynamic classes",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "750rpx equals windowWidth, descendant and class rules apply deterministically, and dynamic class expressions update computed layout.",
+          "cases": [
+            "css.rpx-viewport",
+            "css.descendant-rule",
+            "css.class-rule",
+            "css.dynamic-class"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "WXSS-02",
+          "title": "Style isolation modes (isolated, apply-shared, shared, page-apply-shared, page-shared), addGlobalClass & externalClasses",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "Every styleIsolation mode enforces its exact directional style flow between app.wxss, page.wxss and component.wxss; addGlobalClass allows app/page classes in; externalClasses injects caller classes.",
+          "cases": [
+            "style.isolated",
+            "style.apply-shared",
+            "style.external-class",
+            "component-options.add-global-class",
+            "component-options.style-shared",
+            "component-options.style-page-apply-shared"
+          ],
+          "gaps": [
+            "Test styleIsolation: 'page-shared' bidirectional flow between page and component.",
+            "Test styleIsolation: 'isolated' explicitly blocking app.wxss global rules as well as page rules."
+          ]
+        },
+        {
+          "id": "WXSS-03",
+          "title": "<page-meta>, <navigation-bar> & <page-container>",
+          "priority": "P1",
+          "automatable": true,
+          "status": "partial",
+          "contract": "<page-meta> updates root-font-size (rem scaling), page-style inheritance and scroll-top; <navigation-bar> binds title; <page-container> emits beforeenter/afterenter/beforeleave/afterleave and respects position/round/overlay/z-index.",
+          "cases": [
+            "page-meta.root-font-size-and-style",
+            "page-meta.scroll-top-binding",
+            "page-container.show-events-and-hide"
+          ],
+          "gaps": [
+            "Test dynamic <page-meta page-style> updates propagating to descendants.",
+            "Test <page-container> position='top' vs 'bottom', round, overlay and z-index layout."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rendering-canvas",
+      "name": "Built-in Components, SelectorQuery, Animations & Canvas 2D",
+      "clauses": [
+        {
+          "id": "RENDER-01",
+          "title": "Built-in component attribute defaults, bindings & host boxes (34-tag catalog)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "All 34 cataloged built-in components report documented attribute defaults, reflect bound sample values, match v2 computed host styles and pass visual reference checks (61 committed visual refs verified via tools/visual/verify.cjs).",
+          "cases": [
+            "native.button-disabled",
+            "native.switch-checked",
+            "native.slider-value",
+            "native.progress-percent",
+            "native.checkbox-checked",
+            "native.radio-checked",
+            "native.input-maxlength",
+            "native.textarea-maxlength",
+            "native.picker-value",
+            "native.text-selectable",
+            "native.image-mode",
+            "native.swiper-duration"
+          ],
+          "casePrefixes": [
+            "component.defaults.",
+            "component.bound.",
+            "render."
+          ],
+          "gaps": []
+        },
+        {
+          "id": "RENDER-02",
+          "title": "SelectorQuery (fields, rect, computedStyle, scrollOffset, mark, node, context & scoping)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "SelectorQuery supports batched exec ordering, rect/size/dataset/properties/computedStyle/scrollOffset/mark fields, node() (ScrollViewContext/Canvas), context() (VideoContext), selectAll ordering and strict in(component) scope isolation.",
+          "cases": [
+            "query.no-match",
+            "query.rect",
+            "query.typed-dataset",
+            "query.batch-order",
+            "query.native-properties",
+            "query.field-selection",
+            "query.missing-component",
+            "query.viewport-offset",
+            "query.scroll-view-node-scroll-to",
+            "query.context-video",
+            "query.computed-style-and-rect",
+            "query.scroll-offset-and-viewport",
+            "query.mark-field",
+            "query.select-all-order-and-rect"
+          ],
+          "gaps": [
+            "Test wx.createSelectorQuery().in(comp) scope isolation (cannot query page nodes from component or component nodes from page).",
+            "Test select() missing -> null vs selectAll() missing -> [] in one batch, mixed batch exec ordering, and horizontal ScrollViewContext.scrollTo({ left })."
+          ]
+        },
+        {
+          "id": "RENDER-03",
+          "title": "ScrollView bindings, boundary events & IntersectionObserver / MediaQueryObserver",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "scroll-view responds to scroll-top/scroll-into-view, fires bindscroll/bindscrolltolower/bindscrolltoupper; IntersectionObserver toggles ratios and stops after disconnect; MediaQueryObserver reports matches.",
+          "cases": [
+            "scroll.bindscroll-detail",
+            "scroll.into-view-target",
+            "scroll-view.edge-boundary-events",
+            "observer.intersection-toggle",
+            "observer.media-match"
+          ],
+          "gaps": [
+            "Test horizontal scroll-into-view on scroll-x scroll-view.",
+            "Test IntersectionObserver relativeTo(selector) and custom thresholds."
+          ]
+        },
+        {
+          "id": "RENDER-04",
+          "title": "Animations (wx.createAnimation & keyframe animate/clearAnimation)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "wx.createAnimation exports steps and applies computed transform; page.animate() and component.animate() apply keyframe styles, support partial/full clearAnimation(), override previous keyframes, and support scroll-driven keyframes.",
+          "cases": [
+            "animation.step-snapshot",
+            "animation.export-clears-queue",
+            "animation.applies-computed-style",
+            "animate.keyframe-applies-and-clears",
+            "animate.component-scoped"
+          ],
+          "gaps": [
+            "Test partial clearAnimation(selector, { width: true }) preserving non-cleared properties.",
+            "Test overriding an active keyframe animation and scroll-driven keyframe animation ({ scrollSource })."
+          ]
+        },
+        {
+          "id": "RENDER-05",
+          "title": "Canvas 2D (<canvas type='2d'>), offscreen canvas & legacy canvas export",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "<canvas type='2d'> exposes node via SelectorQuery.node(), supports 2D context pixel read/write, transforms, images, toDataURL/canvasToTempFilePath({ canvas }), measureText, RAF/cancelRAF, dpr scaling, paths/clip/gradients/compositing, Path2D and offscreen canvas interop.",
+          "cases": [
+            "canvas.pixel-roundtrip",
+            "canvas.png-export",
+            "canvas.offscreen-pixels",
+            "image.info-from-canvas",
+            "canvas2d.node-and-context",
+            "canvas2d.fill-and-read-pixels",
+            "canvas2d.put-and-clear-rect",
+            "canvas2d.save-restore-transform",
+            "canvas2d.image-load-and-draw",
+            "canvas2d.to-data-url-and-export-file",
+            "canvas2d.measure-text",
+            "canvas2d.request-animation-frame"
+          ],
+          "gaps": [
+            "Test dpr scaling (ctx.scale(2,2)) physical pixel alignment, clip(), globalAlpha/destination-out compositing, Path2D, offscreen->onscreen drawImage and createImage onerror."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "api-contract-storage",
+      "name": "Async Promise Contract, Storage, Data Codecs, Workers & System APIs",
+      "clauses": [
+        {
+          "id": "API-01",
+          "title": "Async wx.* Promise contract vs callback & Task APIs",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "Async wx.* APIs return a Promise when no success/fail/complete callback is passed, reject with matching errMsg on failure, suppress Promise when any callback is supplied, and never promisify Task-returning APIs (e.g. wx.request) or sync/event APIs.",
+          "cases": [
+            "promise.resolves-without-callbacks",
+            "promise.rejects-on-failure",
+            "promise.callback-disables-promise",
+            "promise.task-api-not-promisified"
+          ],
+          "gaps": [
+            "Test complete-only and fail-only callbacks suppressing Promise return without unhandledRejection.",
+            "Test Promise rejection errMsg matching fail callback errMsg and sync/on* APIs returning non-thenables."
+          ]
+        },
+        {
+          "id": "API-02",
+          "title": "Storage (sync/async/batch/promise/info & clearStorage)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "Storage round-trips primitives/arrays/nested objects as detached copies, supports async/sync/batch/Promise forms, reports accurate storage info, and clears all keys via clearStorage/clearStorageSync.",
+          "cases": [
+            "storage.roundtrip-text",
+            "storage.roundtrip-number",
+            "storage.roundtrip-false",
+            "storage.roundtrip-zero",
+            "storage.roundtrip-array",
+            "storage.roundtrip-nested",
+            "storage.overwrite-remove",
+            "storage.async-roundtrip",
+            "storage.missing-callback-order",
+            "storage.batch-order",
+            "storage.detached-copy",
+            "storage.promise-form",
+            "storage.missing-sync",
+            "storage.info-sync-shape",
+            "storage.async-info"
+          ],
+          "gaps": [
+            "Test clearStorage / clearStorageSync clearing multiple keys and resetting getStorageInfoSync().keys.",
+            "Test special value serialization boundaries (undefined, NaN, Date, ArrayBuffer)."
+          ]
+        },
+        {
+          "id": "API-03",
+          "title": "Base64, random values, clipboard, clock & nextTick",
+          "priority": "P1",
+          "automatable": true,
+          "status": "covered",
+          "contract": "arrayBufferToBase64/base64ToArrayBuffer handle all padding lengths; getRandomValues fills requested lengths; clipboard round-trips strings; performance clock is monotonic; wx.nextTick executes asynchronously.",
+          "cases": [
+            "base64.encode-single",
+            "base64.decode-single",
+            "base64.encode-double",
+            "base64.decode-double",
+            "base64.encode-triple",
+            "base64.decode-triple",
+            "base64.encode-padding",
+            "base64.decode-padding",
+            "random.requested-lengths",
+            "clipboard.roundtrip",
+            "clock.monotonic",
+            "system.next-tick"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "API-04",
+          "title": "Workers (message roundtrip, nested shapes & terminate)",
+          "priority": "P1",
+          "automatable": true,
+          "status": "covered",
+          "contract": "wx.createWorker exchanges messages including nested objects and stops answering after terminate().",
+          "cases": [
+            "worker.message-roundtrip",
+            "worker.message-shapes",
+            "worker.terminate-stops"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "API-05",
+          "title": "System, device, window, account, settings & UI feedback callbacks",
+          "priority": "P1",
+          "automatable": true,
+          "status": "covered",
+          "contract": "Split system/window/device/account/setting/authorize APIs return documented shapes and valid enums; navigation bar, loading, toast, tabBar and background style callbacks resolve :ok.",
+          "cases": [
+            "system.window-dimensions",
+            "system.device-platform",
+            "system.api-capability",
+            "system.async-window",
+            "system.menu-geometry",
+            "system.base-version",
+            "system.api-category",
+            "system.sync-and-split",
+            "system.async-callback",
+            "system.device-info-shape",
+            "system.account-info-shape",
+            "system.app-language",
+            "system.safe-area",
+            "system.setting-shape",
+            "system.authorize-setting-values",
+            "network.type-result",
+            "ui.navigation-title",
+            "ui.navigation-loading",
+            "ui.navigation-bar-color",
+            "ui.loading-roundtrip",
+            "ui.toast-roundtrip",
+            "ui.tabbar-callbacks",
+            "ui.background-style"
+          ],
+          "gaps": []
+        }
+      ]
+    },
+    {
+      "id": "filesystem",
+      "name": "FileSystemManager & File Descriptors",
+      "clauses": [
+        {
+          "id": "FS-01",
+          "title": "FileSystemManager full 45-method surface (encodings, trees, compression, digests, saved files)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "covered",
+          "contract": "FileSystemManager supports utf8/hex/base64/ascii/utf16le read/write, append/copy/rename/stat/unlink/truncate, async tree operations, brotli/zip/unzip, md5/sha1/sha256 digests and saved-file lifecycle.",
+          "cases": [
+            "fs.write-utf8",
+            "fs.read-utf8",
+            "fs.write-hex",
+            "fs.read-hex",
+            "fs.write-base64",
+            "fs.read-base64",
+            "fs.write-ascii",
+            "fs.read-ascii",
+            "fs.write-utf16le",
+            "fs.read-utf16le",
+            "fs.append",
+            "fs.copy-overwrite",
+            "fs.rename-tree",
+            "fs.stat-types",
+            "fs.unlink",
+            "fs.missing-read",
+            "fs.async-operations",
+            "fs.async-missing",
+            "fs.truncate-path",
+            "fs.brotli-sync",
+            "fs.brotli-async",
+            "fs.zip-entry",
+            "fs.unzip-tree",
+            "fs.digest-md5",
+            "fs.digest-sha1",
+            "fs.digest-sha256",
+            "fs.async-tree",
+            "fs.save-remove-cycle",
+            "fs.save-download-async",
+            "fs.save-download-sync"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "FS-02",
+          "title": "File descriptor positional read/write, truncate & closed-fd errors",
+          "priority": "P1",
+          "automatable": true,
+          "status": "covered",
+          "contract": "open/read/write/ftruncate/close support positional ranges and reject reads on closed descriptors.",
+          "cases": [
+            "fd.read-range",
+            "fd.write-position",
+            "fd.truncate",
+            "fd.closed-read",
+            "fd.async-roundtrip"
+          ],
+          "gaps": []
+        }
+      ]
+    },
+    {
+      "id": "network-media-host",
+      "name": "Network Fixtures, Media, Input & Host Profiles",
+      "clauses": [
+        {
+          "id": "NET-01",
+          "title": "HTTP request, upload, download & cancellation (fixture profile)",
+          "priority": "P0",
+          "automatable": true,
+          "status": "partial",
+          "contract": "wx.request/uploadFile/downloadFile handle query/JSON/text/binary payloads, headers, HTTP status codes, abort(), timeout and redirects.",
+          "cases": [
+            "http.query",
+            "http.post-json",
+            "http.status",
+            "http.arraybuffer",
+            "http.header-case",
+            "http.text-mode",
+            "http.binary-post",
+            "http.upload-form",
+            "http.abort",
+            "http.download"
+          ],
+          "gaps": [
+            "Test wx.request timeout option triggering fail with timeout errMsg.",
+            "Test HTTP 302 redirect handling and RequestTask.onHeadersReceived."
+          ]
+        },
+        {
+          "id": "NET-02",
+          "title": "WebSocket text/binary echo & close (fixture profile)",
+          "priority": "P1",
+          "automatable": true,
+          "status": "covered",
+          "contract": "wx.connectSocket delivers text and binary frames and closes cleanly.",
+          "cases": [
+            "socket.text-echo",
+            "socket.binary-echo"
+          ],
+          "gaps": []
+        },
+        {
+          "id": "NET-03",
+          "title": "Audio/Video contexts & buffer URLs",
+          "priority": "P2",
+          "automatable": true,
+          "status": "partial",
+          "contract": "Audio recorder/background managers are singletons, InnerAudioContext instances are independent and expose playback state events, and wx.createBufferURL/revokeBufferURL manage binary object URLs.",
+          "cases": [
+            "audio.recorder-singleton",
+            "audio.background-singleton",
+            "audio.independent-contexts"
+          ],
+          "gaps": [
+            "Test wx.createBufferURL / wx.revokeBufferURL lifecycle.",
+            "Test InnerAudioContext property/event state transitions with a minimal local WAV/MP3 fixture."
+          ]
+        },
+        {
+          "id": "NET-04",
+          "title": "Input focus/binding & interactive form/gesture profile",
+          "priority": "P1",
+          "automatable": "interactive",
+          "status": "partial",
+          "contract": "Attribute-driven focus and value bindings work automatically; real typing, blur, form submission/reset, wx://form-field, dialogs and touch/longpress sequences are verified in pages/input/index.",
+          "cases": [
+            "input.focus-events",
+            "input.value-binding-sync"
+          ],
+          "gaps": [
+            "Re-record the 17 interactive checks in pages/input/index on base library 3.7.12 (currently recorded on historical 3.7.0 host).",
+            "Verify real blur delivery and touchstart -> touchmove -> touchend -> tap / longpress ordering on a physical device."
+          ]
+        },
+        {
+          "id": "NET-05",
+          "title": "Physical device & hosted service profiles",
+          "priority": "P2",
+          "automatable": "device",
+          "status": "out-of-scope",
+          "contract": "Hardware sensors, Bluetooth/Wi-Fi, location permissions and WeChat login/account services are tracked in pages/profile/index outside the deterministic simulator CI baseline.",
+          "cases": [],
+          "gaps": []
+        }
+      ]
+    }
+  ]
+}

@@ -45,7 +45,7 @@ npm ci --prefix tools/visual
 npm run check
 ```
 
-This checks JavaScript syntax across the repository, verifies that `tools/components/generate.cjs` produces no uncommitted diff, verifies that `fixtures/reference.js` matches `fixtures/devtools-3.7.12-observations.json` (`node tools/reference.cjs --check`), and verifies that every committed visual reference fails on a blank white stage and distinguishes every component state from its default (`node tools/visual/verify.cjs`).
+This checks JavaScript syntax across the repository, verifies that `tools/components/generate.cjs` produces no uncommitted diff, verifies that `fixtures/reference.js` matches `fixtures/devtools-3.7.12-observations.json` (`node tools/reference.cjs --check`), verifies that [`SPEC_MATRIX.md`](SPEC_MATRIX.md) matches [`fixtures/spec-matrix.json`](fixtures/spec-matrix.json) with 100% of baseline cases mapped (`node tools/spec-matrix.cjs --check`), and verifies that every committed visual reference fails on a blank white stage and distinguishes every component state from its default (`node tools/visual/verify.cjs`).
 
 ## Optional network fixtures
 
@@ -73,8 +73,12 @@ Set `fixtureUrl` and `socketUrl` in `suite-config.js` to addresses reachable fro
 | Hosted service cases | Three checks for account identity, login and settings. Configure a test app ID in the project and set the same value in `suite-config.js`. Login codes are discarded locally. |
 | Inspect API availability | Compare public member names and value types with the 3.7.12 simulator baseline. Inspect the broader interface catalog and missing names. |
 
-## Coverage and contributions
+## Coverage, Spec Matrix and contributions
 
-The [coverage notes](COVERAGE.md) describe the baseline, the expectations that changed when the target moved to 3.7.12, earlier cross-checks and gaps. To add a behavior, write a minimal case with an explicit expected result. Include the suite commit, implementation version, execution environment and enabled profiles when sharing results.
+- [`SPEC_MATRIX.md`](SPEC_MATRIX.md) & [`fixtures/spec-matrix.json`](fixtures/spec-matrix.json) — Authoritative clause-level spec coverage matrix, stopping criterion, and `MISSING` / `PARTIAL` backlog (validated in CI via `npm run check:matrix`).
+- [`AGENTS.md`](AGENTS.md) — Entry guide and workflow rules for AI coding agents working on this repository.
+- [`COVERAGE.md`](COVERAGE.md) — Historical notes, baseline changes when retargeting to 3.7.12, earlier cross-checks and profile details.
+
+To add a behavior, pick a `MISSING` or `PARTIAL` clause in `SPEC_MATRIX.md`, write a minimal isolated case with an explicit expected result, verify it against 3.7.12, update `fixtures/spec-matrix.json`, and run `npm run check`. Include the suite commit, implementation version, execution environment and enabled profiles when sharing results.
 
 [MIT license](LICENSE)
